@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-header: var(--font-header-source);
+  --font-body: var(--font-body-source);
+}
+
+@layer base {
+  button {
+    @apply cursor-pointer;
+  }
+}
