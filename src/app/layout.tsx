@@ -1,7 +1,7 @@
 import { Metadata } from "next"
 import { Cabin, Gelasio } from "next/font/google"
 // oxlint-disable-next-line import/no-unassigned-import
-import "./globals.css"
+import "~/globals.css"
 
 const header = Gelasio({ variable: "--font-header-source" })
 const body = Cabin({ variable: "--font-body-source" })
