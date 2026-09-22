@@ -1,11 +1,12 @@
 import { Metadata } from "next"
+import HomePage from "~/components/home-page"
 
 export const metadata: Metadata = {
-  title: { absolute: "Harkcon" },
+  title: { absolute: "Harkcon | Human & Organizational Performance" },
   description:
-    "Harkcon improves workforce and organizational performance through expert consulting, technology, and mission-focused solutions.",
+    "Harkcon delivers customized performance management and technology solutions that improve people and organizational performance.",
 }
 
 export default function Home() {
-  return <h1>Harkcon</h1>
+  return <HomePage />
 }
