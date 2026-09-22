@@ -1,4 +1,5 @@
 import { Metadata } from "next"
+import ContactPage from "~/components/contact-page"
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -7,5 +8,5 @@ export const metadata: Metadata = {
 }
 
 export default function Contact() {
-  return <h1>Contact Harkcon</h1>
+  return <ContactPage />
 }
