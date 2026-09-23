@@ -533,6 +533,237 @@
     @apply mx-auto grid min-h-[90svh] w-full max-w-[1600px] lg:grid-cols-2;
   }
 
+  .about-hero {
+    @apply relative h-[100svh] min-h-[650px] overflow-hidden;
+  }
+
+  .about-hero-image {
+    @apply object-cover;
+    object-position: 50% 42%;
+    transform: scale(1.015);
+  }
+
+  .about-hero-overlay {
+    @apply absolute inset-0 z-[1];
+    background:
+      linear-gradient(
+        180deg,
+        rgba(6, 9, 22, 0.5) 0%,
+        rgba(6, 9, 22, 0.02) 40%,
+        rgba(6, 9, 22, 0.8) 100%
+      ),
+      linear-gradient(90deg, rgba(6, 9, 22, 0.38), transparent 65%);
+  }
+
+  .about-hero-content {
+    @apply relative z-10 flex h-full items-end pb-12 md:pb-16;
+  }
+
+  .about-hero-content h1 {
+    @apply max-w-4xl font-header text-[clamp(2.6rem,5.5vw,6rem)] leading-[0.94] font-medium tracking-[-0.05em];
+  }
+
+  .about-hero-footer {
+    @apply mt-8 flex items-center border-t border-white/35 pt-6 md:mt-10;
+  }
+
+  .about-hero-footer p {
+    @apply max-w-xl text-base leading-relaxed text-white/80 md:text-lg;
+  }
+
+  .about-hero-footer > span {
+    @apply ml-auto flex h-12 w-12 items-center justify-center rounded-full border border-white/40;
+    animation: scroll-mark 1.8s ease-in-out infinite;
+  }
+
+  .about-intro-section,
+  .about-history-section,
+  .principles-section,
+  .culture-section,
+  .community-section {
+    @apply py-24 md:py-32 lg:py-40;
+  }
+
+  .about-editorial-grid {
+    @apply grid gap-12 lg:grid-cols-[minmax(190px,0.55fr)_minmax(0,1.7fr)] lg:gap-16 xl:gap-28;
+  }
+
+  .about-section-label {
+    @apply flex items-start gap-5 self-start lg:sticky lg:top-36;
+  }
+
+  .about-section-label > span {
+    @apply font-eyebrow text-[0.68rem] tracking-[0.15em] text-[#8b8e96];
+  }
+
+  .about-section-label > p {
+    @apply leading-tight;
+  }
+
+  .about-prose h2,
+  .principles-intro h2,
+  .community-intro h2 {
+    @apply max-w-4xl font-header text-[clamp(2rem,3.6vw,4.25rem)] leading-[1.02] font-medium tracking-[-0.04em];
+  }
+
+  .about-prose > p:not(.history-stat),
+  .community-intro > p {
+    @apply mt-7 max-w-[850px] text-lg leading-[1.68] text-[#454955] md:text-xl;
+  }
+
+  .about-prose--lead > p:first-of-type {
+    @apply mt-10 text-xl leading-[1.55] text-[#0d132d] md:text-2xl;
+  }
+
+  .about-inline-link {
+    @apply border-b border-[#0d132d]/40 text-[#0d132d] transition-opacity hover:opacity-55;
+  }
+
+  .people-statement {
+    @apply mt-24 grid gap-10 bg-[#0d132d] px-6 py-16 text-white sm:px-10 md:mt-32 md:px-14 md:py-20 lg:grid-cols-[0.78fr_1.22fr] lg:gap-20 lg:px-20 lg:py-24 xl:px-24;
+  }
+
+  .people-statement > .eyebrow {
+    @apply lg:col-span-2;
+  }
+
+  .people-statement h2 {
+    @apply font-header text-[clamp(2rem,3.5vw,4rem)] leading-[1.02] tracking-[-0.04em];
+  }
+
+  .people-statement-copy {
+    @apply text-lg leading-[1.65] text-white/72 md:text-xl;
+  }
+
+  .people-statement-copy p + p {
+    @apply mt-6;
+  }
+
+  .people-statement-copy .people-statement-close {
+    @apply font-header text-2xl leading-snug text-white;
+  }
+
+  .about-history-section {
+    @apply bg-[#f4f3f0];
+  }
+
+  .about-prose--history {
+    @apply relative;
+  }
+
+  .history-stat {
+    @apply mt-14 flex flex-col border-t border-[#0d132d]/20 pt-8 sm:flex-row sm:items-end sm:gap-8;
+  }
+
+  .history-stat strong {
+    @apply font-header text-[clamp(4.5rem,9vw,9rem)] leading-[0.8] font-medium tracking-[-0.065em];
+  }
+
+  .history-stat span {
+    @apply mt-5 max-w-[12rem] font-eyebrow text-xs leading-relaxed tracking-[0.12em] uppercase sm:mt-0;
+  }
+
+  .mission-vision-section {
+    @apply bg-[#0d132d] py-24 text-white md:py-32 lg:py-40;
+  }
+
+  .mission-vision-section .about-section-label {
+    @apply static text-white;
+  }
+
+  .mission-vision-grid {
+    @apply mt-14 grid lg:grid-cols-[1.45fr_0.55fr];
+  }
+
+  .mission-panel {
+    @apply border border-white/15 p-6 sm:p-10 md:p-14 lg:p-16;
+  }
+
+  .mission-panel h2 {
+    @apply mt-8 max-w-5xl font-header text-[clamp(2rem,3.4vw,4rem)] leading-[1.05] tracking-[-0.04em];
+  }
+
+  .mission-outcomes {
+    @apply mt-16 border-t border-white/20 pt-10;
+  }
+
+  .mission-outcomes > p:nth-child(2) {
+    @apply mt-5 max-w-2xl text-lg text-white/70;
+  }
+
+  .mission-outcomes ul {
+    @apply mt-8 grid gap-x-10 sm:grid-cols-2;
+  }
+
+  .mission-outcomes li {
+    @apply border-t border-white/15 py-4 text-base leading-snug text-white/85;
+  }
+
+  .vision-panel {
+    @apply flex min-h-[360px] flex-col justify-between bg-white p-6 text-[#0d132d] sm:p-10 md:p-12 lg:min-h-0;
+  }
+
+  .vision-panel > p:last-child {
+    @apply font-header text-[clamp(1.65rem,2.5vw,2.8rem)] leading-[1.08] tracking-[-0.035em];
+  }
+
+  .principles-intro > p {
+    @apply mt-7 max-w-2xl text-lg leading-relaxed text-[#5f626b] md:text-xl;
+  }
+
+  .principles-list {
+    @apply mt-16 lg:ml-[calc(0.55/2.25*100%+4rem)] xl:ml-[calc(0.55/2.25*100%+7rem)];
+  }
+
+  .principles-list li {
+    @apply grid grid-cols-[42px_1fr] gap-4 py-7 md:grid-cols-[64px_1fr] md:gap-8 md:py-9;
+  }
+
+  .principles-list li > span {
+    @apply pt-1 font-eyebrow text-[0.68rem] tracking-[0.12em] text-[#8b8e96];
+  }
+
+  .principles-list li > p {
+    @apply max-w-4xl font-header text-xl leading-[1.32] tracking-[-0.02em] md:text-2xl;
+  }
+
+  .culture-section {
+    @apply bg-[#f4f3f0];
+  }
+
+  .community-intro > p:first-of-type {
+    @apply mt-9 text-xl leading-[1.58] text-[#0d132d] md:text-2xl;
+  }
+
+  .community-lists {
+    @apply mt-20 grid gap-14 border-t border-[#0d132d]/20 pt-14 md:grid-cols-2 md:gap-20 lg:ml-[calc(0.55/2.25*100%+4rem)] xl:ml-[calc(0.55/2.25*100%+7rem)];
+  }
+
+  .community-lists ul {
+    @apply mt-7 columns-1 gap-8 lg:columns-2;
+  }
+
+  .community-lists li {
+    @apply mb-3 break-inside-avoid text-base leading-snug text-[#454955];
+  }
+
+  .community-lists li::before {
+    content: "·";
+    @apply mr-3 text-[#0d132d];
+  }
+
+  .about-cta-section {
+    @apply bg-[#0d132d] text-white;
+  }
+
+  .about-cta-inner {
+    @apply flex flex-col items-start justify-between gap-10 py-20 md:flex-row md:items-end md:py-24;
+  }
+
+  .about-cta-inner h2 {
+    @apply max-w-4xl font-header text-[clamp(2rem,3.5vw,4rem)] leading-[1.05] tracking-[-0.04em];
+  }
+
   .about-copy {
     @apply flex flex-col items-start justify-center px-5 py-24 sm:px-8 lg:px-12 lg:py-32 xl:px-16;
   }
