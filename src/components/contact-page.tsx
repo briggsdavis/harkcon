@@ -1,6 +1,7 @@
 "use client"
 
 import { FormEvent, useCallback, useState } from "react"
+import FaqList from "~/components/faq-list"
 import { Arrow, Header, SiteFooter } from "~/components/home-page"
 
 const inquiryTypes = [
@@ -156,19 +157,7 @@ export default function ContactPage() {
                 inquiry.
               </p>
             </div>
-            <div className="faq-list">
-              {contactFaqs.map((faq) => (
-                <details key={faq.question} data-reveal-line>
-                  <summary>
-                    <span>{faq.question}</span>
-                    <span className="faq-marker" aria-hidden="true">
-                      +
-                    </span>
-                  </summary>
-                  <p>{faq.answer}</p>
-                </details>
-              ))}
-            </div>
+            <FaqList faqs={contactFaqs} />
           </div>
         </section>
         <SiteFooter />

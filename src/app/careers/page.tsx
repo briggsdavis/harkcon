@@ -1,7 +1,9 @@
 import { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
+import FaqList from "~/components/faq-list"
 import { Arrow, Header, SiteFooter } from "~/components/home-page"
+import SubtleParallaxPhoto from "~/components/subtle-parallax-photo"
 
 export const metadata: Metadata = {
   title: "Careers",
@@ -87,8 +89,8 @@ export default function Careers() {
       <div className="page-content">
         <section className="careers-hero" aria-labelledby="careers-title">
           <Image
-            src="/images/about-team.png"
-            alt="Harkcon professionals collaborating around a conference table"
+            src="/images/careers-hero-unsplash.jpg"
+            alt="Business professionals discussing strategy in a bright modern office"
             fill
             priority
             sizes="100vw"
@@ -97,11 +99,9 @@ export default function Careers() {
           <div className="careers-hero-overlay" />
           <div className="site-gutter careers-hero-content">
             <div className="max-w-4xl text-white">
-              <p className="eyebrow mb-5 text-white/70">Careers at Harkcon</p>
               <h1 id="careers-title">Do work that matters.</h1>
               <div className="careers-hero-footer" data-reveal-line>
                 <p>Bring your experience, ideas, and ambition to the mission.</p>
-                <span aria-hidden="true">↓</span>
               </div>
             </div>
           </div>
@@ -126,13 +126,27 @@ export default function Careers() {
             </div>
 
             <div className="careers-needs">
-              <div className="careers-needs-intro">
-                <p className="eyebrow text-[#5f626b]">Who are we looking for?</p>
-                <h2>Experience that moves missions forward.</h2>
-                <p>
-                  Our talent needs constantly evolve and expand with current and future projects and
-                  contracts. We regularly seek experience and expertise in these areas:
-                </p>
+              <div className="careers-needs-copy">
+                <div className="careers-needs-intro">
+                  <p className="eyebrow text-[#5f626b]">Who are we looking for?</p>
+                  <h2>Experience that moves missions forward.</h2>
+                  <p>
+                    Our talent needs constantly evolve and expand with current and future projects
+                    and contracts. We regularly seek experience and expertise in these areas:
+                  </p>
+                </div>
+
+                <div className="contractor-note">
+                  <p className="eyebrow text-[#5f626b]">More ways to work with us</p>
+                  <h2>Full-time or project-specific.</h2>
+                  <p>
+                    In addition to our full-time associates, we routinely hire full- and part-time
+                    independent contractors for specific projects and contract work. If you enjoy
+                    exciting, dynamic work that makes a meaningful impact for clients, we encourage
+                    you to explore available positions below, whether as a full-time associate or a
+                    contract-specific independent contractor.
+                  </p>
+                </div>
               </div>
               <ol className="career-disciplines">
                 {disciplines.map((discipline, index) => (
@@ -143,18 +157,14 @@ export default function Careers() {
                 ))}
               </ol>
             </div>
-
-            <div className="contractor-note">
-              <p className="eyebrow">More ways to work with us</p>
-              <p>
-                In addition to our full-time associates, we routinely hire full- and part-time
-                independent contractors for specific projects and contract work. If you enjoy
-                exciting, dynamic work that makes a meaningful impact for clients, we encourage you
-                to explore available positions below, whether as a full-time associate or a
-                contract-specific independent contractor.
-              </p>
-            </div>
           </div>
+        </section>
+
+        <section className="careers-wide-image" aria-label="Life at Harkcon">
+          <SubtleParallaxPhoto
+            className="parallax-photo--interview"
+            label="Three women talking during a professional interview in a bright conference room"
+          />
         </section>
 
         <section className="positions-section" aria-labelledby="positions-title">
@@ -219,12 +229,12 @@ export default function Careers() {
         </section>
 
         <section className="benefits-section" aria-labelledby="benefits-title">
-          <div className="site-gutter careers-editorial-grid">
-            <div className="careers-section-label">
-              <span>02</span>
-              <p className="eyebrow">Competitive benefits</p>
-            </div>
-            <div>
+          <div className="site-gutter">
+            <div className="careers-editorial-grid benefits-heading">
+              <div className="careers-section-label">
+                <span>02</span>
+                <p className="eyebrow">Competitive benefits</p>
+              </div>
               <div className="benefits-intro">
                 <h2 id="benefits-title">Support for today and tomorrow.</h2>
                 <p>
@@ -234,15 +244,15 @@ export default function Careers() {
                   beneficiaries, and are available based on employment status.
                 </p>
               </div>
-              <ul className="benefits-list">
-                {benefits.map((benefit, index) => (
-                  <li key={benefit} data-reveal-line>
-                    <span>{String(index + 1).padStart(2, "0")}</span>
-                    <p>{benefit}</p>
-                  </li>
-                ))}
-              </ul>
             </div>
+            <ul className="benefits-list">
+              {benefits.map((benefit, index) => (
+                <li key={benefit} data-reveal-line>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <p>{benefit}</p>
+                </li>
+              ))}
+            </ul>
           </div>
         </section>
 
@@ -253,19 +263,7 @@ export default function Careers() {
               <h2 id="careers-faq-title">What to know before you apply.</h2>
               <p>Answers about Harkcon, our growth, and what a career here can offer.</p>
             </div>
-            <div className="faq-list faq-list--dark">
-              {careerFaqs.map((faq) => (
-                <details key={faq.question} data-reveal-line>
-                  <summary>
-                    <span>{faq.question}</span>
-                    <span className="faq-marker" aria-hidden="true">
-                      +
-                    </span>
-                  </summary>
-                  <p>{faq.answer}</p>
-                </details>
-              ))}
-            </div>
+            <FaqList faqs={careerFaqs} dark />
           </div>
         </section>
 
@@ -292,6 +290,10 @@ export default function Careers() {
               </p>
             </div>
           </div>
+          <SubtleParallaxPhoto
+            className="equal-opportunity-photo parallax-photo--collaboration"
+            label="Two colleagues collaborate on laptops in a bright office lounge"
+          />
         </section>
 
         <section className="careers-cta">

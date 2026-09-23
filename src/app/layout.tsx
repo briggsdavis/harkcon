@@ -1,5 +1,5 @@
 import { Metadata } from "next"
-import { Amiri, Cabin, Montserrat } from "next/font/google"
+import { Cabin, Montserrat, Nunito_Sans } from "next/font/google"
 import EntranceAnimations from "~/components/entrance-animations"
 import RouteTransition from "~/components/route-transition"
 import SmoothScroll from "~/components/smooth-scroll"
@@ -7,7 +7,7 @@ import SmoothScroll from "~/components/smooth-scroll"
 import "~/globals.css"
 
 const header = Montserrat({ variable: "--font-header-source", subsets: ["latin"] })
-const body = Amiri({ variable: "--font-body-source", subsets: ["latin"], weight: ["400", "700"] })
+const body = Nunito_Sans({ variable: "--font-body-source", subsets: ["latin"] })
 const eyebrow = Cabin({ variable: "--font-eyebrow-source", subsets: ["latin"] })
 
 export const metadata: Metadata = {

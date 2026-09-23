@@ -98,11 +98,9 @@ export default function About() {
           <div className="about-hero-overlay" />
           <div className="site-gutter about-hero-content">
             <div className="max-w-4xl text-white">
-              <p className="eyebrow mb-5 text-white/70">About Harkcon</p>
               <h1 id="about-hero-title">Built for better performance.</h1>
               <div className="about-hero-footer" data-reveal-line>
                 <p>Service. Expertise. A shared commitment to the mission.</p>
-                <span aria-hidden="true">↓</span>
               </div>
             </div>
           </div>
@@ -164,7 +162,9 @@ export default function About() {
             <aside className="people-statement" aria-labelledby="people-statement-title">
               <p className="eyebrow text-white/55">Harkcon people statement</p>
               <h2 id="people-statement-title">
-                everyone has a voice. every voice matters. all voices are welcome.
+                <span>Everyone has a voice.</span>
+                <span>Every voice matters.</span>
+                <span>All voices matter.</span>
               </h2>
               <div className="people-statement-copy">
                 <p>At Harkcon, we value and encourage different perspectives.</p>
@@ -183,73 +183,86 @@ export default function About() {
         </section>
 
         <section className="about-history-section" aria-labelledby="history-title">
-          <div className="site-gutter about-editorial-grid">
-            <SectionLabel number="02">Our history</SectionLabel>
-            <div className="about-prose about-prose--history">
-              <h2 id="history-title">The right people at the right moment.</h2>
-              <p>
-                Some moments in life seem to align perfectly, and the formation of Harkcon was one
-                of them. After retiring from the U.S. Coast Guard in 2004, founder and CEO Dr. Kevin
-                Harkins began a second career as an independent contractor focused on human
-                performance technology and competency modeling. Through that work, he met other
-                retired military members with shared talents and interests.
-              </p>
-              <p>
-                In the spring of 2005, the group formed Harkcon as a limited liability company. The
-                company won its first work in 2006 as a subcontractor on a Coast Guard Human
-                Resources contract, beginning a relationship with the Coast Guard that continues
-                today.
-              </p>
-              <p>
-                Harkcon has grown steadily since its inception. Today, more than 100 employees and
-                core contractors bring their experience and commitment to our team.
-              </p>
-              <p className="history-stat" aria-label="More than 100 employees and core contractors">
-                <strong>100+</strong>
-                <span>employees and core contractors</span>
-              </p>
+          <div className="about-history-split">
+            <div className="about-history-copy">
+              <SectionLabel number="02">Our history</SectionLabel>
+              <div className="about-prose about-prose--history">
+                <h2 id="history-title">The right people at the right moment.</h2>
+                <p>
+                  Some moments in life seem to align perfectly, and the formation of Harkcon was one
+                  of them. After retiring from the U.S. Coast Guard in 2004, founder and CEO Dr.
+                  Kevin Harkins began a second career as an independent contractor focused on human
+                  performance technology and competency modeling. Through that work, he met other
+                  retired military members with shared talents and interests.
+                </p>
+                <p>
+                  In the spring of 2005, the group formed Harkcon as a limited liability company.
+                  The company won its first work in 2006 as a subcontractor on a Coast Guard Human
+                  Resources contract, beginning a relationship with the Coast Guard that continues
+                  today.
+                </p>
+                <p>
+                  Harkcon has grown steadily since its inception. Today, more than 100 employees and
+                  core contractors bring their experience and commitment to our team.
+                </p>
+              </div>
+            </div>
+            <div className="about-history-image">
+              <Image
+                src="/images/about-collaboration-unsplash.jpg"
+                alt="Diverse consulting team in a conference room watching a colleague present"
+                fill
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                className="object-cover"
+              />
             </div>
           </div>
         </section>
 
         <section className="mission-vision-section" aria-labelledby="mission-title">
           <div className="site-gutter">
-            <SectionLabel number="03">Mission &amp; vision</SectionLabel>
-            <div className="mission-vision-grid">
-              <div className="mission-panel">
-                <p className="eyebrow text-white/55">Our mission</p>
+            <div className="mission-vision-statements">
+              <article className="purpose-statement">
+                <div className="purpose-statement-label">
+                  <span>01</span>
+                  <p className="eyebrow text-white/55">Our mission</p>
+                </div>
                 <h2 id="mission-title">
                   To provide the highest quality, customized, and innovative organizational and
                   workforce performance solutions at the best value, while strictly adhering to our
                   guiding principles.
                 </h2>
-                <div className="mission-outcomes">
-                  <p className="eyebrow text-white/55">Our mission at work</p>
-                  <p>
-                    Through our unique analysis-based management solutions, we help organizations:
-                  </p>
-                  <ul>
-                    {missionOutcomes.map((outcome) => (
-                      <li key={outcome}>{outcome}</li>
-                    ))}
-                  </ul>
+              </article>
+              <article className="purpose-statement">
+                <div className="purpose-statement-label">
+                  <span>02</span>
+                  <p className="eyebrow text-white/55">Our vision</p>
                 </div>
-              </div>
-
-              <div className="vision-panel">
-                <p className="eyebrow text-[#5f626b]">Our vision</p>
-                <p>
+                <h2>
                   Harkcon and its people are regarded as the best and most sought-after human
                   performance experts in the nation.
-                </p>
-              </div>
+                </h2>
+              </article>
+            </div>
+
+            <div className="mission-outcomes">
+              <p className="eyebrow text-white/55">Our mission at work</p>
+              <p>Through our unique analysis-based management solutions, we help organizations:</p>
+              <ul>
+                {missionOutcomes.map((outcome, index) => (
+                  <li key={outcome}>
+                    <span>{String(index + 1).padStart(2, "0")}</span>
+                    <p>{outcome}</p>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </section>
 
         <section className="principles-section" aria-labelledby="principles-title">
-          <div className="site-gutter">
-            <div className="about-editorial-grid">
+          <div className="site-gutter principles-layout">
+            <div className="principles-sticky">
               <SectionLabel number="04">Guiding principles</SectionLabel>
               <div className="principles-intro">
                 <h2 id="principles-title">The foundation for how we work.</h2>
@@ -271,35 +284,46 @@ export default function About() {
         </section>
 
         <section className="culture-section" aria-labelledby="culture-title">
-          <div className="site-gutter about-editorial-grid">
-            <SectionLabel number="05">Corporate culture</SectionLabel>
-            <div className="about-prose">
-              <h2 id="culture-title">Challenging work. Remarkable people.</h2>
-              <p>
-                Working at Harkcon is mentally stimulating, personally fulfilling, fast-paced,
-                collegial, and professionally rewarding. Our exceptionally talented people love what
-                they do, enjoy the people they work with, and consistently go beyond what is
-                expected to meet our clients’ needs.
-              </p>
-              <p>
-                With a core group in the greater Washington, D.C. area, spontaneous lunches and
-                after-hours gatherings are common. We believe that the more we enjoy being together
-                as a team, the better our work is for our clients.
-              </p>
-              <p>
-                We also respect life outside the office. Telecommuting and flexible scheduling are
-                encouraged and practiced by our Board of Directors. Our open-door management style
-                and flat structure give team members access to every level of leadership, where
-                their input is both encouraged and valued. That balance reflects the flexibility of
-                a small business and helps us sustain a healthy, high-performing culture.
-              </p>
+          <div className="culture-split">
+            <div className="culture-image">
+              <Image
+                src="/images/careers-collaboration-unsplash.jpg"
+                alt="Harkcon colleagues collaborating around a conference table"
+                fill
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                className="object-cover"
+              />
+            </div>
+            <div className="culture-copy">
+              <SectionLabel number="05">Corporate culture</SectionLabel>
+              <div className="about-prose">
+                <h2 id="culture-title">Challenging work. Remarkable people.</h2>
+                <p>
+                  Working at Harkcon is mentally stimulating, personally fulfilling, fast-paced,
+                  collegial, and professionally rewarding. Our exceptionally talented people love
+                  what they do, enjoy the people they work with, and consistently go beyond what is
+                  expected to meet our clients’ needs.
+                </p>
+                <p>
+                  With a core group in the greater Washington, D.C. area, spontaneous lunches and
+                  after-hours gatherings are common. We believe that the more we enjoy being
+                  together as a team, the better our work is for our clients.
+                </p>
+                <p>
+                  We also respect life outside the office. Telecommuting and flexible scheduling are
+                  encouraged and practiced by our Board of Directors. Our open-door management style
+                  and flat structure give team members access to every level of leadership, where
+                  their input is both encouraged and valued. That balance reflects the flexibility
+                  of a small business and helps us sustain a healthy, high-performing culture.
+                </p>
+              </div>
             </div>
           </div>
         </section>
 
         <section className="community-section" aria-labelledby="community-title">
           <div className="site-gutter">
-            <div className="about-editorial-grid">
+            <div className="community-heading">
               <SectionLabel number="06">Community &amp; responsibility</SectionLabel>
               <div className="community-intro">
                 <h2 id="community-title">Service extends beyond our work.</h2>
@@ -308,6 +332,18 @@ export default function About() {
                   its resources, time, and talent. We are proud to stand among the thousands of
                   companies that give back to their communities.
                 </p>
+                <figure className="community-image">
+                  <div className="community-image-frame">
+                    <Image
+                      src="/images/about-community-unsplash.jpg"
+                      alt="Two volunteers pack food bags at a community distribution event"
+                      fill
+                      sizes="(min-width: 1024px) 72vw, 100vw"
+                      className="object-cover"
+                    />
+                  </div>
+                  <figcaption>Service extends beyond the workday.</figcaption>
+                </figure>
                 <p>
                   Harkcon provides ongoing financial, professional, and volunteer support to Hope
                   For The Warriors™, a 501(c)(3) organization dedicated to enhancing the quality of
@@ -323,23 +359,23 @@ export default function About() {
               </div>
             </div>
 
-            <div className="community-lists">
-              <div>
-                <p className="eyebrow">Financial support</p>
-                <ul>
-                  {supportedOrganizations.map((organization) => (
-                    <li key={organization}>{organization}</li>
+            <div className="community-table-wrap">
+              <table className="community-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Financial support</th>
+                    <th scope="col">Volunteer involvement</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {supportedOrganizations.map((organization, index) => (
+                    <tr key={organization}>
+                      <td>{organization}</td>
+                      <td>{volunteerOrganizations[index] ?? ""}</td>
+                    </tr>
                   ))}
-                </ul>
-              </div>
-              <div>
-                <p className="eyebrow">Volunteer involvement</p>
-                <ul>
-                  {volunteerOrganizations.map((organization) => (
-                    <li key={organization}>{organization}</li>
-                  ))}
-                </ul>
-              </div>
+                </tbody>
+              </table>
             </div>
           </div>
         </section>

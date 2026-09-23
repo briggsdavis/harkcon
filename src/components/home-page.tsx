@@ -216,6 +216,9 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
           <Link className="nav-link" href="/contracts">
             Contracts
           </Link>
+          <Link className="nav-link" href="/careers">
+            Careers
+          </Link>
           <div
             className="solutions-nav-item"
             onMouseEnter={openSolutions}
@@ -232,7 +235,7 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
             >
               Solutions
               <span aria-hidden="true" className="solutions-chevron">
-                ↓
+                <Arrow />
               </span>
             </button>
 
@@ -292,6 +295,9 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
         </Link>
         <Link href="/contracts" onClick={closeMenu}>
           Contracts <Arrow diagonal />
+        </Link>
+        <Link href="/careers" onClick={closeMenu}>
+          Careers <Arrow diagonal />
         </Link>
         <button
           type="button"
@@ -425,7 +431,6 @@ function Hero() {
       <div className="hero-overlay" />
       <div className="site-gutter relative z-10 flex h-full items-end pb-12 md:pb-16">
         <div className="max-w-5xl text-white">
-          <p className="eyebrow mb-5 text-white/70">People · Performance · Technology</p>
           <h1 id="hero-title" className="hero-title">
             Better people.
             <br />
@@ -435,9 +440,6 @@ function Hero() {
             <p className="max-w-xl text-sm leading-relaxed text-white/80 md:text-base">
               Purpose-built solutions for the organizations that serve us all.
             </p>
-            <span className="ml-auto hidden h-12 w-12 items-center justify-center rounded-full border border-white/40 md:flex">
-              <span className="animate-scroll-mark">↓</span>
-            </span>
           </div>
         </div>
       </div>
@@ -590,6 +592,41 @@ export function SiteFooter() {
             <Link href="/contact" className="footer-contact-link">
               Start a conversation <Arrow />
             </Link>
+            <div className="footer-social-links">
+              <a
+                href="https://www.youtube.com/@harkconinc"
+                target="_blank"
+                rel="noreferrer"
+                className="footer-social-link"
+                aria-label="Visit Harkcon on YouTube"
+              >
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.6V8.4L15.8 12l-6.2 3.6Z" />
+                </svg>
+              </a>
+              <a
+                href="https://x.com/harkcon"
+                target="_blank"
+                rel="noreferrer"
+                className="footer-social-link"
+                aria-label="Visit Harkcon on X"
+              >
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M18.24 2.25h3.31l-7.23 8.26 8.51 11.24h-6.66l-5.21-6.82-5.97 6.82H1.68l7.73-8.84L1.25 2.25h6.83l4.71 6.23 5.45-6.23Zm-1.16 17.52h1.83L7.08 4.13H5.12l11.96 15.64Z" />
+                </svg>
+              </a>
+              <a
+                href="https://www.linkedin.com/company/harkcon-inc./"
+                target="_blank"
+                rel="noreferrer"
+                className="footer-social-link"
+                aria-label="Visit Harkcon on LinkedIn"
+              >
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM3.56 9h3.55v11.45H3.56V9Zm5.79 0h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28h-3.56v-5.57c0-1.33-.02-3.03-1.85-3.03-1.85 0-2.13 1.44-2.13 2.93v5.67H9.35V9Z" />
+                </svg>
+              </a>
+            </div>
           </div>
         </div>
 
@@ -624,9 +661,8 @@ export default function HomePage() {
           <div className="site-gutter">
             <div className="solutions-showcase">
               <div className="solutions-intro">
-                <p className="eyebrow">Our solutions</p>
-                <h2 id="solutions-title" className="section-title mt-7 max-w-sm">
-                  Expertise for the missions that matter.
+                <h2 id="solutions-title" className="section-title max-w-sm">
+                  Our Solutions
                 </h2>
                 <p className="mt-7 max-w-sm text-base leading-relaxed text-[#5f626b]">
                   Integrated expertise that strengthens workforces, modernizes operations, and turns
