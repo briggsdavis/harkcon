@@ -10,6 +10,33 @@ const inquiryTypes = [
   "Training Inquiry",
 ]
 
+const contactFaqs = [
+  {
+    question: "What types of inquiries can I submit?",
+    answer:
+      "We welcome questions about consulting services, training, business and partnership opportunities, and general information about Harkcon.",
+  },
+  {
+    question: "How soon will I hear from the Harkcon team?",
+    answer:
+      "We review every inquiry and route it to the right team member. Response times vary by request, but we will follow up as soon as possible.",
+  },
+  {
+    question: "Where is Harkcon headquartered?",
+    answer:
+      "Our headquarters is located at 104 W Cambridge Street, Suite A, in Fredericksburg, Virginia. Our associates work throughout the country.",
+  },
+  {
+    question: "Can I contact Harkcon about employment opportunities?",
+    answer:
+      "Yes. For current openings and detailed career information, visit our Careers page. Questions that are not related to a specific opening may also be submitted here.",
+  },
+  {
+    question: "How can I reach Harkcon by phone?",
+    answer: "Call our main office at +1 (800) 499-6456. Our fax number is +1 (800) 568-8595.",
+  },
+]
+
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false)
   const handleSubmit = useCallback((event: FormEvent<HTMLFormElement>) => {
@@ -116,6 +143,32 @@ export default function ContactPage() {
                 </button>
               </div>
             </form>
+          </div>
+        </section>
+
+        <section className="contact-faq-section" aria-labelledby="contact-faq-title">
+          <div className="site-gutter faq-layout">
+            <div className="faq-intro">
+              <p className="eyebrow mb-6 text-[#5f626b]">Frequently asked questions</p>
+              <h2 id="contact-faq-title">Before you get in touch.</h2>
+              <p>
+                A few quick answers about contacting Harkcon, our office, and where to direct your
+                inquiry.
+              </p>
+            </div>
+            <div className="faq-list">
+              {contactFaqs.map((faq) => (
+                <details key={faq.question} data-reveal-line>
+                  <summary>
+                    <span>{faq.question}</span>
+                    <span className="faq-marker" aria-hidden="true">
+                      +
+                    </span>
+                  </summary>
+                  <p>{faq.answer}</p>
+                </details>
+              ))}
+            </div>
           </div>
         </section>
         <SiteFooter />
