@@ -1,6 +1,6 @@
 import { Metadata } from "next"
-import Image from "next/image"
 import Link from "next/link"
+import CareersPositionsEmbed from "~/components/careers-positions-embed"
 import FaqList from "~/components/faq-list"
 import HeroParallaxImage from "~/components/hero-parallax-image"
 import { Arrow, Header, SiteFooter } from "~/components/home-page"
@@ -162,6 +162,7 @@ export default function Careers() {
           <SubtleParallaxPhoto
             className="parallax-photo--interview"
             label="Three women talking during a professional interview in a bright conference room"
+            strength={110}
           />
         </section>
 
@@ -181,13 +182,7 @@ export default function Careers() {
                 Open careers portal <Arrow diagonal />
               </a>
             </div>
-            <div className="positions-embed">
-              <iframe
-                src="https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=15aa7385-7aee-410b-90e3-5972b600f083&ccId=19000101_000001&type=JS&lang=en_US&selectedMenuKey=CurrentOpenings"
-                title="Harkcon available positions"
-                loading="lazy"
-              />
-            </div>
+            <CareersPositionsEmbed />
             <p className="positions-fallback">
               If the positions portal does not appear,{" "}
               <a
@@ -243,10 +238,9 @@ export default function Careers() {
                 </p>
               </div>
             </div>
-            <ul className="benefits-list">
-              {benefits.map((benefit, index) => (
-                <li key={benefit} data-reveal-line>
-                  <span>{String(index + 1).padStart(2, "0")}</span>
+            <ul className="benefits-list" data-reveal-sequence>
+              {benefits.map((benefit) => (
+                <li key={benefit} data-reveal-item>
                   <p>{benefit}</p>
                 </li>
               ))}
@@ -288,10 +282,6 @@ export default function Careers() {
               </p>
             </div>
           </div>
-          <SubtleParallaxPhoto
-            className="equal-opportunity-photo parallax-photo--collaboration"
-            label="Two colleagues collaborate on laptops in a bright office lounge"
-          />
         </section>
 
         <section className="careers-cta">

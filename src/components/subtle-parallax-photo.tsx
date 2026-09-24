@@ -5,9 +5,11 @@ import { useEffect, useRef } from "react"
 export default function SubtleParallaxPhoto({
   className,
   label,
+  strength = 42,
 }: {
   className: string
   label: string
+  strength?: number
 }) {
   const photoRef = useRef<HTMLDivElement>(null)
 
@@ -24,7 +26,7 @@ export default function SubtleParallaxPhoto({
         1,
         Math.max(0, (window.innerHeight - rect.top) / (window.innerHeight + rect.height)),
       )
-      photo.style.setProperty("--parallax-y", `${(progress - 0.5) * 42}px`)
+      photo.style.setProperty("--parallax-y", `${(progress - 0.5) * strength}px`)
     }
 
     const onScroll = () => {
@@ -40,9 +42,11 @@ export default function SubtleParallaxPhoto({
       window.removeEventListener("resize", onScroll)
       if (frame) cancelAnimationFrame(frame)
     }
-  }, [])
+  }, [strength])
 
   return (
-    <div ref={photoRef} className={`parallax-photo ${className}`} role="img" aria-label={label} />
+    <div ref={photoRef} className={`parallax-photo ${className}`}>
+      <span className="sr-only">{label}</span>
+    </div>
   )
 }

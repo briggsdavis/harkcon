@@ -4,6 +4,19 @@
   --font-header: var(--font-header-source);
   --font-body: var(--font-body-source);
   --font-eyebrow: var(--font-eyebrow-source);
+  --text-display: clamp(2.15rem, 3.8vw, 3.75rem);
+  --text-display--line-height: 1;
+  --text-display--letter-spacing: -0.035em;
+  --text-section-title: clamp(1.8rem, 2.35vw, 2.65rem);
+  --text-section-title--line-height: 1.08;
+  --text-section-title--letter-spacing: -0.025em;
+  --text-card-title: clamp(1.125rem, 1vw + 0.85rem, 1.35rem);
+  --text-card-title--line-height: 1.2;
+  --text-card-title--letter-spacing: -0.02em;
+  --text-body-copy: clamp(1rem, 0.35vw + 0.9rem, 1.125rem);
+  --text-body-copy--line-height: 1.68;
+  --text-eyebrow-label: 0.68rem;
+  --text-action: 0.875rem;
 }
 
 @layer base {
@@ -97,6 +110,17 @@
       border-color 500ms ease;
   }
 
+  .reveal-pill {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0) scale(0.985);
+    transition:
+      opacity 560ms ease var(--reveal-delay, 0ms),
+      transform 700ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms),
+      color 300ms ease,
+      background-color 300ms ease,
+      border-color 300ms ease;
+  }
+
   .reveal-image {
     position: relative;
     overflow: hidden;
@@ -128,7 +152,8 @@
   }
 
   .reveal-text.reveal-visible,
-  .reveal-button.reveal-visible {
+  .reveal-button.reveal-visible,
+  .reveal-pill.reveal-visible {
     opacity: 1;
     transform: translate3d(0, 0, 0);
   }
@@ -142,7 +167,7 @@
   }
 
   .eyebrow {
-    @apply font-eyebrow text-[0.68rem] font-semibold tracking-[0.19em] uppercase;
+    @apply font-eyebrow text-eyebrow-label font-semibold tracking-[0.19em] uppercase;
   }
 
   .site-header {
@@ -182,7 +207,7 @@
   }
 
   .nav-link {
-    @apply relative py-2 text-sm opacity-85 transition-opacity hover:opacity-100;
+    @apply relative py-2 text-action opacity-85 transition-opacity hover:opacity-100;
   }
 
   .nav-link::after {
@@ -264,7 +289,7 @@
   }
 
   .pill-button {
-    @apply relative inline-flex min-h-12 items-center justify-center gap-4 overflow-hidden rounded-full border border-[#0d132d] bg-[#0d132d] px-6 py-3 text-sm font-medium text-white transition-colors duration-500;
+    @apply relative inline-flex min-h-12 items-center justify-center gap-4 overflow-hidden rounded-full border border-[#0d132d] bg-[#0d132d] px-6 py-3 text-action font-medium text-white transition-colors duration-500;
     isolation: isolate;
   }
 
@@ -388,7 +413,7 @@
   }
 
   .hero-title {
-    @apply max-w-3xl font-header text-[clamp(2.15rem,3.8vw,3.75rem)] leading-[1] font-medium tracking-[-0.035em];
+    @apply max-w-3xl font-header text-display font-medium;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -458,7 +483,7 @@
   }
 
   .section-title {
-    @apply font-header text-[clamp(1.8rem,2.35vw,2.65rem)] leading-[1.08] font-medium tracking-[-0.025em];
+    @apply font-header text-section-title font-medium;
   }
 
   .solutions-showcase {
@@ -509,7 +534,7 @@
   }
 
   .solution-card h3 {
-    @apply max-w-sm font-header text-xl leading-[1.12] font-medium tracking-[-0.025em] md:text-[1.35rem];
+    @apply max-w-sm font-header text-card-title font-medium;
   }
 
   .solution-card-footer {
@@ -573,7 +598,7 @@
 
   .about-hero-content h1,
   .careers-hero-content h1 {
-    @apply max-w-3xl font-header text-[clamp(2.15rem,3.8vw,3.75rem)] leading-[1] font-medium tracking-[-0.035em];
+    @apply max-w-3xl font-header text-display font-medium;
   }
 
   .about-hero-footer {
@@ -581,7 +606,7 @@
   }
 
   .about-hero-footer p {
-    @apply max-w-xl text-base leading-relaxed text-white/80 md:text-lg;
+    @apply max-w-xl text-sm leading-relaxed text-white/80 md:text-base;
   }
 
   .about-intro-section,
@@ -626,7 +651,7 @@
   }
 
   .about-section-label > span {
-    @apply font-eyebrow text-[0.68rem] tracking-[0.15em] text-[#8b8e96];
+    @apply font-eyebrow text-eyebrow-label tracking-[0.15em] text-[#8b8e96];
   }
 
   .about-section-label > p {
@@ -636,16 +661,16 @@
   .about-prose h2,
   .principles-intro h2,
   .community-intro h2 {
-    @apply max-w-4xl font-header text-[clamp(1.8rem,2.35vw,2.65rem)] leading-[1.08] font-medium tracking-[-0.025em];
+    @apply max-w-4xl font-header text-section-title font-medium;
   }
 
   .about-prose > p,
   .community-intro > p {
-    @apply mt-7 max-w-[850px] text-base leading-[1.68] text-[#454955] md:text-lg;
+    @apply mt-7 max-w-[850px] text-body-copy text-[#454955];
   }
 
   .about-prose--lead > p:first-of-type {
-    @apply mt-10 text-base leading-[1.68] text-[#0d132d] md:text-lg;
+    @apply mt-10 text-body-copy text-[#0d132d];
   }
 
   .about-inline-link {
@@ -661,7 +686,7 @@
   }
 
   .people-statement h2 {
-    @apply font-header text-[clamp(1.8rem,2.35vw,2.65rem)] leading-[1.08] tracking-[-0.025em];
+    @apply font-header text-section-title;
   }
 
   .people-statement h2 span {
@@ -669,7 +694,7 @@
   }
 
   .people-statement-copy {
-    @apply text-base leading-[1.68] text-white/72 md:text-lg;
+    @apply text-body-copy text-white/72;
   }
 
   .people-statement-copy p + p {
@@ -801,11 +826,11 @@
   }
 
   .purpose-statement-label > span {
-    @apply font-eyebrow text-[0.68rem] tracking-[0.15em] text-white/35;
+    @apply font-eyebrow text-eyebrow-label tracking-[0.15em] text-white/35;
   }
 
   .purpose-statement h2 {
-    @apply max-w-5xl font-header text-[clamp(1.8rem,2.35vw,2.65rem)] leading-[1.08] tracking-[-0.025em] transition-transform duration-500 ease-out;
+    @apply max-w-5xl font-header text-section-title transition-transform duration-500 ease-out;
   }
 
   .purpose-statement:hover h2 {
@@ -813,31 +838,39 @@
   }
 
   .mission-outcomes {
-    @apply pt-20 md:pt-24;
+    @apply pt-24 pb-12 md:pt-32 md:pb-16 lg:pt-40 lg:pb-20;
+  }
+
+  .mission-outcomes-section {
+    @apply bg-white text-[#0d132d];
   }
 
   .mission-outcomes > p:nth-child(2) {
-    @apply mt-5 max-w-2xl text-base leading-relaxed text-white/70 md:text-lg;
+    @apply mt-5 max-w-2xl text-body-copy text-[#5f626b];
   }
 
   .mission-outcomes ul {
-    @apply mt-10 grid border-t border-l border-white/20 md:grid-cols-3;
+    @apply mt-10 grid gap-3 sm:grid-cols-2 md:mt-12 lg:grid-cols-3 lg:gap-4;
   }
 
   .mission-outcomes li {
-    @apply flex min-h-32 flex-col justify-between gap-8 border-r border-b border-white/20 p-5 text-white/85 md:min-h-40 md:p-7;
+    @apply flex min-h-24 items-center gap-4 rounded-full border border-[#0d132d]/15 bg-[#f4f3f0] px-6 py-5 text-[#0d132d] md:min-h-28 md:px-7;
   }
 
   .mission-outcomes li > span {
-    @apply font-eyebrow text-[0.68rem] tracking-[0.12em] text-white/35;
+    @apply shrink-0 font-eyebrow text-eyebrow-label tracking-[0.12em] text-[#8b8e96];
   }
 
   .mission-outcomes li > p {
-    @apply max-w-xs text-sm leading-snug md:text-base;
+    @apply text-sm leading-snug md:text-base;
   }
 
   .principles-layout {
     @apply grid gap-16 lg:grid-cols-[minmax(260px,0.72fr)_minmax(0,1.28fr)] lg:gap-20 xl:gap-28;
+  }
+
+  .principles-section {
+    @apply pt-12 md:pt-16 lg:pt-20;
   }
 
   .principles-sticky {
@@ -849,7 +882,7 @@
   }
 
   .principles-intro > p {
-    @apply mt-7 max-w-2xl text-base leading-relaxed text-[#5f626b] md:text-lg;
+    @apply mt-7 max-w-2xl text-body-copy text-[#5f626b];
   }
 
   .principles-list {
@@ -861,11 +894,11 @@
   }
 
   .principles-list li > span {
-    @apply pt-1 font-eyebrow text-[0.68rem] tracking-[0.12em] text-[#8b8e96];
+    @apply pt-1 font-eyebrow text-eyebrow-label tracking-[0.12em] text-[#8b8e96];
   }
 
   .principles-list li > p {
-    @apply max-w-4xl font-header text-lg leading-[1.35] tracking-[-0.015em] md:text-xl;
+    @apply max-w-4xl font-header text-card-title;
   }
 
   .culture-section {
@@ -893,7 +926,7 @@
   }
 
   .community-intro > p:first-of-type {
-    @apply mt-9 text-base leading-[1.68] text-[#0d132d] md:text-lg;
+    @apply mt-9 text-body-copy text-[#0d132d];
   }
 
   .community-heading {
@@ -911,6 +944,7 @@
   .parallax-photo--community {
     background-image: url("/images/about-community-unsplash.jpg");
     background-position-x: 50%;
+    background-size: auto 125%;
   }
 
   .community-support-copy {
@@ -918,28 +952,35 @@
   }
 
   .community-support-copy p {
-    @apply text-base leading-[1.68] text-[#454955] md:text-lg;
+    @apply text-body-copy text-[#454955];
   }
 
-  .community-table-wrap {
-    @apply mt-20 overflow-x-auto border-t border-[#0d132d]/30;
+  .community-support-lists {
+    @apply mt-20 grid md:grid-cols-2;
   }
 
-  .community-table {
-    @apply w-full min-w-[620px] table-fixed border-collapse text-left;
+  .community-support-column {
+    @apply py-10 md:py-12;
   }
 
-  .community-table th {
-    @apply border-b border-[#0d132d]/30 py-5 pr-8 font-eyebrow text-[0.72rem] tracking-[0.12em] text-[#0d132d] uppercase;
+  .community-support-column + .community-support-column {
+    @apply border-t border-[#0d132d]/20 md:border-t-0 md:border-l md:pl-10 lg:pl-14 xl:pl-16;
   }
 
-  .community-table th + th,
-  .community-table td + td {
-    @apply border-l border-[#0d132d]/15 pl-8;
+  .community-support-column:first-child {
+    @apply md:pr-10 lg:pr-14 xl:pr-16;
   }
 
-  .community-table td {
-    @apply border-b border-[#0d132d]/12 py-4 pr-8 align-top text-sm leading-relaxed text-[#454955] md:text-base;
+  .community-support-column h3 {
+    @apply font-header text-section-title font-medium;
+  }
+
+  .community-pill-grid {
+    @apply mt-8 grid gap-2.5 sm:grid-cols-2;
+  }
+
+  .community-pill-grid li {
+    @apply flex min-h-14 items-center rounded-full border border-[#0d132d]/14 bg-[#f4f3f0] px-5 py-3 text-sm leading-snug text-[#454955];
   }
 
   .about-cta-section {
@@ -951,7 +992,7 @@
   }
 
   .about-cta-inner h2 {
-    @apply max-w-4xl font-header text-[clamp(1.8rem,2.35vw,2.65rem)] leading-[1.08] tracking-[-0.025em];
+    @apply max-w-4xl font-header text-section-title;
   }
 
   .about-copy {
@@ -1001,11 +1042,11 @@
   }
 
   .news-card-body time {
-    @apply font-eyebrow text-[0.68rem] tracking-[0.14em] text-[#5f626b] uppercase;
+    @apply font-eyebrow text-eyebrow-label tracking-[0.14em] text-[#5f626b] uppercase;
   }
 
   .news-card-body h3 {
-    @apply mt-3 max-w-xl font-header text-lg leading-snug tracking-[-0.015em] md:text-xl;
+    @apply mt-3 max-w-xl font-header text-card-title;
   }
 
   .news-card-body p {
@@ -1021,7 +1062,7 @@
   }
 
   .news-index h1 {
-    @apply font-header text-[clamp(2.5rem,5vw,5rem)] leading-none font-medium tracking-[-0.045em];
+    @apply font-header text-display font-medium;
   }
 
   .news-index-controls {
@@ -1029,7 +1070,7 @@
   }
 
   .news-filter-label {
-    @apply font-eyebrow text-xs font-semibold tracking-[0.12em] uppercase;
+    @apply font-eyebrow text-eyebrow-label font-semibold tracking-[0.12em] uppercase;
   }
 
   .news-view-toggle {
@@ -1037,7 +1078,7 @@
   }
 
   .news-view-toggle button {
-    @apply relative flex items-center gap-2 py-2 font-eyebrow text-xs font-semibold tracking-[0.08em] text-[#5f626b] uppercase transition-colors duration-300;
+    @apply relative flex items-center gap-2 py-2 font-eyebrow text-eyebrow-label font-semibold tracking-[0.08em] text-[#5f626b] uppercase transition-colors duration-300;
   }
 
   .news-view-toggle button::after {
@@ -1102,7 +1143,7 @@
   }
 
   .publication-meta {
-    @apply flex flex-wrap items-center gap-4 font-eyebrow text-[0.68rem] font-semibold tracking-[0.1em] text-[#5f626b] uppercase;
+    @apply flex flex-wrap items-center gap-4 font-eyebrow text-eyebrow-label font-semibold tracking-[0.1em] text-[#5f626b] uppercase;
   }
 
   .publication-meta span {
@@ -1115,7 +1156,7 @@
   }
 
   .publication-copy h2 {
-    @apply mt-5 max-w-4xl font-header text-xl leading-[1.12] font-medium tracking-[-0.025em] md:text-2xl;
+    @apply mt-5 max-w-4xl font-header text-card-title font-medium;
   }
 
   .publication-copy > p {
@@ -1140,11 +1181,11 @@
   }
 
   .coverage-row {
-    @apply grid w-full grid-cols-[48px_1fr_24px] items-center gap-5 py-7 text-left font-header text-lg leading-snug tracking-[-0.02em] transition-colors duration-500 hover:text-[#5f626b] md:grid-cols-[72px_1fr_28px] md:py-9 md:text-2xl;
+    @apply grid w-full grid-cols-[48px_1fr_24px] items-center gap-5 py-7 text-left font-header text-card-title transition-colors duration-500 hover:text-[#5f626b] md:grid-cols-[72px_1fr_28px] md:py-9;
   }
 
   .coverage-number {
-    @apply font-eyebrow text-[0.65rem] tracking-[0.14em] text-[#5f626b];
+    @apply font-eyebrow text-eyebrow-label tracking-[0.14em] text-[#5f626b];
   }
 
   .coverage-row svg {
@@ -1173,7 +1214,7 @@
   }
 
   .article-header h1 {
-    @apply mt-6 font-header text-[clamp(2rem,4.2vw,4.5rem)] leading-[1.02] font-medium tracking-[-0.045em];
+    @apply mt-6 font-header text-display font-medium;
   }
 
   .article-body {
@@ -1181,7 +1222,7 @@
   }
 
   .article-body p {
-    @apply mb-6 text-lg leading-[1.65] text-[#333744] md:text-xl;
+    @apply mb-6 text-body-copy text-[#333744];
   }
 
   .related-news {
@@ -1193,7 +1234,7 @@
   }
 
   .related-news-heading h2 {
-    @apply font-header text-[clamp(1.8rem,3vw,3rem)] leading-none tracking-[-0.035em];
+    @apply font-header text-section-title;
   }
 
   .related-news-grid {
@@ -1210,11 +1251,11 @@
   }
 
   .related-news-card time {
-    @apply mt-5 block font-eyebrow text-[0.66rem] tracking-[0.11em] text-[#5f626b] uppercase;
+    @apply mt-5 block font-eyebrow text-eyebrow-label tracking-[0.11em] text-[#5f626b] uppercase;
   }
 
   .related-news-card h3 {
-    @apply mt-3 font-header text-lg leading-snug tracking-[-0.02em];
+    @apply mt-3 font-header text-card-title;
   }
 
   .contact-page {
@@ -1230,7 +1271,7 @@
   }
 
   .contact-intro h1 {
-    @apply max-w-lg font-header text-[clamp(2.35rem,4vw,4.5rem)] leading-[1.02] font-medium tracking-[-0.045em];
+    @apply max-w-lg font-header text-display font-medium;
   }
 
   .contact-details {
@@ -1272,7 +1313,7 @@
 
   .contact-field > span,
   .contact-options legend {
-    @apply font-eyebrow text-[0.68rem] font-semibold tracking-[0.12em] text-[#5f626b] uppercase;
+    @apply font-eyebrow text-eyebrow-label font-semibold tracking-[0.12em] text-[#5f626b] uppercase;
   }
 
   .contact-field input,
@@ -1338,11 +1379,11 @@
   }
 
   .faq-intro h2 {
-    @apply max-w-xl font-header text-[clamp(2rem,3.5vw,4rem)] leading-[1.04] tracking-[-0.04em];
+    @apply max-w-xl font-header text-section-title;
   }
 
   .faq-intro > p:last-child {
-    @apply mt-7 max-w-md text-lg leading-relaxed text-[#5f626b];
+    @apply mt-7 max-w-md text-body-copy text-[#5f626b];
   }
 
   .faq-item {
@@ -1354,7 +1395,7 @@
   }
 
   .faq-question {
-    @apply flex w-full items-center gap-8 py-7 text-left font-header text-xl leading-tight tracking-[-0.02em] md:py-9 md:text-2xl;
+    @apply flex w-full items-center gap-8 py-7 text-left font-header text-card-title md:py-9;
   }
 
   .faq-marker {
@@ -1379,7 +1420,7 @@
   }
 
   .faq-answer p {
-    @apply max-w-3xl pr-12 pb-0 text-lg leading-[1.65] text-[#5f626b] md:pr-20;
+    @apply max-w-3xl pr-12 pb-0 text-body-copy text-[#5f626b] md:pr-20;
     transform: translateY(-10px);
     transition:
       transform 500ms cubic-bezier(0.22, 1, 0.36, 1),
@@ -1427,7 +1468,7 @@
   }
 
   .careers-hero-footer p {
-    @apply max-w-xl text-base leading-relaxed text-white/80 md:text-lg;
+    @apply max-w-xl text-sm leading-relaxed text-white/80 md:text-base;
   }
 
   .careers-wide-image {
@@ -1442,10 +1483,6 @@
 
   .parallax-photo--interview {
     background-image: url("/images/careers-interview-unsplash.jpg");
-  }
-
-  .parallax-photo--collaboration {
-    background-image: url("/images/careers-collaboration-unsplash.jpg");
   }
 
   .careers-intro-section,
@@ -1476,25 +1513,25 @@
   }
 
   .careers-section-label > span {
-    @apply font-eyebrow text-[0.68rem] tracking-[0.15em] text-[#8b8e96];
+    @apply font-eyebrow text-eyebrow-label tracking-[0.15em] text-[#8b8e96];
   }
 
   .careers-intro-copy h2,
   .careers-needs-intro h2,
   .benefits-intro h2,
   .equal-opportunity-grid h2 {
-    @apply max-w-4xl font-header text-[clamp(1.8rem,2.35vw,2.65rem)] leading-[1.08] font-medium tracking-[-0.025em];
+    @apply max-w-4xl font-header text-section-title font-medium;
   }
 
   .careers-intro-copy > p,
   .careers-needs-intro > p:last-child,
   .benefits-intro > p,
   .equal-opportunity-grid > div:last-child {
-    @apply mt-8 max-w-[850px] text-base leading-[1.68] text-[#454955] md:text-lg;
+    @apply mt-8 max-w-[850px] text-body-copy text-[#454955];
   }
 
   .careers-intro-copy > p {
-    @apply text-base leading-[1.68] text-[#0d132d] md:text-lg;
+    @apply text-body-copy text-[#0d132d];
   }
 
   .careers-needs {
@@ -1505,18 +1542,16 @@
     @apply self-start;
   }
 
-  .career-disciplines li,
-  .benefits-list li {
+  .career-disciplines li {
     @apply grid grid-cols-[42px_1fr] gap-4 py-6 md:grid-cols-[56px_1fr] md:gap-6 md:py-7;
   }
 
-  .career-disciplines li > span,
-  .benefits-list li > span {
-    @apply pt-1 font-eyebrow text-[0.68rem] tracking-[0.12em] text-[#8b8e96];
+  .career-disciplines li > span {
+    @apply pt-1 font-eyebrow text-eyebrow-label tracking-[0.12em] text-[#8b8e96];
   }
 
   .career-disciplines li > p {
-    @apply font-header text-lg leading-[1.25] tracking-[-0.02em] md:text-xl;
+    @apply font-header text-card-title;
   }
 
   .contractor-note {
@@ -1524,11 +1559,11 @@
   }
 
   .contractor-note h2 {
-    @apply mt-5 max-w-xl font-header text-[clamp(1.8rem,2.35vw,2.65rem)] leading-[1.08] font-medium tracking-[-0.025em];
+    @apply mt-5 max-w-xl font-header text-section-title font-medium;
   }
 
   .contractor-note > p:last-child {
-    @apply mt-8 text-base leading-[1.68] text-[#454955] md:text-lg;
+    @apply mt-8 text-body-copy text-[#454955];
   }
 
   .positions-section {
@@ -1540,7 +1575,7 @@
   }
 
   .positions-heading h2 {
-    @apply font-header text-[clamp(1.8rem,2.35vw,2.65rem)] leading-[1.08] font-medium tracking-[-0.025em];
+    @apply font-header text-section-title font-medium;
   }
 
   .positions-external-link {
@@ -1553,6 +1588,10 @@
 
   .positions-embed iframe {
     @apply h-full w-full border-0;
+  }
+
+  .positions-embed-placeholder {
+    @apply h-full w-full bg-white;
   }
 
   .positions-fallback {
@@ -1568,11 +1607,11 @@
   }
 
   .we-are-copy h2 {
-    @apply font-header text-[clamp(1.8rem,2.35vw,2.65rem)] leading-[1.08] font-medium tracking-[-0.025em];
+    @apply font-header text-section-title font-medium;
   }
 
   .we-are-copy > p:last-child {
-    @apply mt-8 text-base leading-[1.68] text-[#454955] md:text-lg;
+    @apply mt-8 text-body-copy text-[#454955];
   }
 
   .careers-video {
@@ -1592,15 +1631,15 @@
   }
 
   .benefits-list {
-    @apply mt-16 grid border-t border-l border-[#0d132d]/20 md:grid-cols-3;
+    @apply mt-16 grid gap-3 sm:grid-cols-2 xl:grid-cols-3 xl:gap-4;
   }
 
   .benefits-list li {
-    @apply min-h-36 border-r border-b border-[#0d132d]/20 p-5 md:min-h-44 md:p-7;
+    @apply flex min-h-20 items-center rounded-full border border-[#0d132d]/15 bg-white px-6 py-5 md:min-h-24 md:px-7;
   }
 
   .benefits-list li > p {
-    @apply text-base leading-snug text-[#333744] md:text-lg;
+    @apply text-sm leading-snug text-[#333744] md:text-base;
   }
 
   .careers-faq-section {
@@ -1612,7 +1651,7 @@
   }
 
   .careers-faq-section .faq-intro h2 {
-    @apply text-[clamp(1.8rem,2.35vw,2.65rem)] leading-[1.08] tracking-[-0.025em];
+    @apply text-section-title;
   }
 
   .faq-list--dark .faq-item,
@@ -1644,10 +1683,6 @@
     @apply border-b border-[#0d132d]/35 text-[#0d132d] transition-opacity hover:opacity-55;
   }
 
-  .equal-opportunity-photo {
-    @apply mt-20 h-[36svh] min-h-[280px] w-full md:mt-24 md:h-[44svh] md:min-h-[340px];
-  }
-
   .careers-cta {
     @apply bg-[#0d132d] text-white;
   }
@@ -1657,7 +1692,7 @@
   }
 
   .careers-cta-inner h2 {
-    @apply max-w-4xl font-header text-[clamp(1.8rem,2.35vw,2.65rem)] leading-[1.08] tracking-[-0.025em];
+    @apply max-w-4xl font-header text-section-title;
   }
 
   .not-found-page {
@@ -1673,11 +1708,11 @@
   }
 
   .not-found-inner h1 {
-    @apply max-w-2xl font-header text-[clamp(2.15rem,3.8vw,3.75rem)] leading-[1] font-medium tracking-[-0.035em];
+    @apply max-w-2xl font-header text-display font-medium;
   }
 
   .not-found-inner h1 + p {
-    @apply mt-7 max-w-xl text-base leading-relaxed text-[#5f626b] md:text-lg;
+    @apply mt-7 max-w-xl text-body-copy text-[#5f626b];
   }
 
   .placeholder-page {
@@ -1685,7 +1720,7 @@
   }
 
   .placeholder-page h1 {
-    @apply font-header text-[clamp(3rem,7vw,7rem)] leading-none tracking-[-0.05em];
+    @apply font-header text-display font-medium;
   }
 
   .page-transition {
@@ -1846,6 +1881,7 @@
 
   .reveal-text,
   .reveal-button,
+  .reveal-pill,
   .reveal-image {
     opacity: 1 !important;
     transform: none !important;

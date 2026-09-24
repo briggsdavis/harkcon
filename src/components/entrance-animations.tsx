@@ -14,6 +14,7 @@ const revealSelectors = [
   "button",
   "img",
   "[data-reveal-line]",
+  "[data-reveal-item]",
 ].join(",")
 
 export default function EntranceAnimations() {
@@ -34,10 +35,20 @@ export default function EntranceAnimations() {
       root.querySelectorAll(revealSelectors).forEach((element, index) => {
         if (observed.has(element)) return
         if (element.closest(".site-header, .client-marquee, [data-reveal-skip]")) return
+        if (element.closest("[data-reveal-sequence]") && !element.matches("[data-reveal-item]")) {
+          return
+        }
 
         let revealTarget = element
 
-        if (element.matches("[data-reveal-line]")) {
+        if (element.matches("[data-reveal-item]")) {
+          element.classList.add("reveal-pill")
+          const sequence = element.closest("[data-reveal-sequence]")
+          const sequenceIndex = sequence
+            ? Array.from(sequence.querySelectorAll("[data-reveal-item]")).indexOf(element)
+            : 0
+          ;(element as HTMLElement).style.setProperty("--reveal-delay", `${sequenceIndex * 85}ms`)
+        } else if (element.matches("[data-reveal-line]")) {
           element.classList.add("reveal-line")
         } else if (element.matches(".pill-button, button")) {
           element.classList.add("reveal-button")
@@ -51,7 +62,12 @@ export default function EntranceAnimations() {
           return
         }
 
-        ;(revealTarget as HTMLElement).style.setProperty("--reveal-delay", `${(index % 4) * 70}ms`)
+        if (!element.matches("[data-reveal-item]")) {
+          ;(revealTarget as HTMLElement).style.setProperty(
+            "--reveal-delay",
+            `${(index % 4) * 70}ms`,
+          )
+        }
         observed.add(element)
         observer.observe(revealTarget)
       })

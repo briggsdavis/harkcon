@@ -243,13 +243,19 @@ export default function About() {
                 </h2>
               </article>
             </div>
+          </div>
+        </section>
 
+        <section className="mission-outcomes-section" aria-labelledby="mission-outcomes-title">
+          <div className="site-gutter">
             <div className="mission-outcomes">
-              <p className="eyebrow text-white/55">Our mission at work</p>
+              <p id="mission-outcomes-title" className="eyebrow">
+                Our mission at work
+              </p>
               <p>Through our unique analysis-based management solutions, we help organizations:</p>
-              <ul>
+              <ul data-reveal-sequence>
                 {missionOutcomes.map((outcome, index) => (
-                  <li key={outcome}>
+                  <li key={outcome} data-reveal-item>
                     <span>{String(index + 1).padStart(2, "0")}</span>
                     <p>{outcome}</p>
                   </li>
@@ -339,6 +345,7 @@ export default function About() {
             <SubtleParallaxPhoto
               className="parallax-photo--community"
               label="Two volunteers pack food bags at a community distribution event"
+              strength={110}
             />
           </div>
 
@@ -358,23 +365,27 @@ export default function About() {
               </p>
             </div>
 
-            <div className="community-table-wrap">
-              <table className="community-table">
-                <thead>
-                  <tr>
-                    <th scope="col">Financial support</th>
-                    <th scope="col">Volunteer involvement</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {supportedOrganizations.map((organization, index) => (
-                    <tr key={organization}>
-                      <td>{organization}</td>
-                      <td>{volunteerOrganizations[index] ?? ""}</td>
-                    </tr>
+            <div className="community-support-lists">
+              <article className="community-support-column">
+                <h3>Financial support</h3>
+                <ul className="community-pill-grid" data-reveal-sequence>
+                  {supportedOrganizations.map((organization) => (
+                    <li key={organization} data-reveal-item>
+                      {organization}
+                    </li>
                   ))}
-                </tbody>
-              </table>
+                </ul>
+              </article>
+              <article className="community-support-column">
+                <h3>Volunteer involvement</h3>
+                <ul className="community-pill-grid" data-reveal-sequence>
+                  {volunteerOrganizations.map((organization) => (
+                    <li key={organization} data-reveal-item>
+                      {organization}
+                    </li>
+                  ))}
+                </ul>
+              </article>
             </div>
           </div>
         </section>

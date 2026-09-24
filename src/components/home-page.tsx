@@ -706,12 +706,12 @@ export default function HomePage() {
             <h2 id="about-title" className="section-title max-w-xl">
               A culture of mastery and action.
             </h2>
-            <p className="mt-8 max-w-xl text-base leading-relaxed text-[#5f626b] md:text-lg">
+            <p className="mt-8 max-w-xl text-body-copy text-[#5f626b]">
               Since 2005, Harkcon has brought together authorities from government and industry to
               deliver consulting that is a cut above the rest. Our growth is built on capable
               people, trusted relationships, and work that earns repeat confidence.
             </p>
-            <p className="mt-5 max-w-xl text-base leading-relaxed text-[#5f626b] md:text-lg">
+            <p className="mt-5 max-w-xl text-body-copy text-[#5f626b]">
               We take pride and ownership in every challenge—bringing service to life for every
               client and every mission.
             </p>
@@ -808,7 +808,7 @@ export default function HomePage() {
           <div className="site-gutter flex flex-col items-start justify-between gap-10 py-20 md:flex-row md:items-end md:py-24">
             <div>
               <p className="eyebrow mb-5 text-[#5f626b]">Start a conversation</p>
-              <h2 className="max-w-3xl font-header text-2xl leading-[1.1] tracking-[-0.025em] text-[#0d132d] sm:text-3xl lg:text-4xl">
+              <h2 className="section-title max-w-3xl text-[#0d132d]">
                 Let&apos;s make your next mission stronger.
               </h2>
             </div>
