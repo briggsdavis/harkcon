@@ -33,7 +33,7 @@ export default function ArticlePage({
             <div className="article-header">
               <div className="publication-meta">
                 <time dateTime={article.date}>{article.displayDate}</time>
-                <span>{article.category}</span>
+                <span data-category={article.category}>{article.category}</span>
               </div>
               <h1>{article.title}</h1>
             </div>

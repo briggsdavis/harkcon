@@ -1,9 +1,11 @@
+export type NewsCategory = "News" | "Awards" | "Insights"
+
 export type NewsArticle = {
   slug: string
   title: string
   date: string
   displayDate: string
-  category: string
+  category: NewsCategory
   image: string
   imageAlt: string
   excerpt: string
@@ -50,7 +52,7 @@ export const newsArticles: NewsArticle[] = [
     title: "Building workforce readiness for missions in motion",
     date: "2025-08-14",
     displayDate: "August 14, 2025",
-    category: "Insights",
+    category: "Awards",
     image:
       "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1800&q=85",
     imageAlt: "A team collaborating around a table",

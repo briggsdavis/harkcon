@@ -1,7 +1,9 @@
 import { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
+import HeroParallaxImage from "~/components/hero-parallax-image"
 import { Arrow, Header, SiteFooter } from "~/components/home-page"
+import SubtleParallaxPhoto from "~/components/subtle-parallax-photo"
 
 export const metadata: Metadata = {
   title: "About",
@@ -87,13 +89,10 @@ export default function About() {
 
       <div className="page-content">
         <section className="about-hero" aria-labelledby="about-hero-title">
-          <Image
+          <HeroParallaxImage
             src="/images/about-team.png"
             alt="Harkcon consultants collaborating in a Washington, D.C. office"
-            fill
-            priority
-            sizes="100vw"
-            className="about-hero-image"
+            imageClassName="about-hero-image"
           />
           <div className="about-hero-overlay" />
           <div className="site-gutter about-hero-content">
@@ -332,31 +331,31 @@ export default function About() {
                   its resources, time, and talent. We are proud to stand among the thousands of
                   companies that give back to their communities.
                 </p>
-                <figure className="community-image">
-                  <div className="community-image-frame">
-                    <Image
-                      src="/images/about-community-unsplash.jpg"
-                      alt="Two volunteers pack food bags at a community distribution event"
-                      fill
-                      sizes="(min-width: 1024px) 72vw, 100vw"
-                      className="object-cover"
-                    />
-                  </div>
-                  <figcaption>Service extends beyond the workday.</figcaption>
-                </figure>
-                <p>
-                  Harkcon provides ongoing financial, professional, and volunteer support to Hope
-                  For The Warriors™, a 501(c)(3) organization dedicated to enhancing the quality of
-                  life for U.S. service members and families affected by injuries or death in the
-                  line of duty. Its work helps ensure the sacrifices and needs of wounded and fallen
-                  warriors and their families are never forgotten.
-                </p>
-                <p>
-                  We also support team members’ community involvement through flexible work
-                  schedules and recognition programs, making it easier for our people to contribute
-                  directly to the causes that matter to them.
-                </p>
               </div>
+            </div>
+          </div>
+
+          <div className="community-wide-image">
+            <SubtleParallaxPhoto
+              className="parallax-photo--community"
+              label="Two volunteers pack food bags at a community distribution event"
+            />
+          </div>
+
+          <div className="site-gutter">
+            <div className="community-support-copy">
+              <p>
+                Harkcon provides ongoing financial, professional, and volunteer support to Hope For
+                The Warriors™, a 501(c)(3) organization dedicated to enhancing the quality of life
+                for U.S. service members and families affected by injuries or death in the line of
+                duty. Its work helps ensure the sacrifices and needs of wounded and fallen warriors
+                and their families are never forgotten.
+              </p>
+              <p>
+                We also support team members’ community involvement through flexible work schedules
+                and recognition programs, making it easier for our people to contribute directly to
+                the causes that matter to them.
+              </p>
             </div>
 
             <div className="community-table-wrap">

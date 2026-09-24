@@ -2,6 +2,7 @@ import { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import FaqList from "~/components/faq-list"
+import HeroParallaxImage from "~/components/hero-parallax-image"
 import { Arrow, Header, SiteFooter } from "~/components/home-page"
 import SubtleParallaxPhoto from "~/components/subtle-parallax-photo"
 
@@ -88,13 +89,10 @@ export default function Careers() {
       <Header />
       <div className="page-content">
         <section className="careers-hero" aria-labelledby="careers-title">
-          <Image
+          <HeroParallaxImage
             src="/images/careers-hero-unsplash.jpg"
             alt="Business professionals discussing strategy in a bright modern office"
-            fill
-            priority
-            sizes="100vw"
-            className="careers-hero-image"
+            imageClassName="careers-hero-image"
           />
           <div className="careers-hero-overlay" />
           <div className="site-gutter careers-hero-content">

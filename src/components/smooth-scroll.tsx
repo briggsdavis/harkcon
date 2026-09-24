@@ -9,11 +9,11 @@ export default function SmoothScroll() {
 
     const lenis = new Lenis({
       anchors: {
-        duration: 2.025,
+        duration: 4.05,
         easing: (progress) => 1 - Math.pow(1 - progress, 4),
       },
       autoRaf: true,
-      duration: 0.159,
+      duration: 0.318,
       easing: (progress) => 1 - Math.pow(1 - progress, 3),
       smoothWheel: true,
       syncTouch: false,

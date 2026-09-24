@@ -2,14 +2,26 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { useCallback, useState } from "react"
+import { useState } from "react"
 import { Arrow, Header, SiteFooter } from "~/components/home-page"
-import { harkconInTheNews, newsArticles } from "~/lib/news"
+import { harkconInTheNews, newsArticles, type NewsCategory } from "~/lib/news"
+
+type NewsFilter = "all" | NewsCategory | "coverage"
+
+const newsFilters: { label: string; value: NewsFilter; colorName: string }[] = [
+  { label: "All", value: "all", colorName: "All" },
+  { label: "News", value: "News", colorName: "News" },
+  { label: "Awards", value: "Awards", colorName: "Awards" },
+  { label: "Insights", value: "Insights", colorName: "Insights" },
+  { label: "Harkcon in the News", value: "coverage", colorName: "Coverage" },
+]
 
 export default function NewsPage() {
-  const [view, setView] = useState<"news" | "coverage">("news")
-  const showNews = useCallback(() => setView("news"), [])
-  const showCoverage = useCallback(() => setView("coverage"), [])
+  const [filter, setFilter] = useState<NewsFilter>("all")
+  const filteredArticles =
+    filter === "all" || filter === "coverage"
+      ? newsArticles
+      : newsArticles.filter((article) => article.category === filter)
 
   return (
     <div id="top" className="overflow-clip bg-white text-[#0d132d]">
@@ -21,33 +33,30 @@ export default function NewsPage() {
             <h1 id="news-index-title">News &amp; Insights</h1>
 
             <div className="news-index-controls" data-reveal-line>
-              <div className="news-view-label">
-                <span aria-hidden="true">☷</span>
-                <p>Explore</p>
-              </div>
-              <div className="news-view-toggle" aria-label="Choose news view">
-                <button
-                  type="button"
-                  className={view === "news" ? "is-active" : ""}
-                  aria-pressed={view === "news"}
-                  onClick={showNews}
-                >
-                  News
-                </button>
-                <button
-                  type="button"
-                  className={view === "coverage" ? "is-active" : ""}
-                  aria-pressed={view === "coverage"}
-                  onClick={showCoverage}
-                >
-                  Harkcon in the News
-                </button>
+              <p className="news-filter-label">Filter</p>
+              <div className="news-view-toggle" aria-label="Filter news by category">
+                {newsFilters.map((item) => (
+                  <button
+                    key={item.value}
+                    type="button"
+                    className={filter === item.value ? "is-active" : ""}
+                    aria-pressed={filter === item.value}
+                    onClick={() => setFilter(item.value)}
+                  >
+                    <span
+                      className="news-filter-dot"
+                      data-category={item.colorName}
+                      aria-hidden="true"
+                    />
+                    {item.label}
+                  </button>
+                ))}
               </div>
             </div>
 
-            {view === "news" ? (
+            {filter !== "coverage" ? (
               <div className="publication-list">
-                {newsArticles.map((article) => (
+                {filteredArticles.map((article) => (
                   <Link
                     key={article.slug}
                     href={`/news-insights/${article.slug}`}
@@ -67,7 +76,7 @@ export default function NewsPage() {
                     <div className="publication-copy">
                       <div className="publication-meta">
                         <time dateTime={article.date}>{article.displayDate}</time>
-                        <span>{article.category}</span>
+                        <span data-category={article.category}>{article.category}</span>
                       </div>
                       <h2>{article.title}</h2>
                       <p>{article.excerpt}</p>

@@ -24,7 +24,7 @@ export default function SubtleParallaxPhoto({
         1,
         Math.max(0, (window.innerHeight - rect.top) / (window.innerHeight + rect.height)),
       )
-      photo.style.setProperty("--parallax-y", `${(progress - 0.5) * 24}px`)
+      photo.style.setProperty("--parallax-y", `${(progress - 0.5) * 42}px`)
     }
 
     const onScroll = () => {
