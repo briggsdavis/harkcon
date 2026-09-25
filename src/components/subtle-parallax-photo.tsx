@@ -51,11 +51,7 @@ export default function SubtleParallaxPhoto({
   }, [strength])
 
   return (
-    <div
-      ref={photoRef}
-      className={`parallax-photo ${className}`}
-      style={backgroundStyle}
-    >
+    <div ref={photoRef} className={`parallax-photo ${className}`} style={backgroundStyle}>
       <span className="sr-only">{label}</span>
     </div>
   )

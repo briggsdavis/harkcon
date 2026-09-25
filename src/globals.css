@@ -1811,7 +1811,12 @@
   .solution-detail-hero-overlay {
     @apply absolute inset-0 z-[1];
     background:
-      linear-gradient(180deg, rgba(6, 9, 22, 0.56) 0%, rgba(6, 9, 22, 0.05) 55%, rgba(6, 9, 22, 0.52) 100%),
+      linear-gradient(
+        180deg,
+        rgba(6, 9, 22, 0.56) 0%,
+        rgba(6, 9, 22, 0.05) 55%,
+        rgba(6, 9, 22, 0.52) 100%
+      ),
       linear-gradient(90deg, rgba(6, 9, 22, 0.36), transparent 64%);
   }
 
@@ -1977,7 +1982,12 @@
   .contracts-hero-overlay {
     @apply absolute inset-0 z-[1];
     background:
-      linear-gradient(180deg, rgba(6, 9, 22, 0.56) 0%, rgba(6, 9, 22, 0.05) 55%, rgba(6, 9, 22, 0.52) 100%),
+      linear-gradient(
+        180deg,
+        rgba(6, 9, 22, 0.56) 0%,
+        rgba(6, 9, 22, 0.05) 55%,
+        rgba(6, 9, 22, 0.52) 100%
+      ),
       linear-gradient(90deg, rgba(6, 9, 22, 0.36), transparent 64%);
   }
 
@@ -2444,7 +2454,7 @@
   }
 
   .contracts-rail a > strong {
-    @apply pointer-events-none absolute left-5 whitespace-nowrap rounded-sm bg-[#0d132d] px-2.5 py-1.5 font-eyebrow text-[0.6rem] font-semibold tracking-[0.1em] text-white uppercase opacity-0 shadow-lg transition-all duration-200;
+    @apply pointer-events-none absolute left-5 rounded-sm bg-[#0d132d] px-2.5 py-1.5 font-eyebrow text-[0.6rem] font-semibold tracking-[0.1em] whitespace-nowrap text-white uppercase opacity-0 shadow-lg transition-all duration-200;
     transform: translateX(-4px);
   }
 

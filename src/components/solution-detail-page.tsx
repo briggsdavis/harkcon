@@ -1,9 +1,9 @@
 import Image from "next/image"
 import Link from "next/link"
-import type { Solution } from "~/lib/solutions"
 import HeroParallaxImage from "~/components/hero-parallax-image"
-import SubtleParallaxPhoto from "~/components/subtle-parallax-photo"
 import { Arrow, Header, SiteFooter } from "~/components/home-page"
+import SubtleParallaxPhoto from "~/components/subtle-parallax-photo"
+import type { Solution } from "~/lib/solutions"
 
 const capabilityCopy = [
   "Our expertise across Harkcon’s corporate capabilities can be applied to workgroups in any industry and at any scale.",

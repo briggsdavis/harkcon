@@ -69,6 +69,7 @@ export default function CareersPositionsEmbed() {
   return (
     <div ref={containerRef} className="positions-embed">
       {shouldLoad ? (
+        /* oxlint-disable-next-line react/iframe-missing-sandbox -- ADP's application flow requires unrestricted navigation and forms. */
         <iframe
           ref={iframeRef}
           src={careersUrl}

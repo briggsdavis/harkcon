@@ -210,7 +210,9 @@ export default function Careers() {
               </p>
             </div>
             <div className="careers-video">
+              {/* oxlint-disable-next-line react/iframe-missing-sandbox -- YouTube needs scripts and its own origin; the iframe is cross-origin. */}
               <iframe
+                sandbox="allow-scripts allow-same-origin allow-presentation allow-popups allow-popups-to-escape-sandbox"
                 src="https://www.youtube.com/embed/OXuAgvjinSs?si=mdVrO1kUsyOpAcMl"
                 title="We are Harkcon"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

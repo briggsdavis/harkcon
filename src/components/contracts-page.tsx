@@ -5,12 +5,9 @@ import Link from "next/link"
 import { MouseEvent, useCallback, useEffect, useState } from "react"
 import DocumentDownload from "~/components/document-download"
 import HeroParallaxImage from "~/components/hero-parallax-image"
-import SubtleParallaxPhoto from "~/components/subtle-parallax-photo"
 import { Arrow, Header, SiteFooter } from "~/components/home-page"
-import {
-  HARKCON_CAPABILITY_STATEMENT_URL,
-  OASIS_SOLICITATION_URL,
-} from "~/lib/documents"
+import SubtleParallaxPhoto from "~/components/subtle-parallax-photo"
+import { HARKCON_CAPABILITY_STATEMENT_URL, OASIS_SOLICITATION_URL } from "~/lib/documents"
 
 type ContractView = "contracts" | "oasis"
 
@@ -57,8 +54,7 @@ const gsaServices = [
   {
     code: "541611",
     title: "Administrative management & consulting",
-    detail:
-      "A wide range of management and integrated consulting services for federal agencies.",
+    detail: "A wide range of management and integrated consulting services for federal agencies.",
   },
   {
     code: "611430",
@@ -289,11 +285,7 @@ function ContractsContent() {
               </article>
             ))}
           </div>
-          <VehicleMeta
-            prime="Harkcon, Inc."
-            contract="GS-10F-0164V"
-            period="May 2024 – May 2029"
-          />
+          <VehicleMeta prime="Harkcon, Inc." contract="GS-10F-0164V" period="May 2024 – May 2029" />
         </div>
       </section>
 
@@ -386,9 +378,9 @@ function ContractsContent() {
             <h2>Legacy OASIS Small Business Pool 1</h2>
             <p>
               A flexible vehicle designed for requirements that integrate multiple professional
-              service disciplines and ancillary services or products, with contract type and
-              pricing flexibility at the task-order level. Harkcon continues to perform active task
-              orders under previously awarded work.
+              service disciplines and ancillary services or products, with contract type and pricing
+              flexibility at the task-order level. Harkcon continues to perform active task orders
+              under previously awarded work.
             </p>
             <VehicleMeta
               prime="Harkcon, Inc."
@@ -555,9 +547,9 @@ function OasisContent() {
             <p className="eyebrow mb-6 text-white/55">Scope &amp; access</p>
             <h2>Aligned to the requirement.</h2>
             <p>
-              Harkcon’s vehicles provide access to professional services aligned with the GSA
-              OASIS+ program structure. We support requirements consistent with our awarded
-              contract domains, scope, and ordering procedures.
+              Harkcon’s vehicles provide access to professional services aligned with the GSA OASIS+
+              program structure. We support requirements consistent with our awarded contract
+              domains, scope, and ordering procedures.
             </p>
             <div className="contract-inline-actions">
               <Link href="/solutions" className="text-link text-white" data-reveal-line>
@@ -597,7 +589,9 @@ function OasisContent() {
       <section id="oasis-verification" className="contract-section contract-section--soft">
         <div className="contracts-content-shell contract-overview-grid">
           <div>
-            <p className="eyebrow mb-6 text-[#5f626b]">Verification &amp; public award information</p>
+            <p className="eyebrow mb-6 text-[#5f626b]">
+              Verification &amp; public award information
+            </p>
             <h2>Official sources. Current information.</h2>
           </div>
           <div className="contract-body-copy">

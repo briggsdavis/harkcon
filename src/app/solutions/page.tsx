@@ -95,7 +95,9 @@ export default function Solutions() {
           <div className="site-gutter flex flex-col items-start justify-between gap-10 py-20 md:flex-row md:items-end md:py-24">
             <div>
               <p className="eyebrow mb-5 text-[#5f626b]">Start a conversation</p>
-              <h2 className="section-title max-w-3xl">Let&apos;s make your next mission stronger.</h2>
+              <h2 className="section-title max-w-3xl">
+                Let&apos;s make your next mission stronger.
+              </h2>
             </div>
             <Link href="/contact" className="pill-button shrink-0">
               Talk with our team <Arrow />

@@ -10,13 +10,7 @@ export default function DocumentDownload({
   description: string
 }) {
   return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noreferrer"
-      className="document-download"
-      data-reveal-line
-    >
+    <a href={href} target="_blank" rel="noreferrer" className="document-download" data-reveal-line>
       <span className="document-download-type">PDF</span>
       <span className="document-download-copy">
         <span className="eyebrow text-[#8b8e96]">Contract document</span>

@@ -41,7 +41,10 @@ export default function NewsPage() {
                     type="button"
                     className={filter === item.value ? "is-active" : ""}
                     aria-pressed={filter === item.value}
-                    onClick={() => setFilter(item.value)}
+                    onClick={
+                      // oxlint-disable-next-line react-perf/jsx-no-new-function-as-prop -- Native button; no memoized child receives this callback.
+                      () => setFilter(item.value)
+                    }
                   >
                     <span
                       className="news-filter-dot"
