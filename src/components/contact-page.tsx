@@ -68,6 +68,19 @@ export default function ContactPage() {
                   <a href="tel:+18005688595">Fax: +1 (800) 568-8595</a>
                 </div>
               </div>
+              <div className="business-development-contact" data-reveal-line>
+                <p className="eyebrow text-[#5f626b]">Contracts &amp; OASIS+</p>
+                <p>
+                  For contract-vehicle selection, OASIS+ scope questions, acquisition planning, or
+                  teaming opportunities:
+                </p>
+                <address>
+                  <strong>Paula Harkins</strong>
+                  <span>Chief Growth Officer</span>
+                  <a href="mailto:pharkins@harkcon.com">pharkins@harkcon.com</a>
+                  <a href="tel:+15407838271">540-783-8271</a>
+                </address>
+              </div>
             </div>
 
             <form className="contact-form" onSubmit={handleSubmit}>

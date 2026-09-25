@@ -1,17 +1,23 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useMemo, useRef } from "react"
 
 export default function SubtleParallaxPhoto({
+  src,
   className,
   label,
   strength = 42,
 }: {
+  src?: string
   className: string
   label: string
   strength?: number
 }) {
   const photoRef = useRef<HTMLDivElement>(null)
+  const backgroundStyle = useMemo(
+    () => (src ? { backgroundImage: `url("${src}")` } : undefined),
+    [src],
+  )
 
   useEffect(() => {
     const photo = photoRef.current
@@ -45,7 +51,11 @@ export default function SubtleParallaxPhoto({
   }, [strength])
 
   return (
-    <div ref={photoRef} className={`parallax-photo ${className}`}>
+    <div
+      ref={photoRef}
+      className={`parallax-photo ${className}`}
+      style={backgroundStyle}
+    >
       <span className="sr-only">{label}</span>
     </div>
   )

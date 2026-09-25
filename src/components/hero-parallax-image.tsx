@@ -44,7 +44,15 @@ export default function HeroParallaxImage({
 
   return (
     <div ref={mediaRef} className="page-hero-parallax-media">
-      <Image src={src} alt={alt} fill priority sizes="100vw" className={imageClassName} />
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        priority
+        unoptimized={src.startsWith("http")}
+        sizes="100vw"
+        className={imageClassName}
+      />
     </div>
   )
 }
