@@ -222,6 +222,7 @@
 
   .solutions-nav-item {
     @apply flex h-24 items-center;
+    padding-bottom: 1px;
   }
 
   .solutions-nav-trigger {
@@ -1720,7 +1721,7 @@
   }
 
   .solutions-index {
-    @apply pt-40 pb-24 md:pt-52 md:pb-32 lg:pb-40;
+    @apply py-24 md:py-32 lg:py-40;
   }
 
   .solutions-index-heading {
@@ -1965,7 +1966,7 @@
   }
 
   .contracts-hero {
-    @apply relative h-[52svh] min-h-[420px] overflow-hidden md:min-h-[470px];
+    @apply relative h-[52svh] min-h-[360px] overflow-hidden md:min-h-[400px];
   }
 
   .contracts-hero-image {
@@ -1976,51 +1977,76 @@
   .contracts-hero-overlay {
     @apply absolute inset-0 z-[1];
     background:
-      linear-gradient(180deg, rgba(6, 9, 22, 0.58), rgba(6, 9, 22, 0.08) 48%, rgba(6, 9, 22, 0.8)),
-      linear-gradient(90deg, rgba(6, 9, 22, 0.45), transparent 70%);
+      linear-gradient(180deg, rgba(6, 9, 22, 0.56) 0%, rgba(6, 9, 22, 0.05) 55%, rgba(6, 9, 22, 0.52) 100%),
+      linear-gradient(90deg, rgba(6, 9, 22, 0.36), transparent 64%);
   }
 
-  .contracts-hero-content {
-    @apply relative z-10 flex h-full items-end pb-10 text-white md:pb-14;
+  .contracts-hero-index {
+    @apply relative z-10 flex h-full items-end justify-between pb-8 text-white md:pb-10;
   }
 
-  .contracts-hero-content h1 {
-    @apply mt-5 max-w-4xl font-header text-display font-medium;
+  .contracts-hero-index > span {
+    @apply font-eyebrow text-sm tracking-[0.15em] text-white/70;
   }
 
-  .contracts-hero-content > div > p:last-child {
-    @apply mt-6 max-w-2xl text-base leading-relaxed text-white/75 md:text-lg;
+  .contracts-intro {
+    @apply py-16 md:py-20 lg:py-24;
   }
 
   .contract-view-switcher {
-    @apply sticky top-0 z-[25] grid grid-cols-2 bg-white shadow-[0_10px_32px_rgba(13,19,45,0.07)];
+    @apply flex items-center gap-8 border-b border-[#0d132d]/15 pb-5 md:gap-12;
   }
 
   .contract-view-switcher button {
-    @apply relative flex min-h-24 items-center justify-center gap-4 overflow-hidden border-b border-[#0d132d]/20 bg-white px-5 font-header text-xl text-[#8b8e96] transition-colors duration-500 sm:text-2xl md:min-h-28 md:text-3xl;
-  }
-
-  .contract-view-switcher button + button {
-    @apply border-l border-[#0d132d]/20;
+    @apply relative flex items-center gap-3 pb-1 font-header text-xl text-[#8b8e96] transition-all duration-300 sm:text-2xl;
   }
 
   .contract-view-switcher button::before {
     content: "";
-    @apply absolute right-0 bottom-0 left-0 h-1 origin-left scale-x-0 bg-[#0d132d] transition-transform duration-500;
+    @apply absolute right-0 bottom-0 left-0 h-px origin-left scale-x-0 bg-[#0d132d] transition-transform duration-300;
   }
 
   .contract-view-switcher button:hover,
-  .contract-view-switcher button:focus-visible,
+  .contract-view-switcher button:focus-visible {
+    @apply translate-x-1 text-[#0d132d];
+  }
+
   .contract-view-switcher button.is-active {
     @apply text-[#0d132d];
   }
 
+  .contract-view-switcher button:hover::before,
+  .contract-view-switcher button:focus-visible::before,
   .contract-view-switcher button.is-active::before {
     @apply scale-x-100;
   }
 
   .contract-view-switcher button > span {
-    @apply font-eyebrow text-eyebrow-label tracking-[0.12em] text-[#8b8e96];
+    @apply h-1.5 w-1.5 scale-0 rounded-full bg-[#0d132d] opacity-0 transition-all duration-300;
+  }
+
+  .contract-view-switcher button.is-active > span {
+    @apply scale-100 opacity-100;
+  }
+
+  .contracts-intro-grid {
+    @apply mt-14 grid gap-12 lg:grid-cols-[minmax(190px,0.55fr)_minmax(0,1.7fr)] lg:gap-16 xl:gap-28;
+  }
+
+  .contracts-intro-label {
+    @apply flex items-start gap-5;
+  }
+
+  .contracts-intro-label > span {
+    @apply font-eyebrow text-eyebrow-label tracking-[0.15em] text-[#8b8e96];
+  }
+
+  .contracts-intro-copy h1 {
+    @apply max-w-5xl font-header text-display font-medium;
+  }
+
+  .contracts-intro-copy > p {
+    @apply mt-8 max-w-3xl text-body-copy text-[#5f626b];
   }
 
   .contracts-view-content {
@@ -2028,7 +2054,7 @@
   }
 
   .contracts-content-shell {
-    @apply mx-auto w-full max-w-[1600px] px-5 sm:px-8 lg:pr-12 lg:pl-[260px] xl:pr-16 xl:pl-[300px];
+    @apply mx-auto w-full max-w-[1600px] px-5 sm:px-8 lg:px-12 xl:px-16;
   }
 
   .contract-section {
@@ -2312,6 +2338,18 @@
     @apply mt-9;
   }
 
+  .oasis-vehicle-stack > article:first-child.reveal-line::after {
+    display: none;
+  }
+
+  .oasis-vehicle-stack .contract-meta > div:last-child {
+    border-bottom: 0;
+  }
+
+  .oasis-vehicle-stack > article:last-child .contract-meta > div:nth-child(3) {
+    border-bottom: 0;
+  }
+
   .contract-inline-actions {
     @apply mt-12 grid items-start gap-5;
   }
@@ -2390,33 +2428,36 @@
   }
 
   .contracts-rail {
-    @apply pointer-events-none sticky top-0 z-20 flex max-h-0 w-full gap-6 overflow-x-auto bg-white/96 px-5 opacity-0 shadow-[0_8px_24px_rgba(13,19,45,0.06)] backdrop-blur-md transition-all duration-300 sm:px-8 lg:fixed lg:top-1/2 lg:left-5 lg:z-20 lg:w-[210px] lg:-translate-y-1/2 lg:flex-col lg:gap-0 lg:overflow-visible lg:border lg:border-[#0d132d]/10 lg:bg-white/92 lg:px-4 lg:shadow-[0_14px_36px_rgba(13,19,45,0.12)] lg:backdrop-blur-md xl:left-8;
+    @apply pointer-events-none fixed top-1/2 left-3 z-20 hidden -translate-y-1/2 flex-col items-center gap-4 opacity-0 transition-opacity duration-300 lg:flex xl:left-5;
   }
 
   .contracts-rail--visible {
-    @apply pointer-events-auto max-h-20 py-4 opacity-100 lg:max-h-none lg:py-3;
+    @apply pointer-events-auto opacity-100;
   }
 
   .contracts-rail a {
-    @apply flex shrink-0 items-center gap-3 py-2 font-eyebrow text-eyebrow-label font-semibold tracking-[0.1em] text-[#8b8e96] uppercase transition-colors duration-300 lg:w-fit;
+    @apply relative flex h-3 w-3 items-center justify-center rounded-full outline-none;
   }
 
   .contracts-rail a > span {
-    @apply h-2 w-2 shrink-0 rounded-full border border-[#8b8e96] transition-all duration-300;
+    @apply h-1.5 w-1.5 rounded-full bg-[#0d132d]/25 transition-all duration-200;
   }
 
   .contracts-rail a > strong {
-    @apply font-semibold;
-    font-family: inherit;
+    @apply pointer-events-none absolute left-5 whitespace-nowrap rounded-sm bg-[#0d132d] px-2.5 py-1.5 font-eyebrow text-[0.6rem] font-semibold tracking-[0.1em] text-white uppercase opacity-0 shadow-lg transition-all duration-200;
+    transform: translateX(-4px);
   }
 
-  .contracts-rail a:hover,
-  .contracts-rail a.is-active {
-    @apply text-[#0d132d];
+  .contracts-rail a:hover > strong,
+  .contracts-rail a:focus-visible > strong {
+    @apply opacity-100;
+    transform: translateX(0);
   }
 
+  .contracts-rail a:hover > span,
+  .contracts-rail a:focus-visible > span,
   .contracts-rail a.is-active > span {
-    @apply scale-125 border-[#0d132d] bg-[#0d132d];
+    @apply scale-[1.75] bg-[#0d132d];
   }
 
   .not-found-page {

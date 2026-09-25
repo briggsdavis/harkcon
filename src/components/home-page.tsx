@@ -136,10 +136,21 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
   const [mobileSolutionsOpen, setMobileSolutionsOpen] = useState(false)
   const [atTop, setAtTop] = useState(true)
   const [headerVisible, setHeaderVisible] = useState(true)
+  const solutionsCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const toggleMenu = useCallback(() => setMenuOpen((open) => !open), [])
   const closeMenu = useCallback(() => setMenuOpen(false), [])
-  const openSolutions = useCallback(() => setSolutionsOpen(true), [])
-  const closeSolutions = useCallback(() => setSolutionsOpen(false), [])
+  const openSolutions = useCallback(() => {
+    if (solutionsCloseTimer.current) clearTimeout(solutionsCloseTimer.current)
+    setSolutionsOpen(true)
+  }, [])
+  const closeSolutions = useCallback(() => {
+    if (solutionsCloseTimer.current) clearTimeout(solutionsCloseTimer.current)
+    setSolutionsOpen(false)
+  }, [])
+  const scheduleSolutionsClose = useCallback(() => {
+    if (solutionsCloseTimer.current) clearTimeout(solutionsCloseTimer.current)
+    solutionsCloseTimer.current = setTimeout(() => setSolutionsOpen(false), 280)
+  }, [])
   const toggleMobileSolutions = useCallback(() => setMobileSolutionsOpen((open) => !open), [])
   const handleSolutionsBlur = useCallback((event: FocusEvent<HTMLDivElement>) => {
     if (!event.currentTarget.contains(event.relatedTarget)) setSolutionsOpen(false)
@@ -184,6 +195,13 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
     }
   }, [menuOpen, solutionsOpen])
 
+  useEffect(
+    () => () => {
+      if (solutionsCloseTimer.current) clearTimeout(solutionsCloseTimer.current)
+    },
+    [],
+  )
+
   const darkSurface = (atTop && initialSurface === "dark") || solutionsOpen || menuOpen
 
   return (
@@ -222,22 +240,22 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
           <div
             className="solutions-nav-item"
             onMouseEnter={openSolutions}
-            onMouseLeave={closeSolutions}
+            onMouseLeave={scheduleSolutionsClose}
             onFocus={openSolutions}
             onBlur={handleSolutionsBlur}
           >
-            <button
-              type="button"
+            <Link
+              href="/solutions"
               className="nav-link solutions-nav-trigger"
               aria-expanded={solutionsOpen}
               aria-controls="solutions-mega-menu"
-              onClick={openSolutions}
+              onClick={closeSolutions}
             >
               Solutions
               <span aria-hidden="true" className="solutions-chevron">
                 <Arrow />
               </span>
-            </button>
+            </Link>
 
             <div id="solutions-mega-menu" className="mega-menu">
               <div className="site-gutter mega-menu-inner">

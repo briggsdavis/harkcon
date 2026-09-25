@@ -2,6 +2,7 @@ import { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import DocumentDownload from "~/components/document-download"
+import HeroParallaxImage from "~/components/hero-parallax-image"
 import { Arrow, Header, SiteFooter } from "~/components/home-page"
 import { HARKCON_CAPABILITY_STATEMENT_URL } from "~/lib/documents"
 import { solutions } from "~/lib/solutions"
@@ -15,8 +16,21 @@ export const metadata: Metadata = {
 export default function Solutions() {
   return (
     <div id="top" className="overflow-clip bg-white text-[#0d132d]">
-      <Header initialSurface="light" />
+      <Header />
       <div className="page-content">
+        <section className="solution-detail-hero" aria-label="Harkcon solutions in action">
+          <HeroParallaxImage
+            src="https://images.unsplash.com/photo-1757463861676-bb8e0847eba4?auto=format&fit=crop&w=2400&q=88"
+            alt="A bright orange U.S. Coast Guard helicopter in flight"
+            imageClassName="solution-detail-hero-image"
+          />
+          <div className="solution-detail-hero-overlay" />
+          <div className="site-gutter solution-detail-hero-index">
+            <p className="eyebrow text-white/75">Harkcon solutions</p>
+            <span>Overview</span>
+          </div>
+        </section>
+
         <section className="solutions-index" aria-labelledby="solutions-index-title">
           <div className="site-gutter">
             <div className="solutions-index-heading">

@@ -5,6 +5,9 @@ import HeroParallaxImage from "~/components/hero-parallax-image"
 import { Arrow, Header, SiteFooter } from "~/components/home-page"
 import SubtleParallaxPhoto from "~/components/subtle-parallax-photo"
 
+const unsplash = (id: string) =>
+  `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=2400&q=88`
+
 export const metadata: Metadata = {
   title: "About",
   description:
@@ -90,8 +93,8 @@ export default function About() {
       <div className="page-content">
         <section className="about-hero" aria-labelledby="about-hero-title">
           <HeroParallaxImage
-            src="/images/about-team.png"
-            alt="Harkcon consultants collaborating in a Washington, D.C. office"
+            src={unsplash("1772140994501-a12bbc57a1e5")}
+            alt="A U.S. Coast Guard helicopter and crew prepared for an Arctic mission"
             imageClassName="about-hero-image"
           />
           <div className="about-hero-overlay" />
@@ -208,8 +211,8 @@ export default function About() {
             </div>
             <div className="about-history-image">
               <Image
-                src="/images/about-collaboration-unsplash.jpg"
-                alt="Diverse consulting team in a conference room watching a colleague present"
+                src={unsplash("1621310547536-9f03189e36f1")}
+                alt="A U.S. Coast Guard patrol boat prepared for operations"
                 fill
                 sizes="(min-width: 1024px) 50vw, 100vw"
                 className="object-cover"
@@ -292,8 +295,8 @@ export default function About() {
           <div className="culture-split">
             <div className="culture-image">
               <Image
-                src="/images/careers-collaboration-unsplash.jpg"
-                alt="Harkcon colleagues collaborating around a conference table"
+                src={unsplash("1758599543116-4fdb887911a5")}
+                alt="Three colleagues walking together outside their workplace"
                 fill
                 sizes="(min-width: 1024px) 50vw, 100vw"
                 className="object-cover"

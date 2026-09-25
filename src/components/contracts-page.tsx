@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { useCallback, useEffect, useState } from "react"
+import { MouseEvent, useCallback, useEffect, useState } from "react"
 import DocumentDownload from "~/components/document-download"
 import HeroParallaxImage from "~/components/hero-parallax-image"
 import SubtleParallaxPhoto from "~/components/subtle-parallax-photo"
@@ -39,8 +39,8 @@ const viewContent = {
     label: "OASIS+",
     title: "One vehicle. Expansive capability.",
     summary: "Best-in-Class access to complex, integrated professional services.",
-    heroImage: image("1557804506-669a67965ba0"),
-    heroAlt: "A professional team collaborating during a strategy session",
+    heroImage: image("1773438298830-49ff735df3dc"),
+    heroAlt: "Palm trees surrounding a calm oasis beneath desert dunes",
     sections: [
       ["oasis-overview", "Overview"],
       ["oasis-vehicles", "Vehicles"],
@@ -206,13 +206,32 @@ function SectionRail({
   activeSection: string
   visible: boolean
 }) {
+  const handleSectionClick = useCallback((event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault()
+    const id = event.currentTarget.hash.slice(1)
+    const section = document.getElementById(id)
+    if (!section) return
+
+    window.history.replaceState({}, "", `#${id}`)
+    window.scrollTo({
+      top: section.getBoundingClientRect().top + window.scrollY - 24,
+      behavior: "smooth",
+    })
+  }, [])
+
   return (
     <nav
       className={`contracts-rail ${visible ? "contracts-rail--visible" : ""}`}
       aria-label={`${viewContent[view].label} sections`}
     >
       {viewContent[view].sections.map(([id, label]) => (
-        <a key={id} href={`#${id}`} className={activeSection === id ? "is-active" : ""}>
+        <a
+          key={id}
+          href={`#${id}`}
+          className={activeSection === id ? "is-active" : ""}
+          aria-label={`Go to ${label}`}
+          onClick={handleSectionClick}
+        >
           <span aria-hidden="true" />
           <strong>{label}</strong>
         </a>
@@ -280,9 +299,9 @@ function ContractsContent() {
 
       <section className="contract-image-break" aria-label="Federal contracting documents">
         <SubtleParallaxPhoto
-          src={image("1521791055366-0d553872125f")}
+          src={image("1759020622261-a876260db765")}
           className="contract-image-break-photo"
-          label="Professionals reviewing and signing an agreement"
+          label="The National Archives building in Washington, D.C."
           strength={100}
         />
       </section>
@@ -469,8 +488,8 @@ function OasisContent() {
         <div className="contracts-content-shell contract-media-grid">
           <div className="contract-media-image">
             <Image
-              src={image("1600880292089-90a7e086ee0c")}
-              alt="Team members joining hands in a gesture of unity"
+              src={image("1573181759662-1c146525b21f")}
+              alt="A monumental government building beneath a clear blue sky"
               fill
               unoptimized
               sizes="(min-width: 1024px) 48vw, 100vw"
@@ -624,11 +643,11 @@ function OasisContent() {
         </div>
       </section>
 
-      <section className="contract-image-break" aria-label="Collaborative professional services">
+      <section className="contract-image-break" aria-label="Search-and-rescue mission">
         <SubtleParallaxPhoto
-          src={image("1454165804606-c3d57bc86b40")}
+          src={image("1750398447687-7f325c994b2a")}
           className="contract-image-break-photo"
-          label="A strategy team reviewing plans at a desk"
+          label="A search-and-rescue helicopter operating above boats at sea"
           strength={100}
         />
       </section>
@@ -658,6 +677,14 @@ export default function ContractsPage() {
   const [view, setView] = useState<ContractView>("contracts")
   const [activeSection, setActiveSection] = useState<string>(viewContent.contracts.sections[0][0])
   const [railVisible, setRailVisible] = useState(false)
+
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("view") === "oasis-plus") {
+      // The selected contract view is persisted in the URL for refreshes and shared links.
+      // oxlint-disable-next-line react/set-state-in-effect
+      setView("oasis")
+    }
+  }, [])
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -714,7 +741,7 @@ export default function ContractsPage() {
     <div id="top" className="overflow-clip bg-white text-[#0d132d]">
       <Header />
       <div className="page-content">
-        <section className="contracts-hero" aria-labelledby="contracts-hero-title">
+        <section className="contracts-hero" aria-label={`${content.label} hero image`}>
           <HeroParallaxImage
             key={view}
             src={content.heroImage}
@@ -722,37 +749,48 @@ export default function ContractsPage() {
             imageClassName="contracts-hero-image"
           />
           <div className="contracts-hero-overlay" />
-          <div className="site-gutter contracts-hero-content">
-            <div>
-              <p className="eyebrow text-white/70">{content.label}</p>
-              <h1 id="contracts-hero-title">{content.title}</h1>
-              <p>{content.summary}</p>
-            </div>
+          <div className="site-gutter contracts-hero-index">
+            <p className="eyebrow text-white/75">Contract vehicles</p>
+            <span>{view === "contracts" ? "01" : "02"}</span>
           </div>
         </section>
 
-        <div className="contract-view-switcher" role="tablist" aria-label="Contract content">
-          <button
-            type="button"
-            role="tab"
-            aria-selected={view === "contracts"}
-            className={view === "contracts" ? "is-active" : ""}
-            onClick={selectContracts}
-          >
-            <span>01</span>
-            Contracts
-          </button>
-          <button
-            type="button"
-            role="tab"
-            aria-selected={view === "oasis"}
-            className={view === "oasis" ? "is-active" : ""}
-            onClick={selectOasis}
-          >
-            <span>02</span>
-            OASIS+
-          </button>
-        </div>
+        <section className="contracts-intro" aria-labelledby="contracts-hero-title">
+          <div className="site-gutter">
+            <div className="contract-view-switcher" role="tablist" aria-label="Contract content">
+              <button
+                type="button"
+                role="tab"
+                aria-selected={view === "contracts"}
+                className={view === "contracts" ? "is-active" : ""}
+                onClick={selectContracts}
+              >
+                <span aria-hidden="true" />
+                Contracts
+              </button>
+              <button
+                type="button"
+                role="tab"
+                aria-selected={view === "oasis"}
+                className={view === "oasis" ? "is-active" : ""}
+                onClick={selectOasis}
+              >
+                <span aria-hidden="true" />
+                OASIS+
+              </button>
+            </div>
+            <div className="contracts-intro-grid">
+              <div className="contracts-intro-label">
+                <span>{view === "contracts" ? "01" : "02"}</span>
+                <p className="eyebrow">{content.label}</p>
+              </div>
+              <div className="contracts-intro-copy">
+                <h1 id="contracts-hero-title">{content.title}</h1>
+                <p>{content.summary}</p>
+              </div>
+            </div>
+          </div>
+        </section>
 
         <SectionRail view={view} activeSection={activeSection} visible={railVisible} />
         <div key={view} className="contracts-view-content">
