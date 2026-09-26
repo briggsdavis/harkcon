@@ -2,6 +2,6 @@ import { convexClient, crossDomainClient } from "@convex-dev/better-auth/client/
 import { createAuthClient } from "better-auth/react"
 
 export const authClient = createAuthClient({
-  baseURL: process.env.NEXT_PUBLIC_CONVEX_SITE_URL ?? "http://127.0.0.1:3211",
+  baseURL: process.env.NEXT_PUBLIC_CONVEX_SITE_URL ?? "https://neat-eel-640.convex.site",
   plugins: [convexClient(), crossDomainClient()],
 })

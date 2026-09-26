@@ -127,12 +127,23 @@ function Login() {
       const name = String(data.get("name") ?? "Harkcon admin")
       setBusy(true)
       setError("")
-      const result =
-        mode === "signin"
-          ? await authClient.signIn.email({ email, password })
-          : await authClient.signUp.email({ email, password, name })
-      if (result.error) setError(result.error.message ?? "We couldn’t complete that request.")
-      setBusy(false)
+      try {
+        const request =
+          mode === "signin"
+            ? authClient.signIn.email({ email, password })
+            : authClient.signUp.email({ email, password, name })
+        const result = await Promise.race([
+          request,
+          new Promise<never>((_, reject) =>
+            window.setTimeout(() => reject(new Error("timeout")), 12_000),
+          ),
+        ])
+        if (result.error) setError(result.error.message ?? "We couldn’t complete that request.")
+      } catch {
+        setError("We couldn’t reach the secure login service. Please try again in a moment.")
+      } finally {
+        setBusy(false)
+      }
     },
     [mode],
   )

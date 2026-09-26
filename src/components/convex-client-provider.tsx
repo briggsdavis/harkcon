@@ -7,7 +7,10 @@ import { authClient } from "~/lib/auth-client"
 
 export default function ConvexClientProvider({ children }: { children: ReactNode }) {
   const [client] = useState(
-    () => new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL ?? "http://127.0.0.1:3210"),
+    () =>
+      new ConvexReactClient(
+        process.env.NEXT_PUBLIC_CONVEX_URL ?? "https://neat-eel-640.convex.cloud",
+      ),
   )
 
   return (
