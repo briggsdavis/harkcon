@@ -3,6 +3,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { FocusEvent, useCallback, useEffect, useRef, useState } from "react"
+import FeaturedNews from "~/components/featured-news"
 
 const statement =
   "Harkcon is committed to providing customized, comprehensive performance management and technology solutions that improve people and organizational performance at all levels."
@@ -764,7 +765,7 @@ export default function HomePage() {
               </Link>
             </div>
 
-            <div className="news-grid">
+            <div className="news-grid legacy-featured-news" hidden>
               <Link
                 href="/news-insights/coast-guard-preparedness-support-contract"
                 className="news-card group"
@@ -815,6 +816,7 @@ export default function HomePage() {
                 </div>
               </Link>
             </div>
+            <FeaturedNews />
 
             <Link href="/news-insights" className="pill-button mt-10">
               Find more news <Arrow />

@@ -34,7 +34,12 @@ export default function EntranceAnimations() {
     const prepare = (root: ParentNode) => {
       root.querySelectorAll(revealSelectors).forEach((element, index) => {
         if (observed.has(element)) return
-        if (element.closest(".site-header, .client-marquee, [data-reveal-skip]")) return
+        if (
+          element.closest(
+            ".site-header, .client-marquee, .admin-root, .admin-login, [data-reveal-skip]",
+          )
+        )
+          return
         if (element.closest("[data-reveal-sequence]") && !element.matches("[data-reveal-item]")) {
           return
         }

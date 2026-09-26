@@ -1,6 +1,5 @@
 import type { Metadata } from "next"
-import { notFound } from "next/navigation"
-import ArticlePage from "~/components/article-page"
+import ArticleLoader from "~/components/article-loader"
 import { newsArticles } from "~/lib/news"
 
 export function generateStaticParams() {
@@ -18,14 +17,5 @@ export async function generateMetadata({
 
 export default async function NewsArticle({ params }: PageProps<"/news-insights/[slug]">) {
   const { slug } = await params
-  const articleIndex = newsArticles.findIndex((item) => item.slug === slug)
-  if (articleIndex === -1) notFound()
-
-  const article = newsArticles[articleIndex]
-  const related = Array.from({ length: 3 }, (_, offset) => {
-    const index = (articleIndex + offset + 1) % newsArticles.length
-    return newsArticles[index]
-  })
-
-  return <ArticlePage article={article} related={related} />
+  return <ArticleLoader slug={slug} />
 }

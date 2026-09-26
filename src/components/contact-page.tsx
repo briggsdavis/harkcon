@@ -1,8 +1,10 @@
 "use client"
 
+import { useMutation } from "convex/react"
 import { FormEvent, useCallback, useState } from "react"
 import FaqList from "~/components/faq-list"
 import { Arrow, Header, SiteFooter } from "~/components/home-page"
+import { api } from "../../convex/_generated/api"
 
 const inquiryTypes = [
   "Business / Partnership Opportunities",
@@ -40,10 +42,43 @@ const contactFaqs = [
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false)
-  const handleSubmit = useCallback((event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    setSubmitted(true)
-  }, [])
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState("")
+  const submitContact = useMutation(api.contacts.submit)
+  const handleSubmit = useCallback(
+    async (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault()
+      const form = event.currentTarget
+      const data = new FormData(form)
+      const interests = data.getAll("interest").map(String)
+      if (interests.length === 0) {
+        setError("Choose at least one area of interest.")
+        return
+      }
+      setSubmitting(true)
+      setError("")
+      try {
+        await submitContact({
+          firstName: String(data.get("firstName") ?? ""),
+          lastName: String(data.get("lastName") ?? ""),
+          organization: String(data.get("organization") ?? ""),
+          email: String(data.get("email") ?? ""),
+          phone: String(data.get("phone") ?? ""),
+          interests,
+          message: String(data.get("message") ?? ""),
+          referral: String(data.get("referral") ?? ""),
+          preferredContact: String(data.get("preferredContact") ?? ""),
+        })
+        setSubmitted(true)
+        form.reset()
+      } catch {
+        setError("We couldn’t send your inquiry. Please try again in a moment.")
+      } finally {
+        setSubmitting(false)
+      }
+    },
+    [submitContact],
+  )
 
   return (
     <div id="top" className="overflow-clip bg-white text-[#0d132d]">
@@ -152,8 +187,13 @@ export default function ContactPage() {
                     Thank you. Your inquiry is ready for the Harkcon team.
                   </output>
                 ) : null}
-                <button type="submit" className="pill-button">
-                  Submit <Arrow diagonal />
+                {error ? (
+                  <p className="contact-error" role="alert">
+                    {error}
+                  </p>
+                ) : null}
+                <button type="submit" className="pill-button" disabled={submitting}>
+                  {submitting ? "Sending…" : "Submit"} <Arrow diagonal />
                 </button>
               </div>
             </form>

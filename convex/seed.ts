@@ -1,21 +1,6 @@
-export type NewsCategory = string
+import { mutation } from "./_generated/server"
 
-export type NewsArticle = {
-  _id?: string
-  slug: string
-  title: string
-  date: string
-  displayDate: string
-  category: NewsCategory
-  image: string
-  imageAlt: string
-  excerpt: string
-  body: string[]
-  featured?: boolean
-  order?: number
-}
-
-export const newsArticles: NewsArticle[] = [
+const articles = [
   {
     slug: "coast-guard-preparedness-support-contract",
     title: "Harkcon awarded U.S. Coast Guard preparedness support contract",
@@ -120,7 +105,7 @@ export const newsArticles: NewsArticle[] = [
   },
 ]
 
-export const harkconInTheNews = [
+const mentions = [
   "Harkcon recognized among the region’s most people-centered government contractors",
   "How mission-driven firms are modernizing federal workforce strategy",
   "Harkcon leaders discuss the future of performance-based training",
@@ -130,3 +115,40 @@ export const harkconInTheNews = [
   "Industry leaders share practical approaches to organizational transformation",
   "The teams behind the next generation of federal mission readiness",
 ]
+
+const solutionPages = [
+  ["Workforce & Organizational Analysis", "workforce-organizational-analysis"],
+  ["Training & Human Systems Integration", "training-human-systems-integration"],
+  ["Process Improvement & Transformation", "process-improvement-transformation"],
+  ["Policy, Strategy, & Program Support", "policy-strategy-program-support"],
+  ["International Advisory & Capacity Building", "international-advisory-capacity-building"],
+  ["Administrative & Compliance Support", "administrative-compliance-support"],
+  ["Emergency Management & Continuity Support", "emergency-management-continuity-support"],
+] as const
+
+export const initialContent = mutation({
+  args: {},
+  handler: async (ctx) => {
+    if ((await ctx.db.query("articles").first()) === null) {
+      for (const [order, article] of articles.entries()) {
+        await ctx.db.insert("articles", { ...article, order, featured: order < 2 })
+      }
+    }
+    if ((await ctx.db.query("pressMentions").first()) === null) {
+      for (const [order, headline] of mentions.entries()) {
+        await ctx.db.insert("pressMentions", { headline, order })
+      }
+    }
+    if ((await ctx.db.query("newsTopics").first()) === null) {
+      for (const [order, name] of ["News", "Awards", "Insights"].entries()) {
+        await ctx.db.insert("newsTopics", { name, slug: name.toLowerCase(), order })
+      }
+    }
+    if ((await ctx.db.query("solutionPages").first()) === null) {
+      for (const [order, [title, slug]] of solutionPages.entries()) {
+        await ctx.db.insert("solutionPages", { title, slug, order })
+      }
+    }
+    return { articles: articles.length, mentions: mentions.length, solutions: solutionPages.length }
+  },
+})

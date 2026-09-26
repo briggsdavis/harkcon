@@ -9,7 +9,7 @@ export default function SmoothScroll() {
 
     const lenis = new Lenis({
       anchors: {
-        duration: 4.05,
+        duration: 0.82,
         easing: (progress) => 1 - Math.pow(1 - progress, 4),
       },
       autoRaf: true,
@@ -18,7 +18,7 @@ export default function SmoothScroll() {
       smoothWheel: true,
       syncTouch: false,
       wheelMultiplier: 0.88,
-      prevent: (node) => Boolean(node.closest(".mobile-nav")),
+      prevent: (node) => Boolean(node.closest(".mobile-nav, .admin-root, [role='dialog']")),
     })
 
     return () => lenis.destroy()

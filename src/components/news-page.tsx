@@ -1,27 +1,36 @@
 "use client"
 
+import { useQuery } from "convex/react"
 import Image from "next/image"
 import Link from "next/link"
 import { useState } from "react"
 import { Arrow, Header, SiteFooter } from "~/components/home-page"
 import { harkconInTheNews, newsArticles, type NewsCategory } from "~/lib/news"
+import { api } from "../../convex/_generated/api"
 
 type NewsFilter = "all" | NewsCategory | "coverage"
 
-const newsFilters: { label: string; value: NewsFilter; colorName: string }[] = [
-  { label: "All", value: "all", colorName: "All" },
-  { label: "News", value: "News", colorName: "News" },
-  { label: "Awards", value: "Awards", colorName: "Awards" },
-  { label: "Insights", value: "Insights", colorName: "Insights" },
-  { label: "Harkcon in the News", value: "coverage", colorName: "Coverage" },
-]
-
 export default function NewsPage() {
   const [filter, setFilter] = useState<NewsFilter>("all")
+  const storedArticles = useQuery(api.content.listPublicArticles)
+  const storedMentions = useQuery(api.content.listPressMentions)
+  const storedTopics = useQuery(api.content.listTopics)
+  const articles = storedArticles?.length ? storedArticles : newsArticles
+  const mentions = storedMentions?.length
+    ? storedMentions.map((item) => item.headline)
+    : harkconInTheNews
+  const topics = storedTopics?.length
+    ? storedTopics.map((topic) => topic.name)
+    : ["News", "Awards", "Insights"]
+  const newsFilters: { label: string; value: NewsFilter; colorName: string }[] = [
+    { label: "All", value: "all", colorName: "All" },
+    ...topics.map((topic) => ({ label: topic, value: topic, colorName: topic })),
+    { label: "Harkcon in the News", value: "coverage", colorName: "Coverage" },
+  ]
   const filteredArticles =
     filter === "all" || filter === "coverage"
-      ? newsArticles
-      : newsArticles.filter((article) => article.category === filter)
+      ? articles
+      : articles.filter((article) => article.category === filter)
 
   return (
     <div id="top" className="overflow-clip bg-white text-[#0d132d]">
@@ -92,7 +101,7 @@ export default function NewsPage() {
               </div>
             ) : (
               <div className="coverage-list">
-                {harkconInTheNews.map((headline, index) => (
+                {mentions.map((headline, index) => (
                   <button type="button" className="coverage-row" key={headline} data-reveal-line>
                     <span className="coverage-number">{String(index + 1).padStart(2, "0")}</span>
                     <span>{headline}</span>
