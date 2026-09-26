@@ -16,6 +16,17 @@ export function allowedAdminEmails() {
   )
 }
 
+export function trustedAdminOrigins() {
+  return [
+    process.env.SITE_URL ?? "https://www.harkcon.com",
+    "https://*.vercel.app",
+    "http://localhost:3000",
+    "http://localhost:3001",
+    "http://127.0.0.1:3000",
+    "http://127.0.0.1:3001",
+  ]
+}
+
 export const authComponent = createClient<DataModel>(components.betterAuth)
 
 export const createAuth = (ctx: GenericCtx<DataModel>) => {
@@ -23,7 +34,7 @@ export const createAuth = (ctx: GenericCtx<DataModel>) => {
 
   return betterAuth({
     baseURL: process.env.CONVEX_SITE_URL,
-    trustedOrigins: [siteUrl],
+    trustedOrigins: trustedAdminOrigins(),
     database: authComponent.adapter(ctx),
     emailAndPassword: {
       enabled: true,
