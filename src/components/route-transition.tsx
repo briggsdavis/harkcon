@@ -88,12 +88,12 @@ export default function RouteTransition() {
     const holdTimer = window.setTimeout(() => {
       phaseRef.current = "revealing"
       setPhase("revealing")
-    }, 500)
+    }, 250)
     const resetTimer = window.setTimeout(() => {
       destination.current = null
       phaseRef.current = "idle"
       setPhase("idle")
-    }, 1450)
+    }, 1200)
     return () => {
       window.clearTimeout(holdTimer)
       window.clearTimeout(resetTimer)

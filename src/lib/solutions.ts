@@ -1,6 +1,7 @@
 export type Solution = {
   slug: string
   number: string
+  color: string
   title: string
   shortTitle: string
   description: string
@@ -21,6 +22,7 @@ export const solutions: Solution[] = [
   {
     slug: "workforce-organizational-analysis",
     number: "01",
+    color: "#ff334f",
     title: "Workforce & Organizational Analysis",
     shortTitle: "Workforce analysis",
     description:
@@ -44,6 +46,7 @@ export const solutions: Solution[] = [
   {
     slug: "training-human-systems-integration",
     number: "02",
+    color: "#246bff",
     title: "Training & Human Systems Integration",
     shortTitle: "Training & HSI",
     description:
@@ -66,6 +69,7 @@ export const solutions: Solution[] = [
   {
     slug: "process-improvement-transformation",
     number: "03",
+    color: "#ffc400",
     title: "Process Improvement & Transformation",
     shortTitle: "Process transformation",
     description:
@@ -88,6 +92,7 @@ export const solutions: Solution[] = [
   {
     slug: "policy-strategy-program-support",
     number: "04",
+    color: "#16c172",
     title: "Policy, Strategy, & Program Support",
     shortTitle: "Policy & strategy",
     description:
@@ -110,6 +115,7 @@ export const solutions: Solution[] = [
   {
     slug: "international-advisory-capacity-building",
     number: "05",
+    color: "#a23cff",
     title: "International Advisory & Capacity Building",
     shortTitle: "International advisory",
     description:
@@ -133,6 +139,7 @@ export const solutions: Solution[] = [
   {
     slug: "administrative-compliance-support",
     number: "06",
+    color: "#ff7a1a",
     title: "Administrative & Compliance Support",
     shortTitle: "Compliance support",
     description:
@@ -154,6 +161,7 @@ export const solutions: Solution[] = [
   {
     slug: "emergency-management-continuity-support",
     number: "07",
+    color: "#00a8a8",
     title: "Emergency Management & Continuity Support",
     shortTitle: "Emergency management",
     description:

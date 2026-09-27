@@ -80,36 +80,42 @@ const clientLogos = [
 const solutions = [
   {
     number: "01",
+    color: "#ff334f",
     title: "Workforce & Organizational Analysis",
     href: solutionLinks[0].href,
     detail: "Readiness, staffing, and actionable workforce strategy.",
   },
   {
     number: "02",
+    color: "#246bff",
     title: "Training & Human Systems Integration",
     href: solutionLinks[1].href,
     detail: "High-impact learning built for mission effectiveness.",
   },
   {
     number: "03",
+    color: "#ffc400",
     title: "Process Improvement & Transformation",
     href: solutionLinks[2].href,
     detail: "Modern operations that reduce risk and create momentum.",
   },
   {
     number: "04",
+    color: "#16c172",
     title: "Policy, Strategy & Program Support",
     href: solutionLinks[3].href,
     detail: "Clear direction for complex programs and decisions.",
   },
   {
     number: "05",
+    color: "#a23cff",
     title: "International Advisory & Capacity Building",
     href: solutionLinks[4].href,
     detail: "Stronger partnerships and operational readiness abroad.",
   },
   {
     number: "06",
+    color: "#ff7a1a",
     title: "Emergency Management & Continuity",
     href: solutionLinks[6].href,
     detail: "Preparedness that protects mission-critical functions.",
@@ -346,29 +352,52 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
 }
 
 function ClientMarquee() {
-  const [direction, setDirection] = useState<"forward" | "reverse">("forward")
+  const trackRef = useRef<HTMLDivElement>(null)
+  const directionRef = useRef(1)
 
   useEffect(() => {
-    let lastY = window.scrollY
-    let frame = 0
+    const track = trackRef.current
+    if (!track || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
 
-    const update = () => {
-      frame = 0
+    let lastY = window.scrollY
+    let scrollFrame = 0
+    let animationFrame = 0
+    let lastTime = performance.now()
+    let position = 0
+    let velocity = 1
+
+    const updateDirection = () => {
+      scrollFrame = 0
       const currentY = window.scrollY
       if (Math.abs(currentY - lastY) > 3) {
-        setDirection(currentY > lastY ? "forward" : "reverse")
+        directionRef.current = currentY > lastY ? 1 : -1
         lastY = currentY
       }
     }
 
     const onScroll = () => {
-      if (!frame) frame = requestAnimationFrame(update)
+      if (!scrollFrame) scrollFrame = requestAnimationFrame(updateDirection)
     }
 
+    const animate = (time: number) => {
+      const delta = Math.min(time - lastTime, 48)
+      lastTime = time
+      const halfWidth = track.scrollWidth / 2
+      if (halfWidth > 0) {
+        const easing = 1 - Math.exp(-delta / 260)
+        velocity += (directionRef.current - velocity) * easing
+        position = (position + (halfWidth / 48_000) * delta * velocity + halfWidth) % halfWidth
+        track.style.transform = `translate3d(${-position}px, 0, 0)`
+      }
+      animationFrame = requestAnimationFrame(animate)
+    }
+
+    animationFrame = requestAnimationFrame(animate)
     window.addEventListener("scroll", onScroll, { passive: true })
     return () => {
       window.removeEventListener("scroll", onScroll)
-      if (frame) cancelAnimationFrame(frame)
+      if (scrollFrame) cancelAnimationFrame(scrollFrame)
+      if (animationFrame) cancelAnimationFrame(animationFrame)
     }
   }, [])
 
@@ -385,7 +414,7 @@ function ClientMarquee() {
         <p>Organizations we have served</p>
       </div>
       <div className="marquee-viewport">
-        <div className={`marquee-track marquee-track--${direction}`}>
+        <div ref={trackRef} className="marquee-track">
           {repeatedLogos.map(([copy, logo]) => (
             <div
               className="client-logo"
@@ -703,7 +732,13 @@ export default function HomePage() {
                   >
                     <span className="solution-fill" />
                     <div className="solution-card-content">
-                      <span className="solution-number">{solution.number}</span>
+                      <span className="solution-number">
+                        <span
+                          className="solution-color-dot"
+                          style={{ backgroundColor: solution.color }}
+                        />
+                        {solution.number}
+                      </span>
                       <h3>{solution.title}</h3>
                       <div className="solution-card-footer">
                         <p>{solution.detail}</p>
@@ -731,7 +766,7 @@ export default function HomePage() {
               people, trusted relationships, and work that earns repeat confidence.
             </p>
             <p className="mt-5 max-w-xl text-body-copy text-[#5f626b]">
-              We take pride and ownership in every challenge—bringing service to life for every
+              We take pride and ownership in every challenge, bringing service to life for every
               client and every mission.
             </p>
             <Link href="/about" className="pill-button mt-10">

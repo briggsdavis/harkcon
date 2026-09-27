@@ -446,12 +446,7 @@
 
   .marquee-track {
     @apply flex w-max items-center;
-    animation: client-marquee 48s linear infinite;
     will-change: transform;
-  }
-
-  .marquee-track--reverse {
-    animation-direction: reverse;
   }
 
   .client-logo {
@@ -531,7 +526,11 @@
   }
 
   .solution-number {
-    @apply mb-12 text-xs tracking-[0.16em] text-[#5f626b] transition-colors duration-700 group-hover:text-white/55;
+    @apply mb-12 flex items-center gap-2.5 text-xs tracking-[0.16em] text-[#5f626b] transition-colors duration-700 group-hover:text-white/55;
+  }
+
+  .solution-color-dot {
+    @apply inline-block h-2.5 w-2.5 shrink-0 rounded-full;
   }
 
   .solution-card h3 {
@@ -1782,8 +1781,8 @@
     @apply mt-6 grid grid-cols-[32px_1fr_28px] items-start gap-3 pt-5;
   }
 
-  .solutions-index-card-copy > span:first-child {
-    @apply pt-1 font-eyebrow text-eyebrow-label tracking-[0.12em] text-[#8b8e96];
+  .solutions-index-marker {
+    @apply flex items-center gap-2 pt-1 font-eyebrow text-eyebrow-label tracking-[0.12em] text-[#8b8e96];
   }
 
   .solutions-index-card-copy h2 {

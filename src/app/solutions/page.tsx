@@ -59,7 +59,13 @@ export default function Solutions() {
                     />
                   </div>
                   <div className="solutions-index-card-copy" data-reveal-line>
-                    <span>{solution.number}</span>
+                    <span className="solutions-index-marker">
+                      <span
+                        className="solution-color-dot"
+                        style={{ backgroundColor: solution.color }}
+                      />
+                      {solution.number}
+                    </span>
                     <h2>{solution.title}</h2>
                     <span className="solutions-index-card-arrow">
                       <Arrow diagonal />
