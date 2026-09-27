@@ -9,6 +9,7 @@ export default defineSchema({
     displayDate: v.string(),
     category: v.string(),
     image: v.string(),
+    imageStorageId: v.optional(v.id("_storage")),
     imageAlt: v.string(),
     excerpt: v.string(),
     body: v.array(v.string()),

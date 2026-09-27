@@ -21,7 +21,16 @@ type View =
   | "global"
 type ArticleDraft = Pick<
   Doc<"articles">,
-  "slug" | "title" | "date" | "displayDate" | "category" | "image" | "imageAlt" | "excerpt" | "body"
+  | "slug"
+  | "title"
+  | "date"
+  | "displayDate"
+  | "category"
+  | "image"
+  | "imageStorageId"
+  | "imageAlt"
+  | "excerpt"
+  | "body"
 > & { id?: Id<"articles"> }
 
 const emptyArticle: ArticleDraft = {
@@ -508,6 +517,8 @@ function NewsEditor() {
   const saveMention = useMutation(api.content.saveMention),
     removeMention = useMutation(api.content.removeMention),
     addTopic = useMutation(api.content.addTopic)
+  const generateImageUploadUrl = useMutation(api.content.generateImageUploadUrl),
+    resolveImageUpload = useMutation(api.content.resolveImageUpload)
   const [tab, setTab] = useState<"articles" | "mentions">("articles")
   const [draft, setDraft] = useState<ArticleDraft | null>(null)
   const [mention, setMention] = useState<{ id?: Id<"pressMentions">; headline: string } | null>(
@@ -519,11 +530,44 @@ function NewsEditor() {
     label: string
   } | null>(null)
   const [topicOpen, setTopicOpen] = useState(false),
-    [error, setError] = useState("")
+    [error, setError] = useState(""),
+    [uploadingImage, setUploadingImage] = useState(false)
+  const uploadImage = async (file: File) => {
+    if (!file.type.startsWith("image/")) {
+      setError("Choose an image file such as JPG, PNG, WebP, or AVIF.")
+      return
+    }
+    if (file.size > 10 * 1024 * 1024) {
+      setError("Choose an image smaller than 10 MB.")
+      return
+    }
+    setError("")
+    setUploadingImage(true)
+    try {
+      const uploadUrl = await generateImageUploadUrl()
+      const response = await fetch(uploadUrl, {
+        method: "POST",
+        headers: { "Content-Type": file.type },
+        body: file,
+      })
+      if (!response.ok) throw new Error("Upload failed")
+      const { storageId } = (await response.json()) as { storageId: Id<"_storage"> }
+      const image = await resolveImageUpload({ storageId })
+      setDraft((current) => (current ? { ...current, image, imageStorageId: storageId } : current))
+    } catch {
+      setError("We couldn’t upload that image. Please try again.")
+    } finally {
+      setUploadingImage(false)
+    }
+  }
   const submitArticle = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (!draft) return
     setError("")
+    if (!draft.image) {
+      setError("Add an image before saving the article.")
+      return
+    }
     try {
       const displayDate = new Date(`${draft.date}T12:00:00`).toLocaleDateString("en-US", {
         month: "long",
@@ -594,7 +638,6 @@ function NewsEditor() {
                     {article.category} · {article.displayDate}
                   </span>
                   <h3>{article.title}</h3>
-                  <p>{article.excerpt}</p>
                 </div>
                 <div className="admin-row-actions">
                   <label className="admin-feature">
@@ -636,6 +679,7 @@ function NewsEditor() {
                           displayDate: article.displayDate,
                           category: article.category,
                           image: article.image,
+                          imageStorageId: article.imageStorageId,
                           imageAlt: article.imageAlt,
                           excerpt: article.excerpt,
                           body: article.body,
@@ -761,15 +805,36 @@ function NewsEditor() {
                   required
                 />
               </label>
-              <label className="span-2">
-                <span>Image URL</span>
-                <input
-                  type="url"
-                  value={draft.image}
-                  onChange={(e) => setDraft({ ...draft, image: e.target.value })}
-                  required
-                />
-              </label>
+              <div className="span-2 admin-image-field">
+                <div className="admin-image-field-heading">
+                  <div>
+                    <span>Article image</span>
+                    <small>
+                      Displayed at roughly 16:9. The full article uses a slightly wider crop.
+                    </small>
+                  </div>
+                  <label className="admin-image-upload">
+                    <input
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp,image/avif"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0]
+                        if (file) void uploadImage(file)
+                      }}
+                      disabled={uploadingImage}
+                    />
+                    {uploadingImage ? "Uploading…" : draft.image ? "Replace image" : "Choose image"}
+                  </label>
+                </div>
+                <div className={`admin-image-preview${draft.image ? " has-image" : ""}`}>
+                  {draft.image ? (
+                    <Image src={draft.image} alt="Article image preview" fill unoptimized />
+                  ) : (
+                    <span>Your image preview will appear here</span>
+                  )}
+                  <strong>16:9</strong>
+                </div>
+              </div>
               <label className="span-2">
                 <span>Image description</span>
                 <input
@@ -794,7 +859,9 @@ function NewsEditor() {
               <button type="button" className="admin-secondary" onClick={() => setDraft(null)}>
                 Cancel
               </button>
-              <button className="admin-primary">Save article</button>
+              <button className="admin-primary" disabled={uploadingImage}>
+                {uploadingImage ? "Uploading image…" : "Save article"}
+              </button>
             </div>
           </form>
         </Modal>

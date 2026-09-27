@@ -9,10 +9,29 @@ const articleFields = {
   displayDate: v.string(),
   category: v.string(),
   image: v.string(),
+  imageStorageId: v.optional(v.id("_storage")),
   imageAlt: v.string(),
   excerpt: v.string(),
   body: v.array(v.string()),
 }
+
+export const generateImageUploadUrl = mutation({
+  args: {},
+  handler: async (ctx) => {
+    await requireAdmin(ctx)
+    return await ctx.storage.generateUploadUrl()
+  },
+})
+
+export const resolveImageUpload = mutation({
+  args: { storageId: v.id("_storage") },
+  handler: async (ctx, { storageId }) => {
+    await requireAdmin(ctx)
+    const url = await ctx.storage.getUrl(storageId)
+    if (!url) throw new Error("The image upload could not be opened")
+    return url
+  },
+})
 
 export const listPublicArticles = query({
   args: {},
@@ -71,7 +90,11 @@ export const saveArticle = mutation({
     if (duplicate && duplicate._id !== args.id) throw new Error("That URL slug is already in use")
     const { id, ...fields } = args
     if (id) {
+      const existing = await ctx.db.get(id)
       await ctx.db.patch(id, fields)
+      if (existing?.imageStorageId && existing.imageStorageId !== fields.imageStorageId) {
+        await ctx.storage.delete(existing.imageStorageId)
+      }
       return id
     }
     const articles = await ctx.db.query("articles").collect()
@@ -87,6 +110,8 @@ export const removeArticle = mutation({
   args: { id: v.id("articles") },
   handler: async (ctx, { id }) => {
     await requireAdmin(ctx)
+    const article = await ctx.db.get(id)
+    if (article?.imageStorageId) await ctx.storage.delete(article.imageStorageId)
     await ctx.db.delete(id)
     return null
   },

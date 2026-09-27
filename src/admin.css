@@ -436,13 +436,90 @@
     font-size: 15px;
     font-weight: 700;
   }
-  .admin-news-copy p {
-    overflow: hidden;
-    margin: 0;
-    color: #7c8392;
+  .admin-image-field {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .admin-image-field-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .admin-image-field-heading > div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .admin-image-field-heading span {
+    color: #4f586d;
     font-size: 12px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    font-weight: 700;
+  }
+  .admin-image-field-heading small {
+    min-height: 0;
+  }
+  .admin-image-upload {
+    display: inline-flex !important;
+    flex: none;
+    cursor: pointer;
+    border: 1px solid #d9dde5;
+    border-radius: 9px;
+    padding: 9px 12px;
+    color: #35405a;
+    background: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    transition:
+      border-color 0.18s,
+      background 0.18s;
+  }
+  .admin-image-upload:hover {
+    border-color: #aab4c7;
+    background: #f8f9fb;
+  }
+  .admin-image-upload input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    opacity: 0;
+  }
+  .admin-image-preview {
+    position: relative;
+    display: grid;
+    aspect-ratio: 16 / 9;
+    width: min(100%, 520px);
+    place-items: center;
+    overflow: hidden;
+    border: 1px dashed #cfd4de;
+    border-radius: 12px;
+    color: #8b92a0;
+    background: #f5f6f8;
+    font-size: 12px;
+  }
+  .admin-image-preview.has-image {
+    border-style: solid;
+  }
+  .admin-image-preview img {
+    object-fit: cover;
+  }
+  .admin-image-preview > span {
+    padding: 24px;
+    text-align: center;
+  }
+  .admin-image-preview strong {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    z-index: 1;
+    border-radius: 999px;
+    padding: 4px 7px;
+    color: #fff;
+    background: #17213dcc;
+    font-size: 10px;
+    letter-spacing: 0.06em;
   }
   .admin-row-actions {
     display: flex;
