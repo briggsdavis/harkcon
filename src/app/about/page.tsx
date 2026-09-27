@@ -76,6 +76,59 @@ const volunteerOrganizations = [
   "Wounded Warrior Program at Walter Reed Army Medical Center",
 ]
 
+const people = [
+  {
+    name: "Kevin Harkins, Ph.D.",
+    title: "Chief Executive Officer",
+    image: "/images/kevinharkins.jpeg",
+    imagePosition: "50% 34%",
+    bio: [
+      "Dr. Harkins leads Harkcon’s overall direction and success, working with the Board of Directors to establish and oversee the company’s long-range goals, strategies, plans, and policies.",
+      "He brings more than 30 years of public- and private-sector leadership experience, with deep expertise in workforce analysis, competency management, strategic planning, organizational assessment, training, performance evaluation, and organizational design.",
+    ],
+  },
+  {
+    name: "Brittany Hammond",
+    title: "Workforce Analysis & Training Program Manager",
+    image: "/images/brittany hammond.jpeg",
+    imagePosition: "50% 34%",
+    bio: [
+      "Brittany manages Harkcon’s U.S. Coast Guard portfolio, overseeing training and workforce analysis contracts supporting domestic and overseas operations. Her background spans instructional design, human performance technology, and program management.",
+      "A Coast Guard veteran and former intelligence analyst, she earned a B.S. in Government from the U.S. Coast Guard Academy and an M.S. in Education from Old Dominion University. She also coaches middle school basketball and serves on a preschool board.",
+    ],
+  },
+  {
+    name: "Jim Davis",
+    title: "Chief Human Capital Officer",
+    image: "/images/jimdavis.jpeg",
+    imagePosition: "50% 30%",
+    bio: [
+      "Jim leads Harkcon’s human capital strategy, workforce development, and employee engagement programs, aligning talent priorities with the company’s mission, culture, and long-term growth.",
+      "He brings more than 30 years of executive leadership and federal human capital experience across the Departments of Homeland Security and Veterans Affairs. Jim joined Harkcon in 2026 after serving as a Senior Human Capital Consultant at Serco.",
+    ],
+  },
+  {
+    name: "Paula Harkins",
+    title: "Chief Growth Officer",
+    image: "/images/paula harkins.png",
+    imagePosition: "50% 34%",
+    bio: [
+      "Paula leads strategies that expand Harkcon’s federal-sector impact and drive sustainable growth. She works with senior leaders and partners to identify opportunities, strengthen organizational capacity, and deliver solutions that improve workforce performance and mission outcomes.",
+      "A Lean Six Sigma Black Belt and member of AERA, SHRM, and ISPI, Paula is also an international speaker on leadership, performance improvement, and organizational transformation.",
+    ],
+  },
+  {
+    name: "Mohammad Khan",
+    title: "Chief Director of IT",
+    image: "/images/Screenshot 2026-09-27 at 13.34.58.png",
+    imagePosition: "50% 50%",
+    bio: [
+      "Mohammad leads Harkcon’s IT security initiatives and cloud solutions, overseeing cloud systems, applications, and data security while keeping the company operational and aligned with industry standards.",
+      "He joined Harkcon in 2020 as a Cloud Systems Administrator and holds a bachelor’s degree in Management Information Systems with a focus on the systems development lifecycle.",
+    ],
+  },
+]
+
 function SectionLabel({ number, children }: { number: string; children: React.ReactNode }) {
   return (
     <div className="about-section-label">
@@ -184,10 +237,56 @@ export default function About() {
           </div>
         </section>
 
+        <section className="our-people-section" aria-labelledby="our-people-title">
+          <div className="site-gutter">
+            <div className="our-people-heading">
+              <SectionLabel number="02">Our people</SectionLabel>
+              <div>
+                <h2 id="our-people-title">Experience that moves missions forward.</h2>
+                <p>
+                  Meet the leaders guiding Harkcon’s people, performance, technology, and growth.
+                </p>
+              </div>
+            </div>
+
+            <div className="people-grid">
+              {people.map((person) => (
+                <article className="person-card" key={person.name}>
+                  <div className="person-portrait">
+                    <Image
+                      src={person.image}
+                      alt={`${person.name}, ${person.title}`}
+                      fill
+                      sizes="(min-width: 1024px) 31vw, (min-width: 640px) 48vw, 100vw"
+                      style={{ objectPosition: person.imagePosition }}
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="person-card-copy">
+                    <h3>{person.name}</h3>
+                    <p>{person.title}</p>
+                    <details>
+                      <summary>
+                        <span>Read bio</span>
+                        <span aria-hidden="true">+</span>
+                      </summary>
+                      <div className="person-bio">
+                        {person.bio.map((paragraph) => (
+                          <p key={paragraph}>{paragraph}</p>
+                        ))}
+                      </div>
+                    </details>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
         <section className="about-history-section" aria-labelledby="history-title">
           <div className="about-history-split">
             <div className="about-history-copy">
-              <SectionLabel number="02">Our history</SectionLabel>
+              <SectionLabel number="03">Our history</SectionLabel>
               <div className="about-prose about-prose--history">
                 <h2 id="history-title">The right people at the right moment.</h2>
                 <p>

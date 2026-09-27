@@ -610,6 +610,7 @@
   }
 
   .about-intro-section,
+  .our-people-section,
   .about-history-section,
   .principles-section,
   .culture-section,
@@ -703,6 +704,75 @@
 
   .people-statement-copy .people-statement-close {
     @apply font-header text-xl leading-snug text-white;
+  }
+
+  .our-people-section {
+    @apply border-t border-[#dedfe2] bg-white;
+  }
+
+  .our-people-heading {
+    @apply grid gap-12 lg:grid-cols-[minmax(190px,0.55fr)_minmax(0,1.7fr)] lg:gap-16 xl:gap-28;
+  }
+
+  .our-people-heading h2 {
+    @apply max-w-4xl font-header text-section-title font-medium;
+  }
+
+  .our-people-heading > div:last-child > p {
+    @apply mt-6 max-w-2xl text-body-copy text-[#5f626b];
+  }
+
+  .people-grid {
+    @apply mt-16 grid gap-x-7 gap-y-16 sm:grid-cols-2 lg:mt-24 lg:grid-cols-3 lg:gap-y-20;
+  }
+
+  .person-card {
+    @apply min-w-0;
+  }
+
+  .person-portrait {
+    @apply relative aspect-square overflow-hidden bg-[#eeefef];
+  }
+
+  .person-card-copy {
+    @apply border-t border-[#0d132d] pt-5;
+  }
+
+  .person-card-copy h3 {
+    @apply font-header text-card-title font-medium;
+  }
+
+  .person-card-copy > p {
+    @apply mt-2 min-h-10 text-sm leading-relaxed text-[#5f626b];
+  }
+
+  .person-card details {
+    @apply mt-5 border-t border-[#dedfe2];
+  }
+
+  .person-card summary {
+    @apply flex cursor-pointer list-none items-center justify-between py-4 text-xs font-semibold tracking-[0.08em] uppercase;
+  }
+
+  .person-card summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .person-card summary > span:last-child {
+    @apply text-xl leading-none font-light transition-transform duration-300;
+  }
+
+  .person-card details[open] summary > span:last-child {
+    transform: rotate(45deg);
+  }
+
+  .person-bio {
+    @apply pb-5 text-sm leading-relaxed text-[#555a66];
+    animation: person-bio-enter 300ms ease both;
+  }
+
+  .person-bio p + p {
+    @apply mt-4;
   }
 
   .editorial-photo-section {
@@ -2681,6 +2751,17 @@
   }
   to {
     transform: translateX(-50%);
+  }
+}
+
+@keyframes person-bio-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
