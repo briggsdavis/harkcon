@@ -1,5 +1,4 @@
 import { Metadata } from "next"
-import NewsPage from "~/components/news-page"
 
 export const metadata: Metadata = {
   title: "News & Insights",
@@ -7,5 +6,5 @@ export const metadata: Metadata = {
 }
 
 export default function NewsInsights() {
-  return <NewsPage />
+  return <h1>News & Insights</h1>
 }

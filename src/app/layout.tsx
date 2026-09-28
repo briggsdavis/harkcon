@@ -1,38 +1,31 @@
 import { Metadata } from "next"
-import { Cabin, Montserrat, Nunito_Sans } from "next/font/google"
-import AnalyticsTracker from "~/components/analytics-tracker"
-import ConvexClientProvider from "~/components/convex-client-provider"
-import EntranceAnimations from "~/components/entrance-animations"
-import RouteTransition from "~/components/route-transition"
-import SmoothScroll from "~/components/smooth-scroll"
+import { Newsreader, Public_Sans } from "next/font/google"
+import Footer from "~/components/footer"
+import Navbar from "~/components/navbar"
+import { PageTransition } from "~/components/page-transition"
 // oxlint-disable-next-line import/no-unassigned-import
 import "~/globals.css"
-// oxlint-disable-next-line import/no-unassigned-import
-import "~/admin.css"
 
-const header = Montserrat({ variable: "--font-header-source", subsets: ["latin"] })
-const body = Nunito_Sans({ variable: "--font-body-source", subsets: ["latin"] })
-const eyebrow = Cabin({ variable: "--font-eyebrow-source", subsets: ["latin"] })
+const header = Newsreader({ variable: "--font-header-source" })
+const body = Public_Sans({ variable: "--font-body-source" })
 
 export const metadata: Metadata = {
   title: { default: "Harkcon", template: "%s • Harkcon" },
-  icons: {
-    icon: [{ url: "/images/harkcon-favicon.png", type: "image/png" }],
-    shortcut: "/images/harkcon-favicon.png",
-  },
 }
 
 export default function Layout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${header.variable} ${body.variable} ${eyebrow.variable}`}>
+    <html
+      lang="en"
+      data-scroll-behavior="smooth"
+      className={`overscroll-y-none scroll-smooth motion-reduce:scroll-auto ${header.variable} ${body.variable}`}
+    >
       <body className="flex min-h-dvh flex-col font-body antialiased">
-        <ConvexClientProvider>
-          <EntranceAnimations />
-          <SmoothScroll />
-          <AnalyticsTracker />
+        <PageTransition>
+          <Navbar />
           <main className="grow">{children}</main>
-          <RouteTransition />
-        </ConvexClientProvider>
+          <Footer />
+        </PageTransition>
       </body>
     </html>
   )

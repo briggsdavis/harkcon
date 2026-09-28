@@ -2,16 +2,7 @@ import { NextConfig } from "next"
 
 const config: NextConfig = {
   reactCompiler: true,
-  images: {
-    unoptimized: true,
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "**",
-        pathname: "/**",
-      },
-    ],
-  },
+  allowedDevOrigins: ["toddler-dem-honolulu-scsi.trycloudflare.com"],
 }
 
 export default config

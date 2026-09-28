@@ -1,12 +1,10 @@
 import { Metadata } from "next"
-import ContractsPage from "~/components/contracts-page"
 
 export const metadata: Metadata = {
   title: "Contract Vehicles",
-  description:
-    "Explore Harkcon's federal contract vehicles, GSA schedules, OASIS+ contracts, and NAICS capabilities.",
+  description: "Review Harkcon's federal contract vehicles, including OASIS+ and PACTS II.",
 }
 
 export default function Contracts() {
-  return <ContractsPage />
+  return <h1>Contract Vehicles</h1>
 }
