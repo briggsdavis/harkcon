@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import Link from "next/link"
 import { MouseEvent, useCallback, useEffect, useState } from "react"
 import DocumentDownload from "~/components/document-download"
@@ -25,8 +24,9 @@ const viewContent = {
       ["contracts-overview", "Overview"],
       ["contracts-gsa", "GSA MAS"],
       ["contracts-teps", "TEPS III"],
-      ["contracts-uscg", "USCG BPAs"],
-      ["contracts-idiq", "IDIQ vehicles"],
+      ["contracts-uscg", "USCG Workforce"],
+      ["contracts-uscg-itass", "USCG ITASS"],
+      ["contracts-idiq", "Legacy OASIS"],
       ["contracts-documents", "Documents"],
       ["contracts-naics", "NAICS codes"],
       ["contracts-cta", "Get started"],
@@ -40,7 +40,9 @@ const viewContent = {
     heroAlt: "A consulting team collaborating around a conference table",
     sections: [
       ["oasis-overview", "Overview"],
-      ["oasis-vehicles", "Vehicles"],
+      ["oasis-small-business", "Small Business"],
+      ["oasis-sdvosb", "SDVOSB"],
+      ["oasis-legacy", "Legacy OASIS"],
       ["oasis-scope", "Scope & access"],
       ["oasis-documents", "Documents"],
       ["oasis-verification", "Verification"],
@@ -82,6 +84,13 @@ const internationalServices = [
   "Technical and operational training, including law enforcement, search and rescue, and maritime engineering",
   "In-country maintenance and material condition assessments",
   "Curriculum development, pilot testing, and instructional delivery",
+]
+
+const uscgWorkforceServices = [
+  "Workforce requirements research and data collection",
+  "Analytical modeling and defensible requirements development",
+  "Meeting facilitation and stakeholder coordination",
+  "Technical writing, documentation, and report development",
 ]
 
 const legacyOasisServices = [
@@ -126,6 +135,14 @@ const oasisSdvosbCapabilities = [
   "Instructional design and curriculum development",
 ]
 
+const oasisSmallBusinessCapabilities = [
+  "Program and project management",
+  "Workforce performance and development",
+  "Organizational effectiveness",
+  "Operational and process improvement",
+  "Integrated professional services",
+]
+
 const oasisSupportTypes = [
   "Scope fit discussions",
   "Acquisition planning support",
@@ -135,6 +152,18 @@ const oasisSupportTypes = [
   "Responses to Requests for Information, Sources Sought notices, and task order opportunities",
 ]
 
+const gsaCapabilities = gsaServices.map((service) => ({
+  label: service.code,
+  title: service.title,
+  detail: service.detail,
+}))
+const tepsCapabilities = tepsAreas.map((title) => ({ title }))
+const uscgWorkforceCapabilities = uscgWorkforceServices.map((title) => ({ title }))
+const internationalCapabilities = internationalServices.map((title) => ({ title }))
+const legacyOasisCapabilities = legacyOasisServices.map((title) => ({ title }))
+const oasisSmallBusinessItems = oasisSmallBusinessCapabilities.map((title) => ({ title }))
+const oasisSdvosbItems = oasisSdvosbCapabilities.map((title) => ({ title }))
+
 function VehicleMeta({
   prime,
   contract,
@@ -142,14 +171,7 @@ function VehicleMeta({
   uei,
   family,
   familyLabel = "Contract family",
-}: {
-  prime: string
-  contract: string
-  period: string
-  uei?: string
-  family?: string
-  familyLabel?: string
-}) {
+}: VehicleMetaProps) {
   return (
     <dl className="contract-meta" data-reveal-sequence>
       <div data-reveal-item>
@@ -190,6 +212,112 @@ function NumberedList({ items }: { items: readonly string[] }) {
         </li>
       ))}
     </ol>
+  )
+}
+
+type CapabilityItem = {
+  label?: string
+  title: string
+  detail?: string
+}
+
+type VehicleMetaProps = {
+  prime: string
+  contract: string
+  period: string
+  uei?: string
+  family?: string
+  familyLabel?: string
+}
+
+function VehicleCapabilityList({ items }: { items: readonly CapabilityItem[] }) {
+  return (
+    <ol className="contract-capability-list" data-reveal-sequence>
+      {items.map((item, index) => (
+        <li key={`${item.label ?? index}-${item.title}`} data-reveal-item>
+          <span>{item.label ?? String(index + 1).padStart(2, "0")}</span>
+          <div>
+            <h3>{item.title}</h3>
+            {item.detail ? <p>{item.detail}</p> : null}
+          </div>
+        </li>
+      ))}
+    </ol>
+  )
+}
+
+function ContractVehicleSection({
+  id,
+  eyebrow,
+  status,
+  title,
+  description,
+  capabilities,
+  prime,
+  contract,
+  period,
+  uei,
+  family,
+  familyLabel,
+  tone = "white",
+}: VehicleMetaProps & {
+  id: string
+  eyebrow: string
+  status: "Current vehicle" | "Legacy vehicle"
+  title: string
+  description: string
+  capabilities: readonly CapabilityItem[]
+  tone?: "white" | "soft" | "navy"
+}) {
+  return (
+    <section
+      id={id}
+      className={`contract-section contract-vehicle-section ${tone === "soft" ? "contract-section--soft" : ""} ${tone === "navy" ? "contract-section--navy" : ""}`}
+    >
+      <div className="contracts-content-shell">
+        <div className="contract-vehicle-grid">
+          <div className="contract-vehicle-intro">
+            <p className="eyebrow">{status}</p>
+            <span className="contract-vehicle-category">{eyebrow}</span>
+            <h2>{title}</h2>
+            <p>{description}</p>
+          </div>
+          <div className="contract-vehicle-capabilities">
+            <p className="eyebrow">Capabilities &amp; access</p>
+            <VehicleCapabilityList items={capabilities} />
+          </div>
+        </div>
+        <VehicleMeta
+          prime={prime}
+          contract={contract}
+          period={period}
+          uei={uei}
+          family={family}
+          familyLabel={familyLabel}
+        />
+      </div>
+    </section>
+  )
+}
+
+function ContractImageBreak({
+  src,
+  label,
+  className = "",
+}: {
+  src: string
+  label: string
+  className?: string
+}) {
+  return (
+    <section className="contract-image-break" aria-label={label}>
+      <SubtleParallaxPhoto
+        src={src}
+        className={`contract-image-break-photo ${className}`}
+        label={label}
+        strength={100}
+      />
+    </section>
   )
 }
 
@@ -239,134 +367,90 @@ function SectionRail({
 function ContractsContent() {
   return (
     <>
-      <section id="contracts-gsa" className="contract-section contract-section--soft">
-        <div className="contracts-content-shell">
-          <div className="contract-section-heading">
-            <div>
-              <p className="eyebrow mb-6 text-[#5f626b]">GSA vehicles</p>
-              <h2>Multiple Award Schedule</h2>
-            </div>
-            <p>
-              General Services Administration access to Harkcon’s management consulting and
-              professional development training expertise.
-            </p>
-          </div>
-          <div className="contract-service-cards">
-            {gsaServices.map((service) => (
-              <article key={service.code} data-reveal-line>
-                <span>{service.code}</span>
-                <h3>{service.title}</h3>
-                <p>{service.detail}</p>
-              </article>
-            ))}
-          </div>
-          <VehicleMeta prime="Harkcon, Inc." contract="GS-10F-0164V" period="May 2024 – May 2029" />
-        </div>
-      </section>
+      <ContractVehicleSection
+        id="contracts-gsa"
+        eyebrow="GSA Multiple Award Schedule"
+        status="Current vehicle"
+        title="Multiple Award Schedule"
+        description="General Services Administration access to Harkcon’s management consulting and professional development training expertise."
+        capabilities={gsaCapabilities}
+        prime="Harkcon, Inc."
+        contract="GS-10F-0164V"
+        period="May 2024 – May 2029"
+        tone="soft"
+      />
 
-      <section className="contract-image-break" aria-label="Federal contracting documents">
-        <SubtleParallaxPhoto
-          src={image("1759020622261-a876260db765")}
-          className="contract-image-break-photo"
-          label="The National Archives building in Washington, D.C."
-          strength={100}
-        />
-      </section>
+      <ContractImageBreak
+        src={image("1759020622261-a876260db765")}
+        label="The National Archives building in Washington, D.C."
+      />
 
-      <section id="contracts-teps" className="contract-section">
-        <div className="contracts-content-shell contract-feature-grid">
-          <div className="contract-feature-intro">
-            <p className="eyebrow mb-6 text-[#5f626b]">DOE / NNSA</p>
-            <h2>Technical, Engineering, and Programmatic Support Services III</h2>
-            <p>
-              The TEPS III Blanket Purchase Agreement provides integrated support across eight
-              high-consequence technical and operational areas.
-            </p>
-            <VehicleMeta
-              prime="MELE Associates, Inc.; Harkcon as CTA Lead"
-              contract="89233122ANA000014"
-              period="November 2022 – October 2027"
-            />
-          </div>
-          <NumberedList items={tepsAreas} />
-        </div>
-      </section>
+      <ContractVehicleSection
+        id="contracts-teps"
+        eyebrow="DOE / NNSA"
+        status="Current vehicle"
+        title="Technical, Engineering, and Programmatic Support Services III"
+        description="The TEPS III Blanket Purchase Agreement provides integrated support across eight high-consequence technical and operational areas."
+        capabilities={tepsCapabilities}
+        prime="MELE Associates, Inc.; Harkcon as CTA Lead"
+        contract="89233122ANA000014"
+        period="November 2022 – October 2027"
+      />
 
-      <section id="contracts-uscg" className="contract-section contract-section--navy">
-        <div className="contracts-content-shell">
-          <div className="contract-section-heading contract-section-heading--light">
-            <div>
-              <p className="eyebrow mb-6 text-white/55">U.S. Coast Guard</p>
-              <h2>Mission-focused blanket purchase agreements.</h2>
-            </div>
-            <p>Analytical rigor, workforce readiness, and international capacity building.</p>
-          </div>
-          <div className="contract-dark-cards">
-            <article>
-              <p className="eyebrow text-white/45">Workforce requirements</p>
-              <h3>Determination analytical &amp; clerical support services</h3>
-              <p>
-                Harkcon provides analytical, clerical, facilitation, documentation, and technical
-                writing support to the USCG Workforce Requirements Determination Division. Work
-                includes research, data collection, modeling, report development, meeting
-                facilitation, stakeholder coordination, and defensible workforce requirements for
-                human capital planning and resource decisions.
-              </p>
-              <VehicleMeta
-                prime="Harkcon, Inc."
-                contract="70Z02325ADPR10001"
-                period="September 2025 – September 2030"
-              />
-            </article>
-            <article>
-              <p className="eyebrow text-white/45">International affairs</p>
-              <h3>International Training &amp; Analysis Support BPA</h3>
-              <p>
-                The DCO-I ITASS BPA supports international maritime security training,
-                organizational development, foreign military support, and workforce capacity
-                building aligned with U.S. security cooperation priorities.
-              </p>
-              <NumberedList items={internationalServices} />
-              <VehicleMeta
-                prime="Harkcon, Inc."
-                contract="70Z02324ADCOI0001"
-                period="November 2023 – November 2028"
-              />
-            </article>
-          </div>
-        </div>
-      </section>
+      <ContractImageBreak
+        src="/images/careers-collaboration-unsplash.jpg"
+        label="A professional team collaborating around a table"
+      />
 
-      <section className="contract-image-break" aria-label="Maritime operations">
-        <SubtleParallaxPhoto
-          src={image("1685178362030-9b574eb9ae7c")}
-          className="contract-image-break-photo contract-image-break-photo--ship"
-          label="A U.S. military vessel underway"
-          strength={100}
-        />
-      </section>
+      <ContractVehicleSection
+        id="contracts-uscg"
+        eyebrow="U.S. Coast Guard · Workforce requirements"
+        status="Current vehicle"
+        title="Determination analytical &amp; clerical support services"
+        description="Harkcon supports the USCG Workforce Requirements Determination Division with the analysis and documentation needed for sound human-capital planning and resource decisions."
+        capabilities={uscgWorkforceCapabilities}
+        prime="Harkcon, Inc."
+        contract="70Z02325ADPR10001"
+        period="September 2025 – September 2030"
+        tone="navy"
+      />
 
-      <section id="contracts-idiq" className="contract-section">
-        <div className="contracts-content-shell contract-feature-grid">
-          <div className="contract-feature-intro">
-            <p className="eyebrow mb-6 text-[#5f626b]">IDIQ vehicles</p>
-            <h2>Legacy OASIS Small Business Pool 1</h2>
-            <p>
-              A flexible vehicle designed for requirements that integrate multiple professional
-              service disciplines and ancillary services or products, with contract type and pricing
-              flexibility at the task-order level. Harkcon continues to perform active task orders
-              under previously awarded work.
-            </p>
-            <VehicleMeta
-              prime="Harkcon, Inc."
-              contract="47QRAD20D1158"
-              period="September 2019 – December 2024"
-              uei="T3GVAM6E2XD9"
-            />
-          </div>
-          <NumberedList items={legacyOasisServices} />
-        </div>
-      </section>
+      <ContractImageBreak
+        src={image("1685178362030-9b574eb9ae7c")}
+        label="A U.S. military vessel underway"
+        className="contract-image-break-photo--ship"
+      />
+
+      <ContractVehicleSection
+        id="contracts-uscg-itass"
+        eyebrow="U.S. Coast Guard · International affairs"
+        status="Current vehicle"
+        title="International Training &amp; Analysis Support BPA"
+        description="The DCO-I ITASS BPA supports international maritime security training, organizational development, foreign military support, and workforce capacity building aligned with U.S. security cooperation priorities."
+        capabilities={internationalCapabilities}
+        prime="Harkcon, Inc."
+        contract="70Z02324ADCOI0001"
+        period="November 2023 – November 2028"
+        tone="soft"
+      />
+
+      <ContractImageBreak
+        src="/images/about-collaboration-unsplash.jpg"
+        label="Consultants working together in a conference room"
+      />
+
+      <ContractVehicleSection
+        id="contracts-idiq"
+        eyebrow="IDIQ vehicle"
+        status="Legacy vehicle"
+        title="Legacy OASIS Small Business Pool 1"
+        description="A flexible vehicle for requirements integrating multiple professional-service disciplines. Harkcon continues to perform active task orders awarded under this legacy contract."
+        capabilities={legacyOasisCapabilities}
+        prime="Harkcon, Inc."
+        contract="47QRAD20D1158"
+        period="September 2019 – December 2024"
+        uei="T3GVAM6E2XD9"
+      />
 
       <section id="contracts-documents" className="contract-section contract-documents-section">
         <div className="contracts-content-shell">
@@ -421,70 +505,57 @@ function ContractsContent() {
 function OasisContent() {
   return (
     <>
-      <section id="oasis-vehicles" className="contract-section contract-section--soft">
-        <div className="contracts-content-shell contract-media-grid">
-          <div className="contract-media-image">
-            <Image
-              src={image("1573181759662-1c146525b21f")}
-              alt="A monumental government building beneath a clear blue sky"
-              fill
-              unoptimized
-              sizes="(min-width: 1024px) 48vw, 100vw"
-              className="object-cover"
-            />
-          </div>
-          <div className="contract-media-copy">
-            <p className="eyebrow mb-6 text-[#5f626b]">Harkcon OASIS+ contract vehicles</p>
-            <h2>Three vehicles. Clear paths to performance.</h2>
-            <div className="oasis-vehicle-stack">
-              <article data-reveal-line>
-                <p className="eyebrow text-[#8b8e96]">Current vehicle</p>
-                <h3>OASIS+ Small Business</h3>
-                <p>
-                  Scalable professional services that support mission execution, workforce
-                  performance, organizational effectiveness, and operational improvement.
-                </p>
-                <VehicleMeta
-                  prime="Harkcon, Inc."
-                  contract="47QRCA25DSB53"
-                  family="Small Business"
-                  period="December 2024 – December 2029"
-                />
-              </article>
-              <article data-reveal-line>
-                <p className="eyebrow text-[#8b8e96]">Current vehicle</p>
-                <h3>OASIS+ Service-Disabled Veteran-Owned Small Business</h3>
-                <p>
-                  An efficient path to qualified small-business support from an experienced SDVOSB
-                  prime contractor.
-                </p>
-                <VehicleMeta
-                  prime="Harkcon, Inc."
-                  contract="47QRCA24DV144"
-                  family="Service-Disabled Veteran-Owned Small Business"
-                  period="September 2024 – September 2029"
-                />
-              </article>
-              <article data-reveal-line>
-                <p className="eyebrow text-[#8b8e96]">Legacy vehicle</p>
-                <h3>Legacy OASIS Small Business Pool 1</h3>
-                <p>
-                  Harkcon continues to perform active task orders awarded under this legacy
-                  contract. New requirements should use the OASIS+ Small Business or OASIS+ SDVOSB
-                  vehicle, as appropriate.
-                </p>
-                <VehicleMeta
-                  prime="Harkcon, Inc."
-                  contract="47QRAD20D1158"
-                  family="Legacy OASIS Small Business Pool 1"
-                  familyLabel="Contract vehicle"
-                  period="September 2019 – December 2024"
-                />
-              </article>
-            </div>
-          </div>
-        </div>
-      </section>
+      <ContractVehicleSection
+        id="oasis-small-business"
+        eyebrow="OASIS+"
+        status="Current vehicle"
+        title="OASIS+ Small Business"
+        description="Scalable professional services that support mission execution, workforce performance, organizational effectiveness, and operational improvement."
+        capabilities={oasisSmallBusinessItems}
+        prime="Harkcon, Inc."
+        contract="47QRCA25DSB53"
+        family="Small Business"
+        period="December 2024 – December 2029"
+        tone="soft"
+      />
+
+      <ContractImageBreak
+        src={image("1573181759662-1c146525b21f")}
+        label="A monumental government building beneath a clear blue sky"
+      />
+
+      <ContractVehicleSection
+        id="oasis-sdvosb"
+        eyebrow="OASIS+"
+        status="Current vehicle"
+        title="OASIS+ Service-Disabled Veteran-Owned Small Business"
+        description="An efficient path to qualified small-business support from an experienced SDVOSB prime contractor."
+        capabilities={oasisSdvosbItems}
+        prime="Harkcon, Inc."
+        contract="47QRCA24DV144"
+        family="Service-Disabled Veteran-Owned Small Business"
+        period="September 2024 – September 2029"
+        tone="navy"
+      />
+
+      <ContractImageBreak
+        src="/images/about-collaboration-unsplash.jpg"
+        label="A consulting team collaborating around a conference table"
+      />
+
+      <ContractVehicleSection
+        id="oasis-legacy"
+        eyebrow="OASIS"
+        status="Legacy vehicle"
+        title="Legacy OASIS Small Business Pool 1"
+        description="Harkcon continues to perform active task orders awarded under this legacy contract. New requirements should use the OASIS+ Small Business or OASIS+ SDVOSB vehicle, as appropriate."
+        capabilities={legacyOasisCapabilities}
+        prime="Harkcon, Inc."
+        contract="47QRAD20D1158"
+        family="Legacy OASIS Small Business Pool 1"
+        familyLabel="Contract vehicle"
+        period="September 2019 – December 2024"
+      />
 
       <section id="oasis-scope" className="contract-section contract-section--navy">
         <div className="contracts-content-shell contract-feature-grid">

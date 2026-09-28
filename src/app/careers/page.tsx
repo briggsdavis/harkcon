@@ -240,13 +240,24 @@ export default function Careers() {
                 </p>
               </div>
             </div>
-            <ul className="benefits-list" data-reveal-sequence>
-              {benefits.map((benefit) => (
-                <li key={benefit} data-reveal-item>
-                  <p>{benefit}</p>
-                </li>
-              ))}
-            </ul>
+            <details className="benefits-dropdown">
+              <summary aria-label="Show all competitive benefits">
+                <div>
+                  <p className="eyebrow">Benefits package</p>
+                  <h3>View all benefits</h3>
+                </div>
+                <span aria-hidden="true" />
+              </summary>
+              <div className="benefits-dropdown-content">
+                <ul className="benefits-list" data-reveal-sequence>
+                  {benefits.map((benefit) => (
+                    <li key={benefit} data-reveal-item>
+                      <p>{benefit}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </details>
           </div>
         </section>
 

@@ -782,6 +782,24 @@
 
   .person-card details {
     @apply mt-5 border-t border-[#dedfe2];
+    interpolate-size: allow-keywords;
+  }
+
+  .person-card details::details-content,
+  .community-support-dropdown::details-content {
+    block-size: 0;
+    overflow-y: clip;
+    opacity: 0;
+    transition:
+      block-size 460ms cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 280ms ease,
+      content-visibility 460ms allow-discrete;
+  }
+
+  .person-card details[open]::details-content,
+  .community-support-dropdown[open]::details-content {
+    block-size: auto;
+    opacity: 1;
   }
 
   .person-card summary {
@@ -802,7 +820,6 @@
 
   .person-bio {
     @apply pb-5 text-sm leading-relaxed text-[#555a66];
-    animation: person-bio-enter 300ms ease both;
   }
 
   .person-bio p + p {
@@ -1057,6 +1074,50 @@
 
   .community-support-copy p {
     @apply text-body-copy text-[#454955];
+  }
+
+  .community-support-dropdowns {
+    @apply mt-16 border-t border-[#0d132d]/20 md:mt-20;
+  }
+
+  .community-support-dropdown {
+    @apply border-b border-[#0d132d]/20;
+    interpolate-size: allow-keywords;
+  }
+
+  .community-support-dropdown > summary {
+    @apply flex cursor-pointer list-none items-center justify-between gap-8 py-8 md:py-10;
+  }
+
+  .community-support-dropdown > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .community-support-dropdown > summary h3 {
+    @apply font-header text-card-title font-medium;
+  }
+
+  .community-support-dropdown > summary > span {
+    @apply relative flex h-12 w-12 shrink-0 rounded-full border border-[#0d132d]/20 transition-all duration-300 md:h-14 md:w-14;
+  }
+
+  .community-support-dropdown > summary > span::before {
+    content: "";
+    @apply absolute top-1/2 left-1/2 h-2.5 w-2.5 border-r border-b border-[#0d132d] transition-all duration-300;
+    transform: translate(-50%, -65%) rotate(45deg);
+  }
+
+  .community-support-dropdown[open] > summary > span {
+    @apply border-[#0d132d] bg-[#0d132d];
+  }
+
+  .community-support-dropdown[open] > summary > span::before {
+    @apply border-white;
+    transform: translate(-50%, -35%) rotate(225deg);
+  }
+
+  .community-support-dropdown-content .community-pill-grid {
+    @apply mt-0 pb-10;
   }
 
   .community-support-lists {
@@ -1802,8 +1863,75 @@
     @apply static;
   }
 
+  .benefits-dropdown {
+    @apply mt-14 border-y border-[#0d132d]/20 md:mt-16;
+    interpolate-size: allow-keywords;
+  }
+
+  .benefits-dropdown::details-content {
+    block-size: 0;
+    overflow-y: clip;
+    opacity: 0;
+    transition:
+      block-size 460ms cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 280ms ease,
+      content-visibility 460ms allow-discrete;
+  }
+
+  .benefits-dropdown[open]::details-content {
+    block-size: auto;
+    opacity: 1;
+  }
+
+  .benefits-dropdown > summary {
+    @apply flex cursor-pointer list-none items-center justify-between gap-8 py-8 md:py-10;
+  }
+
+  .benefits-dropdown > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .benefits-dropdown > summary h3 {
+    @apply mt-3 font-header text-card-title font-medium;
+  }
+
+  .benefits-dropdown > summary > span {
+    @apply relative flex h-12 w-12 shrink-0 rounded-full border border-[#0d132d]/20 transition-all duration-300 md:h-14 md:w-14;
+  }
+
+  .benefits-dropdown > summary > span::before,
+  .benefits-dropdown > summary > span::after {
+    content: "";
+    @apply absolute top-1/2 left-1/2 h-px w-4 -translate-x-1/2 -translate-y-1/2 bg-[#0d132d] transition-transform duration-300;
+  }
+
+  .benefits-dropdown > summary > span::after {
+    transform: translate(-50%, -50%) rotate(90deg);
+  }
+
+  .benefits-dropdown[open] > summary > span {
+    @apply border-[#0d132d] bg-[#0d132d];
+  }
+
+  .benefits-dropdown[open] > summary > span::before,
+  .benefits-dropdown[open] > summary > span::after {
+    @apply bg-white;
+  }
+
+  .benefits-dropdown[open] > summary > span::after {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  .benefits-dropdown-content {
+    @apply border-t border-[#0d132d]/20 pb-10;
+  }
+
   .benefits-list {
     @apply mt-16 grid gap-3 sm:grid-cols-2 xl:grid-cols-3 xl:gap-4;
+  }
+
+  .benefits-dropdown-content .benefits-list {
+    @apply mt-10;
   }
 
   .benefits-list li {
@@ -2252,6 +2380,70 @@
 
   .contract-section--navy {
     @apply bg-[#0d132d] text-white;
+  }
+
+  .contract-vehicle-grid {
+    @apply grid gap-16 lg:grid-cols-[0.88fr_1.12fr] lg:gap-20 xl:gap-28;
+  }
+
+  .contract-vehicle-intro {
+    @apply self-start lg:sticky lg:top-36;
+  }
+
+  .contract-vehicle-category {
+    @apply mt-5 block font-eyebrow text-eyebrow-label font-semibold tracking-[0.12em] text-[#8b8e96] uppercase;
+  }
+
+  .contract-vehicle-intro h2 {
+    @apply mt-7 max-w-3xl font-header text-section-title font-medium;
+  }
+
+  .contract-vehicle-intro > p:last-child {
+    @apply mt-8 max-w-xl text-body-copy text-[#454955];
+  }
+
+  .contract-vehicle-capabilities > .eyebrow {
+    @apply mb-6 text-[#8b8e96];
+  }
+
+  .contract-capability-list {
+    @apply border-t border-[#0d132d]/20;
+  }
+
+  .contract-capability-list li {
+    @apply grid grid-cols-[50px_1fr] gap-4 border-b border-[#0d132d]/20 py-7 md:grid-cols-[74px_1fr] md:gap-6 md:py-8;
+  }
+
+  .contract-capability-list li > span {
+    @apply pt-1 font-eyebrow text-eyebrow-label tracking-[0.12em] text-[#8b8e96];
+  }
+
+  .contract-capability-list h3 {
+    @apply font-header text-card-title font-medium;
+  }
+
+  .contract-capability-list p {
+    @apply mt-3 max-w-2xl text-sm leading-relaxed text-[#5f626b] md:text-base;
+  }
+
+  .contract-vehicle-section > .contracts-content-shell > .contract-meta {
+    @apply mt-16 md:mt-20 lg:grid-cols-4;
+  }
+
+  .contract-vehicle-section.contract-section--navy .contract-vehicle-category,
+  .contract-vehicle-section.contract-section--navy .contract-vehicle-capabilities > .eyebrow,
+  .contract-vehicle-section.contract-section--navy .contract-capability-list li > span {
+    @apply text-white/38;
+  }
+
+  .contract-vehicle-section.contract-section--navy .contract-vehicle-intro > p:last-child,
+  .contract-vehicle-section.contract-section--navy .contract-capability-list p {
+    @apply text-white/65;
+  }
+
+  .contract-vehicle-section.contract-section--navy .contract-capability-list,
+  .contract-vehicle-section.contract-section--navy .contract-capability-list li {
+    @apply border-white/20;
   }
 
   .contract-overview-grid,
