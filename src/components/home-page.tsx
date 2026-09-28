@@ -251,18 +251,18 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
             onFocus={openSolutions}
             onBlur={handleSolutionsBlur}
           >
-            <Link
-              href="/solutions"
+            <button
+              type="button"
               className="nav-link solutions-nav-trigger"
               aria-expanded={solutionsOpen}
               aria-controls="solutions-mega-menu"
-              onClick={closeSolutions}
+              onClick={openSolutions}
             >
               Solutions
               <span aria-hidden="true" className="solutions-chevron">
                 <Arrow />
               </span>
-            </Link>
+            </button>
 
             <div id="solutions-mega-menu" className="mega-menu">
               <div className="site-gutter mega-menu-inner">
@@ -272,9 +272,6 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
                     Customized expertise that strengthens workforces, modernizes operations, and
                     improves mission performance at every level.
                   </p>
-                  <Link href="/solutions" className="mega-menu-overview" onClick={closeSolutions}>
-                    View solutions overview <Arrow />
-                  </Link>
                 </div>
                 <div className="mega-menu-links">
                   <p className="eyebrow text-white/55">Explore</p>
@@ -555,38 +552,8 @@ function ScrollStatement() {
 }
 
 export function SiteFooter() {
-  const footerRef = useRef<HTMLElement>(null)
-
-  useEffect(() => {
-    const footer = footerRef.current
-    if (!footer || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
-
-    let frame = 0
-    const update = () => {
-      frame = 0
-      const rect = footer.getBoundingClientRect()
-      const progress = Math.min(
-        1,
-        Math.max(0, (window.innerHeight - rect.top) / (window.innerHeight * 0.65)),
-      )
-      footer.style.setProperty("--footer-parallax", `${(1 - progress) * 72}px`)
-    }
-    const onScroll = () => {
-      if (!frame) frame = requestAnimationFrame(update)
-    }
-
-    update()
-    window.addEventListener("scroll", onScroll, { passive: true })
-    window.addEventListener("resize", onScroll)
-    return () => {
-      window.removeEventListener("scroll", onScroll)
-      window.removeEventListener("resize", onScroll)
-      if (frame) cancelAnimationFrame(frame)
-    }
-  }, [])
-
   return (
-    <footer id="site-footer" ref={footerRef} className="site-footer">
+    <footer id="site-footer" className="site-footer">
       <div className="site-gutter">
         <div className="footer-grid">
           <div className="footer-brand">
@@ -637,7 +604,7 @@ export function SiteFooter() {
               <br />
               Let&apos;s solve it together.
             </p>
-            <Link href="/contact" className="footer-contact-link">
+            <Link href="/contact" className="footer-contact-link animated-underline">
               Start a conversation <Arrow />
             </Link>
             <div className="footer-social-links">
@@ -705,7 +672,7 @@ export default function HomePage() {
 
         <ScrollStatement />
 
-        <section className="solutions-section" aria-labelledby="solutions-title">
+        <section id="solutions" className="solutions-section" aria-labelledby="solutions-title">
           <div className="site-gutter">
             <div className="solutions-showcase">
               <div className="solutions-intro">
@@ -716,9 +683,6 @@ export default function HomePage() {
                   Integrated expertise that strengthens workforces, modernizes operations, and turns
                   complex challenges into lasting performance.
                 </p>
-                <Link href="/solutions" className="pill-button mt-10">
-                  Explore all solutions <Arrow />
-                </Link>
               </div>
 
               <div className="solutions-grid">
@@ -750,6 +714,35 @@ export default function HomePage() {
                   </Link>
                 ))}
               </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="home-contracts-section" aria-labelledby="home-contracts-title">
+          <div className="site-gutter home-contracts-grid">
+            <div className="home-contracts-intro">
+              <p className="eyebrow mb-5 text-[#5f626b]">Contract access</p>
+              <h2 id="home-contracts-title" className="section-title">
+                Contract vehicles
+              </h2>
+              <p>
+                Flexible federal acquisition paths to Harkcon&apos;s people, performance, and
+                technology expertise.
+              </p>
+              <Link href="/contracts" className="text-link" data-reveal-line>
+                Explore contract vehicles <Arrow />
+              </Link>
+            </div>
+            <div className="home-contracts-oasis">
+              <p className="eyebrow mb-5 text-[#5f626b]">Best-in-Class access</p>
+              <h3>OASIS+</h3>
+              <p>
+                Integrated professional services through Harkcon&apos;s Small Business and SDVOSB
+                vehicles.
+              </p>
+              <Link href="/contracts?view=oasis-plus" className="text-link" data-reveal-line>
+                Explore OASIS+ <Arrow />
+              </Link>
             </div>
           </div>
         </section>
@@ -852,10 +845,6 @@ export default function HomePage() {
               </Link>
             </div>
             <FeaturedNews />
-
-            <Link href="/news-insights" className="pill-button mt-10">
-              Find more news <Arrow />
-            </Link>
           </div>
         </section>
 

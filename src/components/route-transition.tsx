@@ -57,7 +57,7 @@ export default function RouteTransition() {
       phaseRef.current = "covered"
       setPhase("covered")
       if (destination.current) router.push(destination.current)
-    }, 900)
+    }, 675)
     return () => window.clearTimeout(timer)
   }, [phase, router])
 
@@ -88,12 +88,12 @@ export default function RouteTransition() {
     const holdTimer = window.setTimeout(() => {
       phaseRef.current = "revealing"
       setPhase("revealing")
-    }, 250)
+    }, 132)
     const resetTimer = window.setTimeout(() => {
       destination.current = null
       phaseRef.current = "idle"
       setPhase("idle")
-    }, 1200)
+    }, 900)
     return () => {
       window.clearTimeout(holdTimer)
       window.clearTimeout(resetTimer)

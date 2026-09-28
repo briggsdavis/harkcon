@@ -36,8 +36,8 @@ const viewContent = {
     label: "OASIS+",
     title: "One vehicle. Expansive capability.",
     summary: "Best-in-Class access to complex, integrated professional services.",
-    heroImage: image("1773438298830-49ff735df3dc"),
-    heroAlt: "Palm trees surrounding a calm oasis beneath desert dunes",
+    heroImage: "/images/about-collaboration-unsplash.jpg",
+    heroAlt: "A consulting team collaborating around a conference table",
     sections: [
       ["oasis-overview", "Overview"],
       ["oasis-vehicles", "Vehicles"],
@@ -239,31 +239,6 @@ function SectionRail({
 function ContractsContent() {
   return (
     <>
-      <section id="contracts-overview" className="contract-section contract-overview-section">
-        <div className="contracts-content-shell contract-overview-grid">
-          <div>
-            <p className="eyebrow mb-6 text-[#5f626b]">Expert services &amp; solutions</p>
-            <h2>Built to serve complex public-sector missions.</h2>
-          </div>
-          <div className="contract-body-copy">
-            <p>
-              Harkcon provides expert, professional business solutions to government and commercial
-              clients. Since 2005, disciplined quality standards and client satisfaction have driven
-              steady growth, enduring government and industry partnerships, and continued expansion
-              of our services.
-            </p>
-            <p>
-              Need help choosing a vehicle? Contact Paula Harkins at{" "}
-              <a href="mailto:pharkins@harkcon.com">pharkins@harkcon.com</a> or{" "}
-              <a href="tel:+15407838271">540-783-8271</a>.
-            </p>
-            <Link href="/contact" className="pill-button mt-9">
-              Contact business development <Arrow />
-            </Link>
-          </div>
-        </div>
-      </section>
-
       <section id="contracts-gsa" className="contract-section contract-section--soft">
         <div className="contracts-content-shell">
           <div className="contract-section-heading">
@@ -446,36 +421,6 @@ function ContractsContent() {
 function OasisContent() {
   return (
     <>
-      <section id="oasis-overview" className="contract-section contract-overview-section">
-        <div className="contracts-content-shell contract-overview-grid">
-          <div>
-            <p className="eyebrow mb-6 text-[#5f626b]">OASIS+ overview</p>
-            <h2>Governmentwide access to integrated expertise.</h2>
-          </div>
-          <div className="contract-body-copy">
-            <p>
-              One Acquisition Solution for Integrated Services Plus, known as OASIS+, is a General
-              Services Administration governmentwide, multi-agency, multiple-award Indefinite
-              Delivery, Indefinite Quantity contract program for professional services. OASIS+
-              provides federal agencies flexible access to complex non-information technology
-              services across multiple professional services domains.
-            </p>
-            <p>
-              Through OASIS+, agencies can engage experienced contractors for integrated
-              requirements including program management, management consulting, workforce
-              development, training, process improvement, and organizational performance support.
-            </p>
-            <div className="oasis-contact-card" data-reveal-line>
-              <p className="eyebrow text-[#5f626b]">OASIS+ point of contact</p>
-              <strong>Paula Harkins</strong>
-              <span>Chief Growth Officer</span>
-              <a href="mailto:pharkins@harkcon.com">pharkins@harkcon.com</a>
-              <a href="tel:+15407838271">540-783-8271</a>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <section id="oasis-vehicles" className="contract-section contract-section--soft">
         <div className="contracts-content-shell contract-media-grid">
           <div className="contract-media-image">
@@ -552,9 +497,6 @@ function OasisContent() {
               domains, scope, and ordering procedures.
             </p>
             <div className="contract-inline-actions">
-              <Link href="/solutions" className="text-link text-white" data-reveal-line>
-                Explore Harkcon solutions <Arrow />
-              </Link>
               <Link href="/contact" className="text-link text-white" data-reveal-line>
                 Discuss scope fit <Arrow />
               </Link>
@@ -637,11 +579,11 @@ function OasisContent() {
         </div>
       </section>
 
-      <section className="contract-image-break" aria-label="Search-and-rescue mission">
+      <section className="contract-image-break" aria-label="Professional collaboration">
         <SubtleParallaxPhoto
-          src={image("1750398447687-7f325c994b2a")}
+          src="/images/careers-collaboration-unsplash.jpg"
           className="contract-image-break-photo"
-          label="A search-and-rescue helicopter operating above boats at sea"
+          label="Two professionals collaborating in a bright office"
           strength={100}
         />
       </section>
@@ -749,12 +691,17 @@ export default function ContractsPage() {
           </div>
         </section>
 
-        <section className="contracts-intro" aria-labelledby="contracts-hero-title">
+        <section
+          id={view === "contracts" ? "contracts-overview" : "oasis-overview"}
+          className="contracts-intro"
+          aria-labelledby="contracts-hero-title"
+        >
           <div className="site-gutter">
             <div className="contract-view-switcher" role="tablist" aria-label="Contract content">
               <button
                 type="button"
                 role="tab"
+                data-contract-view="contracts"
                 aria-selected={view === "contracts"}
                 className={view === "contracts" ? "is-active" : ""}
                 onClick={selectContracts}
@@ -765,6 +712,7 @@ export default function ContractsPage() {
               <button
                 type="button"
                 role="tab"
+                data-contract-view="oasis"
                 aria-selected={view === "oasis"}
                 className={view === "oasis" ? "is-active" : ""}
                 onClick={selectOasis}
@@ -781,6 +729,41 @@ export default function ContractsPage() {
               <div className="contracts-intro-copy">
                 <h1 id="contracts-hero-title">{content.title}</h1>
                 <p>{content.summary}</p>
+                {view === "contracts" ? (
+                  <div className="contracts-intro-overview">
+                    <p>
+                      Harkcon provides expert professional business solutions to government and
+                      commercial clients. Since 2005, disciplined quality standards, trusted
+                      partnerships, and consistent client satisfaction have supported complex
+                      public-sector missions.
+                    </p>
+                    <p>
+                      Need help choosing a vehicle? Contact Paula Harkins at{" "}
+                      <a href="mailto:pharkins@harkcon.com">pharkins@harkcon.com</a> or{" "}
+                      <a href="tel:+15407838271">540-783-8271</a>.
+                    </p>
+                    <Link href="/contact" className="pill-button mt-9">
+                      Contact business development <Arrow />
+                    </Link>
+                  </div>
+                ) : (
+                  <div className="contracts-intro-overview">
+                    <p>
+                      One Acquisition Solution for Integrated Services Plus is GSA&apos;s
+                      governmentwide, multi-agency contract program for complex professional
+                      services. It gives federal agencies flexible access to Harkcon&apos;s program
+                      management, workforce development, training, process improvement, and
+                      organizational performance support.
+                    </p>
+                    <div className="oasis-contact-card" data-reveal-line>
+                      <p className="eyebrow text-[#5f626b]">OASIS+ point of contact</p>
+                      <strong>Paula Harkins</strong>
+                      <span>Chief Growth Officer</span>
+                      <a href="mailto:pharkins@harkcon.com">pharkins@harkcon.com</a>
+                      <a href="tel:+15407838271">540-783-8271</a>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>

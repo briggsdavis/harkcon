@@ -33,6 +33,11 @@ export default function SolutionDetailPage({ solution }: { solution: Solution })
         <section className="solution-detail-intro" aria-labelledby="solution-title">
           <div className="site-gutter solution-detail-intro-grid">
             <div className="solution-detail-label">
+              <span
+                className="solution-color-dot"
+                style={{ backgroundColor: solution.color }}
+                aria-hidden="true"
+              />
               <span>{solution.number}</span>
               <p className="eyebrow">Our expertise</p>
             </div>

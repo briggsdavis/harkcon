@@ -177,7 +177,7 @@ export default function Careers() {
                 href="https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=15aa7385-7aee-410b-90e3-5972b600f083&ccId=19000101_000001&type=JS&lang=en_US&selectedMenuKey=CurrentOpenings"
                 target="_blank"
                 rel="noreferrer"
-                className="positions-external-link"
+                className="positions-external-link animated-underline"
               >
                 Open careers portal <Arrow diagonal />
               </a>

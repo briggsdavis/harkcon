@@ -52,7 +52,7 @@ export default function ContactPage() {
       const data = new FormData(form)
       const interests = data.getAll("interest").map(String)
       if (interests.length === 0) {
-        setError("Choose at least one area of interest.")
+        setError("Select an area of interest.")
         return
       }
       setSubmitting(true)
@@ -145,17 +145,24 @@ export default function ContactPage() {
                 <input type="tel" name="phone" autoComplete="tel" required />
               </label>
 
-              <fieldset className="contact-options">
-                <legend>What type of information interests you? *</legend>
-                <div className="contact-option-grid">
-                  {inquiryTypes.map((type) => (
-                    <label key={type}>
-                      <input type="checkbox" name="interest" value={type} />
-                      <span>{type}</span>
-                    </label>
-                  ))}
+              <label className="contact-select-field">
+                <span>What type of information interests you? *</span>
+                <div className="contact-select-wrap">
+                  <select name="interest" defaultValue="" required>
+                    <option value="" disabled>
+                      Select an area of interest
+                    </option>
+                    {inquiryTypes.map((type) => (
+                      <option key={type} value={type}>
+                        {type}
+                      </option>
+                    ))}
+                  </select>
+                  <svg aria-hidden="true" viewBox="0 0 20 20" fill="none">
+                    <path d="m5 7.5 5 5 5-5" />
+                  </svg>
                 </div>
-              </fieldset>
+              </label>
 
               <label className="contact-field contact-field--textarea" data-reveal-line>
                 <span>Specific questions or areas of interest *</span>

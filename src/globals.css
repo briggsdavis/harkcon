@@ -490,6 +490,40 @@
     @apply self-start lg:sticky lg:top-32;
   }
 
+  .home-contracts-section {
+    @apply border-y border-[#0d132d]/15 bg-white py-16 md:py-20;
+  }
+
+  .home-contracts-grid {
+    @apply grid gap-12 md:grid-cols-2 md:gap-0;
+  }
+
+  .home-contracts-intro,
+  .home-contracts-oasis {
+    @apply flex flex-col items-start;
+  }
+
+  .home-contracts-intro {
+    @apply md:pr-12 lg:pr-20;
+  }
+
+  .home-contracts-oasis {
+    @apply border-t border-[#0d132d]/15 pt-12 md:border-t-0 md:border-l md:pt-0 md:pl-12 lg:pl-20;
+  }
+
+  .home-contracts-oasis h3 {
+    @apply font-header text-section-title font-medium;
+  }
+
+  .home-contracts-intro > p:not(.eyebrow),
+  .home-contracts-oasis > p:not(.eyebrow) {
+    @apply mt-5 max-w-lg text-base leading-relaxed text-[#5f626b];
+  }
+
+  .home-contracts-section .text-link {
+    @apply mt-8;
+  }
+
   .solutions-grid {
     @apply grid gap-x-7 gap-y-0 md:grid-cols-2 xl:grid-cols-3;
   }
@@ -1091,7 +1125,24 @@
   }
 
   .text-link {
-    @apply flex items-center gap-4 pb-2 text-sm text-[#0d132d] transition-opacity hover:opacity-55;
+    @apply relative flex items-center gap-4 pb-2 text-sm text-[#0d132d];
+  }
+
+  .animated-underline {
+    @apply relative;
+  }
+
+  .animated-underline::after {
+    content: "";
+    @apply pointer-events-none absolute right-0 bottom-0 left-0 h-px bg-current opacity-60;
+    transform: scaleX(1);
+  }
+
+  .text-link:hover::after,
+  .text-link:focus-visible::after,
+  .animated-underline:hover::after,
+  .animated-underline:focus-visible::after {
+    animation: underline-redraw 620ms cubic-bezier(0.65, 0, 0.35, 1);
   }
 
   .news-grid {
@@ -1382,6 +1433,7 @@
   }
 
   .contact-field > span,
+  .contact-select-field > span,
   .contact-options legend {
     @apply font-eyebrow text-eyebrow-label font-semibold tracking-[0.12em] text-[#5f626b] uppercase;
   }
@@ -1398,6 +1450,32 @@
 
   .contact-field--textarea {
     @apply pt-2;
+  }
+
+  .contact-select-field {
+    @apply grid gap-3;
+  }
+
+  .contact-select-wrap {
+    @apply relative border-b border-[#0d132d]/25;
+  }
+
+  .contact-select-wrap select {
+    @apply w-full cursor-pointer appearance-none bg-transparent py-3 pr-12 font-body text-lg text-[#0d132d] outline-none;
+  }
+
+  .contact-select-wrap:focus-within {
+    @apply border-[#0d132d];
+  }
+
+  .contact-select-wrap svg {
+    @apply pointer-events-none absolute top-1/2 right-1 h-5 w-5 -translate-y-1/2 transition-transform duration-300;
+    stroke: currentColor;
+    stroke-width: 1.5;
+  }
+
+  .contact-select-wrap:focus-within svg {
+    transform: translateY(-50%) rotate(180deg);
   }
 
   .contact-options {
@@ -1673,7 +1751,7 @@
   }
 
   .positions-external-link {
-    @apply flex items-center gap-4 border-b border-white/35 pb-2 text-sm text-white transition-opacity hover:opacity-55;
+    @apply flex items-center gap-4 pb-2 text-sm text-white transition-colors hover:text-white/55;
   }
 
   .positions-embed {
@@ -1919,6 +1997,10 @@
     @apply font-eyebrow text-eyebrow-label tracking-[0.15em] text-[#8b8e96];
   }
 
+  .solution-detail-label > .solution-color-dot {
+    @apply mt-0.5 h-2.5 w-2.5;
+  }
+
   .solution-detail-intro-copy h1 {
     @apply max-w-5xl font-header text-display font-medium;
   }
@@ -2101,11 +2183,19 @@
   }
 
   .contract-view-switcher button > span {
-    @apply h-1.5 w-1.5 scale-0 rounded-full bg-[#0d132d] opacity-0 transition-all duration-300;
+    @apply h-2.5 w-2.5 rounded-full opacity-45 transition-all duration-300;
+  }
+
+  .contract-view-switcher button[data-contract-view="contracts"] > span {
+    @apply bg-[#ff334f];
+  }
+
+  .contract-view-switcher button[data-contract-view="oasis"] > span {
+    @apply bg-[#246bff];
   }
 
   .contract-view-switcher button.is-active > span {
-    @apply scale-100 opacity-100;
+    @apply scale-110 opacity-100;
   }
 
   .contracts-intro-grid {
@@ -2126,6 +2216,22 @@
 
   .contracts-intro-copy > p {
     @apply mt-8 max-w-3xl text-body-copy text-[#5f626b];
+  }
+
+  .contracts-intro-overview {
+    @apply mt-9 max-w-3xl border-t border-[#0d132d]/15 pt-8;
+  }
+
+  .contracts-intro-overview > p {
+    @apply text-body-copy text-[#454955];
+  }
+
+  .contracts-intro-overview > p + p {
+    @apply mt-6;
+  }
+
+  .contracts-intro-overview > p a {
+    @apply border-b border-[#0d132d]/35 text-[#0d132d] transition-opacity hover:opacity-55;
   }
 
   .contracts-view-content {
@@ -2234,6 +2340,10 @@
 
   .contract-meta dd {
     @apply mt-3 text-sm leading-relaxed text-[#333744] md:text-base;
+  }
+
+  .contract-numbered-list + .contract-meta {
+    border-top: 0;
   }
 
   .contract-image-break {
@@ -2425,8 +2535,10 @@
     border-bottom: 0;
   }
 
-  .oasis-vehicle-stack > article:last-child .contract-meta > div:nth-child(3) {
-    border-bottom: 0;
+  @media (min-width: 640px) {
+    .oasis-vehicle-stack .contract-meta > div:nth-last-child(-n + 2) {
+      border-bottom: 0;
+    }
   }
 
   .contract-inline-actions {
@@ -2443,14 +2555,17 @@
 
   .document-download {
     @apply grid w-full grid-cols-[48px_1fr_48px] items-center gap-5 py-8 text-[#0d132d] transition-colors duration-500 md:grid-cols-[64px_1fr_64px] md:gap-8 md:py-10;
+    grid-template-areas: "type copy action";
   }
 
   .document-download-type {
     @apply flex h-12 w-12 items-center justify-center border border-[#0d132d]/20 font-eyebrow text-eyebrow-label font-semibold tracking-[0.1em] transition-colors duration-500 md:h-16 md:w-16;
+    grid-area: type;
   }
 
   .document-download-copy {
-    @apply grid;
+    @apply grid min-w-0;
+    grid-area: copy;
   }
 
   .document-download-copy strong {
@@ -2463,6 +2578,7 @@
 
   .document-download-action {
     @apply flex h-12 w-12 items-center justify-center justify-self-end rounded-full border border-[#0d132d]/20 transition-all duration-500 md:h-16 md:w-16;
+    grid-area: action;
   }
 
   .document-download:hover .document-download-type,
@@ -2587,7 +2703,7 @@
 
   .page-transition--covering .page-transition-curtain {
     transform: translateY(0);
-    transition: transform 900ms cubic-bezier(0.76, 0, 0.24, 1);
+    transition: transform 675ms cubic-bezier(0.76, 0, 0.24, 1);
   }
 
   .page-transition--covered .page-transition-curtain {
@@ -2596,7 +2712,7 @@
 
   .page-transition--revealing .page-transition-curtain {
     transform: translateY(-101%);
-    transition: transform 900ms cubic-bezier(0.76, 0, 0.24, 1);
+    transition: transform 675ms cubic-bezier(0.76, 0, 0.24, 1);
   }
 
   .page-transition-mark {
@@ -2611,12 +2727,12 @@
   .page-transition--covering .page-transition-mark,
   .page-transition--covered .page-transition-mark {
     clip-path: inset(0 0 0 0);
-    transition: clip-path 900ms cubic-bezier(0.76, 0, 0.24, 1);
+    transition: clip-path 675ms cubic-bezier(0.76, 0, 0.24, 1);
   }
 
   .page-transition--revealing .page-transition-mark {
     clip-path: inset(0 0 100% 0);
-    transition: clip-path 900ms cubic-bezier(0.76, 0, 0.24, 1);
+    transition: clip-path 675ms cubic-bezier(0.76, 0, 0.24, 1);
   }
 
   .page-transition-logo {
@@ -2626,9 +2742,7 @@
   }
 
   .site-footer {
-    @apply relative z-10 -mt-8 bg-[#0d132d] text-white;
-    transform: translate3d(0, var(--footer-parallax, 72px), 0);
-    will-change: transform;
+    @apply relative z-10 bg-[#0d132d] text-white;
   }
 
   .footer-grid {
@@ -2669,7 +2783,7 @@
   }
 
   .footer-contact-link {
-    @apply mt-8 flex w-fit items-center gap-4 border-b border-white/35 pb-2 text-sm transition-colors hover:text-white/55;
+    @apply mt-8 flex w-fit items-center gap-4 pb-2 text-sm transition-colors hover:text-white/55;
   }
 
   .footer-social-links {
@@ -2751,6 +2865,25 @@
   }
   to {
     transform: translateX(-50%);
+  }
+}
+
+@keyframes underline-redraw {
+  0% {
+    transform: scaleX(1);
+    transform-origin: right center;
+  }
+  45% {
+    transform: scaleX(0);
+    transform-origin: right center;
+  }
+  46% {
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+  100% {
+    transform: scaleX(1);
+    transform-origin: left center;
   }
 }
 
