@@ -16,23 +16,6 @@
     height: 20px;
     flex: 0 0 auto;
   }
-  .admin-sidebar {
-    position: fixed;
-    inset: 0 auto 0 0;
-    z-index: 30;
-    display: flex;
-    width: 256px;
-    flex-direction: column;
-    padding: 28px 18px 20px;
-    color: #d9deed;
-    background: #10172c;
-  }
-  .admin-brand {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 10px 32px;
-  }
   .admin-brand img {
     width: 132px;
     height: auto;
@@ -113,10 +96,6 @@
     border-radius: 0 !important;
     padding-top: 18px !important;
   }
-  .admin-main {
-    min-height: 100dvh;
-    margin-left: 256px;
-  }
   .admin-view {
     width: min(1280px, 100%);
     margin: auto;
@@ -137,13 +116,6 @@
       opacity: 1;
       transform: none;
     }
-  }
-  .admin-view-heading {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 30px;
-    margin-bottom: 32px;
   }
   .admin-kicker {
     margin: 0 0 8px;
@@ -236,16 +208,6 @@
     background: #fff;
     box-shadow: 0 1px 2px #17203b08;
   }
-  .admin-stat-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
-    margin-bottom: 18px;
-  }
-  .admin-stat {
-    min-height: 142px;
-    padding: 22px;
-  }
   .admin-stat span {
     color: #747b8b;
     font-size: 13px;
@@ -275,11 +237,6 @@
   .admin-traffic-card {
     padding: 25px 26px 18px;
   }
-  .admin-card-heading {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-  }
   .admin-card h2,
   .admin-card-heading h2 {
     margin: 0;
@@ -294,21 +251,11 @@
     color: #808696;
     font-size: 13px;
   }
-  .admin-legend {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    color: #707789;
-    font-size: 12px;
-  }
   .admin-legend i {
     width: 8px;
     height: 8px;
     border-radius: 50%;
     background: #4169e1;
-  }
-  .admin-line-chart {
-    margin-top: 22px;
   }
   .admin-line-chart svg {
     display: block;
@@ -317,22 +264,6 @@
     overflow: visible;
     border-bottom: 1px solid #edf0f3;
     background: repeating-linear-gradient(to bottom, transparent 0, transparent 59px, #f0f2f5 60px);
-  }
-  .admin-chart-labels {
-    display: flex;
-    justify-content: space-between;
-    padding-top: 9px;
-    color: #9298a6;
-    font-size: 11px;
-  }
-  .admin-dashboard-split {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 18px;
-    margin-top: 18px;
-  }
-  .admin-ranked {
-    padding: 25px;
   }
   .admin-ranked > div {
     margin-top: 22px;
@@ -359,11 +290,6 @@
     border-radius: 3px;
     background: #5877d4;
   }
-  .admin-tabs {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 16px;
-  }
   .admin-tabs button {
     border: 1px solid #e1e4e9;
     border-radius: 9px;
@@ -381,16 +307,6 @@
   .admin-tabs span {
     margin-left: 6px;
     opacity: 0.7;
-  }
-  .admin-list-card {
-    overflow: hidden;
-  }
-  .admin-list-toolbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 14px 18px;
-    border-bottom: 1px solid #eceef1;
   }
   .admin-list-toolbar p {
     margin: 0;
@@ -420,9 +336,6 @@
   .admin-news-thumb img {
     object-fit: cover;
   }
-  .admin-news-copy {
-    min-width: 0;
-  }
   .admin-news-copy span {
     color: #7b8291;
     font-size: 11px;
@@ -435,17 +348,6 @@
     color: #28314a;
     font-size: 15px;
     font-weight: 700;
-  }
-  .admin-image-field {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .admin-image-field-heading {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 16px;
   }
   .admin-image-field-heading > div {
     display: flex;
@@ -888,10 +790,6 @@
     color: #8b92a0;
     text-align: center;
   }
-  .admin-empty span {
-    font-size: 34px;
-    font-weight: 200;
-  }
   .admin-empty p {
     max-width: 330px;
     margin: 0;
@@ -1057,9 +955,6 @@
     font-size: 13px;
   }
   @media (max-width: 1000px) {
-    .admin-stat-grid {
-      grid-template-columns: 1fr 1fr;
-    }
     .admin-news-row {
       grid-template-columns: 74px 1fr;
     }
@@ -1082,12 +977,6 @@
     }
   }
   @media (max-width: 760px) {
-    .admin-sidebar {
-      display: none;
-    }
-    .admin-main {
-      margin-left: 0;
-    }
     .admin-mobile-header {
       position: sticky;
       top: 0;
@@ -1107,14 +996,6 @@
     }
     .admin-view {
       padding: 32px 18px 60px;
-    }
-    .admin-view-heading {
-      align-items: flex-start;
-      flex-direction: column;
-    }
-    .admin-stat-grid,
-    .admin-dashboard-split {
-      grid-template-columns: 1fr;
     }
     .admin-contact-filters {
       flex-wrap: wrap;

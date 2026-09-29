@@ -67,7 +67,7 @@ export default function CareersPositionsEmbed() {
   }, [shouldLoad])
 
   return (
-    <div ref={containerRef} className="positions-embed">
+    <div ref={containerRef} className="h-[720px] overflow-hidden bg-white md:h-[900px] positions-embed">
       {shouldLoad ? (
         /* oxlint-disable-next-line react/iframe-missing-sandbox -- ADP's application flow requires unrestricted navigation and forms. */
         <iframe
@@ -77,7 +77,7 @@ export default function CareersPositionsEmbed() {
           tabIndex={-1}
         />
       ) : (
-        <div className="positions-embed-placeholder" aria-hidden="true" />
+        <div className="h-full w-full bg-white positions-embed-placeholder" aria-hidden="true" />
       )}
     </div>
   )

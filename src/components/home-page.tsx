@@ -1,5 +1,15 @@
 "use client"
 
+import {
+  ArrowRight,
+  ArrowUp,
+  ArrowUpRight,
+  LinkedinLogo,
+  Minus,
+  Plus,
+  XLogo,
+  YoutubeLogo,
+} from "@phosphor-icons/react"
 import Image from "next/image"
 import Link from "next/link"
 import { FocusEvent, useCallback, useEffect, useRef, useState } from "react"
@@ -39,42 +49,45 @@ const solutionLinks = [
   },
 ]
 
+const socialLinkClassName =
+  "flex h-11 w-11 items-center justify-center rounded-full border border-white/30 text-white/80 transition-all duration-300 hover:border-white hover:bg-white hover:text-[#0d132d] focus-visible:border-white focus-visible:bg-white focus-visible:text-[#0d132d] focus-visible:outline-none"
+
 const clientLogos = [
   {
     name: "Bureau of Safety and Environmental Enforcement",
-    src: "/images/Bureau of Safety and Environmental Enforcement.jpg",
+    src: "/images/bsee-logo.jpg",
   },
-  { name: "Cellebrite", src: "/images/Cellebrite.webp" },
-  { name: "Conservation International", src: "/images/Conservation International.webp" },
-  { name: "U.S. Department of Justice", src: "/images/Departement of justice.webp" },
+  { name: "Cellebrite", src: "/images/cellebrite-logo.webp" },
+  { name: "Conservation International", src: "/images/conservation-international-logo.webp" },
+  { name: "U.S. Department of Justice", src: "/images/justice-department-logo.webp" },
   {
     name: "U.S. Department of Homeland Security",
-    src: "/images/Departementofhomelandsecurity.png",
+    src: "/images/homeland-security-logo.png",
   },
-  { name: "Florida State University", src: "/images/Florida stat universty.jpeg" },
-  { name: "Liquid Robotics", src: "/images/Liquid robotics a boeing company.png" },
-  { name: "USAID", src: "/images/USAID.webp" },
-  { name: "Unisys Federal", src: "/images/Unisys Federal.webp" },
-  { name: "United States Coast Guard", src: "/images/United States Cost Guard.png" },
-  { name: "U.S. Customs and Border Protection", src: "/images/customs and border ptortetcion.png" },
+  { name: "Florida State University", src: "/images/florida-state-university-logo.jpeg" },
+  { name: "Liquid Robotics", src: "/images/liquid-robotics-logo.png" },
+  { name: "USAID", src: "/images/usaid-logo.webp" },
+  { name: "Unisys Federal", src: "/images/unisys-federal-logo.webp" },
+  { name: "United States Coast Guard", src: "/images/coast-guard-logo.png" },
+  { name: "U.S. Customs and Border Protection", src: "/images/customs-border-protection-logo.png" },
   {
     name: "Defense Threat Reduction Agency",
-    src: "/images/defense threat reduction agency logo.png",
+    src: "/images/defense-threat-reduction-logo.png",
   },
-  { name: "U.S. Department of Commerce", src: "/images/demartemetn of commerce.webp" },
-  { name: "U.S. Department of State", src: "/images/departement of state.webp" },
+  { name: "U.S. Department of Commerce", src: "/images/commerce-department-logo.webp" },
+  { name: "U.S. Department of State", src: "/images/state-department-logo.webp" },
   {
     name: "U.S. Department of Veterans Affairs",
-    src: "/images/departement of veteran affairs logo.webp",
+    src: "/images/veterans-affairs-logo.webp",
   },
-  { name: "Office of Personnel Management", src: "/images/office of personal affiars .png" },
-  { name: "Thrive", src: "/images/thrive.jpeg" },
+  { name: "Office of Personnel Management", src: "/images/personnel-management-logo.png" },
+  { name: "Thrive", src: "/images/thrive-logo.jpeg" },
   {
     name: "Transportation Security Administration",
-    src: "/images/transportation security administration.jpeg",
+    src: "/images/transportation-security-logo.jpeg",
   },
-  { name: "U.S. Fire Administration", src: "/images/us fire administration logo.webp" },
-  { name: "WildAid Marine Program", src: "/images/wild aid marine program.png" },
+  { name: "U.S. Fire Administration", src: "/images/us-fire-administration-logo.webp" },
+  { name: "WildAid Marine Program", src: "/images/wildaid-marine-logo.png" },
 ]
 
 const solutions = [
@@ -123,17 +136,10 @@ const solutions = [
 ]
 
 export function Arrow({ diagonal = false }: { diagonal?: boolean }) {
-  return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 24 24"
-      className="h-5 w-5"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-    >
-      {diagonal ? <path d="M6 18 18 6M9 6h9v9" /> : <path d="M5 12h14m-5-5 5 5-5 5" />}
-    </svg>
+  return diagonal ? (
+    <ArrowUpRight aria-hidden="true" className="h-5 w-5" />
+  ) : (
+    <ArrowRight aria-hidden="true" className="h-5 w-5" />
   )
 }
 
@@ -216,36 +222,36 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
       className={`site-header fixed inset-x-0 top-0 z-30 ${atTop ? (initialSurface === "dark" ? "site-header--top" : "site-header--light-top") : "site-header--scrolled"} ${headerVisible ? "" : "site-header--hidden"} ${solutionsOpen ? "site-header--expanded" : ""} ${menuOpen ? "site-header--mobile-open" : ""}`}
     >
       <div className="site-gutter flex h-24 items-center justify-between">
-        <Link href="/" aria-label="Harkcon home" className="brand-logo-link">
+        <Link href="/" aria-label="Harkcon home" className="block shrink-0 brand-logo-link">
           <Image
             src={
               darkSurface
-                ? "/images/fullharckonlogowhite.avif"
-                : "/images/fullharckonlogoblack.avif"
+                ? "/images/harkcon-logo-white.avif"
+                : "/images/harkcon-logo-black.avif"
             }
             alt=""
             width={336}
             height={86}
-            className="brand-logo-image"
+            className="h-auto w-[155px] sm:w-[180px] brand-logo-image"
             priority
           />
         </Link>
 
         <nav aria-label="Primary navigation" className="hidden items-center gap-6 lg:flex xl:gap-8">
-          <Link className="nav-link" href="/about">
+          <Link className="relative py-2 text-action opacity-85 transition-opacity hover:opacity-100 nav-link" href="/about">
             About
           </Link>
-          <Link className="nav-link" href="/news-insights">
+          <Link className="relative py-2 text-action opacity-85 transition-opacity hover:opacity-100 nav-link" href="/news-insights">
             News
           </Link>
-          <Link className="nav-link" href="/contracts">
+          <Link className="relative py-2 text-action opacity-85 transition-opacity hover:opacity-100 nav-link" href="/contracts">
             Contracts
           </Link>
-          <Link className="nav-link" href="/careers">
+          <Link className="relative py-2 text-action opacity-85 transition-opacity hover:opacity-100 nav-link" href="/careers">
             Careers
           </Link>
           <div
-            className="solutions-nav-item"
+            className="flex h-24 items-center solutions-nav-item"
             onMouseEnter={openSolutions}
             onMouseLeave={scheduleSolutionsClose}
             onFocus={openSolutions}
@@ -253,32 +259,32 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
           >
             <button
               type="button"
-              className="nav-link solutions-nav-trigger"
+              className="relative py-2 text-action opacity-85 transition-opacity hover:opacity-100 flex items-center gap-2 nav-link solutions-nav-trigger"
               aria-expanded={solutionsOpen}
               aria-controls="solutions-mega-menu"
               onClick={openSolutions}
             >
               Solutions
-              <span aria-hidden="true" className="solutions-chevron">
+              <span aria-hidden="true" className="inline-flex transition-transform duration-300 solutions-chevron">
                 <Arrow />
               </span>
             </button>
 
-            <div id="solutions-mega-menu" className="mega-menu">
-              <div className="site-gutter mega-menu-inner">
-                <div className="mega-menu-intro">
+            <div id="solutions-mega-menu" className="pointer-events-none absolute top-24 right-0 left-0 max-h-0 overflow-hidden border-t border-white/15 bg-[#0d132d] opacity-0 mega-menu">
+              <div className="grid min-h-[350px] grid-cols-[0.82fr_1.18fr] gap-16 py-10 xl:gap-24 xl:py-11 site-gutter mega-menu-inner">
+                <div className="flex flex-col items-start border-r border-white/15 pr-16 mega-menu-intro">
                   <p className="eyebrow text-white/55">Our solutions</p>
                   <p>
                     Customized expertise that strengthens workforces, modernizes operations, and
                     improves mission performance at every level.
                   </p>
                 </div>
-                <div className="mega-menu-links">
+                <div className="flex flex-col mega-menu-links">
                   <p className="eyebrow text-white/55">Explore</p>
-                  <div className="mega-menu-link-list">
+                  <div className="mt-5 grid gap-0 mega-menu-link-list">
                     {solutionLinks.map((solution) => (
-                      <Link key={solution.href} href={solution.href} onClick={closeSolutions}>
-                        <span aria-hidden="true">+</span>
+                      <Link key={solution.href} href={solution.href} onClick={closeSolutions} className="group">
+                        <Plus aria-hidden="true" className="h-4 w-4 text-white/50 transition-transform duration-300 group-hover:rotate-90 group-focus-visible:rotate-90" />
                         {solution.title}
                       </Link>
                     ))}
@@ -301,7 +307,7 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
           aria-controls="mobile-navigation"
           aria-label={menuOpen ? "Close menu" : "Open menu"}
           onClick={toggleMenu}
-          className="menu-button lg:hidden"
+          className="flex h-11 w-11 flex-col items-center justify-center gap-2 rounded-full border border-white/40 menu-button lg:hidden"
         >
           <span className={menuOpen ? "translate-y-[5px] rotate-45" : ""} />
           <span className={menuOpen ? "-translate-y-[5px] -rotate-45" : ""} />
@@ -323,12 +329,16 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
         </Link>
         <button
           type="button"
-          className="mobile-solutions-trigger"
+          className="flex w-full items-center justify-between border-b border-white/15 py-4 text-left text-lg mobile-solutions-trigger"
           aria-expanded={mobileSolutionsOpen}
           aria-controls="mobile-solutions-list"
           onClick={toggleMobileSolutions}
         >
-          Solutions <span aria-hidden="true">{mobileSolutionsOpen ? "−" : "+"}</span>
+          Solutions {mobileSolutionsOpen ? (
+            <Minus aria-hidden="true" />
+          ) : (
+            <Plus aria-hidden="true" />
+          )}
         </button>
         <div
           id="mobile-solutions-list"
@@ -404,17 +414,17 @@ function ClientMarquee() {
 
   return (
     <section className="client-marquee" aria-labelledby="client-marquee-title">
-      <div className="site-gutter client-marquee-heading">
+      <div className="mb-7 flex items-center justify-between gap-6 site-gutter client-marquee-heading">
         <p id="client-marquee-title" className="eyebrow">
           Trusted across missions
         </p>
         <p>Organizations we have served</p>
       </div>
-      <div className="marquee-viewport">
+      <div className="overflow-hidden marquee-viewport">
         <div ref={trackRef} className="marquee-track">
           {repeatedLogos.map(([copy, logo]) => (
             <div
-              className="client-logo"
+              className="mr-6 flex h-24 w-44 shrink-0 items-center justify-center px-7 py-5 md:h-28 md:w-52 client-logo"
               key={`${copy}-${logo.src}`}
               aria-hidden={copy === "second"}
             >
@@ -423,7 +433,7 @@ function ClientMarquee() {
                 alt={copy === "first" ? logo.name : ""}
                 width={180}
                 height={90}
-                className="client-logo-image"
+                className="h-full w-full object-contain client-logo-image"
               />
             </div>
           ))}
@@ -463,7 +473,7 @@ function Hero() {
 
   return (
     <section className="hero" aria-labelledby="hero-title">
-      <div ref={mediaRef} className="hero-media">
+      <div ref={mediaRef} className="absolute right-0 left-0 hero-media">
         <Image
           src="/images/capitol-hero.png"
           alt="The United States Capitol at sunrise"
@@ -473,7 +483,7 @@ function Hero() {
           className="object-cover"
         />
       </div>
-      <div className="hero-overlay" />
+      <div className="absolute inset-0 z-[1] hero-overlay" />
       <div className="site-gutter relative z-10 flex h-full items-end pb-12 md:pb-16">
         <div className="max-w-5xl text-white">
           <h1 id="hero-title" className="hero-title">
@@ -531,7 +541,7 @@ function ScrollStatement() {
   }, [])
 
   return (
-    <section ref={containerRef} className="statement-section" aria-label="What Harkcon does">
+    <section ref={containerRef} className="flex min-h-[100vh] items-center py-[6.16rem] text-center md:py-[7.92rem] statement-section" aria-label="What Harkcon does">
       <div className="site-gutter">
         <p className="eyebrow mb-10">What we do</p>
         <p ref={statementRef} className="statement" aria-label={statement}>
@@ -555,15 +565,15 @@ export function SiteFooter() {
   return (
     <footer id="site-footer" className="site-footer">
       <div className="site-gutter">
-        <div className="footer-grid">
+        <div className="grid gap-14 py-20 sm:grid-cols-2 md:py-24 lg:grid-cols-[0.7fr_1.65fr_0.75fr_0.9fr] lg:gap-14 xl:gap-24 xl:py-28 footer-grid">
           <div className="footer-brand">
-            <Link href="/" aria-label="Harkcon home" className="footer-logo">
+            <Link href="/" aria-label="Harkcon home" className="block w-[4.25rem] overflow-hidden footer-logo">
               <Image
-                src="/images/fullharckonlogowhite.avif"
+                src="/images/harkcon-logo-white.avif"
                 alt=""
                 width={336}
                 height={86}
-                className="footer-logo-image"
+                className="h-[4.25rem] w-auto max-w-none footer-logo-image"
               />
             </Link>
             <p>
@@ -576,7 +586,7 @@ export function SiteFooter() {
           </div>
 
           <div className="footer-column footer-solutions">
-            <p className="footer-heading">Solutions</p>
+            <p className="mb-7 text-xs tracking-[0.17em] text-white/45 uppercase footer-heading">Solutions</p>
             <nav aria-label="Footer solutions navigation">
               {solutionLinks.map((solution) => (
                 <Link key={solution.href} href={solution.href}>
@@ -587,7 +597,7 @@ export function SiteFooter() {
           </div>
 
           <div className="footer-column">
-            <p className="footer-heading">Company</p>
+            <p className="mb-7 text-xs tracking-[0.17em] text-white/45 uppercase footer-heading">Company</p>
             <nav aria-label="Footer company navigation">
               <Link href="/about">About</Link>
               <Link href="/news-insights">News</Link>
@@ -598,61 +608,59 @@ export function SiteFooter() {
           </div>
 
           <div className="footer-column footer-contact">
-            <p className="footer-heading">Connect</p>
+            <p className="mb-7 text-xs tracking-[0.17em] text-white/45 uppercase footer-heading">Connect</p>
             <p>
               Have a complex mission?
               <br />
               Let&apos;s solve it together.
             </p>
-            <Link href="/contact" className="footer-contact-link animated-underline">
+            <Link href="/contact" className="mt-8 flex w-fit items-center gap-4 pb-2 text-sm transition-colors hover:text-white/55 footer-contact-link animated-underline">
               Start a conversation <Arrow />
             </Link>
-            <div className="footer-social-links">
+            <div className="mt-8 flex flex-wrap gap-3 footer-social-links">
               <a
                 href="https://www.youtube.com/@harkconinc"
                 target="_blank"
                 rel="noreferrer"
-                className="footer-social-link"
+                className={socialLinkClassName}
                 aria-label="Visit Harkcon on YouTube"
               >
-                <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.6V8.4L15.8 12l-6.2 3.6Z" />
-                </svg>
+                <YoutubeLogo aria-hidden="true" weight="fill" className="h-5 w-5" />
               </a>
               <a
                 href="https://x.com/harkcon"
                 target="_blank"
                 rel="noreferrer"
-                className="footer-social-link"
+                className={socialLinkClassName}
                 aria-label="Visit Harkcon on X"
               >
-                <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M18.24 2.25h3.31l-7.23 8.26 8.51 11.24h-6.66l-5.21-6.82-5.97 6.82H1.68l7.73-8.84L1.25 2.25h6.83l4.71 6.23 5.45-6.23Zm-1.16 17.52h1.83L7.08 4.13H5.12l11.96 15.64Z" />
-                </svg>
+                <XLogo aria-hidden="true" weight="fill" className="h-5 w-5" />
               </a>
               <a
                 href="https://www.linkedin.com/company/harkcon-inc./"
                 target="_blank"
                 rel="noreferrer"
-                className="footer-social-link"
+                className={socialLinkClassName}
                 aria-label="Visit Harkcon on LinkedIn"
               >
-                <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM3.56 9h3.55v11.45H3.56V9Zm5.79 0h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28h-3.56v-5.57c0-1.33-.02-3.03-1.85-3.03-1.85 0-2.13 1.44-2.13 2.93v5.67H9.35V9Z" />
-                </svg>
+                <LinkedinLogo aria-hidden="true" weight="fill" className="h-5 w-5" />
               </a>
             </div>
           </div>
         </div>
 
-        <div className="footer-bottom" data-reveal-line>
+        <div className="flex flex-col gap-5 py-8 text-xs tracking-[0.04em] text-white/55 uppercase sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-8 md:py-10 footer-bottom" data-reveal-line>
+          {/* oxlint-disable-next-line react/purity -- The copyright year intentionally follows the current date. */}
           <span>© {new Date().getFullYear()} Harkcon, Inc.</span>
           <Link href="/privacy-terms">Privacy & terms</Link>
           <a href="https://socialsatisfaction.agency/" target="_blank" rel="noreferrer">
             Made by SocialSatisfaction
           </a>
-          <a href="#top" className="back-to-top">
-            Back to top <span aria-hidden="true">↑</span>
+          <a href="#top" className="flex items-center gap-3 sm:ml-auto back-to-top">
+            Back to top
+            <span aria-hidden="true" className="flex h-8 w-8 items-center justify-center rounded-full border border-white/30 text-sm">
+              <ArrowUp />
+            </span>
           </a>
         </div>
       </div>
@@ -672,10 +680,10 @@ export default function HomePage() {
 
         <ScrollStatement />
 
-        <section id="solutions" className="solutions-section" aria-labelledby="solutions-title">
+        <section id="solutions" className="bg-white py-20 md:py-24 lg:py-28 solutions-section" aria-labelledby="solutions-title">
           <div className="site-gutter">
-            <div className="solutions-showcase">
-              <div className="solutions-intro">
+            <div className="grid gap-16 lg:grid-cols-[minmax(230px,0.7fr)_minmax(0,2.3fr)] lg:gap-12 xl:gap-20 solutions-showcase">
+              <div className="self-start lg:sticky lg:top-32 solutions-intro">
                 <h2 id="solutions-title" className="section-title max-w-sm">
                   Our Solutions
                 </h2>
@@ -685,28 +693,28 @@ export default function HomePage() {
                 </p>
               </div>
 
-              <div className="solutions-grid">
+              <div className="grid gap-x-7 gap-y-0 md:grid-cols-2 xl:grid-cols-3 solutions-grid">
                 {solutions.map((solution) => (
                   <Link
                     href={solution.href}
                     key={solution.title}
-                    className="solution-card group"
+                    className="relative min-h-[310px] overflow-hidden px-5 py-7 text-[#0d132d] md:min-h-[340px] md:px-6 md:py-8 solution-card group"
                     aria-label={`Learn about ${solution.title}`}
                     data-reveal-line
                   >
-                    <span className="solution-fill" />
-                    <div className="solution-card-content">
-                      <span className="solution-number">
+                    <span className="absolute inset-0 origin-left bg-[#0d132d] solution-fill" />
+                    <div className="relative z-10 flex h-full flex-col transition-transform duration-700 solution-card-content">
+                      <span className="mb-12 flex items-center gap-2.5 text-xs tracking-[0.16em] text-[#5f626b] transition-colors duration-700 group-hover:text-white/55 solution-number">
                         <span
-                          className="solution-color-dot"
+                          className="inline-block h-2.5 w-2.5 shrink-0 rounded-full solution-color-dot"
                           style={{ backgroundColor: solution.color }}
                         />
                         {solution.number}
                       </span>
                       <h3>{solution.title}</h3>
-                      <div className="solution-card-footer">
+                      <div className="mt-auto flex items-end gap-5 pt-10 solution-card-footer">
                         <p>{solution.detail}</p>
-                        <span className="solution-arrow">
+                        <span className="ml-auto flex h-14 w-14 shrink-0 items-center justify-center bg-[#f4f3f0] transition-colors duration-500 group-hover:bg-white group-hover:text-[#0d132d] solution-arrow">
                           <Arrow diagonal />
                         </span>
                       </div>
@@ -718,9 +726,9 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="home-contracts-section" aria-labelledby="home-contracts-title">
-          <div className="site-gutter home-contracts-grid">
-            <div className="home-contracts-intro">
+        <section className="border-y border-[#0d132d]/15 bg-white py-16 md:py-20 home-contracts-section" aria-labelledby="home-contracts-title">
+          <div className="grid gap-12 md:grid-cols-2 md:gap-0 site-gutter home-contracts-grid">
+            <div className="md:pr-12 lg:pr-20 home-contracts-intro">
               <p className="eyebrow mb-5 text-[#5f626b]">Contract access</p>
               <h2 id="home-contracts-title" className="section-title">
                 Contract vehicles
@@ -747,8 +755,8 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="about-section" aria-labelledby="about-title">
-          <div className="about-copy">
+        <section className="mx-auto grid min-h-[90svh] w-full max-w-[1600px] lg:grid-cols-2 about-section" aria-labelledby="about-title">
+          <div className="flex flex-col items-start justify-center px-5 py-24 sm:px-8 lg:px-12 lg:py-32 xl:px-16 about-copy">
             <p className="eyebrow mb-7">About us</p>
             <h2 id="about-title" className="section-title max-w-xl">
               A culture of mastery and action.
@@ -766,7 +774,7 @@ export default function HomePage() {
               Discover Harkcon <Arrow />
             </Link>
           </div>
-          <div className="about-image">
+          <div className="relative min-h-[70svh] overflow-hidden lg:min-h-[90svh] about-image">
             <Image
               src="/images/about-team.png"
               alt="Harkcon consultants collaborating around a table"
@@ -779,9 +787,9 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="news-section" aria-labelledby="news-title">
+        <section className="bg-[#f4f3f0] py-20 md:py-24 lg:py-28 news-section" aria-labelledby="news-title">
           <div className="site-gutter">
-            <div className="news-heading-row">
+            <div className="mb-12 flex items-end justify-between gap-8 md:mb-16 news-heading-row">
               <div>
                 <p className="eyebrow mb-4">Latest updates</p>
                 <h2 id="news-title" className="section-title">
@@ -793,13 +801,13 @@ export default function HomePage() {
               </Link>
             </div>
 
-            <div className="news-grid legacy-featured-news" hidden>
+            <div className="grid gap-8 md:grid-cols-2 news-grid legacy-featured-news" hidden>
               <Link
                 href="/news-insights/coast-guard-preparedness-support-contract"
-                className="news-card group"
+                className="block pt-5 news-card group"
                 data-reveal-line
               >
-                <div className="news-image-wrap">
+                <div className="relative aspect-[16/9] overflow-hidden news-image-wrap">
                   <Image
                     src="https://images.unsplash.com/photo-1519922838705-9d6cb8bcfaea?auto=format&fit=crop&w=1600&q=85"
                     alt="The United States Capitol in Washington, D.C."
@@ -809,7 +817,7 @@ export default function HomePage() {
                     className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                   />
                 </div>
-                <div className="news-card-body">
+                <div className="pt-5 news-card-body">
                   <time dateTime="2026-09-11">September 11, 2026</time>
                   <h3>Harkcon awarded U.S. Coast Guard preparedness support contract</h3>
                   <p>
@@ -821,10 +829,10 @@ export default function HomePage() {
 
               <Link
                 href="/news-insights/elev8-govcon-honoree-2026"
-                className="news-card group"
+                className="block pt-5 news-card group"
                 data-reveal-line
               >
-                <div className="news-image-wrap">
+                <div className="relative aspect-[16/9] overflow-hidden news-image-wrap">
                   <Image
                     src="https://images.unsplash.com/photo-1758518730151-cf64fddb4f0a?auto=format&fit=crop&w=1600&q=85"
                     alt="Business professionals collaborating in an office meeting"
@@ -834,7 +842,7 @@ export default function HomePage() {
                     className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                   />
                 </div>
-                <div className="news-card-body">
+                <div className="pt-5 news-card-body">
                   <time dateTime="2025-10-28">October 28, 2025</time>
                   <h3>Harkcon named a 2026 Elev8 GovCon honoree</h3>
                   <p>
@@ -848,7 +856,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="cta-section">
+        <section className="bg-white cta-section">
           <div className="site-gutter flex flex-col items-start justify-between gap-10 py-20 md:flex-row md:items-end md:py-24">
             <div>
               <p className="eyebrow mb-5 text-[#5f626b]">Start a conversation</p>

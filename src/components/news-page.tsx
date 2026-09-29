@@ -36,14 +36,14 @@ export default function NewsPage() {
     <div id="top" className="overflow-clip bg-white text-[#0d132d]">
       <Header initialSurface="light" />
       <div className="page-content">
-        <section className="news-index" aria-labelledby="news-index-title">
+        <section className="pb-28 news-index" aria-labelledby="news-index-title">
           <div className="site-gutter">
             <p className="eyebrow mb-6 text-[#5f626b]">Harkcon updates</p>
             <h1 id="news-index-title">News &amp; Insights</h1>
 
-            <div className="news-index-controls" data-reveal-line>
-              <p className="news-filter-label">Filter</p>
-              <div className="news-view-toggle" aria-label="Filter news by category">
+            <div className="mt-10 flex flex-col justify-between gap-6 py-7 md:flex-row md:items-center news-index-controls" data-reveal-line>
+              <p className="font-eyebrow text-eyebrow-label font-semibold tracking-[0.12em] uppercase news-filter-label">Filter</p>
+              <div className="flex flex-wrap gap-x-6 gap-y-2 md:justify-end news-view-toggle" aria-label="Filter news by category">
                 {newsFilters.map((item) => (
                   <button
                     key={item.value}
@@ -56,7 +56,7 @@ export default function NewsPage() {
                     }
                   >
                     <span
-                      className="news-filter-dot"
+                      className="h-2.5 w-2.5 rounded-full news-filter-dot"
                       data-category={item.colorName}
                       aria-hidden="true"
                     />
@@ -72,10 +72,10 @@ export default function NewsPage() {
                   <Link
                     key={article.slug}
                     href={`/news-insights/${article.slug}`}
-                    className="publication-row group"
+                    className="grid items-center gap-7 py-8 md:grid-cols-[minmax(260px,0.72fr)_minmax(0,1.5fr)_72px] lg:gap-10 lg:py-10 publication-row group"
                     data-reveal-line
                   >
-                    <div className="publication-image">
+                    <div className="relative aspect-[16/9] overflow-hidden publication-image">
                       <Image
                         src={article.image}
                         alt={article.imageAlt}
@@ -85,25 +85,25 @@ export default function NewsPage() {
                         className="object-cover transition-transform duration-700 group-hover:scale-[1.025]"
                       />
                     </div>
-                    <div className="publication-copy">
-                      <div className="publication-meta">
+                    <div className="transition-transform duration-500 publication-copy">
+                      <div className="flex flex-wrap items-center gap-4 font-eyebrow text-eyebrow-label font-semibold tracking-[0.1em] text-[#5f626b] uppercase publication-meta">
                         <time dateTime={article.date}>{article.displayDate}</time>
                         <span data-category={article.category}>{article.category}</span>
                       </div>
                       <h2>{article.title}</h2>
                       <p>{article.excerpt}</p>
                     </div>
-                    <span className="publication-arrow" aria-hidden="true">
+                    <span className="hidden h-[72px] w-[72px] items-center justify-center justify-self-end bg-[#f4f3f0] transition-colors duration-500 group-hover:bg-[#0d132d] group-hover:text-white md:flex publication-arrow" aria-hidden="true">
                       <Arrow diagonal />
                     </span>
                   </Link>
                 ))}
               </div>
             ) : (
-              <div className="coverage-list">
+              <div className="pt-5 coverage-list">
                 {mentions.map((headline, index) => (
-                  <button type="button" className="coverage-row" key={headline} data-reveal-line>
-                    <span className="coverage-number">{String(index + 1).padStart(2, "0")}</span>
+                  <button type="button" className="grid w-full grid-cols-[48px_1fr_24px] items-center gap-5 py-7 text-left font-header text-card-title transition-colors duration-500 hover:text-[#5f626b] md:grid-cols-[72px_1fr_28px] md:py-9 coverage-row" key={headline} data-reveal-line>
+                    <span className="font-eyebrow text-eyebrow-label tracking-[0.14em] text-[#5f626b] coverage-number">{String(index + 1).padStart(2, "0")}</span>
                     <span>{headline}</span>
                     <Arrow diagonal />
                   </button>

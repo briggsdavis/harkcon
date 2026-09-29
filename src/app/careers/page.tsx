@@ -1,3 +1,4 @@
+import { Plus } from "@phosphor-icons/react/ssr"
 import { Metadata } from "next"
 import Link from "next/link"
 import CareersPositionsEmbed from "~/components/careers-positions-embed"
@@ -90,15 +91,15 @@ export default function Careers() {
       <div className="page-content">
         <section className="careers-hero" aria-labelledby="careers-title">
           <HeroParallaxImage
-            src="/images/careers-hero-unsplash.jpg"
+            src="/images/careers-hero.jpg"
             alt="Business professionals discussing strategy in a bright modern office"
             imageClassName="careers-hero-image"
           />
-          <div className="careers-hero-overlay" />
-          <div className="site-gutter careers-hero-content">
+          <div className="absolute inset-0 z-[1] careers-hero-overlay" />
+          <div className="relative z-10 flex h-full items-end pb-12 md:pb-16 site-gutter careers-hero-content">
             <div className="max-w-4xl text-white">
               <h1 id="careers-title">Do work that matters.</h1>
-              <div className="careers-hero-footer" data-reveal-line>
+              <div className="mt-8 flex items-center border-t border-white/35 pt-6 md:mt-10 careers-hero-footer" data-reveal-line>
                 <p>Bring your experience, ideas, and ambition to the mission.</p>
               </div>
             </div>
@@ -107,8 +108,8 @@ export default function Careers() {
 
         <section className="careers-intro-section" aria-labelledby="join-title">
           <div className="site-gutter">
-            <div className="careers-editorial-grid">
-              <div className="careers-section-label">
+            <div className="grid gap-12 lg:grid-cols-[minmax(190px,0.55fr)_minmax(0,1.7fr)] lg:gap-16 xl:gap-28 careers-editorial-grid">
+              <div className="flex items-start gap-5 self-start lg:sticky lg:top-36 careers-section-label">
                 <span>01</span>
                 <p className="eyebrow">Join our team</p>
               </div>
@@ -123,8 +124,8 @@ export default function Careers() {
               </div>
             </div>
 
-            <div className="careers-needs">
-              <div className="careers-needs-copy">
+            <div className="mt-24 grid gap-14 border-t border-[#0d132d]/20 pt-16 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20 xl:gap-28 careers-needs">
+              <div className="self-start careers-needs-copy">
                 <div className="careers-needs-intro">
                   <p className="eyebrow text-[#5f626b]">Who are we looking for?</p>
                   <h2>Experience that moves missions forward.</h2>
@@ -134,7 +135,7 @@ export default function Careers() {
                   </p>
                 </div>
 
-                <div className="contractor-note">
+                <div className="mt-14 border-t border-[#0d132d]/20 pt-12 contractor-note">
                   <p className="eyebrow text-[#5f626b]">More ways to work with us</p>
                   <h2>Full-time or project-specific.</h2>
                   <p>
@@ -158,7 +159,7 @@ export default function Careers() {
           </div>
         </section>
 
-        <section className="careers-wide-image" aria-label="Life at Harkcon">
+        <section className="h-[41svh] min-h-[312px] w-full overflow-hidden md:h-[52svh] md:min-h-[408px] careers-wide-image" aria-label="Life at Harkcon">
           <SubtleParallaxPhoto
             className="parallax-photo--interview"
             label="Three women talking during a professional interview in a bright conference room"
@@ -166,9 +167,9 @@ export default function Careers() {
           />
         </section>
 
-        <section className="positions-section" aria-labelledby="positions-title">
+        <section className="bg-[#0d132d] py-24 text-white md:py-32 positions-section" aria-labelledby="positions-title">
           <div className="site-gutter">
-            <div className="positions-heading">
+            <div className="mb-12 flex flex-col items-start justify-between gap-8 md:flex-row md:items-end positions-heading">
               <div>
                 <p className="eyebrow mb-5 text-white/55">Current opportunities</p>
                 <h2 id="positions-title">Available Positions</h2>
@@ -177,13 +178,13 @@ export default function Careers() {
                 href="https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=15aa7385-7aee-410b-90e3-5972b600f083&ccId=19000101_000001&type=JS&lang=en_US&selectedMenuKey=CurrentOpenings"
                 target="_blank"
                 rel="noreferrer"
-                className="positions-external-link animated-underline"
+                className="flex items-center gap-4 pb-2 text-sm text-white transition-colors hover:text-white/55 positions-external-link animated-underline"
               >
                 Open careers portal <Arrow diagonal />
               </a>
             </div>
             <CareersPositionsEmbed />
-            <p className="positions-fallback">
+            <p className="mt-5 text-sm leading-relaxed text-white/60 positions-fallback">
               If the positions portal does not appear,{" "}
               <a
                 href="https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=15aa7385-7aee-410b-90e3-5972b600f083&ccId=19000101_000001&type=JS&lang=en_US&selectedMenuKey=CurrentOpenings"
@@ -198,7 +199,7 @@ export default function Careers() {
         </section>
 
         <section className="we-are-section" aria-labelledby="we-are-title">
-          <div className="site-gutter we-are-grid">
+          <div className="grid gap-14 lg:grid-cols-[0.72fr_1.28fr] lg:items-center lg:gap-20 xl:gap-28 site-gutter we-are-grid">
             <div className="we-are-copy">
               <p className="eyebrow mb-6 text-[#5f626b]">Life at Harkcon</p>
               <h2 id="we-are-title">We are Harkcon.</h2>
@@ -209,7 +210,7 @@ export default function Careers() {
                 business.
               </p>
             </div>
-            <div className="careers-video">
+            <div className="relative aspect-video overflow-hidden bg-[#0d132d] careers-video">
               {/* oxlint-disable-next-line react/iframe-missing-sandbox -- YouTube needs scripts and its own origin; the iframe is cross-origin. */}
               <iframe
                 sandbox="allow-scripts allow-same-origin allow-presentation allow-popups allow-popups-to-escape-sandbox"
@@ -223,10 +224,10 @@ export default function Careers() {
           </div>
         </section>
 
-        <section className="benefits-section" aria-labelledby="benefits-title">
+        <section className="bg-[#f4f3f0] benefits-section" aria-labelledby="benefits-title">
           <div className="site-gutter">
-            <div className="careers-editorial-grid benefits-heading">
-              <div className="careers-section-label">
+            <div className="grid gap-12 lg:grid-cols-[minmax(190px,0.55fr)_minmax(0,1.7fr)] lg:gap-16 xl:gap-28 careers-editorial-grid benefits-heading">
+              <div className="flex items-start gap-5 self-start lg:sticky lg:top-36 careers-section-label">
                 <span>02</span>
                 <p className="eyebrow">Competitive benefits</p>
               </div>
@@ -240,16 +241,18 @@ export default function Careers() {
                 </p>
               </div>
             </div>
-            <details className="benefits-dropdown">
+            <details className="group mt-14 border-y border-[#0d132d]/20 md:mt-16 benefits-dropdown">
               <summary aria-label="Show all competitive benefits">
                 <div>
                   <p className="eyebrow">Benefits package</p>
                   <h3>View all benefits</h3>
                 </div>
-                <span aria-hidden="true" />
+                <span aria-hidden="true" className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-[#0d132d]/20 transition-all duration-300 group-open:border-[#0d132d] group-open:bg-[#0d132d] group-open:text-white md:h-14 md:w-14">
+                  <Plus className="h-5 w-5 transition-transform duration-300 group-open:rotate-45" />
+                </span>
               </summary>
-              <div className="benefits-dropdown-content">
-                <ul className="benefits-list" data-reveal-sequence>
+              <div className="border-t border-[#0d132d]/20 pb-10 benefits-dropdown-content">
+                <ul className="mt-16 grid gap-3 sm:grid-cols-2 xl:grid-cols-3 xl:gap-4 benefits-list" data-reveal-sequence>
                   {benefits.map((benefit) => (
                     <li key={benefit} data-reveal-item>
                       <p>{benefit}</p>
@@ -261,9 +264,9 @@ export default function Careers() {
           </div>
         </section>
 
-        <section className="careers-faq-section" aria-labelledby="careers-faq-title">
-          <div className="site-gutter faq-layout">
-            <div className="faq-intro">
+        <section className="bg-[#0d132d] py-24 text-white md:py-32 lg:py-40 careers-faq-section" aria-labelledby="careers-faq-title">
+          <div className="grid gap-14 lg:grid-cols-[minmax(250px,0.65fr)_minmax(0,1.35fr)] lg:gap-20 xl:gap-28 site-gutter faq-layout">
+            <div className="self-start lg:sticky lg:top-36 faq-intro">
               <p className="eyebrow mb-6 text-white/55">Careers FAQ</p>
               <h2 id="careers-faq-title">What to know before you apply.</h2>
               <p>Answers about Harkcon, our growth, and what a career here can offer.</p>
@@ -272,8 +275,8 @@ export default function Careers() {
           </div>
         </section>
 
-        <section className="equal-opportunity-section" aria-labelledby="equal-opportunity-title">
-          <div className="site-gutter equal-opportunity-grid">
+        <section className="py-24 md:py-32 lg:py-40 equal-opportunity-section" aria-labelledby="equal-opportunity-title">
+          <div className="grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20 xl:gap-28 site-gutter equal-opportunity-grid">
             <div>
               <p className="eyebrow mb-6 text-[#5f626b]">Equal employment opportunity</p>
               <h2 id="equal-opportunity-title">Everyone should be treated fairly.</h2>
@@ -297,8 +300,8 @@ export default function Careers() {
           </div>
         </section>
 
-        <section className="careers-cta">
-          <div className="site-gutter careers-cta-inner">
+        <section className="bg-[#0d132d] text-white careers-cta">
+          <div className="flex flex-col items-start justify-between gap-10 py-20 md:flex-row md:items-end md:py-24 site-gutter careers-cta-inner">
             <div>
               <p className="eyebrow mb-5 text-white/55">Your next chapter</p>
               <h2>See where your experience can take you.</h2>

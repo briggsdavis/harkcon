@@ -6,9 +6,9 @@ export default function NotFound() {
     <div id="top" className="overflow-clip bg-white text-[#0d132d]">
       <Header initialSurface="light" />
       <div className="page-content">
-        <section className="not-found-page" aria-labelledby="not-found-title">
-          <div className="site-gutter not-found-inner">
-            <p className="not-found-code" aria-hidden="true">
+        <section className="flex min-h-[82svh] items-center pt-32 pb-20 md:pt-40 md:pb-28 not-found-page" aria-labelledby="not-found-title">
+          <div className="grid items-end gap-10 md:grid-cols-[0.75fr_1.25fr] md:gap-16 lg:gap-24 site-gutter not-found-inner">
+            <p className="font-header text-[clamp(7rem,20vw,18rem)] leading-[0.7] font-medium tracking-[-0.08em] text-[#0d132d]/10 not-found-code" aria-hidden="true">
               404
             </p>
             <div>

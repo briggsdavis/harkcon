@@ -1,5 +1,6 @@
 "use client"
 
+import { Plus } from "@phosphor-icons/react"
 import { useCallback, useState } from "react"
 import type { MouseEvent } from "react"
 
@@ -27,14 +28,14 @@ export default function FaqList({ faqs, dark = false }: { faqs: Faq[]; dark?: bo
             <button
               type="button"
               value={index}
-              className="faq-question"
+              className="flex w-full items-center gap-8 py-7 text-left font-header text-card-title md:py-9 faq-question"
               aria-expanded={open}
               aria-controls={answerId}
               onClick={toggle}
             >
               <span>{faq.question}</span>
-              <span className="faq-marker" aria-hidden="true">
-                +
+              <span className={`ml-auto flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#0d132d]/25 font-body text-2xl transition-transform duration-300 faq-marker ${open ? "rotate-45" : ""}`} aria-hidden="true">
+                <Plus />
               </span>
             </button>
             <div id={answerId} className="faq-answer" aria-hidden={!open}>
