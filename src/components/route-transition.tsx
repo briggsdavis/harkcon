@@ -105,11 +105,11 @@ export default function RouteTransition() {
         className={`absolute top-1/2 left-1/2 grid h-28 w-28 -translate-1/2 place-items-center overflow-hidden bg-[#0d132d] will-change-[clip-path] sm:h-32 sm:w-32 ${markClassName}`}
       >
         <Image
-          src="/images/harkcon-favicon.png"
+          src="/images/logo-white.svg"
           alt=""
-          width={102}
-          height={102}
-          className="m-auto block h-16 w-16 translate-x-[5px] translate-y-[3px] object-contain brightness-0 invert sm:h-[4.5rem] sm:w-[4.5rem]"
+          width={40}
+          height={40}
+          className="m-auto block h-20 w-20 object-contain sm:h-24 sm:w-24"
           priority
         />
       </div>

@@ -16,8 +16,8 @@ const eyebrow = Cabin({ variable: "--font-eyebrow-source", subsets: ["latin"] })
 export const metadata: Metadata = {
   title: { default: "Harkcon", template: "%s • Harkcon" },
   icons: {
-    icon: [{ url: "/images/harkcon-favicon.png", type: "image/png" }],
-    shortcut: "/images/harkcon-favicon.png",
+    icon: [{ url: "/images/favicon.svg", type: "image/svg+xml" }],
+    shortcut: "/images/favicon.svg",
   },
 }
 

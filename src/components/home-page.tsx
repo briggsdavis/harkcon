@@ -323,7 +323,7 @@ export function Arrow({
 }
 
 const wipeButtonClassName =
-  "relative isolate inline-flex min-h-11 items-center justify-center gap-4 overflow-hidden px-5 py-2.5 text-action font-medium transition-colors duration-700 before:absolute before:inset-0 before:-z-10 before:origin-right before:scale-x-0 before:transition-transform before:duration-700 before:ease-out hover:before:origin-left hover:before:scale-x-100 focus-visible:before:origin-left focus-visible:before:scale-x-100 after:pointer-events-none after:absolute after:inset-0 after:border-[0.5px] after:opacity-0 after:transition-opacity after:duration-700 hover:after:opacity-100 focus-visible:after:opacity-100"
+  "relative isolate inline-flex min-h-[39px] items-center justify-center gap-4 overflow-hidden px-5 py-[7.5px] text-action font-medium transition-colors duration-700 before:absolute before:inset-0 before:-z-10 before:origin-right before:scale-x-0 before:transition-transform before:duration-700 before:ease-out hover:before:origin-left hover:before:scale-x-100 focus-visible:before:origin-left focus-visible:before:scale-x-100 after:pointer-events-none after:absolute after:inset-0 after:border-[0.5px] after:opacity-0 after:transition-opacity after:duration-700 hover:after:opacity-100 focus-visible:after:opacity-100"
 const wipeButtonDarkClassName =
   "bg-[#0d132d] text-white before:bg-white after:border-[#0d132d] hover:text-[#0d132d] focus-visible:text-[#0d132d]"
 const wipeButtonLightClassName =
@@ -882,20 +882,13 @@ export function SiteFooter() {
               className="block w-[4.25rem] overflow-hidden [--image-wipe-color:#0d132d]"
             >
               <Image
-                src="/images/harkcon-logo-white.avif"
+                src="/images/logo-white.svg"
                 alt=""
-                width={336}
-                height={86}
-                className="h-[4.25rem] w-auto max-w-none"
+                width={40}
+                height={40}
+                className="h-[4.25rem] w-[4.25rem]"
               />
             </Link>
-            <p className="mt-8 text-xs leading-tight font-semibold tracking-[0.08em] text-white/45">
-              People.
-              <br />
-              Performance.
-              <br />
-              Technology.
-            </p>
             <ul aria-label="Certifications" className="mt-10 flex flex-nowrap gap-3">
               {footerBadges.map((badge) => (
                 <li
