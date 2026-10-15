@@ -8,7 +8,6 @@ import SmoothScroll from "~/components/smooth-scroll"
 // oxlint-disable-next-line import/no-unassigned-import
 import "~/globals.css"
 // oxlint-disable-next-line import/no-unassigned-import
-import "~/admin.css"
 
 const header = Montserrat({ variable: "--font-header-source", subsets: ["latin"] })
 const body = Nunito_Sans({ variable: "--font-body-source", subsets: ["latin"] })

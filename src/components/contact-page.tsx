@@ -41,6 +41,13 @@ const contactFaqs = [
   },
 ]
 
+const fieldLabelClassName =
+  "font-eyebrow text-eyebrow-label font-semibold tracking-[0.12em] text-[#5f626b] uppercase"
+const fieldInputClassName =
+  "w-full resize-none bg-transparent font-body text-lg text-[#0d132d] outline-none"
+const contactLinkClassName = "w-fit transition-opacity hover:opacity-55"
+const bdLinkClassName = `${contactLinkClassName} border-b border-[#0d132d]/25 text-[#0d132d]`
+
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
@@ -84,71 +91,102 @@ export default function ContactPage() {
   return (
     <div id="top" className="overflow-clip bg-white text-[#0d132d]">
       <Header initialSurface="light" />
-      <div className="page-content">
-        <section className="contact-page" aria-labelledby="contact-title">
-          <div className="site-gutter contact-layout grid gap-20 lg:grid-cols-[minmax(260px,0.72fr)_minmax(0,1.55fr)] lg:gap-16 xl:gap-28">
-            <div className="contact-intro self-start lg:sticky lg:top-36">
+      <div className="relative">
+        <section className="pt-40 pb-28 md:pt-52 md:pb-36" aria-labelledby="contact-title">
+          <div className="site-gutter grid gap-20 lg:grid-cols-[minmax(260px,0.72fr)_minmax(0,1.55fr)] lg:gap-16 xl:gap-28">
+            <div className="self-start lg:sticky lg:top-36">
               <p className="eyebrow mb-7 text-[#5f626b]">Contact Harkcon</p>
-              <h1 id="contact-title">Need more information? Let&apos;s talk.</h1>
-              <div className="contact-details mt-14 pt-8" data-reveal-line>
+              <h1 id="contact-title" className="max-w-lg font-header text-display font-medium">
+                Need more information? Let&apos;s talk.
+              </h1>
+              <div className="mt-14 pt-8" data-reveal-line>
                 <p className="eyebrow">Main Office</p>
-                <address>
-                  <strong>Harkcon, Inc.</strong>
+                <address className="mt-6 text-lg leading-relaxed text-[#333744] not-italic">
+                  <strong className="font-normal text-[#0d132d]">Harkcon, Inc.</strong>
                   <br />
                   104 W Cambridge St, Ste A
                   <br />
                   Fredericksburg, VA 22405-2358
                 </address>
-                <div className="contact-numbers mt-8 grid gap-2 text-base">
-                  <a href="tel:+18004996456">Phone: +1 (800) 499-6456</a>
-                  <a href="tel:+18005688595">Fax: +1 (800) 568-8595</a>
+                <div className="mt-8 grid gap-2 text-base">
+                  <a href="tel:+18004996456" className={contactLinkClassName}>
+                    Phone: +1 (800) 499-6456
+                  </a>
+                  <a href="tel:+18005688595" className={contactLinkClassName}>
+                    Fax: +1 (800) 568-8595
+                  </a>
                 </div>
               </div>
-              <div className="business-development-contact mt-10 pt-8" data-reveal-line>
+              <div className="mt-10 pt-8" data-reveal-line>
                 <p className="eyebrow text-[#5f626b]">Contracts &amp; OASIS+</p>
-                <p>
+                <p className="mt-5 text-sm leading-relaxed text-[#5f626b]">
                   For contract-vehicle selection, OASIS+ scope questions, acquisition planning, or
                   teaming opportunities:
                 </p>
-                <address>
-                  <strong>Paula Harkins</strong>
-                  <span>Chief Growth Officer</span>
-                  <a href="mailto:pharkins@harkcon.com">pharkins@harkcon.com</a>
-                  <a href="tel:+15407838271">540-783-8271</a>
+                <address className="mt-6 grid gap-1 text-sm not-italic">
+                  <strong className="font-header text-lg font-medium text-[#0d132d]">
+                    Paula Harkins
+                  </strong>
+                  <span className="mb-2 text-[#5f626b]">Chief Growth Officer</span>
+                  <a href="mailto:pharkins@harkcon.com" className={bdLinkClassName}>
+                    pharkins@harkcon.com
+                  </a>
+                  <a href="tel:+15407838271" className={bdLinkClassName}>
+                    540-783-8271
+                  </a>
                 </address>
               </div>
             </div>
 
-            <form className="contact-form grid gap-8" onSubmit={handleSubmit}>
-              <div className="contact-name-row grid gap-8 sm:grid-cols-2">
+            <form className="grid gap-8" onSubmit={handleSubmit}>
+              <div className="grid gap-8 sm:grid-cols-2">
                 <label className="contact-field grid gap-3 pb-3" data-reveal-line>
-                  <span>First name *</span>
-                  <input name="firstName" required />
+                  <span className={fieldLabelClassName}>First name *</span>
+                  <input className={fieldInputClassName} name="firstName" required />
                 </label>
                 <label className="contact-field grid gap-3 pb-3" data-reveal-line>
-                  <span>Last name *</span>
-                  <input name="lastName" required />
+                  <span className={fieldLabelClassName}>Last name *</span>
+                  <input className={fieldInputClassName} name="lastName" required />
                 </label>
               </div>
 
               <label className="contact-field grid gap-3 pb-3" data-reveal-line>
-                <span>Organization *</span>
-                <input name="organization" autoComplete="organization" required />
+                <span className={fieldLabelClassName}>Organization *</span>
+                <input
+                  className={fieldInputClassName}
+                  name="organization"
+                  autoComplete="organization"
+                  required
+                />
               </label>
 
               <label className="contact-field grid gap-3 pb-3" data-reveal-line>
-                <span>Email address *</span>
-                <input type="email" name="email" autoComplete="email" required />
+                <span className={fieldLabelClassName}>Email address *</span>
+                <input
+                  className={fieldInputClassName}
+                  type="email"
+                  name="email"
+                  autoComplete="email"
+                  required
+                />
               </label>
 
               <label className="contact-field grid gap-3 pb-3" data-reveal-line>
-                <span>Phone *</span>
-                <input type="tel" name="phone" autoComplete="tel" required />
+                <span className={fieldLabelClassName}>Phone *</span>
+                <input
+                  className={fieldInputClassName}
+                  type="tel"
+                  name="phone"
+                  autoComplete="tel"
+                  required
+                />
               </label>
 
-              <label className="contact-select-field grid gap-3">
-                <span>What type of information interests you? *</span>
-                <div className="group contact-select-wrap relative border-b border-[#0d132d]/25 focus-within:border-[#0d132d]">
+              <label className="grid gap-3">
+                <span className={fieldLabelClassName}>
+                  What type of information interests you? *
+                </span>
+                <div className="group relative border-b border-[#0d132d]/25 focus-within:border-[#0d132d]">
                   <select
                     className="w-full cursor-pointer appearance-none bg-transparent py-3 pr-12 font-body text-lg text-[#0d132d] outline-none"
                     name="interest"
@@ -171,48 +209,56 @@ export default function ContactPage() {
                 </div>
               </label>
 
-              <label
-                className="contact-field contact-field--textarea grid gap-3 pt-2 pb-3"
-                data-reveal-line
-              >
-                <span>Specific questions or areas of interest *</span>
-                <textarea name="message" rows={4} required />
+              <label className="contact-field grid gap-3 pt-2 pb-3" data-reveal-line>
+                <span className={fieldLabelClassName}>
+                  Specific questions or areas of interest *
+                </span>
+                <textarea className={fieldInputClassName} name="message" rows={4} required />
               </label>
 
-              <label
-                className="contact-field contact-field--textarea grid gap-3 pt-2 pb-3"
-                data-reveal-line
-              >
-                <span>How did you hear about Harkcon? *</span>
-                <textarea name="referral" rows={3} required />
+              <label className="contact-field grid gap-3 pt-2 pb-3" data-reveal-line>
+                <span className={fieldLabelClassName}>How did you hear about Harkcon? *</span>
+                <textarea className={fieldInputClassName} name="referral" rows={3} required />
               </label>
 
-              <fieldset className="contact-options contact-preference border-0 py-3 pt-2">
-                <legend>Your preferred means of contact *</legend>
-                <div className="contact-option-grid contact-option-grid--inline mt-5 flex grid flex-wrap gap-4 gap-8 sm:grid-cols-2">
-                  <label>
-                    <input type="radio" name="preferredContact" value="Email" required />
+              <fieldset className="border-0 py-3 pt-2">
+                <legend className={fieldLabelClassName}>Your preferred means of contact *</legend>
+                <div className="mt-5 flex grid flex-wrap gap-4 gap-8 sm:grid-cols-2">
+                  <label className="flex cursor-pointer items-center gap-3 text-base text-[#333744]">
+                    <input
+                      className="h-4 w-4 cursor-pointer accent-[#0d132d]"
+                      type="radio"
+                      name="preferredContact"
+                      value="Email"
+                      required
+                    />
                     <span>Email</span>
                   </label>
-                  <label>
-                    <input type="radio" name="preferredContact" value="Phone" required />
+                  <label className="flex cursor-pointer items-center gap-3 text-base text-[#333744]">
+                    <input
+                      className="h-4 w-4 cursor-pointer accent-[#0d132d]"
+                      type="radio"
+                      name="preferredContact"
+                      value="Phone"
+                      required
+                    />
                     <span>Phone</span>
                   </label>
                 </div>
               </fieldset>
 
-              <div className="contact-submit-row flex flex-col items-start justify-between gap-6 pt-4 sm:flex-row sm:items-center">
+              <div className="flex flex-col items-start justify-between gap-6 pt-4 sm:flex-row sm:items-center">
                 {submitted ? (
-                  <output className="contact-success max-w-md text-base leading-relaxed text-[#5f626b]">
+                  <output className="max-w-md text-base leading-relaxed text-[#5f626b]">
                     Thank you. Your inquiry is ready for the Harkcon team.
                   </output>
                 ) : null}
                 {error ? (
-                  <p className="contact-error" role="alert">
+                  <p className="max-w-[420px] text-[13px] text-[#ad2d3c]" role="alert">
                     {error}
                   </p>
                 ) : null}
-                <button type="submit" className="pill-button" disabled={submitting}>
+                <button type="submit" className="pill-button sm:ml-auto" disabled={submitting}>
                   {submitting ? "Sending…" : "Submit"} <Arrow diagonal />
                 </button>
               </div>
@@ -221,14 +267,16 @@ export default function ContactPage() {
         </section>
 
         <section
-          className="contact-faq-section bg-[#f4f3f0] py-24 md:py-32 lg:py-36"
+          className="bg-[#f4f3f0] py-24 md:py-32 lg:py-36"
           aria-labelledby="contact-faq-title"
         >
-          <div className="site-gutter faq-layout grid gap-14 lg:grid-cols-[minmax(250px,0.65fr)_minmax(0,1.35fr)] lg:gap-20 xl:gap-28">
-            <div className="faq-intro self-start lg:sticky lg:top-36">
+          <div className="site-gutter grid gap-14 lg:grid-cols-[minmax(250px,0.65fr)_minmax(0,1.35fr)] lg:gap-20 xl:gap-28">
+            <div className="self-start lg:sticky lg:top-36">
               <p className="eyebrow mb-6 text-[#5f626b]">Frequently asked questions</p>
-              <h2 id="contact-faq-title">Before you get in touch.</h2>
-              <p>
+              <h2 id="contact-faq-title" className="max-w-xl font-header text-section-title">
+                Before you get in touch.
+              </h2>
+              <p className="mt-7 max-w-md text-body-copy text-[#5f626b]">
                 A few quick answers about contacting Harkcon, our office, and where to direct your
                 inquiry.
               </p>

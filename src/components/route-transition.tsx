@@ -10,7 +10,6 @@ export default function RouteTransition() {
   const pathname = usePathname()
   const router = useRouter()
   const previousPath = useRef(pathname)
-  const blurPath = useRef(pathname)
   const phaseRef = useRef<TransitionPhase>("idle")
   const destination = useRef<string | null>(null)
   const [phase, setPhase] = useState<TransitionPhase>("idle")
@@ -62,25 +61,6 @@ export default function RouteTransition() {
   }, [phase, router])
 
   useEffect(() => {
-    if (blurPath.current === pathname) return
-    blurPath.current = pathname
-
-    const restoreNavBlur = () => document.body.classList.remove("nav-blur-suspended")
-
-    document.body.classList.add("nav-blur-suspended")
-    window.addEventListener("pointermove", restoreNavBlur, { once: true, passive: true })
-
-    return () => window.removeEventListener("pointermove", restoreNavBlur)
-  }, [pathname])
-
-  useEffect(
-    () => () => {
-      document.body.classList.remove("nav-blur-suspended")
-    },
-    [],
-  )
-
-  useEffect(() => {
     if (previousPath.current === pathname) return
     previousPath.current = pathname
     if (phaseRef.current !== "covered") return
@@ -100,20 +80,36 @@ export default function RouteTransition() {
     }
   }, [pathname])
 
+  const transitionClassName = "duration-675 ease-[cubic-bezier(0.76,0,0.24,1)]"
+  const curtainClassName = {
+    idle: "translate-y-[101%]",
+    covering: `translate-y-0 transition-transform ${transitionClassName}`,
+    covered: "translate-y-0",
+    revealing: `-translate-y-[101%] transition-transform ${transitionClassName}`,
+  }[phase]
+  const markClassName = {
+    idle: "[clip-path:inset(100%_0_0_0)]",
+    covering: `[clip-path:inset(0)] transition-[clip-path] ${transitionClassName}`,
+    covered: `[clip-path:inset(0)] transition-[clip-path] ${transitionClassName}`,
+    revealing: `[clip-path:inset(0_0_100%_0)] transition-[clip-path] ${transitionClassName}`,
+  }[phase]
+
   return (
     <div
-      className={`page-transition page-transition--${phase}`}
+      className={`fixed inset-0 z-[100] h-dvh w-screen ${phase === "idle" ? "pointer-events-none" : "pointer-events-auto"}`}
       aria-hidden="true"
       data-reveal-skip
     >
-      <div className="page-transition-curtain absolute inset-0 bg-[#f4f3f0]" />
-      <div className="page-transition-mark">
+      <div className={`absolute inset-0 bg-[#f4f3f0] will-change-transform ${curtainClassName}`} />
+      <div
+        className={`absolute top-1/2 left-1/2 grid h-28 w-28 -translate-1/2 place-items-center overflow-hidden bg-[#0d132d] will-change-[clip-path] sm:h-32 sm:w-32 ${markClassName}`}
+      >
         <Image
           src="/images/harkcon-favicon.png"
           alt=""
           width={102}
           height={102}
-          className="page-transition-logo m-auto block h-16 w-16 object-contain sm:h-[4.5rem] sm:w-[4.5rem]"
+          className="m-auto block h-16 w-16 translate-x-[5px] translate-y-[3px] object-contain brightness-0 invert sm:h-[4.5rem] sm:w-[4.5rem]"
           priority
         />
       </div>

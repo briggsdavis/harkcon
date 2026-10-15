@@ -4,12 +4,12 @@ import { useEffect, useMemo, useRef } from "react"
 
 export default function SubtleParallaxPhoto({
   src,
-  className,
+  sizeClassName = "bg-cover",
   label,
   strength = 42,
 }: {
   src?: string
-  className: string
+  sizeClassName?: string
   label: string
   strength?: number
 }) {
@@ -51,7 +51,11 @@ export default function SubtleParallaxPhoto({
   }, [strength])
 
   return (
-    <div ref={photoRef} className={`parallax-photo ${className}`} style={backgroundStyle}>
+    <div
+      ref={photoRef}
+      className={`h-full w-full bg-[position:50%_calc(50%+var(--parallax-y,0px))] bg-no-repeat will-change-[background-position] ${sizeClassName}`}
+      style={backgroundStyle}
+    >
       <span className="sr-only">{label}</span>
     </div>
   )

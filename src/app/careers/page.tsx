@@ -84,41 +84,55 @@ const careerFaqs = [
   },
 ]
 
+const headingClassName = "max-w-4xl font-header text-section-title font-medium"
+const proseClassName = "mt-8 max-w-[850px] text-body-copy text-[#454955]"
+
 export default function Careers() {
   return (
     <div id="top" className="overflow-clip bg-white text-[#0d132d]">
       <Header />
-      <div className="page-content">
-        <section className="careers-hero" aria-labelledby="careers-title">
+      <div className="relative">
+        <section
+          className="relative h-[100svh] min-h-[650px] overflow-hidden"
+          aria-labelledby="careers-title"
+        >
           <HeroParallaxImage
             src="/images/careers-hero.jpg"
             alt="Business professionals discussing strategy in a bright modern office"
-            imageClassName="careers-hero-image"
+            imageClassName="scale-[1.015] object-cover"
           />
           <div className="careers-hero-overlay absolute inset-0 z-[1]" />
-          <div className="site-gutter careers-hero-content relative z-10 flex h-full items-end pb-12 md:pb-16">
+          <div className="site-gutter relative z-10 flex h-full items-end pb-12 md:pb-16">
             <div className="max-w-4xl text-white">
-              <h1 id="careers-title">Do work that matters.</h1>
+              <h1 id="careers-title" className="max-w-3xl font-header text-display font-medium">
+                Do work that matters.
+              </h1>
               <div
-                className="careers-hero-footer mt-8 flex items-center border-t border-white/35 pt-6 md:mt-10"
+                className="mt-8 flex items-center border-t border-white/35 pt-6 md:mt-10"
                 data-reveal-line
               >
-                <p>Bring your experience, ideas, and ambition to the mission.</p>
+                <p className="max-w-xl text-sm leading-relaxed text-white/80 md:text-base">
+                  Bring your experience, ideas, and ambition to the mission.
+                </p>
               </div>
             </div>
           </div>
         </section>
 
-        <section className="careers-intro-section" aria-labelledby="join-title">
+        <section className="py-24 md:py-32 lg:py-40" aria-labelledby="join-title">
           <div className="site-gutter">
-            <div className="careers-editorial-grid grid gap-12 lg:grid-cols-[minmax(190px,0.55fr)_minmax(0,1.7fr)] lg:gap-16 xl:gap-28">
-              <div className="careers-section-label flex items-start gap-5 self-start lg:sticky lg:top-36">
-                <span>01</span>
+            <div className="grid gap-12 lg:grid-cols-[minmax(190px,0.55fr)_minmax(0,1.7fr)] lg:gap-16 xl:gap-28">
+              <div className="flex items-start gap-5 self-start lg:sticky lg:top-36">
+                <span className="font-eyebrow text-eyebrow-label tracking-[0.15em] text-[#8b8e96]">
+                  01
+                </span>
                 <p className="eyebrow">Join our team</p>
               </div>
-              <div className="careers-intro-copy">
-                <h2 id="join-title">Build your career with people who value people.</h2>
-                <p>
+              <div>
+                <h2 id="join-title" className={headingClassName}>
+                  Build your career with people who value people.
+                </h2>
+                <p className="mt-8 max-w-[850px] text-body-copy text-[#0d132d]">
                   We are a dynamic and growing company, always looking for talented, experienced,
                   and highly creative professionals across a variety of disciplines. Harkcon is
                   built on a cornerstone belief: when businesses take care of their people, their
@@ -127,21 +141,23 @@ export default function Careers() {
               </div>
             </div>
 
-            <div className="careers-needs mt-24 grid gap-14 border-t border-[#0d132d]/20 pt-16 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20 xl:gap-28">
-              <div className="careers-needs-copy self-start">
-                <div className="careers-needs-intro">
+            <div className="mt-24 grid gap-14 border-t border-[#0d132d]/20 pt-16 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20 xl:gap-28">
+              <div className="self-start">
+                <div>
                   <p className="eyebrow text-[#5f626b]">Who are we looking for?</p>
-                  <h2>Experience that moves missions forward.</h2>
-                  <p>
+                  <h2 className={headingClassName}>Experience that moves missions forward.</h2>
+                  <p className={proseClassName}>
                     Our talent needs constantly evolve and expand with current and future projects
                     and contracts. We regularly seek experience and expertise in these areas:
                   </p>
                 </div>
 
-                <div className="contractor-note mt-14 border-t border-[#0d132d]/20 pt-12">
+                <div className="mt-14 border-t border-[#0d132d]/20 pt-12">
                   <p className="eyebrow text-[#5f626b]">More ways to work with us</p>
-                  <h2>Full-time or project-specific.</h2>
-                  <p>
+                  <h2 className="mt-5 max-w-xl font-header text-section-title font-medium">
+                    Full-time or project-specific.
+                  </h2>
+                  <p className="mt-8 text-body-copy text-[#454955]">
                     In addition to our full-time associates, we routinely hire full- and part-time
                     independent contractors for specific projects and contract work. If you enjoy
                     exciting, dynamic work that makes a meaningful impact for clients, we encourage
@@ -150,11 +166,17 @@ export default function Careers() {
                   </p>
                 </div>
               </div>
-              <ol className="career-disciplines">
+              <ol>
                 {disciplines.map((discipline, index) => (
-                  <li key={discipline} data-reveal-line>
-                    <span>{String(index + 1).padStart(2, "0")}</span>
-                    <p>{discipline}</p>
+                  <li
+                    key={discipline}
+                    className="grid grid-cols-[42px_1fr] gap-4 py-6 md:grid-cols-[56px_1fr] md:gap-6 md:py-7"
+                    data-reveal-line
+                  >
+                    <span className="pt-1 font-eyebrow text-eyebrow-label tracking-[0.12em] text-[#8b8e96]">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <p className="font-header text-card-title">{discipline}</p>
                   </li>
                 ))}
               </ol>
@@ -163,42 +185,45 @@ export default function Careers() {
         </section>
 
         <section
-          className="careers-wide-image h-[41svh] min-h-[312px] w-full overflow-hidden md:h-[52svh] md:min-h-[408px]"
+          className="h-[41svh] min-h-[312px] w-full overflow-hidden md:h-[52svh] md:min-h-[408px]"
           aria-label="Life at Harkcon"
         >
           <SubtleParallaxPhoto
-            className="parallax-photo--interview"
+            src="/images/careers-interview.jpg"
             label="Three women talking during a professional interview in a bright conference room"
             strength={110}
           />
         </section>
 
         <section
-          className="positions-section bg-[#0d132d] py-24 text-white md:py-32"
+          className="bg-[#0d132d] py-24 text-white md:py-32"
           aria-labelledby="positions-title"
         >
           <div className="site-gutter">
-            <div className="positions-heading mb-12 flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
+            <div className="mb-12 flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
               <div>
                 <p className="eyebrow mb-5 text-white/55">Current opportunities</p>
-                <h2 id="positions-title">Available Positions</h2>
+                <h2 id="positions-title" className="font-header text-section-title font-medium">
+                  Available Positions
+                </h2>
               </div>
               <a
                 href="https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=15aa7385-7aee-410b-90e3-5972b600f083&ccId=19000101_000001&type=JS&lang=en_US&selectedMenuKey=CurrentOpenings"
                 target="_blank"
                 rel="noreferrer"
-                className="positions-external-link animated-underline flex items-center gap-4 pb-2 text-sm text-white transition-colors hover:text-white/55"
+                className="animated-underline flex items-center gap-4 pb-2 text-sm text-white transition-colors hover:text-white/55"
               >
                 Open careers portal <Arrow diagonal />
               </a>
             </div>
             <CareersPositionsEmbed />
-            <p className="positions-fallback mt-5 text-sm leading-relaxed text-white/60">
+            <p className="mt-5 text-sm leading-relaxed text-white/60">
               If the positions portal does not appear,{" "}
               <a
                 href="https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=15aa7385-7aee-410b-90e3-5972b600f083&ccId=19000101_000001&type=JS&lang=en_US&selectedMenuKey=CurrentOpenings"
                 target="_blank"
                 rel="noreferrer"
+                className="border-b border-white/35 text-white transition-opacity hover:opacity-55"
               >
                 view current openings in a new window
               </a>
@@ -207,24 +232,27 @@ export default function Careers() {
           </div>
         </section>
 
-        <section className="we-are-section" aria-labelledby="we-are-title">
-          <div className="site-gutter we-are-grid grid gap-14 lg:grid-cols-[0.72fr_1.28fr] lg:items-center lg:gap-20 xl:gap-28">
-            <div className="we-are-copy">
+        <section className="py-24 md:py-32 lg:py-40" aria-labelledby="we-are-title">
+          <div className="site-gutter grid gap-14 lg:grid-cols-[0.72fr_1.28fr] lg:items-center lg:gap-20 xl:gap-28">
+            <div>
               <p className="eyebrow mb-6 text-[#5f626b]">Life at Harkcon</p>
-              <h2 id="we-are-title">We are Harkcon.</h2>
-              <p>
+              <h2 id="we-are-title" className="font-header text-section-title font-medium">
+                We are Harkcon.
+              </h2>
+              <p className="mt-8 text-body-copy text-[#454955]">
                 We are a dynamic and growing company, always looking for talented, experienced, and
                 highly creative professionals in many disciplines. Harkcon is built on the belief
                 that when businesses take care of their people, their people take care of the
                 business.
               </p>
             </div>
-            <div className="careers-video relative aspect-video overflow-hidden bg-[#0d132d]">
+            <div className="relative aspect-video overflow-hidden bg-[#0d132d]">
               {/* oxlint-disable-next-line react/iframe-missing-sandbox -- YouTube needs scripts and its own origin; the iframe is cross-origin. */}
               <iframe
                 sandbox="allow-scripts allow-same-origin allow-presentation allow-popups allow-popups-to-escape-sandbox"
                 src="https://www.youtube.com/embed/OXuAgvjinSs?si=mdVrO1kUsyOpAcMl"
                 title="We are Harkcon"
+                className="absolute inset-0 h-full w-full border-0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerPolicy="strict-origin-when-cross-origin"
                 allowFullScreen
@@ -233,16 +261,20 @@ export default function Careers() {
           </div>
         </section>
 
-        <section className="benefits-section bg-[#f4f3f0]" aria-labelledby="benefits-title">
+        <section className="bg-[#f4f3f0] py-24 md:py-32 lg:py-40" aria-labelledby="benefits-title">
           <div className="site-gutter">
-            <div className="careers-editorial-grid benefits-heading grid gap-12 lg:grid-cols-[minmax(190px,0.55fr)_minmax(0,1.7fr)] lg:gap-16 xl:gap-28">
-              <div className="careers-section-label flex items-start gap-5 self-start lg:sticky lg:top-36">
-                <span>02</span>
+            <div className="grid gap-12 lg:grid-cols-[minmax(190px,0.55fr)_minmax(0,1.7fr)] lg:gap-16 xl:gap-28">
+              <div className="flex items-start gap-5 self-start lg:sticky lg:top-36">
+                <span className="font-eyebrow text-eyebrow-label tracking-[0.15em] text-[#8b8e96]">
+                  02
+                </span>
                 <p className="eyebrow">Competitive benefits</p>
               </div>
-              <div className="benefits-intro">
-                <h2 id="benefits-title">Support for today and tomorrow.</h2>
-                <p>
+              <div>
+                <h2 id="benefits-title" className={headingClassName}>
+                  Support for today and tomorrow.
+                </h2>
+                <p className={proseClassName}>
                   Harkcon offers benefit programs that address associates’ immediate needs, such as
                   insurance coverage, and long-term needs, such as retirement savings. Benefits are
                   a significant component of total compensation, may cover associates and selected
@@ -250,11 +282,16 @@ export default function Careers() {
                 </p>
               </div>
             </div>
-            <details className="group benefits-dropdown mt-14 border-y border-[#0d132d]/20 md:mt-16">
-              <summary aria-label="Show all competitive benefits">
+            <details className="disclosure group mt-14 border-y border-[#0d132d]/20 md:mt-16">
+              <summary
+                aria-label="Show all competitive benefits"
+                className="flex cursor-pointer list-none items-center justify-between gap-8 py-8 md:py-10"
+              >
                 <div>
                   <p className="eyebrow">Benefits package</p>
-                  <h3>View all benefits</h3>
+                  <h3 className="mt-3 font-header text-card-title font-medium">
+                    View all benefits
+                  </h3>
                 </div>
                 <span
                   aria-hidden="true"
@@ -263,14 +300,18 @@ export default function Careers() {
                   <Plus className="h-5 w-5 transition-transform duration-300 group-open:rotate-45" />
                 </span>
               </summary>
-              <div className="benefits-dropdown-content border-t border-[#0d132d]/20 pb-10">
+              <div className="border-t border-[#0d132d]/20 pb-10">
                 <ul
-                  className="benefits-list mt-16 grid gap-3 sm:grid-cols-2 xl:grid-cols-3 xl:gap-4"
+                  className="mt-16 grid gap-3 sm:grid-cols-2 xl:grid-cols-3 xl:gap-4"
                   data-reveal-sequence
                 >
                   {benefits.map((benefit) => (
-                    <li key={benefit} data-reveal-item>
-                      <p>{benefit}</p>
+                    <li
+                      key={benefit}
+                      className="flex min-h-20 items-center rounded-full border border-[#0d132d]/15 bg-white px-6 py-5 md:min-h-24 md:px-7"
+                      data-reveal-item
+                    >
+                      <p className="text-sm leading-snug text-[#333744] md:text-base">{benefit}</p>
                     </li>
                   ))}
                 </ul>
@@ -280,29 +321,32 @@ export default function Careers() {
         </section>
 
         <section
-          className="careers-faq-section bg-[#0d132d] py-24 text-white md:py-32 lg:py-40"
+          className="bg-[#0d132d] py-24 text-white md:py-32 lg:py-40"
           aria-labelledby="careers-faq-title"
         >
-          <div className="site-gutter faq-layout grid gap-14 lg:grid-cols-[minmax(250px,0.65fr)_minmax(0,1.35fr)] lg:gap-20 xl:gap-28">
-            <div className="faq-intro self-start lg:sticky lg:top-36">
+          <div className="site-gutter grid gap-14 lg:grid-cols-[minmax(250px,0.65fr)_minmax(0,1.35fr)] lg:gap-20 xl:gap-28">
+            <div className="self-start lg:sticky lg:top-36">
               <p className="eyebrow mb-6 text-white/55">Careers FAQ</p>
-              <h2 id="careers-faq-title">What to know before you apply.</h2>
-              <p>Answers about Harkcon, our growth, and what a career here can offer.</p>
+              <h2 id="careers-faq-title" className="max-w-xl font-header text-section-title">
+                What to know before you apply.
+              </h2>
+              <p className="mt-7 max-w-md text-body-copy text-white/62">
+                Answers about Harkcon, our growth, and what a career here can offer.
+              </p>
             </div>
             <FaqList faqs={careerFaqs} dark />
           </div>
         </section>
 
-        <section
-          className="equal-opportunity-section py-24 md:py-32 lg:py-40"
-          aria-labelledby="equal-opportunity-title"
-        >
-          <div className="site-gutter equal-opportunity-grid grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20 xl:gap-28">
+        <section className="py-24 md:py-32 lg:py-40" aria-labelledby="equal-opportunity-title">
+          <div className="site-gutter grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20 xl:gap-28">
             <div>
               <p className="eyebrow mb-6 text-[#5f626b]">Equal employment opportunity</p>
-              <h2 id="equal-opportunity-title">Everyone should be treated fairly.</h2>
+              <h2 id="equal-opportunity-title" className={headingClassName}>
+                Everyone should be treated fairly.
+              </h2>
             </div>
-            <div>
+            <div className="max-w-[850px] space-y-7 text-body-copy text-[#454955]">
               <p>
                 Harkcon is committed to the fair treatment of all and is an equal opportunity
                 employer. All employment decisions, including recruiting, hiring, training,
@@ -315,17 +359,25 @@ export default function Careers() {
                 Harkcon is committed to complying with the Americans with Disabilities Act.
                 Reasonable accommodations, including equal access to communications, are available
                 upon request. To request an accommodation, call{" "}
-                <a href="tel:+18004996456">+1 (800) 499-6456, extension 105</a>.
+                <a
+                  href="tel:+18004996456"
+                  className="border-b border-[#0d132d]/35 text-[#0d132d] transition-opacity hover:opacity-55"
+                >
+                  +1 (800) 499-6456, extension 105
+                </a>
+                .
               </p>
             </div>
           </div>
         </section>
 
-        <section className="careers-cta bg-[#0d132d] text-white">
-          <div className="site-gutter careers-cta-inner flex flex-col items-start justify-between gap-10 py-20 md:flex-row md:items-end md:py-24">
+        <section className="bg-[#0d132d] text-white">
+          <div className="site-gutter flex flex-col items-start justify-between gap-10 py-20 md:flex-row md:items-end md:py-24">
             <div>
               <p className="eyebrow mb-5 text-white/55">Your next chapter</p>
-              <h2>See where your experience can take you.</h2>
+              <h2 className="max-w-4xl font-header text-section-title">
+                See where your experience can take you.
+              </h2>
             </div>
             <Link href="#positions-title" className="pill-button pill-button--light shrink-0">
               View positions <Arrow />

@@ -6,6 +6,9 @@ import ArticlePage from "~/components/article-page"
 import { newsArticles, type NewsArticle } from "~/lib/news"
 import { api } from "../../convex/_generated/api"
 
+const loadingClassName =
+  "flex min-h-[70dvh] flex-col items-center justify-center gap-[18px] p-10 text-center"
+
 export default function ArticleLoader({ slug }: { slug: string }) {
   const storedArticle = useQuery(api.content.getPublicArticle, { slug })
   const storedArticles = useQuery(api.content.listPublicArticles)
@@ -15,12 +18,12 @@ export default function ArticleLoader({ slug }: { slug: string }) {
   const all = (storedArticles?.length ? storedArticles : newsArticles) as NewsArticle[]
 
   if (storedArticle === undefined && !fallback) {
-    return <div className="article-loading">Loading article…</div>
+    return <div className={loadingClassName}>Loading article…</div>
   }
   if (!article) {
     return (
-      <div className="article-loading">
-        <h1>Article not found</h1>
+      <div className={loadingClassName}>
+        <h1 className="text-[40px]">Article not found</h1>
         <Link href="/news-insights">Return to News &amp; Insights</Link>
       </div>
     )

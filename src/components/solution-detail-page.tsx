@@ -12,93 +12,111 @@ const capabilityCopy = [
   "Whether we work directly for a client or alongside our highly regarded corporate partners, our focus remains the same: meaningful results, delivered on time and within budget. The solutions we employ and the analyses we conduct can adapt to any industry or organization size.",
 ]
 
+const headingClassName = "max-w-4xl font-header text-section-title font-medium"
+const ctaCardClassName =
+  "flex flex-col items-start border-t border-[#0d132d]/20 py-12 md:min-h-[360px] md:py-14"
+
 export default function SolutionDetailPage({ solution }: { solution: Solution }) {
   return (
     <div id="top" className="overflow-clip bg-white text-[#0d132d]">
       <Header />
-      <div className="page-content">
+      <div className="relative">
         <section
-          className="solution-detail-hero relative h-[52svh] min-h-[360px] overflow-hidden md:min-h-[400px]"
+          className="relative h-[52svh] min-h-[360px] overflow-hidden md:min-h-[400px]"
           aria-label={`${solution.title} hero image`}
         >
           <HeroParallaxImage
             src={solution.heroImage}
             alt={solution.heroAlt}
-            imageClassName="solution-detail-hero-image"
+            imageClassName="scale-[1.02] object-cover"
           />
-          <div className="solution-detail-hero-overlay absolute inset-0 z-[1]" />
-          <div className="site-gutter solution-detail-hero-index relative z-10 flex h-full items-end justify-between pb-8 text-white md:pb-10">
+          <div className="page-hero-overlay absolute inset-0 z-[1]" />
+          <div className="site-gutter relative z-10 flex h-full items-end justify-between pb-8 text-white md:pb-10">
             <p className="eyebrow text-white/75">Harkcon solutions</p>
-            <span>{solution.number}</span>
+            <span className="font-eyebrow text-sm tracking-[0.15em] text-white/70">
+              {solution.number}
+            </span>
           </div>
         </section>
 
-        <section
-          className="solution-detail-intro py-20 md:py-24 lg:py-28"
-          aria-labelledby="solution-title"
-        >
-          <div className="site-gutter solution-detail-intro-grid grid gap-12 lg:grid-cols-[minmax(190px,0.55fr)_minmax(0,1.7fr)] lg:gap-16 xl:gap-28">
-            <div className="solution-detail-label flex items-start gap-5 self-start lg:sticky lg:top-36">
+        <section className="py-20 md:py-24 lg:py-28" aria-labelledby="solution-title">
+          <div className="site-gutter grid gap-12 lg:grid-cols-[minmax(190px,0.55fr)_minmax(0,1.7fr)] lg:gap-16 xl:gap-28">
+            <div className="flex items-start gap-5 self-start lg:sticky lg:top-36">
               <span
-                className="solution-color-dot inline-block h-2.5 w-2.5 shrink-0 rounded-full"
+                className="mt-0.5 inline-block h-2.5 w-2.5 shrink-0 rounded-full"
                 style={{ backgroundColor: solution.color }}
                 aria-hidden="true"
               />
-              <span>{solution.number}</span>
+              <span className="font-eyebrow text-eyebrow-label tracking-[0.15em] text-[#8b8e96]">
+                {solution.number}
+              </span>
               <p className="eyebrow">Our expertise</p>
             </div>
-            <div className="solution-detail-intro-copy">
-              <h1 id="solution-title">{solution.title}</h1>
-              <p>{solution.description}</p>
+            <div>
+              <h1 id="solution-title" className="max-w-5xl font-header text-display font-medium">
+                {solution.title}
+              </h1>
+              <p className="mt-10 max-w-[900px] text-body-copy text-[#454955]">
+                {solution.description}
+              </p>
             </div>
           </div>
         </section>
 
         <section
-          className="solution-detail-wide-image h-[41svh] min-h-[312px] w-full overflow-hidden md:h-[52svh] md:min-h-[408px]"
+          className="h-[41svh] min-h-[312px] w-full overflow-hidden md:h-[52svh] md:min-h-[408px]"
           aria-label={solution.wideAlt}
         >
-          <SubtleParallaxPhoto
-            src={solution.wideImage}
-            className="solution-detail-wide-photo"
-            label={solution.wideAlt}
-            strength={110}
-          />
+          <SubtleParallaxPhoto src={solution.wideImage} label={solution.wideAlt} strength={110} />
         </section>
 
         <section
-          className="solution-proof-section bg-[#f4f3f0]"
+          className="bg-[#f4f3f0] py-24 md:py-32 lg:py-40"
           aria-labelledby="proof-point-title"
         >
-          <div className="site-gutter solution-proof-grid grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20 xl:gap-28">
+          <div className="site-gutter grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20 xl:gap-28">
             <div>
               <p className="eyebrow mb-6 text-[#5f626b]">Proof point</p>
-              <h2 id="proof-point-title">Experience measured in outcomes.</h2>
+              <h2 id="proof-point-title" className={headingClassName}>
+                Experience measured in outcomes.
+              </h2>
             </div>
-            <p>{solution.proofPoint}</p>
+            <p className="max-w-[850px] text-body-copy text-[#454955] lg:pt-12">
+              {solution.proofPoint}
+            </p>
           </div>
         </section>
 
-        <section className="solution-capabilities-section" aria-labelledby="capabilities-title">
-          <div className="site-gutter solution-capabilities-grid grid items-start gap-14 lg:grid-cols-[1fr_1fr] lg:gap-20 xl:gap-28">
-            <figure className="solution-capabilities-image relative min-h-[58svh] overflow-hidden bg-[#f4f3f0] lg:sticky lg:top-32 lg:min-h-[68svh]">
+        <section className="py-24 md:py-32 lg:py-40" aria-labelledby="capabilities-title">
+          <div className="site-gutter grid items-start gap-14 lg:grid-cols-[1fr_1fr] lg:gap-20 xl:gap-28">
+            <figure className="group relative min-h-[58svh] overflow-hidden bg-[#f4f3f0] lg:sticky lg:top-32 lg:min-h-[68svh]">
               <Image
                 src={solution.detailImage}
                 alt={solution.detailAlt}
                 fill
                 unoptimized
                 sizes="(min-width: 1024px) 50vw, 100vw"
-                className="object-cover"
+                className="object-cover transition-transform duration-900 ease-smooth group-hover:scale-[1.035]"
               />
             </figure>
-            <div className="solution-capabilities-copy">
+            <div>
               <p className="eyebrow text-[#5f626b]">What we deliver</p>
-              <h2 id="capabilities-title">Solutions built around the mission.</h2>
-              <ol className="solution-capabilities-list mt-12 border-b border-[#0d132d]/20">
+              <h2 id="capabilities-title" className={`mt-5 ${headingClassName}`}>
+                Solutions built around the mission.
+              </h2>
+              <ol className="mt-12 border-b border-[#0d132d]/20">
                 {solution.solutions.map((item, index) => (
-                  <li key={item} data-reveal-line>
-                    <span>{String(index + 1).padStart(2, "0")}</span>
-                    <p>{item}</p>
+                  <li
+                    key={item}
+                    className="group grid grid-cols-[42px_1fr] gap-4 py-7 md:grid-cols-[56px_1fr] md:gap-6 md:py-8"
+                    data-reveal-line
+                  >
+                    <span className="pt-1 font-eyebrow text-eyebrow-label tracking-[0.12em] text-[#8b8e96]">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <p className="font-header text-card-title transition-transform duration-500 group-hover:translate-x-2.5">
+                      {item}
+                    </p>
                   </li>
                 ))}
               </ol>
@@ -106,13 +124,18 @@ export default function SolutionDetailPage({ solution }: { solution: Solution })
           </div>
         </section>
 
-        <section className="solution-partnership-section" aria-labelledby="partnership-title">
-          <div className="site-gutter solution-partnership-grid grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20 xl:gap-28">
+        <section
+          className="bg-[#0d132d] py-24 text-white md:py-32 lg:py-40"
+          aria-labelledby="partnership-title"
+        >
+          <div className="site-gutter grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20 xl:gap-28">
             <div>
               <p className="eyebrow mb-6 text-white/55">Beyond a single engagement</p>
-              <h2 id="partnership-title">Expertise that travels with the challenge.</h2>
+              <h2 id="partnership-title" className={headingClassName}>
+                Expertise that travels with the challenge.
+              </h2>
             </div>
-            <div className="solution-partnership-copy text-body-copy text-white/68">
+            <div className="space-y-7 text-body-copy text-white/68">
               {capabilityCopy.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
               ))}
@@ -120,22 +143,23 @@ export default function SolutionDetailPage({ solution }: { solution: Solution })
           </div>
         </section>
 
-        <section
-          className="solution-cta-section bg-white py-20 md:py-24 lg:py-28"
-          aria-label="Next steps"
-        >
-          <div className="site-gutter solution-cta-grid grid md:grid-cols-2">
-            <article>
+        <section className="bg-white py-20 md:py-24 lg:py-28" aria-label="Next steps">
+          <div className="site-gutter grid md:grid-cols-2">
+            <article className={`${ctaCardClassName} md:border-r md:pr-10 lg:pr-16`}>
               <p className="eyebrow text-[#5f626b]">Start a conversation</p>
-              <h2>Ready to put this expertise to work?</h2>
-              <Link href="/contact" className="pill-button">
+              <h2 className={`mt-6 mb-10 md:mb-auto ${headingClassName}`}>
+                Ready to put this expertise to work?
+              </h2>
+              <Link href="/contact" className="pill-button mt-auto">
                 Contact us <Arrow />
               </Link>
             </article>
-            <article>
+            <article className={`${ctaCardClassName} md:pl-10 lg:pl-16`}>
               <p className="eyebrow text-[#5f626b]">Build your career</p>
-              <h2>Interested in doing work in this field?</h2>
-              <Link href="/careers" className="pill-button">
+              <h2 className={`mt-6 mb-10 md:mb-auto ${headingClassName}`}>
+                Interested in doing work in this field?
+              </h2>
+              <Link href="/careers" className="pill-button mt-auto">
                 Join Harkcon <Arrow />
               </Link>
             </article>

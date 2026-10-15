@@ -43,7 +43,10 @@ export default function HeroParallaxImage({
   }, [])
 
   return (
-    <div ref={mediaRef} className="page-hero-parallax-media absolute right-0 left-0">
+    <div
+      ref={mediaRef}
+      className="absolute -top-[16%] right-0 -bottom-[16%] left-0 translate-y-(--page-hero-parallax) will-change-transform"
+    >
       <Image
         src={src}
         alt={alt}

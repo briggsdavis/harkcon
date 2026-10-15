@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { MouseEvent, useCallback, useEffect, useState } from "react"
+import { MouseEvent, ReactNode, useCallback, useEffect, useState } from "react"
 import DocumentDownload from "~/components/document-download"
 import HeroParallaxImage from "~/components/hero-parallax-image"
 import { Arrow, Header, SiteFooter } from "~/components/home-page"
@@ -152,6 +152,16 @@ const oasisSupportTypes = [
   "Responses to Requests for Information, Sources Sought notices, and task order opportunities",
 ]
 
+type SectionTone = "white" | "soft" | "navy"
+
+const contractSectionClassName = (tone: SectionTone = "white") =>
+  `scroll-mt-28 py-24 md:py-32 lg:py-40 ${tone === "soft" ? "bg-[#f4f3f0]" : ""} ${tone === "navy" ? "bg-[#0d132d] text-white" : ""}`
+
+const contractHeadingClassName = "max-w-4xl font-header text-section-title font-medium"
+const contractTwoColumnClassName = "grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-16 xl:gap-24"
+const contractInlineLinkClassName =
+  "border-b border-[#0d132d]/35 text-[#0d132d] transition-opacity hover:opacity-55"
+
 const gsaCapabilities = gsaServices.map((service) => ({
   label: service.code,
   title: service.title,
@@ -171,47 +181,60 @@ function VehicleMeta({
   uei,
   family,
   familyLabel = "Contract family",
-}: VehicleMetaProps) {
+  navy = false,
+}: VehicleMetaProps & { navy?: boolean }) {
+  const items = [
+    ["Prime contractor", prime],
+    ["Contract number", contract],
+    ...(family ? [[familyLabel, family]] : []),
+    ["Period of performance", period],
+    ...(uei ? [["UEI", uei]] : []),
+  ]
+
   return (
     <dl
-      className="contract-meta mt-12 grid border-t border-[#0d132d]/20 sm:grid-cols-2"
+      className={`mt-16 grid border-t sm:grid-cols-2 md:mt-20 lg:grid-cols-4 ${navy ? "border-white/20" : "border-[#0d132d]/20"}`}
       data-reveal-sequence
     >
-      <div data-reveal-item>
-        <dt>Prime contractor</dt>
-        <dd>{prime}</dd>
-      </div>
-      <div data-reveal-item>
-        <dt>Contract number</dt>
-        <dd>{contract}</dd>
-      </div>
-      {family ? (
-        <div data-reveal-item>
-          <dt>{familyLabel}</dt>
-          <dd>{family}</dd>
+      {items.map(([term, detail]) => (
+        <div
+          key={term}
+          className={`border-b py-6 sm:px-5 sm:odd:pl-0 ${navy ? "border-white/20" : "border-[#0d132d]/20"}`}
+          data-reveal-item
+        >
+          <dt
+            className={`font-eyebrow text-eyebrow-label font-semibold tracking-[0.12em] uppercase ${navy ? "text-white/38" : "text-[#8b8e96]"}`}
+          >
+            {term}
+          </dt>
+          <dd
+            className={`mt-3 text-sm leading-relaxed md:text-base ${navy ? "text-white/78" : "text-[#333744]"}`}
+          >
+            {detail}
+          </dd>
         </div>
-      ) : null}
-      <div data-reveal-item>
-        <dt>Period of performance</dt>
-        <dd>{period}</dd>
-      </div>
-      {uei ? (
-        <div data-reveal-item>
-          <dt>UEI</dt>
-          <dd>{uei}</dd>
-        </div>
-      ) : null}
+      ))}
     </dl>
   )
 }
 
-function NumberedList({ items }: { items: readonly string[] }) {
+function NumberedList({ items, navy = false }: { items: readonly string[]; navy?: boolean }) {
   return (
-    <ol className="contract-numbered-list border-b border-[#0d132d]/20">
+    <ol className={`border-b ${navy ? "border-white/20" : "border-[#0d132d]/20"}`}>
       {items.map((item, index) => (
-        <li key={item} data-reveal-line>
-          <span>{String(index + 1).padStart(2, "0")}</span>
-          <p>{item}</p>
+        <li
+          key={item}
+          className="group grid grid-cols-[42px_1fr] gap-4 py-7 md:grid-cols-[56px_1fr] md:gap-6 md:py-8"
+          data-reveal-line
+        >
+          <span
+            className={`pt-1 font-eyebrow text-eyebrow-label tracking-[0.12em] ${navy ? "text-white/38" : "text-[#8b8e96]"}`}
+          >
+            {String(index + 1).padStart(2, "0")}
+          </span>
+          <p className="font-header text-card-title transition-transform duration-500 group-hover:translate-x-[9px]">
+            {item}
+          </p>
         </li>
       ))}
     </ol>
@@ -233,15 +256,38 @@ type VehicleMetaProps = {
   familyLabel?: string
 }
 
-function VehicleCapabilityList({ items }: { items: readonly CapabilityItem[] }) {
+function VehicleCapabilityList({
+  items,
+  navy = false,
+}: {
+  items: readonly CapabilityItem[]
+  navy?: boolean
+}) {
   return (
-    <ol className="contract-capability-list border-t border-[#0d132d]/20" data-reveal-sequence>
+    <ol
+      className={`border-t ${navy ? "border-white/20" : "border-[#0d132d]/20"}`}
+      data-reveal-sequence
+    >
       {items.map((item, index) => (
-        <li key={`${item.label ?? index}-${item.title}`} data-reveal-item>
-          <span>{item.label ?? String(index + 1).padStart(2, "0")}</span>
+        <li
+          key={`${item.label ?? index}-${item.title}`}
+          className={`grid grid-cols-[50px_1fr] gap-4 border-b py-7 md:grid-cols-[74px_1fr] md:gap-6 md:py-8 ${navy ? "border-white/20" : "border-[#0d132d]/20"}`}
+          data-reveal-item
+        >
+          <span
+            className={`pt-1 font-eyebrow text-eyebrow-label tracking-[0.12em] ${navy ? "text-white/38" : "text-[#8b8e96]"}`}
+          >
+            {item.label ?? String(index + 1).padStart(2, "0")}
+          </span>
           <div>
-            <h3>{item.title}</h3>
-            {item.detail ? <p>{item.detail}</p> : null}
+            <h3 className="font-header text-card-title font-medium">{item.title}</h3>
+            {item.detail ? (
+              <p
+                className={`mt-3 max-w-2xl text-sm leading-relaxed md:text-base ${navy ? "text-white/65" : "text-[#5f626b]"}`}
+              >
+                {item.detail}
+              </p>
+            ) : null}
           </div>
         </li>
       ))}
@@ -270,26 +316,33 @@ function ContractVehicleSection({
   title: string
   description: string
   capabilities: readonly CapabilityItem[]
-  tone?: "white" | "soft" | "navy"
+  tone?: SectionTone
 }) {
+  const navy = tone === "navy"
+
   return (
-    <section
-      id={id}
-      className={`contract-section contract-vehicle-section ${tone === "soft" ? "contract-section--soft" : ""} ${tone === "navy" ? "contract-section--navy" : ""}`}
-    >
-      <div className="contracts-content-shell mx-auto w-full max-w-[1600px] px-5 sm:px-8 lg:px-12 xl:px-16">
-        <div className="contract-vehicle-grid grid gap-16 lg:grid-cols-[0.88fr_1.12fr] lg:gap-20 xl:gap-28">
-          <div className="contract-vehicle-intro self-start lg:sticky lg:top-36">
+    <section id={id} className={contractSectionClassName(tone)}>
+      <div className="mx-auto w-full max-w-[1600px] px-5 sm:px-8 lg:px-12 xl:px-16">
+        <div className="grid gap-16 lg:grid-cols-[0.88fr_1.12fr] lg:gap-20 xl:gap-28">
+          <div className="self-start lg:sticky lg:top-36">
             <p className="eyebrow">{status}</p>
-            <span className="contract-vehicle-category mt-5 block font-eyebrow text-eyebrow-label font-semibold tracking-[0.12em] text-[#8b8e96] uppercase">
+            <span
+              className={`mt-5 block font-eyebrow text-eyebrow-label font-semibold tracking-[0.12em] uppercase ${navy ? "text-white/38" : "text-[#8b8e96]"}`}
+            >
               {eyebrow}
             </span>
-            <h2>{title}</h2>
-            <p>{description}</p>
+            <h2 className="mt-7 max-w-3xl font-header text-section-title font-medium">{title}</h2>
+            <p
+              className={`mt-8 max-w-xl text-body-copy ${navy ? "text-white/65" : "text-[#454955]"}`}
+            >
+              {description}
+            </p>
           </div>
-          <div className="contract-vehicle-capabilities">
-            <p className="eyebrow">Capabilities &amp; access</p>
-            <VehicleCapabilityList items={capabilities} />
+          <div>
+            <p className={`eyebrow mb-6 ${navy ? "text-white/38" : "text-[#8b8e96]"}`}>
+              Capabilities &amp; access
+            </p>
+            <VehicleCapabilityList items={capabilities} navy={navy} />
           </div>
         </div>
         <VehicleMeta
@@ -299,32 +352,20 @@ function ContractVehicleSection({
           uei={uei}
           family={family}
           familyLabel={familyLabel}
+          navy={navy}
         />
       </div>
     </section>
   )
 }
 
-function ContractImageBreak({
-  src,
-  label,
-  className = "",
-}: {
-  src: string
-  label: string
-  className?: string
-}) {
+function ContractImageBreak({ src, label }: { src: string; label: string }) {
   return (
     <section
-      className="contract-image-break h-[41svh] min-h-[312px] w-full overflow-hidden md:h-[52svh] md:min-h-[408px]"
+      className="h-[41svh] min-h-[312px] w-full overflow-hidden md:h-[52svh] md:min-h-[408px]"
       aria-label={label}
     >
-      <SubtleParallaxPhoto
-        src={src}
-        className={`contract-image-break-photo ${className}`}
-        label={label}
-        strength={100}
-      />
+      <SubtleParallaxPhoto src={src} label={label} strength={100} />
     </section>
   )
 }
@@ -353,19 +394,24 @@ function SectionRail({
 
   return (
     <nav
-      className={`contracts-rail ${visible ? "contracts-rail--visible" : ""}`}
+      className={`fixed top-1/2 left-3 z-20 hidden -translate-y-1/2 flex-col items-center gap-4 transition-opacity duration-300 lg:flex xl:left-5 ${visible ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"}`}
       aria-label={`${viewContent[view].label} sections`}
     >
       {viewContent[view].sections.map(([id, label]) => (
         <a
           key={id}
           href={`#${id}`}
-          className={activeSection === id ? "is-active" : ""}
+          className="group relative flex h-3 w-3 items-center justify-center rounded-full outline-none"
           aria-label={`Go to ${label}`}
           onClick={handleSectionClick}
         >
-          <span aria-hidden="true" />
-          <strong>{label}</strong>
+          <span
+            aria-hidden="true"
+            className={`h-1.5 w-1.5 rounded-full transition-all duration-200 group-hover:scale-[1.75] group-hover:bg-[#0d132d] group-focus-visible:scale-[1.75] group-focus-visible:bg-[#0d132d] ${activeSection === id ? "scale-[1.75] bg-[#0d132d]" : "bg-[#0d132d]/25"}`}
+          />
+          <strong className="pointer-events-none absolute left-5 -translate-x-1 rounded-sm bg-[#0d132d] px-2.5 py-1.5 font-eyebrow text-[0.6rem] font-semibold tracking-[0.1em] whitespace-nowrap text-white uppercase opacity-0 shadow-lg transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100">
+            {label}
+          </strong>
         </a>
       ))}
     </nav>
@@ -426,7 +472,6 @@ function ContractsContent() {
       <ContractImageBreak
         src={image("1685178362030-9b574eb9ae7c")}
         label="A U.S. military vessel underway"
-        className="contract-image-break-photo--ship"
       />
 
       <ContractVehicleSection
@@ -460,19 +505,13 @@ function ContractsContent() {
         uei="T3GVAM6E2XD9"
       />
 
-      <section id="contracts-documents" className="contract-section contract-documents-section">
-        <div className="contracts-content-shell mx-auto w-full max-w-[1600px] px-5 sm:px-8 lg:px-12 xl:px-16">
-          <div className="contract-section-heading">
-            <div>
-              <p className="eyebrow mb-6 text-[#5f626b]">Contract documents</p>
-              <h2>Capabilities at a glance.</h2>
-            </div>
-            <p>
-              Download Harkcon’s current capability statement for a concise overview of our
-              services, designations, and federal contracting qualifications.
-            </p>
-          </div>
-          <div className="contract-document-list mt-14">
+      <section id="contracts-documents" className={contractSectionClassName()}>
+        <div className="mx-auto w-full max-w-[1600px] px-5 sm:px-8 lg:px-12 xl:px-16">
+          <ContractSectionHeading eyebrow="Contract documents" title="Capabilities at a glance.">
+            Download Harkcon’s current capability statement for a concise overview of our services,
+            designations, and federal contracting qualifications.
+          </ContractSectionHeading>
+          <div className="mt-14">
             <DocumentDownload
               href={HARKCON_CAPABILITY_STATEMENT_URL}
               title="Harkcon Capability Statement"
@@ -482,26 +521,29 @@ function ContractsContent() {
         </div>
       </section>
 
-      <section id="contracts-naics" className="contract-section contract-section--soft">
-        <div className="contracts-content-shell mx-auto w-full max-w-[1600px] px-5 sm:px-8 lg:px-12 xl:px-16">
-          <div className="contract-section-heading">
-            <div>
-              <p className="eyebrow mb-6 text-[#5f626b]">Designation &amp; NAICS</p>
-              <h2>Ready for the right requirement.</h2>
-            </div>
-            <p>
-              Harkcon is a VA-certified Service-Disabled Veteran-Owned Small Business with broad
-              professional, technical, administrative, and training classifications.
-            </p>
-          </div>
+      <section id="contracts-naics" className={contractSectionClassName("soft")}>
+        <div className="mx-auto w-full max-w-[1600px] px-5 sm:px-8 lg:px-12 xl:px-16">
+          <ContractSectionHeading
+            eyebrow="Designation & NAICS"
+            title="Ready for the right requirement."
+          >
+            Harkcon is a VA-certified Service-Disabled Veteran-Owned Small Business with broad
+            professional, technical, administrative, and training classifications.
+          </ContractSectionHeading>
           <ul
-            className="naics-grid mt-16 grid gap-3 sm:grid-cols-2 xl:grid-cols-3 xl:gap-4"
+            className="mt-16 grid gap-3 sm:grid-cols-2 xl:grid-cols-3 xl:gap-4"
             data-reveal-sequence
           >
             {naicsCodes.map(([code, title]) => (
-              <li key={code} data-reveal-item>
-                <span>{code}</span>
-                <p>{title}</p>
+              <li
+                key={code}
+                className="flex min-h-24 items-center gap-4 rounded-full border border-[#0d132d]/15 bg-white px-6 py-5 md:min-h-28 md:px-7"
+                data-reveal-item
+              >
+                <span className="shrink-0 font-eyebrow text-eyebrow-label tracking-[0.1em] text-[#8b8e96]">
+                  {code}
+                </span>
+                <p className="text-sm leading-snug text-[#333744]">{title}</p>
               </li>
             ))}
           </ul>
@@ -568,39 +610,36 @@ function OasisContent() {
         period="September 2019 – December 2024"
       />
 
-      <section id="oasis-scope" className="contract-section contract-section--navy">
-        <div className="contracts-content-shell contract-feature-grid mx-auto grid w-full max-w-[1600px] gap-16 px-5 sm:px-8 lg:grid-cols-[0.92fr_1.08fr] lg:gap-16 lg:px-12 xl:gap-24 xl:px-16">
-          <div className="contract-feature-intro self-start lg:sticky lg:top-36">
+      <section id="oasis-scope" className={contractSectionClassName("navy")}>
+        <div className="mx-auto grid w-full max-w-[1600px] gap-16 px-5 sm:px-8 lg:grid-cols-[0.92fr_1.08fr] lg:gap-16 lg:px-12 xl:gap-24 xl:px-16">
+          <div className="self-start lg:sticky lg:top-36">
             <p className="eyebrow mb-6 text-white/55">Scope &amp; access</p>
-            <h2>Aligned to the requirement.</h2>
-            <p>
+            <h2 className={contractHeadingClassName}>Aligned to the requirement.</h2>
+            <p className="mt-8 max-w-xl text-body-copy text-white/65">
               Harkcon’s vehicles provide access to professional services aligned with the GSA OASIS+
               program structure. We support requirements consistent with our awarded contract
               domains, scope, and ordering procedures.
             </p>
-            <div className="contract-inline-actions mt-12 grid items-start gap-5">
-              <Link href="/contact" className="text-link text-white" data-reveal-line>
+            <div className="mt-12 grid items-start gap-5">
+              <Link href="/contact" className="text-link w-fit text-white" data-reveal-line>
                 Discuss scope fit <Arrow />
               </Link>
             </div>
           </div>
-          <NumberedList items={oasisSdvosbCapabilities} />
+          <NumberedList items={oasisSdvosbCapabilities} navy />
         </div>
       </section>
 
-      <section id="oasis-documents" className="contract-section contract-documents-section">
-        <div className="contracts-content-shell mx-auto w-full max-w-[1600px] px-5 sm:px-8 lg:px-12 xl:px-16">
-          <div className="contract-section-heading">
-            <div>
-              <p className="eyebrow mb-6 text-[#5f626b]">OASIS+ contract documents</p>
-              <h2>Review the program solicitation.</h2>
-            </div>
-            <p>
-              Open the governing solicitation sections for detailed OASIS contract structure,
-              requirements, and terms.
-            </p>
-          </div>
-          <div className="contract-document-list mt-14">
+      <section id="oasis-documents" className={contractSectionClassName()}>
+        <div className="mx-auto w-full max-w-[1600px] px-5 sm:px-8 lg:px-12 xl:px-16">
+          <ContractSectionHeading
+            eyebrow="OASIS+ contract documents"
+            title="Review the program solicitation."
+          >
+            Open the governing solicitation sections for detailed OASIS contract structure,
+            requirements, and terms.
+          </ContractSectionHeading>
+          <div className="mt-14">
             <DocumentDownload
               href={OASIS_SOLICITATION_URL}
               title="OASIS Solicitation — Sections B through J"
@@ -610,84 +649,130 @@ function OasisContent() {
         </div>
       </section>
 
-      <section id="oasis-verification" className="contract-section contract-section--soft">
-        <div className="contracts-content-shell contract-overview-grid mx-auto w-full max-w-[1600px] px-5 sm:px-8 lg:px-12 xl:px-16">
+      <section id="oasis-verification" className={contractSectionClassName("soft")}>
+        <div
+          className={`mx-auto w-full max-w-[1600px] px-5 sm:px-8 lg:px-12 xl:px-16 ${contractTwoColumnClassName}`}
+        >
           <div>
             <p className="eyebrow mb-6 text-[#5f626b]">
               Verification &amp; public award information
             </p>
-            <h2>Official sources. Current information.</h2>
+            <h2 className={contractHeadingClassName}>Official sources. Current information.</h2>
           </div>
-          <div className="contract-body-copy">
+          <div className="text-body-copy text-[#454955]">
             <p>
               Federal customers and teaming partners can verify Harkcon’s GSA contract information
               through official government sources. For current task-order availability, scope fit,
               teaming discussions, or customer-specific questions, contact Harkcon directly.
             </p>
-            <div className="contract-public-links mt-10 grid border-b border-[#0d132d]/20">
-              <a href="https://www.gsaelibrary.gsa.gov/" target="_blank" rel="noreferrer">
-                GSA eLibrary <Arrow diagonal />
-              </a>
-              <a href="https://www.usaspending.gov/" target="_blank" rel="noreferrer">
-                USAspending.gov <Arrow diagonal />
-              </a>
-              <a href="https://sam.gov/content/contract-data" target="_blank" rel="noreferrer">
-                SAM.gov Contract Data <Arrow diagonal />
-              </a>
+            <div className="mt-10 grid border-b border-[#0d132d]/20">
+              {publicLinks.map(([href, label]) => (
+                <a
+                  key={href}
+                  href={href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group flex items-center justify-between gap-5 border-b border-[#0d132d]/35 py-6 font-header text-card-title text-[#0d132d] transition-opacity hover:text-[#5f626b] hover:opacity-55"
+                >
+                  {label}
+                  <Arrow
+                    diagonal
+                    className="shrink-0 transition-transform duration-500 group-hover:rotate-45 group-focus-visible:rotate-45"
+                  />
+                </a>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      <section id="oasis-work" className="contract-section">
-        <div className="contracts-content-shell contract-feature-grid mx-auto grid w-full max-w-[1600px] gap-16 px-5 sm:px-8 lg:grid-cols-[0.92fr_1.08fr] lg:gap-16 lg:px-12 xl:gap-24 xl:px-16">
-          <div className="contract-feature-intro self-start lg:sticky lg:top-36">
+      <section id="oasis-work" className={contractSectionClassName()}>
+        <div className="mx-auto grid w-full max-w-[1600px] gap-16 px-5 sm:px-8 lg:grid-cols-[0.92fr_1.08fr] lg:gap-16 lg:px-12 xl:gap-24 xl:px-16">
+          <div className="self-start lg:sticky lg:top-36">
             <p className="eyebrow mb-6 text-[#5f626b]">Work with Harkcon through OASIS+</p>
-            <h2>Start with the requirement. Build the right path.</h2>
-            <p>
+            <h2 className={contractHeadingClassName}>
+              Start with the requirement. Build the right path.
+            </h2>
+            <p className="mt-8 max-w-xl text-body-copy text-[#454955]">
               Federal customers and teaming partners can use Harkcon’s OASIS+ vehicles for
               professional services requirements aligned with GSA scope and Harkcon’s awarded
               contract domains.
             </p>
-            <div
-              className="oasis-contact-card oasis-contact-card--compact mt-10 mt-12 grid border-t border-[#0d132d]/20 pt-8"
-              data-reveal-line
-            >
-              <p className="eyebrow text-[#5f626b]">Contact for OASIS+ opportunities</p>
-              <strong>Paula Harkins</strong>
-              <span>Chief Growth Officer</span>
-              <a href="mailto:pharkins@harkcon.com">pharkins@harkcon.com</a>
-              <a href="tel:+15407838271">540-783-8271</a>
-            </div>
+            <OasisContactCard className="mt-12" label="Contact for OASIS+ opportunities" />
           </div>
           <NumberedList items={oasisSupportTypes} />
         </div>
       </section>
 
-      <section
-        className="contract-image-break h-[41svh] min-h-[312px] w-full overflow-hidden md:h-[52svh] md:min-h-[408px]"
-        aria-label="Professional collaboration"
-      >
-        <SubtleParallaxPhoto
-          src="/images/careers-collaboration.jpg"
-          className="contract-image-break-photo"
-          label="Two professionals collaborating in a bright office"
-          strength={100}
-        />
-      </section>
+      <ContractImageBreak
+        src="/images/careers-collaboration.jpg"
+        label="Two professionals collaborating in a bright office"
+      />
 
       <ContractCta id="oasis-cta" eyebrow="Put OASIS+ to work" />
     </>
   )
 }
 
+const publicLinks = [
+  ["https://www.gsaelibrary.gsa.gov/", "GSA eLibrary"],
+  ["https://www.usaspending.gov/", "USAspending.gov"],
+  ["https://sam.gov/content/contract-data", "SAM.gov Contract Data"],
+] as const
+
+const viewTabClassName = (active: boolean) =>
+  `relative flex items-center gap-3 pb-1 font-header text-xl transition-all duration-300 before:absolute before:right-0 before:bottom-0 before:left-0 before:h-px before:origin-left before:bg-[#0d132d] before:transition-transform before:duration-300 hover:translate-x-1 hover:text-[#0d132d] hover:before:scale-x-100 focus-visible:translate-x-1 focus-visible:text-[#0d132d] focus-visible:before:scale-x-100 sm:text-2xl ${active ? "text-[#0d132d] before:scale-x-100" : "text-[#8b8e96] before:scale-x-0"}`
+
+const viewTabDotClassName = (active: boolean, color: string) =>
+  `h-2.5 w-2.5 rounded-full transition-all duration-300 ${color} ${active ? "scale-110 opacity-100" : "opacity-45"}`
+
+function ContractSectionHeading({
+  eyebrow,
+  title,
+  children,
+}: {
+  eyebrow: string
+  title: string
+  children: ReactNode
+}) {
+  return (
+    <div className={`${contractTwoColumnClassName} items-end`}>
+      <div>
+        <p className="eyebrow mb-6 text-[#5f626b]">{eyebrow}</p>
+        <h2 className={contractHeadingClassName}>{title}</h2>
+      </div>
+      <p className="max-w-2xl text-body-copy text-[#454955]">{children}</p>
+    </div>
+  )
+}
+
+function OasisContactCard({ className, label }: { className: string; label: string }) {
+  const linkClassName =
+    "w-fit border-b border-[#0d132d]/25 text-sm text-[#0d132d] transition-opacity hover:opacity-55"
+  return (
+    <div className={`grid border-t border-[#0d132d]/20 pt-8 ${className}`} data-reveal-line>
+      <p className="eyebrow text-[#5f626b]">{label}</p>
+      <strong className="mt-5 font-header text-xl font-medium text-[#0d132d]">Paula Harkins</strong>
+      <span className="mb-3 text-sm text-[#5f626b]">Chief Growth Officer</span>
+      <a href="mailto:pharkins@harkcon.com" className={linkClassName}>
+        pharkins@harkcon.com
+      </a>
+      <a href="tel:+15407838271" className={linkClassName}>
+        540-783-8271
+      </a>
+    </div>
+  )
+}
+
 function ContractCta({ id, eyebrow }: { id: string; eyebrow: string }) {
   return (
-    <section id={id} className="contracts-cta-section scroll-mt-28 bg-[#0d132d] text-white">
-      <div className="contracts-content-shell contracts-cta-inner mx-auto flex w-full max-w-[1600px] flex-col items-start justify-between gap-10 px-5 py-20 sm:px-8 md:flex-row md:items-end md:py-24 lg:px-12 xl:px-16">
+    <section id={id} className="scroll-mt-28 bg-[#0d132d] text-white">
+      <div className="mx-auto flex w-full max-w-[1600px] flex-col items-start justify-between gap-10 px-5 py-20 sm:px-8 md:flex-row md:items-end md:py-24 lg:px-12 xl:px-16">
         <div>
           <p className="eyebrow mb-5 text-white/55">{eyebrow}</p>
-          <h2>Let’s find the clearest path to your next mission outcome.</h2>
+          <h2 className={contractHeadingClassName}>
+            Let’s find the clearest path to your next mission outcome.
+          </h2>
         </div>
         <Link href="/contact" className="pill-button pill-button--light shrink-0">
           Contact our team <Arrow />
@@ -764,32 +849,34 @@ export default function ContractsPage() {
   return (
     <div id="top" className="overflow-clip bg-white text-[#0d132d]">
       <Header />
-      <div className="page-content">
+      <div className="relative">
         <section
-          className="contracts-hero relative h-[52svh] min-h-[360px] overflow-hidden md:min-h-[400px]"
+          className="relative h-[52svh] min-h-[360px] overflow-hidden md:min-h-[400px]"
           aria-label={`${content.label} hero image`}
         >
           <HeroParallaxImage
             key={view}
             src={content.heroImage}
             alt={content.heroAlt}
-            imageClassName="contracts-hero-image"
+            imageClassName="object-cover scale-[1.02]"
           />
-          <div className="contracts-hero-overlay absolute inset-0 z-[1]" />
-          <div className="site-gutter contracts-hero-index relative z-10 flex h-full items-end justify-between pb-8 text-white md:pb-10">
+          <div className="page-hero-overlay absolute inset-0 z-[1]" />
+          <div className="site-gutter relative z-10 flex h-full items-end justify-between pb-8 text-white md:pb-10">
             <p className="eyebrow text-white/75">Contract vehicles</p>
-            <span>{view === "contracts" ? "01" : "02"}</span>
+            <span className="font-eyebrow text-sm tracking-[0.15em] text-white/70">
+              {view === "contracts" ? "01" : "02"}
+            </span>
           </div>
         </section>
 
         <section
           id={view === "contracts" ? "contracts-overview" : "oasis-overview"}
-          className="contracts-intro py-16 md:py-20 lg:py-24"
+          className="py-16 md:py-20 lg:py-24"
           aria-labelledby="contracts-hero-title"
         >
           <div className="site-gutter">
             <div
-              className="contract-view-switcher flex items-center gap-8 border-b border-[#0d132d]/15 pb-5 md:gap-12"
+              className="flex items-center gap-8 border-b border-[#0d132d]/15 pb-5 md:gap-12"
               role="tablist"
               aria-label="Contract content"
             >
@@ -798,10 +885,13 @@ export default function ContractsPage() {
                 role="tab"
                 data-contract-view="contracts"
                 aria-selected={view === "contracts"}
-                className={view === "contracts" ? "is-active" : ""}
+                className={viewTabClassName(view === "contracts")}
                 onClick={selectContracts}
               >
-                <span aria-hidden="true" />
+                <span
+                  aria-hidden="true"
+                  className={viewTabDotClassName(view === "contracts", "bg-[#ff334f]")}
+                />
                 Contracts
               </button>
               <button
@@ -809,57 +899,64 @@ export default function ContractsPage() {
                 role="tab"
                 data-contract-view="oasis"
                 aria-selected={view === "oasis"}
-                className={view === "oasis" ? "is-active" : ""}
+                className={viewTabClassName(view === "oasis")}
                 onClick={selectOasis}
               >
-                <span aria-hidden="true" />
+                <span
+                  aria-hidden="true"
+                  className={viewTabDotClassName(view === "oasis", "bg-[#246bff]")}
+                />
                 OASIS+
               </button>
             </div>
-            <div className="contracts-intro-grid mt-14 grid gap-12 lg:grid-cols-[minmax(190px,0.55fr)_minmax(0,1.7fr)] lg:gap-16 xl:gap-28">
-              <div className="contracts-intro-label flex items-start gap-5">
-                <span>{view === "contracts" ? "01" : "02"}</span>
+            <div className="mt-14 grid gap-12 lg:grid-cols-[minmax(190px,0.55fr)_minmax(0,1.7fr)] lg:gap-16 xl:gap-28">
+              <div className="flex items-start gap-5">
+                <span className="font-eyebrow text-eyebrow-label tracking-[0.15em] text-[#8b8e96]">
+                  {view === "contracts" ? "01" : "02"}
+                </span>
                 <p className="eyebrow">{content.label}</p>
               </div>
-              <div className="contracts-intro-copy">
-                <h1 id="contracts-hero-title">{content.title}</h1>
-                <p>{content.summary}</p>
+              <div>
+                <h1
+                  id="contracts-hero-title"
+                  className="max-w-5xl font-header text-display font-medium"
+                >
+                  {content.title}
+                </h1>
+                <p className="mt-8 max-w-3xl text-body-copy text-[#5f626b]">{content.summary}</p>
                 {view === "contracts" ? (
-                  <div className="contracts-intro-overview mt-9 max-w-3xl border-t border-[#0d132d]/15 pt-8">
-                    <p>
+                  <div className="mt-9 max-w-3xl border-t border-[#0d132d]/15 pt-8">
+                    <p className="text-body-copy text-[#454955]">
                       Harkcon provides expert professional business solutions to government and
                       commercial clients. Since 2005, disciplined quality standards, trusted
                       partnerships, and consistent client satisfaction have supported complex
                       public-sector missions.
                     </p>
-                    <p>
+                    <p className="mt-6 text-body-copy text-[#454955]">
                       Need help choosing a vehicle? Contact Paula Harkins at{" "}
-                      <a href="mailto:pharkins@harkcon.com">pharkins@harkcon.com</a> or{" "}
-                      <a href="tel:+15407838271">540-783-8271</a>.
+                      <a href="mailto:pharkins@harkcon.com" className={contractInlineLinkClassName}>
+                        pharkins@harkcon.com
+                      </a>{" "}
+                      or{" "}
+                      <a href="tel:+15407838271" className={contractInlineLinkClassName}>
+                        540-783-8271
+                      </a>
+                      .
                     </p>
                     <Link href="/contact" className="pill-button mt-9">
                       Contact business development <Arrow />
                     </Link>
                   </div>
                 ) : (
-                  <div className="contracts-intro-overview mt-9 max-w-3xl border-t border-[#0d132d]/15 pt-8">
-                    <p>
+                  <div className="mt-9 max-w-3xl border-t border-[#0d132d]/15 pt-8">
+                    <p className="text-body-copy text-[#454955]">
                       One Acquisition Solution for Integrated Services Plus is GSA&apos;s
                       governmentwide, multi-agency contract program for complex professional
                       services. It gives federal agencies flexible access to Harkcon&apos;s program
                       management, workforce development, training, process improvement, and
                       organizational performance support.
                     </p>
-                    <div
-                      className="oasis-contact-card mt-10 grid border-t border-[#0d132d]/20 pt-8"
-                      data-reveal-line
-                    >
-                      <p className="eyebrow text-[#5f626b]">OASIS+ point of contact</p>
-                      <strong>Paula Harkins</strong>
-                      <span>Chief Growth Officer</span>
-                      <a href="mailto:pharkins@harkcon.com">pharkins@harkcon.com</a>
-                      <a href="tel:+15407838271">540-783-8271</a>
-                    </div>
+                    <OasisContactCard className="mt-10" label="OASIS+ point of contact" />
                   </div>
                 )}
               </div>
@@ -868,7 +965,7 @@ export default function ContractsPage() {
         </section>
 
         <SectionRail view={view} activeSection={activeSection} visible={railVisible} />
-        <div key={view} className="contracts-view-content">
+        <div key={view} className="animate-contract-view-enter">
           {view === "contracts" ? <ContractsContent /> : <OasisContent />}
         </div>
         <SiteFooter />

@@ -5,6 +5,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useState } from "react"
 import { Arrow, Header, SiteFooter } from "~/components/home-page"
+import PublicationMeta, { categoryColor } from "~/components/publication-meta"
 import { harkconInTheNews, newsArticles, type NewsCategory } from "~/lib/news"
 import { api } from "../../convex/_generated/api"
 
@@ -35,28 +36,30 @@ export default function NewsPage() {
   return (
     <div id="top" className="overflow-clip bg-white text-[#0d132d]">
       <Header initialSurface="light" />
-      <div className="page-content">
-        <section className="news-index pb-28" aria-labelledby="news-index-title">
+      <div className="relative">
+        <section className="pt-[clamp(13rem,20vw,19rem)] pb-28" aria-labelledby="news-index-title">
           <div className="site-gutter">
             <p className="eyebrow mb-6 text-[#5f626b]">Harkcon updates</p>
-            <h1 id="news-index-title">News &amp; Insights</h1>
+            <h1 id="news-index-title" className="font-header text-display font-medium">
+              News &amp; Insights
+            </h1>
 
             <div
-              className="news-index-controls mt-10 flex flex-col justify-between gap-6 py-7 md:flex-row md:items-center"
+              className="mt-10 flex flex-col justify-between gap-6 py-7 md:flex-row md:items-center"
               data-reveal-line
             >
-              <p className="news-filter-label font-eyebrow text-eyebrow-label font-semibold tracking-[0.12em] uppercase">
+              <p className="font-eyebrow text-eyebrow-label font-semibold tracking-[0.12em] uppercase">
                 Filter
               </p>
               <div
-                className="news-view-toggle flex flex-wrap gap-x-6 gap-y-2 md:justify-end"
+                className="flex flex-wrap gap-x-6 gap-y-2 md:justify-end"
                 aria-label="Filter news by category"
               >
                 {newsFilters.map((item) => (
                   <button
                     key={item.value}
                     type="button"
-                    className={filter === item.value ? "is-active" : ""}
+                    className={`relative flex items-center gap-2 py-2 font-eyebrow text-eyebrow-label font-semibold tracking-[0.08em] uppercase transition-colors duration-300 after:absolute after:right-0 after:bottom-0 after:left-0 after:h-px after:origin-left after:bg-[#0d132d] after:transition-transform after:duration-500 hover:text-[#0d132d] ${filter === item.value ? "text-[#0d132d] after:scale-x-100" : "text-[#5f626b] after:scale-x-0"}`}
                     aria-pressed={filter === item.value}
                     onClick={
                       // oxlint-disable-next-line react-perf/jsx-no-new-function-as-prop -- Native button; no memoized child receives this callback.
@@ -64,8 +67,8 @@ export default function NewsPage() {
                     }
                   >
                     <span
-                      className="news-filter-dot h-2.5 w-2.5 rounded-full"
-                      data-category={item.colorName}
+                      className="h-2.5 w-2.5 rounded-full"
+                      style={{ backgroundColor: categoryColor(item.colorName) }}
                       aria-hidden="true"
                     />
                     {item.label}
@@ -75,15 +78,15 @@ export default function NewsPage() {
             </div>
 
             {filter !== "coverage" ? (
-              <div className="publication-list">
+              <div>
                 {filteredArticles.map((article) => (
                   <Link
                     key={article.slug}
                     href={`/news-insights/${article.slug}`}
-                    className="publication-row group grid items-center gap-7 py-8 md:grid-cols-[minmax(260px,0.72fr)_minmax(0,1.5fr)_72px] lg:gap-10 lg:py-10"
+                    className="group grid items-center gap-7 py-8 md:grid-cols-[minmax(260px,0.72fr)_minmax(0,1.5fr)_72px] lg:gap-10 lg:py-10"
                     data-reveal-line
                   >
-                    <div className="publication-image relative aspect-[16/9] overflow-hidden">
+                    <div className="relative aspect-[16/9] overflow-hidden">
                       <Image
                         src={article.image}
                         alt={article.imageAlt}
@@ -93,37 +96,48 @@ export default function NewsPage() {
                         className="object-cover transition-transform duration-700 group-hover:scale-[1.025]"
                       />
                     </div>
-                    <div className="publication-copy transition-transform duration-500">
-                      <div className="publication-meta flex flex-wrap items-center gap-4 font-eyebrow text-eyebrow-label font-semibold tracking-[0.1em] text-[#5f626b] uppercase">
-                        <time dateTime={article.date}>{article.displayDate}</time>
-                        <span data-category={article.category}>{article.category}</span>
-                      </div>
-                      <h2>{article.title}</h2>
-                      <p>{article.excerpt}</p>
+                    <div className="transition-transform duration-500 group-hover:translate-x-2 group-focus-visible:translate-x-2">
+                      <PublicationMeta
+                        date={article.date}
+                        displayDate={article.displayDate}
+                        category={article.category}
+                      />
+                      <h2 className="mt-5 max-w-4xl font-header text-card-title font-medium">
+                        {article.title}
+                      </h2>
+                      <p className="mt-4 max-w-3xl text-base leading-relaxed text-[#5f626b]">
+                        {article.excerpt}
+                      </p>
                     </div>
                     <span
-                      className="publication-arrow hidden h-[72px] w-[72px] items-center justify-center justify-self-end bg-[#f4f3f0] transition-colors duration-500 group-hover:bg-[#0d132d] group-hover:text-white md:flex"
+                      className="hidden h-[72px] w-[72px] items-center justify-center justify-self-end bg-[#f4f3f0] transition-colors duration-500 group-hover:bg-[#0d132d] group-hover:text-white md:flex"
                       aria-hidden="true"
                     >
-                      <Arrow diagonal />
+                      <Arrow
+                        diagonal
+                        className="transition-transform duration-500 ease-smooth group-hover:rotate-45 group-focus-visible:rotate-45"
+                      />
                     </span>
                   </Link>
                 ))}
               </div>
             ) : (
-              <div className="coverage-list pt-5">
+              <div className="pt-5">
                 {mentions.map((headline, index) => (
                   <button
                     type="button"
-                    className="coverage-row grid w-full grid-cols-[48px_1fr_24px] items-center gap-5 py-7 text-left font-header text-card-title transition-colors duration-500 hover:text-[#5f626b] md:grid-cols-[72px_1fr_28px] md:py-9"
+                    className="group grid w-full grid-cols-[48px_1fr_24px] items-center gap-5 py-7 text-left font-header text-card-title transition-colors duration-500 hover:text-[#5f626b] md:grid-cols-[72px_1fr_28px] md:py-9"
                     key={headline}
                     data-reveal-line
                   >
-                    <span className="coverage-number font-eyebrow text-eyebrow-label tracking-[0.14em] text-[#5f626b]">
+                    <span className="font-eyebrow text-eyebrow-label tracking-[0.14em] text-[#5f626b]">
                       {String(index + 1).padStart(2, "0")}
                     </span>
                     <span>{headline}</span>
-                    <Arrow diagonal />
+                    <Arrow
+                      diagonal
+                      className="transition-transform duration-500 group-hover:rotate-45"
+                    />
                   </button>
                 ))}
               </div>

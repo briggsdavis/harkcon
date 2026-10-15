@@ -67,20 +67,18 @@ export default function CareersPositionsEmbed() {
   }, [shouldLoad])
 
   return (
-    <div
-      ref={containerRef}
-      className="positions-embed h-[720px] overflow-hidden bg-white md:h-[900px]"
-    >
+    <div ref={containerRef} className="h-[720px] overflow-hidden bg-white md:h-[900px]">
       {shouldLoad ? (
         /* oxlint-disable-next-line react/iframe-missing-sandbox -- ADP's application flow requires unrestricted navigation and forms. */
         <iframe
           ref={iframeRef}
           src={careersUrl}
           title="Harkcon available positions"
+          className="h-full w-full border-0"
           tabIndex={-1}
         />
       ) : (
-        <div className="positions-embed-placeholder h-full w-full bg-white" aria-hidden="true" />
+        <div className="h-full w-full bg-white" aria-hidden="true" />
       )}
     </div>
   )
