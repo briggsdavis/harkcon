@@ -12,15 +12,15 @@ export default function FeaturedNews() {
   const articles = selected?.length ? selected : newsArticles.slice(0, 2)
 
   return (
-    <div className="grid gap-8 md:grid-cols-2 news-grid">
+    <div className="news-grid grid gap-8 md:grid-cols-2">
       {articles.map((article) => (
         <Link
           href={`/news-insights/${article.slug}`}
-          className="block pt-5 news-card group"
+          className="news-card group block pt-5"
           data-reveal-line
           key={article.slug}
         >
-          <div className="relative aspect-[16/9] overflow-hidden news-image-wrap">
+          <div className="news-image-wrap relative aspect-[16/9] overflow-hidden">
             <Image
               src={article.image}
               alt={article.imageAlt}
@@ -30,7 +30,7 @@ export default function FeaturedNews() {
               className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
             />
           </div>
-          <div className="pt-5 news-card-body">
+          <div className="news-card-body pt-5">
             <time dateTime={article.date}>{article.displayDate}</time>
             <h3>{article.title}</h3>
             <p>{article.excerpt}</p>

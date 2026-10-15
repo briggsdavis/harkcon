@@ -506,7 +506,6 @@
   .about-history-section,
   .principles-section,
   .culture-section,
-
   .about-editorial-grid--reverse {
     @apply lg:grid-cols-[minmax(0,1.7fr)_minmax(190px,0.55fr)];
   }
@@ -1207,7 +1206,6 @@
   .careers-intro-section,
   .we-are-section,
   .benefits-section,
-
   .careers-editorial-grid--reverse {
     @apply lg:grid-cols-[minmax(0,1.7fr)_minmax(190px,0.55fr)];
   }
@@ -2163,7 +2161,6 @@
   .footer-bottom a {
     @apply transition-colors hover:text-white focus-visible:text-white focus-visible:outline-none;
   }
-
 }
 
 @media (prefers-reduced-motion: reduce) {

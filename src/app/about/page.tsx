@@ -115,7 +115,7 @@ const people = [
 
 function SectionLabel({ number, children }: { number: string; children: React.ReactNode }) {
   return (
-    <div className="flex items-start gap-5 self-start lg:sticky lg:top-36 about-section-label">
+    <div className="about-section-label flex items-start gap-5 self-start lg:sticky lg:top-36">
       <span>{number}</span>
       <p className="eyebrow">{children}</p>
     </div>
@@ -128,17 +128,23 @@ export default function About() {
       <Header />
 
       <div className="page-content">
-        <section className="relative h-[100svh] min-h-[650px] overflow-hidden about-hero" aria-labelledby="about-hero-title">
+        <section
+          className="about-hero relative h-[100svh] min-h-[650px] overflow-hidden"
+          aria-labelledby="about-hero-title"
+        >
           <HeroParallaxImage
             src={unsplash("1772140994501-a12bbc57a1e5")}
             alt="A U.S. Coast Guard helicopter and crew prepared for an Arctic mission"
             imageClassName="about-hero-image"
           />
-          <div className="absolute inset-0 z-[1] about-hero-overlay" />
-          <div className="relative z-10 flex h-full items-end pb-12 md:pb-16 site-gutter about-hero-content">
+          <div className="about-hero-overlay absolute inset-0 z-[1]" />
+          <div className="site-gutter about-hero-content relative z-10 flex h-full items-end pb-12 md:pb-16">
             <div className="max-w-4xl text-white">
               <h1 id="about-hero-title">Built for better performance.</h1>
-              <div className="mt-8 flex items-center border-t border-white/35 pt-6 md:mt-10 about-hero-footer" data-reveal-line>
+              <div
+                className="about-hero-footer mt-8 flex items-center border-t border-white/35 pt-6 md:mt-10"
+                data-reveal-line
+              >
                 <p>Service. Expertise. A shared commitment to the mission.</p>
               </div>
             </div>
@@ -147,7 +153,7 @@ export default function About() {
 
         <section className="about-intro-section" aria-labelledby="who-we-are-title">
           <div className="site-gutter">
-            <div className="grid gap-12 lg:grid-cols-[minmax(190px,0.55fr)_minmax(0,1.7fr)] lg:gap-16 xl:gap-28 about-editorial-grid">
+            <div className="about-editorial-grid grid gap-12 lg:grid-cols-[minmax(190px,0.55fr)_minmax(0,1.7fr)] lg:gap-16 xl:gap-28">
               <SectionLabel number="01">Who we are</SectionLabel>
               <div className="about-prose about-prose--lead">
                 <h2 id="who-we-are-title">
@@ -178,9 +184,12 @@ export default function About() {
           </div>
         </section>
 
-        <section className="border-t border-[#dedfe2] bg-white our-people-section" aria-labelledby="our-people-title">
+        <section
+          className="our-people-section border-t border-[#dedfe2] bg-white"
+          aria-labelledby="our-people-title"
+        >
           <div className="site-gutter">
-            <div className="grid gap-12 lg:grid-cols-[minmax(190px,0.55fr)_minmax(0,1.7fr)] lg:gap-16 xl:gap-28 our-people-heading">
+            <div className="our-people-heading grid gap-12 lg:grid-cols-[minmax(190px,0.55fr)_minmax(0,1.7fr)] lg:gap-16 xl:gap-28">
               <SectionLabel number="02">Our people</SectionLabel>
               <div>
                 <h2 id="our-people-title">Experience that moves missions forward.</h2>
@@ -190,10 +199,10 @@ export default function About() {
               </div>
             </div>
 
-            <div className="mt-16 grid gap-x-7 gap-y-16 sm:grid-cols-2 lg:mt-24 lg:grid-cols-3 lg:gap-y-20 people-grid">
+            <div className="people-grid mt-16 grid gap-x-7 gap-y-16 sm:grid-cols-2 lg:mt-24 lg:grid-cols-3 lg:gap-y-20">
               {people.map((person) => (
-                <article className="min-w-0 person-card" key={person.name}>
-                  <div className="relative aspect-square overflow-hidden bg-[#eeefef] person-portrait">
+                <article className="person-card min-w-0" key={person.name}>
+                  <div className="person-portrait relative aspect-square overflow-hidden bg-[#eeefef]">
                     <Image
                       src={person.image}
                       alt={`${person.name}, ${person.title}`}
@@ -203,15 +212,18 @@ export default function About() {
                       className="object-cover"
                     />
                   </div>
-                  <div className="border-t border-[#0d132d] pt-5 person-card-copy">
+                  <div className="person-card-copy border-t border-[#0d132d] pt-5">
                     <h3>{person.name}</h3>
                     <p>{person.title}</p>
                     <details className="group">
                       <summary>
                         <span>Read bio</span>
-                        <Plus aria-hidden="true" className="h-5 w-5 transition-transform duration-300 group-open:rotate-45" />
+                        <Plus
+                          aria-hidden="true"
+                          className="h-5 w-5 transition-transform duration-300 group-open:rotate-45"
+                        />
                       </summary>
-                      <div className="pb-5 text-sm leading-relaxed text-[#555a66] person-bio">
+                      <div className="person-bio pb-5 text-sm leading-relaxed text-[#555a66]">
                         {person.bio.map((paragraph) => (
                           <p key={paragraph}>{paragraph}</p>
                         ))}
@@ -224,11 +236,14 @@ export default function About() {
           </div>
         </section>
 
-        <section className="bg-[#0d132d] py-24 text-white md:py-32 lg:py-40 mission-vision-section" aria-labelledby="mission-title">
+        <section
+          className="mission-vision-section bg-[#0d132d] py-24 text-white md:py-32 lg:py-40"
+          aria-labelledby="mission-title"
+        >
           <div className="site-gutter">
-            <div className="border-b border-white/20 mission-vision-statements">
-              <article className="grid gap-10 border-t border-white/20 py-12 md:grid-cols-[0.52fr_1.48fr] md:gap-16 md:py-16 lg:gap-24 purpose-statement">
-                <div className="flex items-start gap-5 purpose-statement-label">
+            <div className="mission-vision-statements border-b border-white/20">
+              <article className="purpose-statement grid gap-10 border-t border-white/20 py-12 md:grid-cols-[0.52fr_1.48fr] md:gap-16 md:py-16 lg:gap-24">
+                <div className="purpose-statement-label flex items-start gap-5">
                   <span>01</span>
                   <p className="eyebrow text-white/55">Our mission</p>
                 </div>
@@ -238,8 +253,8 @@ export default function About() {
                   guiding principles.
                 </h2>
               </article>
-              <article className="grid gap-10 border-t border-white/20 py-12 md:grid-cols-[0.52fr_1.48fr] md:gap-16 md:py-16 lg:gap-24 purpose-statement">
-                <div className="flex items-start gap-5 purpose-statement-label">
+              <article className="purpose-statement grid gap-10 border-t border-white/20 py-12 md:grid-cols-[0.52fr_1.48fr] md:gap-16 md:py-16 lg:gap-24">
+                <div className="purpose-statement-label flex items-start gap-5">
                   <span>02</span>
                   <p className="eyebrow text-white/55">Our vision</p>
                 </div>
@@ -252,9 +267,12 @@ export default function About() {
           </div>
         </section>
 
-        <section className="pt-12 md:pt-16 lg:pt-20 principles-section" aria-labelledby="principles-title">
-          <div className="grid gap-16 lg:grid-cols-[minmax(260px,0.72fr)_minmax(0,1.28fr)] lg:gap-20 xl:gap-28 site-gutter principles-layout">
-            <div className="self-start lg:sticky lg:top-32 principles-sticky">
+        <section
+          className="principles-section pt-12 md:pt-16 lg:pt-20"
+          aria-labelledby="principles-title"
+        >
+          <div className="site-gutter principles-layout grid gap-16 lg:grid-cols-[minmax(260px,0.72fr)_minmax(0,1.28fr)] lg:gap-20 xl:gap-28">
+            <div className="principles-sticky self-start lg:sticky lg:top-32">
               <SectionLabel number="03">Guiding principles</SectionLabel>
               <div className="principles-intro">
                 <h2 id="principles-title">The foundation for how we work.</h2>
@@ -264,7 +282,7 @@ export default function About() {
                 </p>
               </div>
             </div>
-            <ol className="border-t border-[#0d132d]/20 principles-list">
+            <ol className="principles-list border-t border-[#0d132d]/20">
               {guidingPrinciples.map((principle, index) => (
                 <li key={principle} data-reveal-line>
                   <span>{String(index + 1).padStart(2, "0")}</span>
@@ -275,9 +293,9 @@ export default function About() {
           </div>
         </section>
 
-        <section className="bg-[#f4f3f0] p-0 culture-section" aria-labelledby="culture-title">
-          <div className="grid min-h-[92svh] w-full lg:grid-cols-2 culture-split">
-            <div className="relative min-h-[60svh] overflow-hidden lg:min-h-[92svh] culture-image">
+        <section className="culture-section bg-[#f4f3f0] p-0" aria-labelledby="culture-title">
+          <div className="culture-split grid min-h-[92svh] w-full lg:grid-cols-2">
+            <div className="culture-image relative min-h-[60svh] overflow-hidden lg:min-h-[92svh]">
               <Image
                 src={unsplash("1758599543116-4fdb887911a5")}
                 alt="Three colleagues walking together outside their workplace"
@@ -286,7 +304,7 @@ export default function About() {
                 className="object-cover"
               />
             </div>
-            <div className="flex flex-col justify-center px-5 py-24 sm:px-8 md:py-28 lg:px-12 lg:py-32 xl:px-16 culture-copy">
+            <div className="culture-copy flex flex-col justify-center px-5 py-24 sm:px-8 md:py-28 lg:px-12 lg:py-32 xl:px-16">
               <SectionLabel number="04">Corporate culture</SectionLabel>
               <div className="about-prose">
                 <h2 id="culture-title">Everyone has a voice. Every voice matters.</h2>
@@ -305,9 +323,12 @@ export default function About() {
           </div>
         </section>
 
-        <section className="py-24 md:py-32 lg:py-40 community-section" aria-labelledby="community-title">
+        <section
+          className="community-section py-24 md:py-32 lg:py-40"
+          aria-labelledby="community-title"
+        >
           <div className="site-gutter">
-            <div className="grid gap-12 lg:grid-cols-[minmax(190px,0.55fr)_minmax(0,1.7fr)] lg:gap-16 xl:gap-28 community-heading">
+            <div className="community-heading grid gap-12 lg:grid-cols-[minmax(190px,0.55fr)_minmax(0,1.7fr)] lg:gap-16 xl:gap-28">
               <SectionLabel number="05">Community &amp; responsibility</SectionLabel>
               <div className="community-intro">
                 <h2 id="community-title">Service extends beyond our work.</h2>
@@ -320,7 +341,7 @@ export default function About() {
             </div>
           </div>
 
-          <div className="mt-14 h-[41svh] min-h-[312px] w-full overflow-hidden md:mt-20 md:h-[52svh] md:min-h-[408px] community-wide-image">
+          <div className="community-wide-image mt-14 h-[41svh] min-h-[312px] w-full overflow-hidden md:mt-20 md:h-[52svh] md:min-h-[408px]">
             <SubtleParallaxPhoto
               className="parallax-photo--community"
               label="Two volunteers pack food bags at a community distribution event"
@@ -329,7 +350,7 @@ export default function About() {
           </div>
 
           <div className="site-gutter">
-            <div className="grid gap-8 pt-14 md:pt-20 lg:grid-cols-2 lg:gap-16 xl:gap-28 community-support-copy">
+            <div className="community-support-copy grid gap-8 pt-14 md:pt-20 lg:grid-cols-2 lg:gap-16 xl:gap-28">
               <p>
                 Harkcon provides ongoing financial, professional, and volunteer support to Hope For
                 The Warriors™, a 501(c)(3) organization dedicated to enhancing the quality of life
@@ -344,16 +365,25 @@ export default function About() {
               </p>
             </div>
 
-            <div className="mt-16 border-t border-[#0d132d]/20 md:mt-20 community-support-dropdowns">
-              <details name="community-support" className="group border-b border-[#0d132d]/20 community-support-dropdown">
+            <div className="community-support-dropdowns mt-16 border-t border-[#0d132d]/20 md:mt-20">
+              <details
+                name="community-support"
+                className="group community-support-dropdown border-b border-[#0d132d]/20"
+              >
                 <summary aria-label="Show organizations receiving financial support">
                   <h3>Financial support</h3>
-                  <span aria-hidden="true" className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-[#0d132d]/20 transition-all duration-300 group-open:border-[#0d132d] group-open:bg-[#0d132d] group-open:text-white md:h-14 md:w-14">
+                  <span
+                    aria-hidden="true"
+                    className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-[#0d132d]/20 transition-all duration-300 group-open:border-[#0d132d] group-open:bg-[#0d132d] group-open:text-white md:h-14 md:w-14"
+                  >
                     <CaretDown className="h-5 w-5 transition-transform duration-300 group-open:rotate-180" />
                   </span>
                 </summary>
                 <div className="community-support-dropdown-content">
-                  <ul className="mt-8 grid gap-2.5 sm:grid-cols-2 community-pill-grid" data-reveal-sequence>
+                  <ul
+                    className="community-pill-grid mt-8 grid gap-2.5 sm:grid-cols-2"
+                    data-reveal-sequence
+                  >
                     {supportedOrganizations.map((organization) => (
                       <li key={organization} data-reveal-item>
                         {organization}
@@ -362,15 +392,24 @@ export default function About() {
                   </ul>
                 </div>
               </details>
-              <details name="community-support" className="group border-b border-[#0d132d]/20 community-support-dropdown">
+              <details
+                name="community-support"
+                className="group community-support-dropdown border-b border-[#0d132d]/20"
+              >
                 <summary aria-label="Show organizations supported through volunteer involvement">
                   <h3>Volunteer involvement</h3>
-                  <span aria-hidden="true" className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-[#0d132d]/20 transition-all duration-300 group-open:border-[#0d132d] group-open:bg-[#0d132d] group-open:text-white md:h-14 md:w-14">
+                  <span
+                    aria-hidden="true"
+                    className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-[#0d132d]/20 transition-all duration-300 group-open:border-[#0d132d] group-open:bg-[#0d132d] group-open:text-white md:h-14 md:w-14"
+                  >
                     <CaretDown className="h-5 w-5 transition-transform duration-300 group-open:rotate-180" />
                   </span>
                 </summary>
                 <div className="community-support-dropdown-content">
-                  <ul className="mt-8 grid gap-2.5 sm:grid-cols-2 community-pill-grid" data-reveal-sequence>
+                  <ul
+                    className="community-pill-grid mt-8 grid gap-2.5 sm:grid-cols-2"
+                    data-reveal-sequence
+                  >
                     {volunteerOrganizations.map((organization) => (
                       <li key={organization} data-reveal-item>
                         {organization}
@@ -383,8 +422,8 @@ export default function About() {
           </div>
         </section>
 
-        <section className="bg-[#0d132d] text-white about-cta-section">
-          <div className="flex flex-col items-start justify-between gap-10 py-20 md:flex-row md:items-end md:py-24 site-gutter about-cta-inner">
+        <section className="about-cta-section bg-[#0d132d] text-white">
+          <div className="site-gutter about-cta-inner flex flex-col items-start justify-between gap-10 py-20 md:flex-row md:items-end md:py-24">
             <div>
               <p className="eyebrow mb-5 text-white/55">Work with Harkcon</p>
               <h2>Bring your next challenge to a team built to solve it.</h2>

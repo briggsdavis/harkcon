@@ -106,14 +106,14 @@ export default function RouteTransition() {
       aria-hidden="true"
       data-reveal-skip
     >
-      <div className="absolute inset-0 bg-[#f4f3f0] page-transition-curtain" />
+      <div className="page-transition-curtain absolute inset-0 bg-[#f4f3f0]" />
       <div className="page-transition-mark">
         <Image
           src="/images/harkcon-favicon.png"
           alt=""
           width={102}
           height={102}
-          className="m-auto block h-16 w-16 object-contain sm:h-[4.5rem] sm:w-[4.5rem] page-transition-logo"
+          className="page-transition-logo m-auto block h-16 w-16 object-contain sm:h-[4.5rem] sm:w-[4.5rem]"
           priority
         />
       </div>

@@ -86,11 +86,11 @@ export default function ContactPage() {
       <Header initialSurface="light" />
       <div className="page-content">
         <section className="contact-page" aria-labelledby="contact-title">
-          <div className="grid gap-20 lg:grid-cols-[minmax(260px,0.72fr)_minmax(0,1.55fr)] lg:gap-16 xl:gap-28 site-gutter contact-layout">
-            <div className="self-start lg:sticky lg:top-36 contact-intro">
+          <div className="site-gutter contact-layout grid gap-20 lg:grid-cols-[minmax(260px,0.72fr)_minmax(0,1.55fr)] lg:gap-16 xl:gap-28">
+            <div className="contact-intro self-start lg:sticky lg:top-36">
               <p className="eyebrow mb-7 text-[#5f626b]">Contact Harkcon</p>
               <h1 id="contact-title">Need more information? Let&apos;s talk.</h1>
-              <div className="mt-14 pt-8 contact-details" data-reveal-line>
+              <div className="contact-details mt-14 pt-8" data-reveal-line>
                 <p className="eyebrow">Main Office</p>
                 <address>
                   <strong>Harkcon, Inc.</strong>
@@ -99,12 +99,12 @@ export default function ContactPage() {
                   <br />
                   Fredericksburg, VA 22405-2358
                 </address>
-                <div className="mt-8 grid gap-2 text-base contact-numbers">
+                <div className="contact-numbers mt-8 grid gap-2 text-base">
                   <a href="tel:+18004996456">Phone: +1 (800) 499-6456</a>
                   <a href="tel:+18005688595">Fax: +1 (800) 568-8595</a>
                 </div>
               </div>
-              <div className="mt-10 pt-8 business-development-contact" data-reveal-line>
+              <div className="business-development-contact mt-10 pt-8" data-reveal-line>
                 <p className="eyebrow text-[#5f626b]">Contracts &amp; OASIS+</p>
                 <p>
                   For contract-vehicle selection, OASIS+ scope questions, acquisition planning, or
@@ -119,37 +119,42 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <form className="grid gap-8 contact-form" onSubmit={handleSubmit}>
-              <div className="grid gap-8 sm:grid-cols-2 contact-name-row">
-                <label className="grid gap-3 pb-3 contact-field" data-reveal-line>
+            <form className="contact-form grid gap-8" onSubmit={handleSubmit}>
+              <div className="contact-name-row grid gap-8 sm:grid-cols-2">
+                <label className="contact-field grid gap-3 pb-3" data-reveal-line>
                   <span>First name *</span>
                   <input name="firstName" required />
                 </label>
-                <label className="grid gap-3 pb-3 contact-field" data-reveal-line>
+                <label className="contact-field grid gap-3 pb-3" data-reveal-line>
                   <span>Last name *</span>
                   <input name="lastName" required />
                 </label>
               </div>
 
-              <label className="grid gap-3 pb-3 contact-field" data-reveal-line>
+              <label className="contact-field grid gap-3 pb-3" data-reveal-line>
                 <span>Organization *</span>
                 <input name="organization" autoComplete="organization" required />
               </label>
 
-              <label className="grid gap-3 pb-3 contact-field" data-reveal-line>
+              <label className="contact-field grid gap-3 pb-3" data-reveal-line>
                 <span>Email address *</span>
                 <input type="email" name="email" autoComplete="email" required />
               </label>
 
-              <label className="grid gap-3 pb-3 contact-field" data-reveal-line>
+              <label className="contact-field grid gap-3 pb-3" data-reveal-line>
                 <span>Phone *</span>
                 <input type="tel" name="phone" autoComplete="tel" required />
               </label>
 
-              <label className="grid gap-3 contact-select-field">
+              <label className="contact-select-field grid gap-3">
                 <span>What type of information interests you? *</span>
-                <div className="group relative border-b border-[#0d132d]/25 focus-within:border-[#0d132d] contact-select-wrap">
-                  <select className="w-full cursor-pointer appearance-none bg-transparent py-3 pr-12 font-body text-lg text-[#0d132d] outline-none" name="interest" defaultValue="" required>
+                <div className="group contact-select-wrap relative border-b border-[#0d132d]/25 focus-within:border-[#0d132d]">
+                  <select
+                    className="w-full cursor-pointer appearance-none bg-transparent py-3 pr-12 font-body text-lg text-[#0d132d] outline-none"
+                    name="interest"
+                    defaultValue=""
+                    required
+                  >
                     <option value="" disabled>
                       Select an area of interest
                     </option>
@@ -159,23 +164,32 @@ export default function ContactPage() {
                       </option>
                     ))}
                   </select>
-                  <CaretDown aria-hidden="true" className="pointer-events-none absolute top-1/2 right-1 h-5 w-5 -translate-y-1/2 transition-transform duration-300 group-focus-within:rotate-180" />
+                  <CaretDown
+                    aria-hidden="true"
+                    className="pointer-events-none absolute top-1/2 right-1 h-5 w-5 -translate-y-1/2 transition-transform duration-300 group-focus-within:rotate-180"
+                  />
                 </div>
               </label>
 
-              <label className="grid gap-3 pb-3 pt-2 contact-field contact-field--textarea" data-reveal-line>
+              <label
+                className="contact-field contact-field--textarea grid gap-3 pt-2 pb-3"
+                data-reveal-line
+              >
                 <span>Specific questions or areas of interest *</span>
                 <textarea name="message" rows={4} required />
               </label>
 
-              <label className="grid gap-3 pb-3 pt-2 contact-field contact-field--textarea" data-reveal-line>
+              <label
+                className="contact-field contact-field--textarea grid gap-3 pt-2 pb-3"
+                data-reveal-line
+              >
                 <span>How did you hear about Harkcon? *</span>
                 <textarea name="referral" rows={3} required />
               </label>
 
-              <fieldset className="border-0 py-3 pt-2 contact-options contact-preference">
+              <fieldset className="contact-options contact-preference border-0 py-3 pt-2">
                 <legend>Your preferred means of contact *</legend>
-                <div className="mt-5 grid gap-4 sm:grid-cols-2 flex flex-wrap gap-8 contact-option-grid contact-option-grid--inline">
+                <div className="contact-option-grid contact-option-grid--inline mt-5 flex grid flex-wrap gap-4 gap-8 sm:grid-cols-2">
                   <label>
                     <input type="radio" name="preferredContact" value="Email" required />
                     <span>Email</span>
@@ -187,9 +201,9 @@ export default function ContactPage() {
                 </div>
               </fieldset>
 
-              <div className="flex flex-col items-start justify-between gap-6 pt-4 sm:flex-row sm:items-center contact-submit-row">
+              <div className="contact-submit-row flex flex-col items-start justify-between gap-6 pt-4 sm:flex-row sm:items-center">
                 {submitted ? (
-                  <output className="max-w-md text-base leading-relaxed text-[#5f626b] contact-success">
+                  <output className="contact-success max-w-md text-base leading-relaxed text-[#5f626b]">
                     Thank you. Your inquiry is ready for the Harkcon team.
                   </output>
                 ) : null}
@@ -206,9 +220,12 @@ export default function ContactPage() {
           </div>
         </section>
 
-        <section className="bg-[#f4f3f0] py-24 md:py-32 lg:py-36 contact-faq-section" aria-labelledby="contact-faq-title">
-          <div className="grid gap-14 lg:grid-cols-[minmax(250px,0.65fr)_minmax(0,1.35fr)] lg:gap-20 xl:gap-28 site-gutter faq-layout">
-            <div className="self-start lg:sticky lg:top-36 faq-intro">
+        <section
+          className="contact-faq-section bg-[#f4f3f0] py-24 md:py-32 lg:py-36"
+          aria-labelledby="contact-faq-title"
+        >
+          <div className="site-gutter faq-layout grid gap-14 lg:grid-cols-[minmax(250px,0.65fr)_minmax(0,1.35fr)] lg:gap-20 xl:gap-28">
+            <div className="faq-intro self-start lg:sticky lg:top-36">
               <p className="eyebrow mb-6 text-[#5f626b]">Frequently asked questions</p>
               <h2 id="contact-faq-title">Before you get in touch.</h2>
               <p>

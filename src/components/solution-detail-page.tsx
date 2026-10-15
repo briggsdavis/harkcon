@@ -17,24 +17,30 @@ export default function SolutionDetailPage({ solution }: { solution: Solution })
     <div id="top" className="overflow-clip bg-white text-[#0d132d]">
       <Header />
       <div className="page-content">
-        <section className="relative h-[52svh] min-h-[360px] overflow-hidden md:min-h-[400px] solution-detail-hero" aria-label={`${solution.title} hero image`}>
+        <section
+          className="solution-detail-hero relative h-[52svh] min-h-[360px] overflow-hidden md:min-h-[400px]"
+          aria-label={`${solution.title} hero image`}
+        >
           <HeroParallaxImage
             src={solution.heroImage}
             alt={solution.heroAlt}
             imageClassName="solution-detail-hero-image"
           />
-          <div className="absolute inset-0 z-[1] solution-detail-hero-overlay" />
-          <div className="relative z-10 flex h-full items-end justify-between pb-8 text-white md:pb-10 site-gutter solution-detail-hero-index">
+          <div className="solution-detail-hero-overlay absolute inset-0 z-[1]" />
+          <div className="site-gutter solution-detail-hero-index relative z-10 flex h-full items-end justify-between pb-8 text-white md:pb-10">
             <p className="eyebrow text-white/75">Harkcon solutions</p>
             <span>{solution.number}</span>
           </div>
         </section>
 
-        <section className="py-20 md:py-24 lg:py-28 solution-detail-intro" aria-labelledby="solution-title">
-          <div className="grid gap-12 lg:grid-cols-[minmax(190px,0.55fr)_minmax(0,1.7fr)] lg:gap-16 xl:gap-28 site-gutter solution-detail-intro-grid">
-            <div className="flex items-start gap-5 self-start lg:sticky lg:top-36 solution-detail-label">
+        <section
+          className="solution-detail-intro py-20 md:py-24 lg:py-28"
+          aria-labelledby="solution-title"
+        >
+          <div className="site-gutter solution-detail-intro-grid grid gap-12 lg:grid-cols-[minmax(190px,0.55fr)_minmax(0,1.7fr)] lg:gap-16 xl:gap-28">
+            <div className="solution-detail-label flex items-start gap-5 self-start lg:sticky lg:top-36">
               <span
-                className="inline-block h-2.5 w-2.5 shrink-0 rounded-full solution-color-dot"
+                className="solution-color-dot inline-block h-2.5 w-2.5 shrink-0 rounded-full"
                 style={{ backgroundColor: solution.color }}
                 aria-hidden="true"
               />
@@ -48,7 +54,10 @@ export default function SolutionDetailPage({ solution }: { solution: Solution })
           </div>
         </section>
 
-        <section className="h-[41svh] min-h-[312px] w-full overflow-hidden md:h-[52svh] md:min-h-[408px] solution-detail-wide-image" aria-label={solution.wideAlt}>
+        <section
+          className="solution-detail-wide-image h-[41svh] min-h-[312px] w-full overflow-hidden md:h-[52svh] md:min-h-[408px]"
+          aria-label={solution.wideAlt}
+        >
           <SubtleParallaxPhoto
             src={solution.wideImage}
             className="solution-detail-wide-photo"
@@ -57,8 +66,11 @@ export default function SolutionDetailPage({ solution }: { solution: Solution })
           />
         </section>
 
-        <section className="bg-[#f4f3f0] solution-proof-section" aria-labelledby="proof-point-title">
-          <div className="grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20 xl:gap-28 site-gutter solution-proof-grid">
+        <section
+          className="solution-proof-section bg-[#f4f3f0]"
+          aria-labelledby="proof-point-title"
+        >
+          <div className="site-gutter solution-proof-grid grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20 xl:gap-28">
             <div>
               <p className="eyebrow mb-6 text-[#5f626b]">Proof point</p>
               <h2 id="proof-point-title">Experience measured in outcomes.</h2>
@@ -68,8 +80,8 @@ export default function SolutionDetailPage({ solution }: { solution: Solution })
         </section>
 
         <section className="solution-capabilities-section" aria-labelledby="capabilities-title">
-          <div className="grid items-start gap-14 lg:grid-cols-[1fr_1fr] lg:gap-20 xl:gap-28 site-gutter solution-capabilities-grid">
-            <figure className="relative min-h-[58svh] overflow-hidden bg-[#f4f3f0] lg:sticky lg:top-32 lg:min-h-[68svh] solution-capabilities-image">
+          <div className="site-gutter solution-capabilities-grid grid items-start gap-14 lg:grid-cols-[1fr_1fr] lg:gap-20 xl:gap-28">
+            <figure className="solution-capabilities-image relative min-h-[58svh] overflow-hidden bg-[#f4f3f0] lg:sticky lg:top-32 lg:min-h-[68svh]">
               <Image
                 src={solution.detailImage}
                 alt={solution.detailAlt}
@@ -82,7 +94,7 @@ export default function SolutionDetailPage({ solution }: { solution: Solution })
             <div className="solution-capabilities-copy">
               <p className="eyebrow text-[#5f626b]">What we deliver</p>
               <h2 id="capabilities-title">Solutions built around the mission.</h2>
-              <ol className="mt-12 border-b border-[#0d132d]/20 solution-capabilities-list">
+              <ol className="solution-capabilities-list mt-12 border-b border-[#0d132d]/20">
                 {solution.solutions.map((item, index) => (
                   <li key={item} data-reveal-line>
                     <span>{String(index + 1).padStart(2, "0")}</span>
@@ -95,12 +107,12 @@ export default function SolutionDetailPage({ solution }: { solution: Solution })
         </section>
 
         <section className="solution-partnership-section" aria-labelledby="partnership-title">
-          <div className="grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20 xl:gap-28 site-gutter solution-partnership-grid">
+          <div className="site-gutter solution-partnership-grid grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20 xl:gap-28">
             <div>
               <p className="eyebrow mb-6 text-white/55">Beyond a single engagement</p>
               <h2 id="partnership-title">Expertise that travels with the challenge.</h2>
             </div>
-            <div className="text-body-copy text-white/68 solution-partnership-copy">
+            <div className="solution-partnership-copy text-body-copy text-white/68">
               {capabilityCopy.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
               ))}
@@ -108,8 +120,11 @@ export default function SolutionDetailPage({ solution }: { solution: Solution })
           </div>
         </section>
 
-        <section className="bg-white py-20 md:py-24 lg:py-28 solution-cta-section" aria-label="Next steps">
-          <div className="grid md:grid-cols-2 site-gutter solution-cta-grid">
+        <section
+          className="solution-cta-section bg-white py-20 md:py-24 lg:py-28"
+          aria-label="Next steps"
+        >
+          <div className="site-gutter solution-cta-grid grid md:grid-cols-2">
             <article>
               <p className="eyebrow text-[#5f626b]">Start a conversation</p>
               <h2>Ready to put this expertise to work?</h2>

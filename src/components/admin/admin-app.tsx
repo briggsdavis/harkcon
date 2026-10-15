@@ -191,7 +191,7 @@ function Login() {
             {busy ? "One moment…" : mode === "signin" ? "Sign in" : "Create access"}
           </button>
         </form>
-        <Link href="/" className="inline-flex items-center gap-1.5 admin-back-link">
+        <Link href="/" className="admin-back-link inline-flex items-center gap-1.5">
           <ArrowLeft aria-hidden="true" className="h-3.5 w-3.5" /> Back to harkcon.com
         </Link>
       </section>
@@ -216,8 +216,8 @@ function Sidebar({ view, onSelect }: { view: View; onSelect: (view: View) => voi
     </button>
   )
   return (
-    <aside className="fixed inset-y-0 left-0 z-30 flex w-64 flex-col bg-[#10172c] px-[18px] pt-7 pb-5 text-[#d9deed] max-[760px]:hidden admin-sidebar">
-      <div className="flex items-center justify-between px-2.5 pb-8 admin-brand">
+    <aside className="admin-sidebar fixed inset-y-0 left-0 z-30 flex w-64 flex-col bg-[#10172c] px-[18px] pt-7 pb-5 text-[#d9deed] max-[760px]:hidden">
+      <div className="admin-brand flex items-center justify-between px-2.5 pb-8">
         <Image src="/images/harkcon-logo-white.avif" alt="Harkcon" width={160} height={41} />
         <span>Admin</span>
       </div>
@@ -293,7 +293,7 @@ function LineChart({ data }: { data: { date: string; views: number; visitors: nu
     .join(" ")
   const area = `${padding},${height - padding} ${points} ${width - padding},${height - padding}`
   return (
-    <div className="mt-[22px] admin-line-chart">
+    <div className="admin-line-chart mt-[22px]">
       <svg
         viewBox={`0 0 ${width} ${height}`}
         aria-label="Page views over time"
@@ -315,7 +315,7 @@ function LineChart({ data }: { data: { date: string; views: number; visitors: nu
           vectorEffect="non-scaling-stroke"
         />
       </svg>
-      <div className="flex justify-between pt-[9px] text-[11px] text-[#9298a6] admin-chart-labels">
+      <div className="admin-chart-labels flex justify-between pt-[9px] text-[11px] text-[#9298a6]">
         <span>{data[0]?.date}</span>
         <span>{data.at(-1)?.date}</span>
       </div>
@@ -328,7 +328,7 @@ function Dashboard() {
   const stats = useQuery(api.analytics.dashboard, { days })
   return (
     <section className="admin-view admin-dashboard">
-      <div className="mb-8 flex items-end justify-between gap-[30px] max-[760px]:flex-col max-[760px]:items-start admin-view-heading">
+      <div className="admin-view-heading mb-8 flex items-end justify-between gap-[30px] max-[760px]:flex-col max-[760px]:items-start">
         <div>
           <p className="admin-kicker">Overview</p>
           <h1>Good to see you.</h1>
@@ -348,7 +348,7 @@ function Dashboard() {
         <LoadingCards />
       ) : (
         <>
-          <div className="mb-[18px] grid grid-cols-4 gap-[15px] max-[1000px]:grid-cols-2 max-[760px]:grid-cols-1 admin-stat-grid">
+          <div className="admin-stat-grid mb-[18px] grid grid-cols-4 gap-[15px] max-[1000px]:grid-cols-2 max-[760px]:grid-cols-1">
             <Stat
               label="Visitors"
               value={stats.totals.visitors}
@@ -367,18 +367,18 @@ function Dashboard() {
             <Stat label="Unread messages" value={stats.totals.unread} note="Waiting for review" />
           </div>
           <div className="admin-card admin-traffic-card">
-            <div className="flex items-start justify-between admin-card-heading">
+            <div className="admin-card-heading flex items-start justify-between">
               <div>
                 <h2>Traffic</h2>
                 <p>Page views across the selected period.</p>
               </div>
-              <span className="flex items-center gap-[7px] text-xs text-[#707789] admin-legend">
+              <span className="admin-legend flex items-center gap-[7px] text-xs text-[#707789]">
                 <i /> Views
               </span>
             </div>
             <LineChart data={stats.daily} />
           </div>
-          <div className="mt-[18px] grid grid-cols-2 gap-[18px] max-[760px]:grid-cols-1 admin-dashboard-split">
+          <div className="admin-dashboard-split mt-[18px] grid grid-cols-2 gap-[18px] max-[760px]:grid-cols-1">
             <Ranked title="Top pages" subtitle="Where people spend their time" data={stats.pages} />
             <Ranked
               title="Traffic sources"
@@ -394,7 +394,7 @@ function Dashboard() {
 
 function Stat({ label, value, note }: { label: string; value: number; note: string }) {
   return (
-    <div className="min-h-[142px] p-[22px] admin-stat">
+    <div className="admin-stat min-h-[142px] p-[22px]">
       <span>{label}</span>
       <strong>{value.toLocaleString()}</strong>
       <small>{note}</small>
@@ -403,9 +403,9 @@ function Stat({ label, value, note }: { label: string; value: number; note: stri
 }
 function LoadingCards() {
   return (
-    <div className="mb-[18px] grid grid-cols-4 gap-[15px] max-[1000px]:grid-cols-2 max-[760px]:grid-cols-1 admin-stat-grid">
+    <div className="admin-stat-grid mb-[18px] grid grid-cols-4 gap-[15px] max-[1000px]:grid-cols-2 max-[760px]:grid-cols-1">
       {[1, 2, 3, 4].map((item) => (
-        <div className="min-h-[142px] p-[22px] admin-stat skeleton" key={item} />
+        <div className="admin-stat skeleton min-h-[142px] p-[22px]" key={item} />
       ))}
     </div>
   )
@@ -421,7 +421,7 @@ function Ranked({
 }) {
   const max = Math.max(1, ...data.map((item) => item.value))
   return (
-    <div className="p-[25px] admin-card admin-ranked">
+    <div className="admin-card admin-ranked p-[25px]">
       <h2>{title}</h2>
       <p>{subtitle}</p>
       {data.length ? (
@@ -556,7 +556,7 @@ function NewsEditor() {
   }
   return (
     <section className="admin-view">
-      <div className="mb-8 flex items-end justify-between gap-[30px] max-[760px]:flex-col max-[760px]:items-start admin-view-heading">
+      <div className="admin-view-heading mb-8 flex items-end justify-between gap-[30px] max-[760px]:flex-col max-[760px]:items-start">
         <div>
           <p className="admin-kicker">Publishing</p>
           <h1>News editor</h1>
@@ -573,7 +573,7 @@ function NewsEditor() {
           <Icon name="plus" /> Add {tab === "articles" ? "article" : "mention"}
         </button>
       </div>
-      <div className="mb-4 flex gap-1.5 admin-tabs">
+      <div className="admin-tabs mb-4 flex gap-1.5">
         <button
           className={tab === "articles" ? "is-active" : ""}
           onClick={() => setTab("articles")}
@@ -588,8 +588,8 @@ function NewsEditor() {
         </button>
       </div>
       {tab === "articles" ? (
-        <div className="overflow-hidden admin-card admin-list-card">
-          <div className="flex items-center justify-between border-b border-[#eceef1] px-[18px] py-[14px] admin-list-toolbar">
+        <div className="admin-card admin-list-card overflow-hidden">
+          <div className="admin-list-toolbar flex items-center justify-between border-b border-[#eceef1] px-[18px] py-[14px]">
             <p>Feature up to two articles on the home page.</p>
             <button className="admin-quiet-button" onClick={() => setTopicOpen(true)}>
               <Icon name="plus" /> New topic
@@ -601,7 +601,7 @@ function NewsEditor() {
                 <div className="admin-news-thumb">
                   {article.image ? <Image src={article.image} alt="" fill unoptimized /> : null}
                 </div>
-                <div className="min-w-0 admin-news-copy">
+                <div className="admin-news-copy min-w-0">
                   <span>
                     {article.category} · {article.displayDate}
                   </span>
@@ -673,7 +673,7 @@ function NewsEditor() {
           )}
         </div>
       ) : (
-        <div className="overflow-hidden admin-card admin-list-card">
+        <div className="admin-card admin-list-card overflow-hidden">
           {content?.mentions.length ? (
             content.mentions.map((item, index) => (
               <article className="admin-mention-row" key={item._id}>
@@ -773,8 +773,8 @@ function NewsEditor() {
                   required
                 />
               </label>
-              <div className="flex flex-col gap-2.5 span-2 admin-image-field">
-                <div className="flex items-end justify-between gap-4 admin-image-field-heading">
+              <div className="span-2 admin-image-field flex flex-col gap-2.5">
+                <div className="admin-image-field-heading flex items-end justify-between gap-4">
                   <div>
                     <span>Article image</span>
                     <small>
@@ -957,7 +957,7 @@ function Contacts() {
   }
   return (
     <section className="admin-view">
-      <div className="mb-8 flex items-end justify-between gap-[30px] max-[760px]:flex-col max-[760px]:items-start admin-view-heading">
+      <div className="admin-view-heading mb-8 flex items-end justify-between gap-[30px] max-[760px]:flex-col max-[760px]:items-start">
         <div>
           <p className="admin-kicker">Inbox</p>
           <h1>Contacts</h1>
@@ -1123,7 +1123,7 @@ function PagePlaceholder({ view }: { view: View }) {
   if (view !== "solutions")
     return (
       <section className="admin-view">
-        <div className="mb-8 flex items-end justify-between gap-[30px] max-[760px]:flex-col max-[760px]:items-start admin-view-heading">
+        <div className="admin-view-heading mb-8 flex items-end justify-between gap-[30px] max-[760px]:flex-col max-[760px]:items-start">
           <div>
             <p className="admin-kicker">Page editor</p>
             <h1>{pageLabels[view]}</h1>
@@ -1142,7 +1142,7 @@ function PagePlaceholder({ view }: { view: View }) {
     )
   return (
     <section className="admin-view">
-      <div className="mb-8 flex items-end justify-between gap-[30px] max-[760px]:flex-col max-[760px]:items-start admin-view-heading">
+      <div className="admin-view-heading mb-8 flex items-end justify-between gap-[30px] max-[760px]:flex-col max-[760px]:items-start">
         <div>
           <p className="admin-kicker">Page editor</p>
           <h1>Solution pages</h1>
@@ -1233,7 +1233,7 @@ function Workspace() {
   return (
     <div className="admin-root">
       <Sidebar view={view} onSelect={select} />
-      <main className="min-h-dvh ml-64 max-[760px]:ml-0 admin-main">
+      <main className="admin-main ml-64 min-h-dvh max-[760px]:ml-0">
         <header className="admin-mobile-header">
           <Image src="/images/harkcon-logo-black.avif" alt="Harkcon" width={126} height={33} />
           <select value={view} onChange={(e) => select(e.target.value as View)}>
