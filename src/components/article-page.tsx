@@ -60,7 +60,6 @@ export default function ArticlePage({
               data-reveal-line
             >
               <div>
-                <p className="eyebrow mb-4 text-[#5f626b]">Continue reading</p>
                 <h2 id="related-news-title" className="font-header text-section-title">
                   More from Harkcon
                 </h2>

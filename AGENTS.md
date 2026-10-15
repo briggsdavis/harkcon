@@ -1,3 +1,5 @@
+Use Tailwind for standard UI styling; reserve CSS for cases Tailwind cannot express cleanly.
+
 <!-- BEGIN:nextjs-agent-rules -->
 
 # This is NOT the Next.js you know

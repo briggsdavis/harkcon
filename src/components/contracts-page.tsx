@@ -168,10 +168,16 @@ const gsaCapabilities = gsaServices.map((service) => ({
   detail: service.detail,
 }))
 const tepsCapabilities = tepsAreas.map((title) => ({ title }))
-const uscgWorkforceCapabilities = uscgWorkforceServices.map((title) => ({ title }))
-const internationalCapabilities = internationalServices.map((title) => ({ title }))
+const uscgWorkforceCapabilities = uscgWorkforceServices.map((title) => ({
+  title,
+}))
+const internationalCapabilities = internationalServices.map((title) => ({
+  title,
+}))
 const legacyOasisCapabilities = legacyOasisServices.map((title) => ({ title }))
-const oasisSmallBusinessItems = oasisSmallBusinessCapabilities.map((title) => ({ title }))
+const oasisSmallBusinessItems = oasisSmallBusinessCapabilities.map((title) => ({
+  title,
+}))
 const oasisSdvosbItems = oasisSdvosbCapabilities.map((title) => ({ title }))
 
 function VehicleMeta({
@@ -507,7 +513,7 @@ function ContractsContent() {
 
       <section id="contracts-documents" className={contractSectionClassName()}>
         <div className="mx-auto w-full max-w-[1600px] px-5 sm:px-8 lg:px-12 xl:px-16">
-          <ContractSectionHeading eyebrow="Contract documents" title="Capabilities at a glance.">
+          <ContractSectionHeading title="Capabilities at a glance.">
             Download Harkcon’s current capability statement for a concise overview of our services,
             designations, and federal contracting qualifications.
           </ContractSectionHeading>
@@ -523,10 +529,7 @@ function ContractsContent() {
 
       <section id="contracts-naics" className={contractSectionClassName("soft")}>
         <div className="mx-auto w-full max-w-[1600px] px-5 sm:px-8 lg:px-12 xl:px-16">
-          <ContractSectionHeading
-            eyebrow="Designation & NAICS"
-            title="Ready for the right requirement."
-          >
+          <ContractSectionHeading title="Ready for the right requirement.">
             Harkcon is a VA-certified Service-Disabled Veteran-Owned Small Business with broad
             professional, technical, administrative, and training classifications.
           </ContractSectionHeading>
@@ -550,7 +553,7 @@ function ContractsContent() {
         </div>
       </section>
 
-      <ContractCta id="contracts-cta" eyebrow="Choose the right vehicle" />
+      <ContractCta id="contracts-cta" />
     </>
   )
 }
@@ -613,7 +616,6 @@ function OasisContent() {
       <section id="oasis-scope" className={contractSectionClassName("navy")}>
         <div className="mx-auto grid w-full max-w-[1600px] gap-16 px-5 sm:px-8 lg:grid-cols-[0.92fr_1.08fr] lg:gap-16 lg:px-12 xl:gap-24 xl:px-16">
           <div className="self-start lg:sticky lg:top-36">
-            <p className="eyebrow mb-6 text-white/55">Scope &amp; access</p>
             <h2 className={contractHeadingClassName}>Aligned to the requirement.</h2>
             <p className="mt-8 max-w-xl text-body-copy text-white/65">
               Harkcon’s vehicles provide access to professional services aligned with the GSA OASIS+
@@ -632,10 +634,7 @@ function OasisContent() {
 
       <section id="oasis-documents" className={contractSectionClassName()}>
         <div className="mx-auto w-full max-w-[1600px] px-5 sm:px-8 lg:px-12 xl:px-16">
-          <ContractSectionHeading
-            eyebrow="OASIS+ contract documents"
-            title="Review the program solicitation."
-          >
+          <ContractSectionHeading title="Review the program solicitation.">
             Open the governing solicitation sections for detailed OASIS contract structure,
             requirements, and terms.
           </ContractSectionHeading>
@@ -654,9 +653,6 @@ function OasisContent() {
           className={`mx-auto w-full max-w-[1600px] px-5 sm:px-8 lg:px-12 xl:px-16 ${contractTwoColumnClassName}`}
         >
           <div>
-            <p className="eyebrow mb-6 text-[#5f626b]">
-              Verification &amp; public award information
-            </p>
             <h2 className={contractHeadingClassName}>Official sources. Current information.</h2>
           </div>
           <div className="text-body-copy text-[#454955]">
@@ -689,7 +685,6 @@ function OasisContent() {
       <section id="oasis-work" className={contractSectionClassName()}>
         <div className="mx-auto grid w-full max-w-[1600px] gap-16 px-5 sm:px-8 lg:grid-cols-[0.92fr_1.08fr] lg:gap-16 lg:px-12 xl:gap-24 xl:px-16">
           <div className="self-start lg:sticky lg:top-36">
-            <p className="eyebrow mb-6 text-[#5f626b]">Work with Harkcon through OASIS+</p>
             <h2 className={contractHeadingClassName}>
               Start with the requirement. Build the right path.
             </h2>
@@ -709,7 +704,7 @@ function OasisContent() {
         label="Two professionals collaborating in a bright office"
       />
 
-      <ContractCta id="oasis-cta" eyebrow="Put OASIS+ to work" />
+      <ContractCta id="oasis-cta" />
     </>
   )
 }
@@ -726,19 +721,10 @@ const viewTabClassName = (active: boolean) =>
 const viewTabDotClassName = (active: boolean, color: string) =>
   `h-2.5 w-2.5 rounded-full transition-all duration-300 ${color} ${active ? "scale-110 opacity-100" : "opacity-45"}`
 
-function ContractSectionHeading({
-  eyebrow,
-  title,
-  children,
-}: {
-  eyebrow: string
-  title: string
-  children: ReactNode
-}) {
+function ContractSectionHeading({ title, children }: { title: string; children: ReactNode }) {
   return (
     <div className={`${contractTwoColumnClassName} items-end`}>
       <div>
-        <p className="eyebrow mb-6 text-[#5f626b]">{eyebrow}</p>
         <h2 className={contractHeadingClassName}>{title}</h2>
       </div>
       <p className="max-w-2xl text-body-copy text-[#454955]">{children}</p>
@@ -764,12 +750,11 @@ function OasisContactCard({ className, label }: { className: string; label: stri
   )
 }
 
-function ContractCta({ id, eyebrow }: { id: string; eyebrow: string }) {
+function ContractCta({ id }: { id: string }) {
   return (
     <section id={id} className="scroll-mt-28 bg-[#0d132d] text-white">
       <div className="mx-auto flex w-full max-w-[1600px] flex-col items-start justify-between gap-10 px-5 py-20 sm:px-8 md:flex-row md:items-end md:py-24 lg:px-12 xl:px-16">
         <div>
-          <p className="eyebrow mb-5 text-white/55">{eyebrow}</p>
           <h2 className={contractHeadingClassName}>
             Let’s find the clearest path to your next mission outcome.
           </h2>

@@ -475,7 +475,6 @@ export default function About() {
         <section className="bg-[#0d132d] text-white">
           <div className="site-gutter flex flex-col items-start justify-between gap-10 py-20 md:flex-row md:items-end md:py-24">
             <div>
-              <p className="eyebrow mb-5 text-white/55">Work with Harkcon</p>
               <h2 className="max-w-4xl font-header text-section-title">
                 Bring your next challenge to a team built to solve it.
               </h2>

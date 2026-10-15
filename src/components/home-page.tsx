@@ -2,8 +2,9 @@
 
 import {
   ArrowRight,
-  ArrowUp,
   ArrowUpRight,
+  CaretDown,
+  DownloadSimple,
   LinkedinLogo,
   Minus,
   Plus,
@@ -12,11 +13,12 @@ import {
 } from "@phosphor-icons/react"
 import Image from "next/image"
 import Link from "next/link"
-import { FocusEvent, useCallback, useEffect, useRef, useState } from "react"
+import { FocusEvent, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react"
 import FeaturedNews from "~/components/featured-news"
+import { HARKCON_CAPABILITY_STATEMENT_URL } from "~/lib/documents"
 
 const statement =
-  "Harkcon is committed to providing customized, comprehensive performance management and technology solutions that improve people and organizational performance at all levels."
+  "Since 2005, Harkcon, a service-disabled veteran-owned small business, has helped government agencies solve complex workforce, organizational, and mission challenges."
 
 const solutionLinks = [
   {
@@ -48,6 +50,189 @@ const solutionLinks = [
     href: "/solutions/emergency-management-continuity-support",
   },
 ]
+
+type DropdownLink = {
+  title: string
+  detail: string
+  href?: string
+  external?: boolean
+}
+
+const contractLinks: DropdownLink[] = [
+  {
+    title: "Contract Vehicles",
+    // href: "/contracts",
+    detail: "GSA MAS, TEPS III, USCG Workforce, USCG ITASS, and legacy OASIS access.",
+  },
+  {
+    title: "OASIS+",
+    // href: "/contracts?view=oasis-plus",
+    detail:
+      "Best-in-Class access to integrated professional services through our Small Business and SDVOSB awards.",
+  },
+]
+
+const newsLinks: DropdownLink[] = [
+  {
+    title: "News",
+    href: "/news-insights",
+    detail: "Company announcements, contract awards, and insights from the Harkcon team.",
+  },
+  {
+    title: "LinkedIn",
+    href: "https://www.linkedin.com/company/harkcon-inc./",
+    external: true,
+    detail: "Follow Harkcon for the latest updates, openings, and conversations.",
+  },
+]
+
+type DropdownName = "news" | "contracts" | "solutions"
+
+const dropdownItemTitleClassName =
+  "flex items-center gap-4 border-b border-white/15 pb-2 font-header text-base leading-tight tracking-[-0.015em] text-white transition-colors group-hover:text-white/55 group-focus-visible:text-white/55 xl:text-[1.05rem]"
+
+function NavDropdownTrigger({
+  label,
+  open,
+  onOpen,
+  onScheduleClose,
+}: {
+  label: string
+  open: boolean
+  onOpen: () => void
+  onScheduleClose: () => void
+}) {
+  return (
+    <div
+      className="flex h-24 items-center pb-px"
+      onMouseEnter={onOpen}
+      onMouseLeave={onScheduleClose}
+    >
+      <button
+        type="button"
+        className={`${navLinkClassName} flex items-center gap-2`}
+        aria-expanded={open}
+        aria-controls="nav-dropdown-panel"
+        onClick={onOpen}
+        onFocus={onOpen}
+      >
+        {label}
+        <span
+          aria-hidden="true"
+          className={`inline-flex transition-transform duration-300 ${open ? "-rotate-180" : ""}`}
+        >
+          <CaretDown
+            className="h-4 w-4"
+            stroke="currentColor"
+            strokeWidth={8}
+            strokeLinejoin="round"
+          />
+        </span>
+      </button>
+    </div>
+  )
+}
+
+function CompactDropdownContent({
+  label,
+  blurb,
+  items,
+  onClose,
+}: {
+  label: string
+  blurb: string
+  items: DropdownLink[]
+  onClose: () => void
+}) {
+  return (
+    <div className="site-gutter grid grid-cols-[0.82fr_1.18fr] gap-16 py-10 xl:gap-24 xl:py-11">
+      <div className="flex flex-col items-start border-r border-white/15 pr-16">
+        <p className="eyebrow text-white/55 normal-case">{label}</p>
+        <p className="mt-7 max-w-md font-header text-xl leading-[1.25] tracking-[-0.02em] text-pretty text-white">
+          {blurb}
+        </p>
+      </div>
+      <div className="grid grid-cols-2 gap-10">
+        {items.map((item) => {
+          const content = (
+            <>
+              <span className={dropdownItemTitleClassName}>
+                <Plus
+                  aria-hidden="true"
+                  className="h-4 w-4 text-white/50 transition-transform duration-300 group-hover:rotate-90 group-focus-visible:rotate-90"
+                />
+                {item.title}
+              </span>
+              <span className="mt-4 max-w-xs text-sm leading-relaxed text-pretty text-white/60">
+                {item.detail}
+              </span>
+            </>
+          )
+          const className = "group flex flex-col items-start focus-visible:outline-none"
+
+          if (!item.href) {
+            return (
+              <span key={item.title} className={className}>
+                {content}
+              </span>
+            )
+          }
+
+          return item.external ? (
+            <a
+              key={item.title}
+              href={item.href}
+              target="_blank"
+              rel="noreferrer"
+              onClick={onClose}
+              className={className}
+            >
+              {content}
+            </a>
+          ) : (
+            <Link key={item.title} href={item.href} onClick={onClose} className={className}>
+              {content}
+            </Link>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
+function SolutionsDropdownContent() {
+  return (
+    <div className="site-gutter grid min-h-[350px] grid-cols-[0.82fr_1.18fr] gap-16 py-10 xl:gap-24 xl:py-11">
+      <div className="flex flex-col items-start border-r border-white/15 pr-16">
+        <p className="eyebrow text-white/55 normal-case">Our solutions</p>
+        <p className="mt-7 max-w-md font-header text-xl leading-[1.25] tracking-[-0.02em] text-white">
+          Customized expertise that strengthens workforces, modernizes operations, and improves
+          mission performance at every level.
+        </p>
+      </div>
+      <div className="flex flex-col">
+        <p className="eyebrow text-white/55 normal-case">Explore</p>
+        <div className="mt-5 grid gap-0">
+          {solutionLinks.map((solution) => (
+            // <Link key={solution.href} href={solution.href} onClick={onClose}
+            <span
+              key={solution.href}
+              className="group flex items-center gap-4 border-b border-white/15 py-2 font-header text-base leading-tight tracking-[-0.015em] text-white transition-colors hover:text-white/55 focus-visible:text-white/55 focus-visible:outline-none xl:text-[1.05rem]"
+            >
+              <Plus
+                aria-hidden="true"
+                className="h-4 w-4 text-white/50 transition-transform duration-300 group-hover:rotate-90 group-focus-visible:rotate-90"
+              />
+              {solution.title}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+const dropdownNames: DropdownName[] = ["news", "contracts", "solutions"]
 
 const socialLinkClassName =
   "flex h-11 w-11 items-center justify-center rounded-full border border-white/30 text-white/80 transition-all duration-300 hover:border-white hover:bg-white hover:text-[#0d132d] focus-visible:border-white focus-visible:bg-white focus-visible:text-[#0d132d] focus-visible:outline-none"
@@ -92,43 +277,31 @@ const clientLogos = [
 
 const solutions = [
   {
-    number: "01",
-    color: "#ff334f",
     title: "Workforce & Organizational Analysis",
     href: solutionLinks[0].href,
     detail: "Readiness, staffing, and actionable workforce strategy.",
   },
   {
-    number: "02",
-    color: "#246bff",
     title: "Training & Human Systems Integration",
     href: solutionLinks[1].href,
     detail: "High-impact learning built for mission effectiveness.",
   },
   {
-    number: "03",
-    color: "#ffc400",
     title: "Process Improvement & Transformation",
     href: solutionLinks[2].href,
     detail: "Modern operations that reduce risk and create momentum.",
   },
   {
-    number: "04",
-    color: "#16c172",
     title: "Policy, Strategy & Program Support",
     href: solutionLinks[3].href,
     detail: "Clear direction for complex programs and decisions.",
   },
   {
-    number: "05",
-    color: "#a23cff",
     title: "International Advisory & Capacity Building",
     href: solutionLinks[4].href,
     detail: "Stronger partnerships and operational readiness abroad.",
   },
   {
-    number: "06",
-    color: "#ff7a1a",
     title: "Emergency Management & Continuity",
     href: solutionLinks[6].href,
     detail: "Preparedness that protects mission-critical functions.",
@@ -149,37 +322,71 @@ export function Arrow({
   )
 }
 
+const wipeButtonClassName =
+  "relative isolate inline-flex min-h-11 items-center justify-center gap-4 overflow-hidden px-5 py-2.5 text-action font-medium transition-colors duration-700 before:absolute before:inset-0 before:-z-10 before:origin-right before:scale-x-0 before:transition-transform before:duration-700 before:ease-out hover:before:origin-left hover:before:scale-x-100 focus-visible:before:origin-left focus-visible:before:scale-x-100 after:pointer-events-none after:absolute after:inset-0 after:border-[0.5px] after:opacity-0 after:transition-opacity after:duration-700 hover:after:opacity-100 focus-visible:after:opacity-100"
+const wipeButtonDarkClassName =
+  "bg-[#0d132d] text-white before:bg-white after:border-[#0d132d] hover:text-[#0d132d] focus-visible:text-[#0d132d]"
+const wipeButtonLightClassName =
+  "bg-white text-[#0d132d] before:bg-[#0d132d] after:border-white hover:text-white focus-visible:text-white"
+
 const navLinkClassName =
-  "relative py-2 text-action opacity-85 transition-opacity after:absolute after:right-0 after:bottom-0 after:left-0 after:h-px after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 hover:opacity-100 hover:after:scale-x-100 focus-visible:after:scale-x-100"
+  "relative py-2 text-action opacity-85 transition-opacity after:absolute after:right-0 after:bottom-1 after:left-0 after:h-px after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 hover:opacity-100 hover:after:scale-x-100 focus-visible:after:scale-x-100"
 
 const mobileNavLinkClassName =
   "flex items-center justify-between border-b border-white/15 py-4 text-lg"
 
 export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | "light" }) {
   const [menuOpen, setMenuOpen] = useState(false)
-  const [solutionsOpen, setSolutionsOpen] = useState(false)
+  const [openDropdown, setOpenDropdown] = useState<DropdownName | null>(null)
+  const [shownDropdown, setShownDropdown] = useState<DropdownName>("solutions")
+  const [panelHeight, setPanelHeight] = useState(0)
   const [mobileSolutionsOpen, setMobileSolutionsOpen] = useState(false)
+  const [mobileContractsOpen, setMobileContractsOpen] = useState(false)
+  const [mobileNewsOpen, setMobileNewsOpen] = useState(false)
   const [atTop, setAtTop] = useState(true)
   const [headerVisible, setHeaderVisible] = useState(true)
-  const solutionsCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const dropdownCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const dropdownContentRefs = useRef<Partial<Record<DropdownName, HTMLDivElement | null>>>({})
   const toggleMenu = useCallback(() => setMenuOpen((open) => !open), [])
   const closeMenu = useCallback(() => setMenuOpen(false), [])
-  const openSolutions = useCallback(() => {
-    if (solutionsCloseTimer.current) clearTimeout(solutionsCloseTimer.current)
-    setSolutionsOpen(true)
+  const clearDropdownTimer = useCallback(() => {
+    if (dropdownCloseTimer.current) clearTimeout(dropdownCloseTimer.current)
   }, [])
-  const closeSolutions = useCallback(() => {
-    if (solutionsCloseTimer.current) clearTimeout(solutionsCloseTimer.current)
-    setSolutionsOpen(false)
-  }, [])
-  const scheduleSolutionsClose = useCallback(() => {
-    if (solutionsCloseTimer.current) clearTimeout(solutionsCloseTimer.current)
-    solutionsCloseTimer.current = setTimeout(() => setSolutionsOpen(false), 280)
-  }, [])
+  const showDropdown = useCallback(
+    (name: DropdownName) => {
+      clearDropdownTimer()
+      setOpenDropdown(name)
+      setShownDropdown(name)
+    },
+    [clearDropdownTimer],
+  )
+  const openNews = useCallback(() => showDropdown("news"), [showDropdown])
+  const openContracts = useCallback(() => showDropdown("contracts"), [showDropdown])
+  const openSolutions = useCallback(() => showDropdown("solutions"), [showDropdown])
+  const closeDropdown = useCallback(() => {
+    clearDropdownTimer()
+    setOpenDropdown(null)
+  }, [clearDropdownTimer])
+  const scheduleDropdownClose = useCallback(() => {
+    clearDropdownTimer()
+    dropdownCloseTimer.current = setTimeout(() => setOpenDropdown(null), 280)
+  }, [clearDropdownTimer])
   const toggleMobileSolutions = useCallback(() => setMobileSolutionsOpen((open) => !open), [])
-  const handleSolutionsBlur = useCallback((event: FocusEvent<HTMLDivElement>) => {
-    if (!event.currentTarget.contains(event.relatedTarget)) setSolutionsOpen(false)
+  const toggleMobileContracts = useCallback(() => setMobileContractsOpen((open) => !open), [])
+  const toggleMobileNews = useCallback(() => setMobileNewsOpen((open) => !open), [])
+  const handleNavBlur = useCallback((event: FocusEvent<HTMLElement>) => {
+    if (!event.currentTarget.contains(event.relatedTarget)) setOpenDropdown(null)
   }, [])
+
+  useLayoutEffect(() => {
+    const content = dropdownContentRefs.current[shownDropdown]
+    if (!content) return
+    const measure = () => setPanelHeight(content.offsetHeight)
+    measure()
+    const observer = new ResizeObserver(measure)
+    observer.observe(content)
+    return () => observer.disconnect()
+  }, [shownDropdown])
 
   useEffect(() => {
     let lastY = window.scrollY
@@ -195,11 +402,11 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
         setHeaderVisible(true)
       } else {
         setAtTop(false)
-        if (menuOpen || solutionsOpen) {
+        if (menuOpen || openDropdown) {
           setHeaderVisible(true)
         } else if (delta > 5 && currentY > 120) {
           setHeaderVisible(false)
-          setSolutionsOpen(false)
+          setOpenDropdown(null)
         } else if (delta < -5) {
           setHeaderVisible(true)
         }
@@ -218,16 +425,16 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
       window.removeEventListener("scroll", onScroll)
       if (frame) cancelAnimationFrame(frame)
     }
-  }, [menuOpen, solutionsOpen])
+  }, [menuOpen, openDropdown])
 
   useEffect(
     () => () => {
-      if (solutionsCloseTimer.current) clearTimeout(solutionsCloseTimer.current)
+      if (dropdownCloseTimer.current) clearTimeout(dropdownCloseTimer.current)
     },
     [],
   )
 
-  const expanded = solutionsOpen || menuOpen
+  const expanded = openDropdown !== null || menuOpen
   const darkSurface = (atTop && initialSurface === "dark") || expanded
   const menuButtonLight = !menuOpen && (!atTop || initialSurface === "light")
   const surfaceClassName = expanded
@@ -256,82 +463,79 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
           />
         </Link>
 
-        <nav aria-label="Primary navigation" className="hidden items-center gap-6 lg:flex xl:gap-8">
-          <Link className={navLinkClassName} href="/about">
-            About
-          </Link>
-          <Link className={navLinkClassName} href="/news-insights">
-            News
-          </Link>
-          <Link className={navLinkClassName} href="/contracts">
-            Contracts
-          </Link>
-          <Link className={navLinkClassName} href="/careers">
-            Careers
-          </Link>
-          <div
-            className="flex h-24 items-center pb-px"
-            onMouseEnter={openSolutions}
-            onMouseLeave={scheduleSolutionsClose}
-            onFocus={openSolutions}
-            onBlur={handleSolutionsBlur}
-          >
-            <button
-              type="button"
-              className={`${navLinkClassName} flex items-center gap-2`}
-              aria-expanded={solutionsOpen}
-              aria-controls="solutions-mega-menu"
-              onClick={openSolutions}
-            >
-              Solutions
-              <span
-                aria-hidden="true"
-                className={`inline-flex transition-transform duration-300 ${solutionsOpen ? "rotate-180" : ""}`}
-              >
-                <Arrow />
-              </span>
-            </button>
-
-            <div
-              id="solutions-mega-menu"
-              className={`mega-menu absolute top-24 right-0 left-0 overflow-hidden border-t border-white/15 bg-[#0d132d] ${solutionsOpen ? "pointer-events-auto max-h-[430px] opacity-100" : "pointer-events-none max-h-0 opacity-0"}`}
-            >
-              <div className="site-gutter grid min-h-[350px] grid-cols-[0.82fr_1.18fr] gap-16 py-10 xl:gap-24 xl:py-11">
-                <div className="flex flex-col items-start border-r border-white/15 pr-16">
-                  <p className="eyebrow text-white/55">Our solutions</p>
-                  <p className="mt-7 max-w-md font-header text-xl leading-[1.25] tracking-[-0.02em] text-white">
-                    Customized expertise that strengthens workforces, modernizes operations, and
-                    improves mission performance at every level.
-                  </p>
-                </div>
-                <div className="flex flex-col">
-                  <p className="eyebrow text-white/55">Explore</p>
-                  <div className="mt-5 grid gap-0">
-                    {solutionLinks.map((solution) => (
-                      <Link
-                        key={solution.href}
-                        href={solution.href}
-                        onClick={closeSolutions}
-                        className="group flex items-center gap-4 border-b border-white/15 py-2 font-header text-base leading-tight tracking-[-0.015em] text-white transition-colors hover:text-white/55 focus-visible:text-white/55 focus-visible:outline-none xl:text-[1.05rem]"
-                      >
-                        <Plus
-                          aria-hidden="true"
-                          className="h-4 w-4 text-white/50 transition-transform duration-300 group-hover:rotate-90 group-focus-visible:rotate-90"
-                        />
-                        {solution.title}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+        {/* oxlint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- delegated focusout */}
+        <nav
+          aria-label="Primary navigation"
+          className="hidden items-center gap-6 lg:flex xl:gap-8"
+          onBlur={handleNavBlur}
+        >
+          {/* <Link className={navLinkClassName} href="/about"> */}
+          <span className={navLinkClassName}>About</span>
+          {/* </Link> */}
+          {/* <Link className={navLinkClassName} href="/careers"> */}
+          <span className={navLinkClassName}>Careers</span>
+          {/* </Link> */}
+          <NavDropdownTrigger
+            label="News"
+            open={openDropdown === "news"}
+            onOpen={openNews}
+            onScheduleClose={scheduleDropdownClose}
+          />
+          <NavDropdownTrigger
+            label="Contracts"
+            open={openDropdown === "contracts"}
+            onOpen={openContracts}
+            onScheduleClose={scheduleDropdownClose}
+          />
+          <NavDropdownTrigger
+            label="Solutions"
+            open={openDropdown === "solutions"}
+            onOpen={openSolutions}
+            onScheduleClose={scheduleDropdownClose}
+          />
           <Link
-            className={`pill-button ml-2 ${darkSurface ? "pill-button--light" : ""}`}
             href="/contact"
+            className={`${wipeButtonClassName} ml-2 ${darkSurface ? wipeButtonLightClassName : wipeButtonDarkClassName}`}
           >
             Contact <Arrow />
           </Link>
+
+          <div
+            id="nav-dropdown-panel"
+            className={`absolute top-24 right-0 left-0 overflow-hidden border-t border-white/15 bg-[#0d132d] transition-[height,opacity] duration-[650ms] ease-[cubic-bezier(0.77,0,0.18,1)] ${openDropdown ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"}`}
+            style={{ height: openDropdown ? panelHeight : 0 }}
+            onMouseEnter={clearDropdownTimer}
+            onMouseLeave={scheduleDropdownClose}
+          >
+            {dropdownNames.map((name) => (
+              <div
+                key={name}
+                ref={(element) => {
+                  dropdownContentRefs.current[name] = element
+                }}
+                inert={name !== shownDropdown || !openDropdown}
+                className={`absolute inset-x-0 top-0 transition-opacity duration-300 ${name === shownDropdown ? "opacity-100 delay-150" : "opacity-0"}`}
+              >
+                {name === "news" ? (
+                  <CompactDropdownContent
+                    label="News"
+                    blurb="The latest from Harkcon, from contract awards to the people behind the mission."
+                    items={newsLinks}
+                    onClose={closeDropdown}
+                  />
+                ) : name === "contracts" ? (
+                  <CompactDropdownContent
+                    label="Contracts"
+                    blurb="Flexible federal acquisition paths to Harkcon's people, performance, and technology expertise."
+                    items={contractLinks}
+                    onClose={closeDropdown}
+                  />
+                ) : (
+                  <SolutionsDropdownContent />
+                )}
+              </div>
+            ))}
+          </div>
         </nav>
 
         <button
@@ -355,18 +559,66 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
         id="mobile-navigation"
         className={`mobile-nav absolute top-24 right-0 left-0 flex max-h-[calc(100svh-6rem)] flex-col overflow-y-auto bg-[#0d132d] px-5 py-5 transition-all duration-300 sm:px-8 ${menuOpen ? "pointer-events-auto translate-y-0 opacity-100" : "pointer-events-none -translate-y-3 opacity-0"}`}
       >
-        <Link href="/about" onClick={closeMenu} className={mobileNavLinkClassName}>
-          About <Arrow diagonal />
-        </Link>
-        <Link href="/news-insights" onClick={closeMenu} className={mobileNavLinkClassName}>
-          News <Arrow diagonal />
-        </Link>
-        <Link href="/contracts" onClick={closeMenu} className={mobileNavLinkClassName}>
-          Contracts <Arrow diagonal />
-        </Link>
-        <Link href="/careers" onClick={closeMenu} className={mobileNavLinkClassName}>
-          Careers <Arrow diagonal />
-        </Link>
+        {/* <Link href="/about" onClick={closeMenu} className={mobileNavLinkClassName}> */}
+        <span className={mobileNavLinkClassName}>About</span>
+        {/* </Link> */}
+        {/* <Link href="/careers" onClick={closeMenu} className={mobileNavLinkClassName}> */}
+        <span className={mobileNavLinkClassName}>Careers</span>
+        {/* </Link> */}
+        <button
+          type="button"
+          className="flex w-full items-center justify-between border-b border-white/15 py-4 text-left text-lg"
+          aria-expanded={mobileNewsOpen}
+          aria-controls="mobile-news-list"
+          onClick={toggleMobileNews}
+        >
+          News {mobileNewsOpen ? <Minus aria-hidden="true" /> : <Plus aria-hidden="true" />}
+        </button>
+        <div
+          id="mobile-news-list"
+          className={`grid overflow-hidden pl-4 transition-all duration-500 ${mobileNewsOpen ? "max-h-[640px] opacity-100" : "max-h-0 opacity-0"}`}
+        >
+          <Link
+            href="/news-insights"
+            onClick={closeMenu}
+            className="flex items-center justify-between border-b border-white/15 py-3 text-sm leading-snug text-white/70"
+          >
+            News
+          </Link>
+          <a
+            href="https://www.linkedin.com/company/harkcon-inc./"
+            target="_blank"
+            rel="noreferrer"
+            onClick={closeMenu}
+            className="flex items-center justify-between border-b border-white/15 py-3 text-sm leading-snug text-white/70"
+          >
+            LinkedIn
+          </a>
+        </div>
+        <button
+          type="button"
+          className="flex w-full items-center justify-between border-b border-white/15 py-4 text-left text-lg"
+          aria-expanded={mobileContractsOpen}
+          aria-controls="mobile-contracts-list"
+          onClick={toggleMobileContracts}
+        >
+          Contracts{" "}
+          {mobileContractsOpen ? <Minus aria-hidden="true" /> : <Plus aria-hidden="true" />}
+        </button>
+        <div
+          id="mobile-contracts-list"
+          className={`grid overflow-hidden pl-4 transition-all duration-500 ${mobileContractsOpen ? "max-h-[640px] opacity-100" : "max-h-0 opacity-0"}`}
+        >
+          {contractLinks.map((contract) => (
+            // <Link key={contract.href} href={contract.href} onClick={closeMenu}>
+            <span
+              key={contract.title}
+              className="flex items-center justify-between border-b border-white/15 py-3 text-sm leading-snug text-white/70"
+            >
+              {contract.title}
+            </span>
+          ))}
+        </div>
         <button
           type="button"
           className="flex w-full items-center justify-between border-b border-white/15 py-4 text-left text-lg"
@@ -382,14 +634,13 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
           className={`grid overflow-hidden pl-4 transition-all duration-500 ${mobileSolutionsOpen ? "max-h-[640px] opacity-100" : "max-h-0 opacity-0"}`}
         >
           {solutionLinks.map((solution) => (
-            <Link
+            // <Link key={solution.href} href={solution.href} onClick={closeMenu}>
+            <span
               key={solution.href}
-              href={solution.href}
-              onClick={closeMenu}
               className="flex items-center justify-between border-b border-white/15 py-3 text-sm leading-snug text-white/70"
             >
               {solution.title}
-            </Link>
+            </span>
           ))}
         </div>
         <Link
@@ -397,7 +648,7 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
           onClick={closeMenu}
           className="mt-5 flex items-center justify-center gap-4 rounded-full border border-white bg-white px-6 py-3 text-sm font-medium text-[#0d132d]"
         >
-          Contact <Arrow diagonal />
+          Contact
         </Link>
       </div>
     </header>
@@ -406,50 +657,28 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
 
 function ClientMarquee() {
   const trackRef = useRef<HTMLDivElement>(null)
-  const directionRef = useRef(1)
 
   useEffect(() => {
     const track = trackRef.current
     if (!track || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
 
-    let lastY = window.scrollY
-    let scrollFrame = 0
     let animationFrame = 0
     let lastTime = performance.now()
     let position = 0
-    let velocity = 1
-
-    const updateDirection = () => {
-      scrollFrame = 0
-      const currentY = window.scrollY
-      if (Math.abs(currentY - lastY) > 3) {
-        directionRef.current = currentY > lastY ? 1 : -1
-        lastY = currentY
-      }
-    }
-
-    const onScroll = () => {
-      if (!scrollFrame) scrollFrame = requestAnimationFrame(updateDirection)
-    }
 
     const animate = (time: number) => {
       const delta = Math.min(time - lastTime, 48)
       lastTime = time
       const halfWidth = track.scrollWidth / 2
       if (halfWidth > 0) {
-        const easing = 1 - Math.exp(-delta / 260)
-        velocity += (directionRef.current - velocity) * easing
-        position = (position + (halfWidth / 48_000) * delta * velocity + halfWidth) % halfWidth
+        position = (position + (halfWidth / 48_000) * delta) % halfWidth
         track.style.transform = `translate3d(${-position}px, 0, 0)`
       }
       animationFrame = requestAnimationFrame(animate)
     }
 
     animationFrame = requestAnimationFrame(animate)
-    window.addEventListener("scroll", onScroll, { passive: true })
     return () => {
-      window.removeEventListener("scroll", onScroll)
-      if (scrollFrame) cancelAnimationFrame(scrollFrame)
       if (animationFrame) cancelAnimationFrame(animationFrame)
     }
   }, [])
@@ -461,27 +690,28 @@ function ClientMarquee() {
   return (
     <section
       className="client-marquee bg-white py-10 md:py-12"
-      aria-labelledby="client-marquee-title"
+      aria-label="Organizations we have served"
     >
-      <div className="site-gutter mb-7 flex items-center justify-between gap-6">
-        <p id="client-marquee-title" className="eyebrow">
-          Trusted across missions
-        </p>
-        <p className="text-sm text-[#5f626b]">Organizations we have served</p>
+      <div className="site-gutter mb-10 flex items-center justify-center gap-6 md:mb-12">
+        <span aria-hidden="true" className="h-0.5 w-12 bg-[#0d132d]/25 md:w-20" />
+        <h2 className="text-center font-header text-[clamp(1.5rem,2.4vw,2.25rem)] leading-tight font-medium tracking-[-0.02em] text-[#0d132d]">
+          Organizations we have served
+        </h2>
+        <span aria-hidden="true" className="h-0.5 w-12 bg-[#0d132d]/25 md:w-20" />
       </div>
       <div className="marquee-viewport overflow-hidden">
         <div ref={trackRef} className="flex w-max items-center will-change-transform">
           {repeatedLogos.map(([copy, logo]) => (
             <div
-              className="mr-6 flex h-24 w-44 shrink-0 items-center justify-center px-7 py-5 md:h-28 md:w-52"
+              className="mr-3 flex h-36 w-60 shrink-0 items-center justify-center px-7 py-7 md:h-42 md:w-72"
               key={`${copy}-${logo.src}`}
               aria-hidden={copy === "second"}
             >
               <Image
                 src={logo.src}
                 alt={copy === "first" ? logo.name : ""}
-                width={180}
-                height={90}
+                width={270}
+                height={135}
                 className="h-full w-full object-contain"
               />
             </div>
@@ -602,7 +832,6 @@ function ScrollStatement() {
       aria-label="What Harkcon does"
     >
       <div className="site-gutter">
-        <p className="eyebrow mb-10">What we do</p>
         <p
           ref={statementRef}
           className="mx-auto max-w-[1050px] font-header text-[clamp(1.65rem,2.55vw,2.75rem)] leading-[1.15] tracking-[-0.025em] text-[#c6c8cc]"
@@ -624,6 +853,18 @@ function ScrollStatement() {
   )
 }
 
+const footerBadges = [
+  {
+    name: "Service-Disabled Veteran-Owned Small Business, CVE verified",
+    src: "/images/sdvosb-badge.jpg",
+  },
+  {
+    name: "Virginia Values Veterans official V3 certified company",
+    src: "/images/virginia-values-veterans-badge.png",
+  },
+  { name: "CMMC Level 2 self-assessed", src: "/images/cmmc-level-2-badge.png" },
+]
+
 const footerNavLinkClassName =
   "w-fit text-sm leading-snug text-white/85 transition-colors hover:text-white/45 focus-visible:text-white/45 focus-visible:outline-none"
 const footerBottomLinkClassName =
@@ -633,7 +874,7 @@ export function SiteFooter() {
   return (
     <footer id="site-footer" className="relative z-10 bg-[#0d132d] text-white">
       <div className="site-gutter">
-        <div className="grid gap-14 py-20 sm:grid-cols-2 md:py-24 lg:grid-cols-[0.7fr_1.65fr_0.75fr_0.9fr] lg:gap-14 xl:gap-24 xl:py-28">
+        <div className="grid gap-14 py-20 sm:grid-cols-2 md:py-24 lg:grid-cols-[auto_1.65fr_0.75fr_0.9fr] lg:gap-14 xl:gap-24 xl:py-28">
           <div>
             <Link
               href="/"
@@ -648,53 +889,66 @@ export function SiteFooter() {
                 className="h-[4.25rem] w-auto max-w-none"
               />
             </Link>
-            <p className="mt-8 text-xs leading-tight font-semibold tracking-[0.08em] text-white/45 uppercase">
+            <p className="mt-8 text-xs leading-tight font-semibold tracking-[0.08em] text-white/45">
               People.
               <br />
               Performance.
               <br />
               Technology.
             </p>
+            <ul aria-label="Certifications" className="mt-10 flex flex-nowrap gap-3">
+              {footerBadges.map((badge) => (
+                <li
+                  key={badge.src}
+                  className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-white p-1.5"
+                >
+                  <Image
+                    src={badge.src}
+                    alt={badge.name}
+                    width={176}
+                    height={172}
+                    className="h-full w-full object-contain"
+                  />
+                </li>
+              ))}
+            </ul>
           </div>
 
           <div>
-            <p className="mb-7 text-xs tracking-[0.17em] text-white/45 uppercase">Solutions</p>
+            <p className="mb-7 text-xs tracking-[0.17em] text-white/45">Solutions</p>
             <nav aria-label="Footer solutions navigation" className="grid items-start gap-3">
               {solutionLinks.map((solution) => (
-                <Link
-                  key={solution.href}
-                  href={solution.href}
-                  className={`${footerNavLinkClassName} max-w-md`}
-                >
+                // <Link key={solution.href} href={solution.href}>
+                <span key={solution.href} className={`${footerNavLinkClassName} max-w-md`}>
                   {solution.title}
-                </Link>
+                </span>
               ))}
             </nav>
           </div>
 
           <div>
-            <p className="mb-7 text-xs tracking-[0.17em] text-white/45 uppercase">Company</p>
+            <p className="mb-7 text-xs tracking-[0.17em] text-white/45">Company</p>
             <nav aria-label="Footer company navigation" className="grid items-start gap-3">
-              <Link href="/about" className={footerNavLinkClassName}>
-                About
-              </Link>
+              {/* <Link href="/about" className={footerNavLinkClassName}> */}
+              <span className={footerNavLinkClassName}>About</span>
+              {/* </Link> */}
               <Link href="/news-insights" className={footerNavLinkClassName}>
                 News
               </Link>
-              <Link href="/contracts" className={footerNavLinkClassName}>
-                Contracts
-              </Link>
+              {/* <Link href="/contracts" className={footerNavLinkClassName}> */}
+              <span className={footerNavLinkClassName}>Contracts</span>
+              {/* </Link> */}
               <Link href="/contact" className={footerNavLinkClassName}>
                 Contact
               </Link>
-              <Link href="/careers" className={footerNavLinkClassName}>
-                Careers
-              </Link>
+              {/* <Link href="/careers" className={footerNavLinkClassName}> */}
+              <span className={footerNavLinkClassName}>Careers</span>
+              {/* </Link> */}
             </nav>
           </div>
 
           <div>
-            <p className="mb-7 text-xs tracking-[0.17em] text-white/45 uppercase">Connect</p>
+            <p className="mb-7 text-xs tracking-[0.17em] text-white/45">Connect</p>
             <p className="text-lg leading-snug text-white/85">
               Have a complex mission?
               <br />
@@ -704,7 +958,7 @@ export function SiteFooter() {
               href="/contact"
               className="animated-underline mt-8 flex w-fit items-center gap-4 pb-2 text-sm transition-colors hover:text-white/55"
             >
-              Start a conversation <Arrow />
+              Start a conversation
             </Link>
             <div className="mt-8 flex flex-wrap gap-3">
               <a
@@ -739,33 +993,33 @@ export function SiteFooter() {
         </div>
 
         <div
-          className="flex flex-col gap-5 py-8 text-xs tracking-[0.04em] text-white/55 uppercase sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-8 md:py-10"
+          className="flex flex-col gap-5 py-8 text-xs tracking-[0.04em] text-white/55 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-8 md:py-10"
           data-reveal-line
         >
           {/* oxlint-disable-next-line react/purity -- The copyright year intentionally follows the current date. */}
-          <span>© {new Date().getFullYear()} Harkcon, Inc.</span>
-          <Link href="/privacy-terms" className={footerBottomLinkClassName}>
-            Privacy & terms
-          </Link>
+          <span>© {new Date().getFullYear()} Harkcon</span>
+          {/* <Link href="/privacy-terms" className={footerBottomLinkClassName}> */}
+          <span className={footerBottomLinkClassName}>Privacy & terms</span>
+          {/* </Link> */}
           <a
             href="https://socialsatisfaction.agency/"
             target="_blank"
             rel="noreferrer"
             className={footerBottomLinkClassName}
           >
-            Made by SocialSatisfaction
+            Made by Social Satisfaction
           </a>
           <a
             href="#top"
+            onClick={(event) => {
+              event.preventDefault()
+              if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+                window.scrollTo(0, 0)
+              }
+            }}
             className={`${footerBottomLinkClassName} flex items-center gap-3 sm:ml-auto`}
           >
             Back to top
-            <span
-              aria-hidden="true"
-              className="flex h-8 w-8 items-center justify-center rounded-full border border-white/30 text-sm"
-            >
-              <ArrowUp />
-            </span>
           </a>
         </div>
       </div>
@@ -799,7 +1053,7 @@ export default function HomePage() {
                 >
                   Our Solutions
                 </h2>
-                <p className="mt-7 max-w-sm text-base leading-relaxed text-[#5f626b]">
+                <p className="mt-7 max-w-sm text-base leading-relaxed text-pretty text-[#5f626b]">
                   Integrated expertise that strengthens workforces, modernizes operations, and turns
                   complex challenges into lasting performance.
                 </p>
@@ -807,22 +1061,14 @@ export default function HomePage() {
 
               <div className="grid gap-x-7 gap-y-0 md:grid-cols-2 xl:grid-cols-3">
                 {solutions.map((solution) => (
-                  <Link
-                    href={solution.href}
+                  // <Link href={solution.href} key={solution.title} aria-label={`Learn about ${solution.title}`}>
+                  <div
                     key={solution.title}
                     className="group relative min-h-[310px] overflow-hidden px-5 py-7 text-[#0d132d] transition-colors duration-500 hover:text-white focus-visible:text-white focus-visible:outline-none md:min-h-[340px] md:px-6 md:py-8"
-                    aria-label={`Learn about ${solution.title}`}
                     data-reveal-line
                   >
                     <span className="absolute inset-0 origin-left scale-x-0 bg-[#0d132d] transition-transform duration-900 ease-[cubic-bezier(0.45,0,0.2,1)] will-change-transform group-hover:scale-x-100 group-focus-visible:scale-x-100" />
-                    <div className="relative z-10 flex h-full flex-col transition-transform duration-700 group-hover:translate-x-2.5 group-focus-visible:translate-x-2.5">
-                      <span className="mb-12 flex items-center gap-2.5 text-xs tracking-[0.16em] text-[#5f626b] transition-colors duration-700 group-hover:text-white/55">
-                        <span
-                          className="inline-block h-2.5 w-2.5 shrink-0 rounded-full"
-                          style={{ backgroundColor: solution.color }}
-                        />
-                        {solution.number}
-                      </span>
+                    <div className="relative z-10 flex h-full flex-col">
                       <h3 className="max-w-sm font-header text-card-title font-medium">
                         {solution.title}
                       </h3>
@@ -830,7 +1076,7 @@ export default function HomePage() {
                         <p className="max-w-[15rem] text-sm leading-relaxed text-[#5f626b] transition-colors duration-700 group-hover:text-white/70">
                           {solution.detail}
                         </p>
-                        <span className="ml-auto flex h-14 w-14 shrink-0 items-center justify-center bg-[#f4f3f0] transition-colors duration-500 group-hover:bg-white group-hover:text-[#0d132d]">
+                        <span className="ml-auto flex h-14 w-14 shrink-0 items-center justify-center bg-[#f4f3f0] text-[#0d132d]">
                           <Arrow
                             diagonal
                             className="transition-transform duration-600 ease-smooth group-hover:rotate-45 group-focus-visible:rotate-45"
@@ -838,7 +1084,7 @@ export default function HomePage() {
                         </span>
                       </div>
                     </div>
-                  </Link>
+                  </div>
                 ))}
               </div>
             </div>
@@ -846,33 +1092,53 @@ export default function HomePage() {
         </section>
 
         <section
-          className="border-y border-[#0d132d]/15 bg-white py-16 md:py-20"
+          className="bg-[#0d132d] py-32 text-white md:py-40"
           aria-labelledby="home-contracts-title"
         >
           <div className="site-gutter grid gap-12 md:grid-cols-2 md:gap-0">
             <div className="flex flex-col items-start md:pr-12 lg:pr-20">
-              <p className="eyebrow mb-5 text-[#5f626b]">Contract access</p>
               <h2 id="home-contracts-title" className="font-header text-section-title font-medium">
                 Contract vehicles
               </h2>
-              <p className="mt-5 max-w-lg text-base leading-relaxed text-[#5f626b]">
+              <p className="mt-5 max-w-lg text-base leading-relaxed text-white/70">
                 Flexible federal acquisition paths to Harkcon&apos;s people, performance, and
                 technology expertise.
               </p>
-              <Link href="/contracts" className="text-link mt-8" data-reveal-line>
-                Explore contract vehicles <Arrow />
-              </Link>
+              {/* <Link href="/contracts"> */}
+              <span className="text-link mt-8 text-white after:opacity-60" data-reveal-line>
+                Explore contract vehicles
+              </span>
+              {/* </Link> */}
             </div>
-            <div className="flex flex-col items-start border-t border-[#0d132d]/15 pt-12 md:border-t-0 md:border-l md:pt-0 md:pl-12 lg:pl-20">
-              <p className="eyebrow mb-5 text-[#5f626b]">Best-in-Class access</p>
+            <div className="flex flex-col items-start border-t border-white/15 pt-12 md:border-t-0 md:border-l md:pt-0 md:pl-12 lg:pl-20">
               <h3 className="font-header text-section-title font-medium">OASIS+</h3>
-              <p className="mt-5 max-w-lg text-base leading-relaxed text-[#5f626b]">
+              <p className="mt-5 max-w-lg text-base leading-relaxed text-white/70">
                 Integrated professional services through Harkcon&apos;s Small Business and SDVOSB
                 vehicles.
               </p>
-              <Link href="/contracts?view=oasis-plus" className="text-link mt-8" data-reveal-line>
-                Explore OASIS+ <Arrow />
-              </Link>
+              {/* <Link href="/contracts?view=oasis-plus"> */}
+              <span className="text-link mt-8 text-white after:opacity-60" data-reveal-line>
+                Explore OASIS+
+              </span>
+              {/* </Link> */}
+            </div>
+          </div>
+          <div className="site-gutter">
+            <div className="mt-16 flex flex-col items-start justify-between gap-8 border-t border-white/15 pt-12 md:mt-20 md:flex-row md:items-center md:pt-14">
+              <div>
+                <h3 className="font-header text-card-title font-medium">Capability statement</h3>
+                <p className="mt-3 max-w-lg text-base leading-relaxed text-pretty text-white/70">
+                  Company capabilities, qualifications, and contracting information.
+                </p>
+              </div>
+              <a
+                href={HARKCON_CAPABILITY_STATEMENT_URL}
+                target="_blank"
+                rel="noreferrer"
+                className={`${wipeButtonClassName} shrink-0 ${wipeButtonLightClassName}`}
+              >
+                Download PDF <DownloadSimple aria-hidden="true" className="h-5 w-5" />
+              </a>
             </div>
           </div>
         </section>
@@ -882,33 +1148,43 @@ export default function HomePage() {
           aria-labelledby="about-title"
         >
           <div className="flex flex-col items-start justify-center px-5 py-24 sm:px-8 lg:px-12 lg:py-32 xl:px-16">
-            <p className="eyebrow mb-7">About us</p>
             <h2 id="about-title" className="max-w-xl font-header text-section-title font-medium">
               A culture of mastery and action.
             </h2>
             <p className="mt-8 max-w-xl text-body-copy text-[#5f626b]">
-              Since 2005, Harkcon has brought together authorities from government and industry to
-              deliver consulting that is a cut above the rest. Our growth is built on capable
-              people, trusted relationships, and work that earns repeat confidence.
+              Harkcon is a service-disabled veteran-owned small business that helps government
+              organizations solve complex workforce, organizational, operational, and mission
+              challenges. Since 2005, we have supported agencies including the U.S. Coast Guard,
+              Department of Homeland Security, Department of Energy, Federal Bureau of
+              Investigation, and Department of War with expertise in human capital, workforce and
+              organizational analysis, training and performance improvement, emergency management,
+              program and project management, and data-driven decision support.
             </p>
             <p className="mt-5 max-w-xl text-body-copy text-[#5f626b]">
-              We take pride and ownership in every challenge, bringing service to life for every
-              client and every mission.
+              Headquartered in Fredericksburg, Virginia, Harkcon brings together experienced
+              professionals who understand both the mission and the people responsible for
+              delivering it. Our approach is practical, responsive, and grounded in a simple
+              objective: understand the problem, build the right solution, and help our clients
+              perform better.
             </p>
-            <Link href="/about" className="pill-button mt-10">
-              Discover Harkcon <Arrow />
-            </Link>
+            {/* <Link href="/about"> */}
+            <span className={`${wipeButtonClassName} mt-10 ${wipeButtonDarkClassName}`}>
+              Discover Harkcon
+            </span>
+            {/* </Link> */}
           </div>
-          <div className="relative min-h-[70svh] overflow-hidden lg:min-h-[90svh]">
-            <Image
-              src="/images/about-team.png"
-              alt="Harkcon consultants collaborating around a table"
-              fill
-              loading="eager"
-              unoptimized
-              sizes="(min-width: 900px) 50vw, 100vw"
-              className="z-[1] object-cover"
-            />
+          <div className="py-20 md:py-24 lg:py-28">
+            <div className="relative h-full min-h-[70svh] overflow-hidden lg:min-h-[90svh]">
+              <Image
+                src="/images/about-team.png"
+                alt="Harkcon consultants collaborating around a table"
+                fill
+                loading="eager"
+                unoptimized
+                sizes="(min-width: 900px) 50vw, 100vw"
+                className="z-[1] object-cover"
+              />
+            </div>
           </div>
         </section>
 
@@ -916,13 +1192,12 @@ export default function HomePage() {
           <div className="site-gutter">
             <div className="mb-12 flex items-end justify-between gap-8 md:mb-16">
               <div>
-                <p className="eyebrow mb-4">Latest updates</p>
                 <h2 id="news-title" className="font-header text-section-title font-medium">
                   News
                 </h2>
               </div>
               <Link href="/news-insights" className="text-link" data-reveal-line>
-                Visit the news page <Arrow />
+                Visit the news page
               </Link>
             </div>
 
@@ -933,13 +1208,15 @@ export default function HomePage() {
         <section className="bg-white">
           <div className="site-gutter flex flex-col items-start justify-between gap-10 py-20 md:flex-row md:items-end md:py-24">
             <div>
-              <p className="eyebrow mb-5 text-[#5f626b]">Start a conversation</p>
               <h2 className="max-w-3xl font-header text-section-title font-medium text-[#0d132d]">
                 Let&apos;s make your next mission stronger.
               </h2>
             </div>
-            <Link href="/contact" className="pill-button shrink-0">
-              Talk with our team <Arrow />
+            <Link
+              href="/contact"
+              className={`${wipeButtonClassName} shrink-0 ${wipeButtonDarkClassName}`}
+            >
+              Talk with our team
             </Link>
           </div>
         </section>

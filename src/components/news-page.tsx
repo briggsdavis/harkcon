@@ -39,7 +39,6 @@ export default function NewsPage() {
       <div className="relative">
         <section className="pt-[clamp(13rem,20vw,19rem)] pb-28" aria-labelledby="news-index-title">
           <div className="site-gutter">
-            <p className="eyebrow mb-6 text-[#5f626b]">Harkcon updates</p>
             <h1 id="news-index-title" className="font-header text-display font-medium">
               News &amp; Insights
             </h1>

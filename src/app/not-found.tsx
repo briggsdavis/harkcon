@@ -18,7 +18,6 @@ export default function NotFound() {
               404
             </p>
             <div>
-              <p className="eyebrow mb-5 text-[#5f626b]">Page not found</p>
               <h1 id="not-found-title" className="max-w-2xl font-header text-display font-medium">
                 This page is off mission.
               </h1>

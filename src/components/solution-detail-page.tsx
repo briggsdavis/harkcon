@@ -76,7 +76,6 @@ export default function SolutionDetailPage({ solution }: { solution: Solution })
         >
           <div className="site-gutter grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20 xl:gap-28">
             <div>
-              <p className="eyebrow mb-6 text-[#5f626b]">Proof point</p>
               <h2 id="proof-point-title" className={headingClassName}>
                 Experience measured in outcomes.
               </h2>
@@ -100,8 +99,7 @@ export default function SolutionDetailPage({ solution }: { solution: Solution })
               />
             </figure>
             <div>
-              <p className="eyebrow text-[#5f626b]">What we deliver</p>
-              <h2 id="capabilities-title" className={`mt-5 ${headingClassName}`}>
+              <h2 id="capabilities-title" className={headingClassName}>
                 Solutions built around the mission.
               </h2>
               <ol className="mt-12 border-b border-[#0d132d]/20">
@@ -130,7 +128,6 @@ export default function SolutionDetailPage({ solution }: { solution: Solution })
         >
           <div className="site-gutter grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20 xl:gap-28">
             <div>
-              <p className="eyebrow mb-6 text-white/55">Beyond a single engagement</p>
               <h2 id="partnership-title" className={headingClassName}>
                 Expertise that travels with the challenge.
               </h2>
@@ -146,8 +143,7 @@ export default function SolutionDetailPage({ solution }: { solution: Solution })
         <section className="bg-white py-20 md:py-24 lg:py-28" aria-label="Next steps">
           <div className="site-gutter grid md:grid-cols-2">
             <article className={`${ctaCardClassName} md:border-r md:pr-10 lg:pr-16`}>
-              <p className="eyebrow text-[#5f626b]">Start a conversation</p>
-              <h2 className={`mt-6 mb-10 md:mb-auto ${headingClassName}`}>
+              <h2 className={`mb-10 md:mb-auto ${headingClassName}`}>
                 Ready to put this expertise to work?
               </h2>
               <Link href="/contact" className="pill-button mt-auto">
@@ -155,8 +151,7 @@ export default function SolutionDetailPage({ solution }: { solution: Solution })
               </Link>
             </article>
             <article className={`${ctaCardClassName} md:pl-10 lg:pl-16`}>
-              <p className="eyebrow text-[#5f626b]">Build your career</p>
-              <h2 className={`mt-6 mb-10 md:mb-auto ${headingClassName}`}>
+              <h2 className={`mb-10 md:mb-auto ${headingClassName}`}>
                 Interested in doing work in this field?
               </h2>
               <Link href="/careers" className="pill-button mt-auto">

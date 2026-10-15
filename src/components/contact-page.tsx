@@ -95,7 +95,6 @@ export default function ContactPage() {
         <section className="pt-40 pb-28 md:pt-52 md:pb-36" aria-labelledby="contact-title">
           <div className="site-gutter grid gap-20 lg:grid-cols-[minmax(260px,0.72fr)_minmax(0,1.55fr)] lg:gap-16 xl:gap-28">
             <div className="self-start lg:sticky lg:top-36">
-              <p className="eyebrow mb-7 text-[#5f626b]">Contact Harkcon</p>
               <h1 id="contact-title" className="max-w-lg font-header text-display font-medium">
                 Need more information? Let&apos;s talk.
               </h1>
@@ -272,7 +271,6 @@ export default function ContactPage() {
         >
           <div className="site-gutter grid gap-14 lg:grid-cols-[minmax(250px,0.65fr)_minmax(0,1.35fr)] lg:gap-20 xl:gap-28">
             <div className="self-start lg:sticky lg:top-36">
-              <p className="eyebrow mb-6 text-[#5f626b]">Frequently asked questions</p>
               <h2 id="contact-faq-title" className="max-w-xl font-header text-section-title">
                 Before you get in touch.
               </h2>

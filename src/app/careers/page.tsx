@@ -144,7 +144,6 @@ export default function Careers() {
             <div className="mt-24 grid gap-14 border-t border-[#0d132d]/20 pt-16 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20 xl:gap-28">
               <div className="self-start">
                 <div>
-                  <p className="eyebrow text-[#5f626b]">Who are we looking for?</p>
                   <h2 className={headingClassName}>Experience that moves missions forward.</h2>
                   <p className={proseClassName}>
                     Our talent needs constantly evolve and expand with current and future projects
@@ -153,7 +152,6 @@ export default function Careers() {
                 </div>
 
                 <div className="mt-14 border-t border-[#0d132d]/20 pt-12">
-                  <p className="eyebrow text-[#5f626b]">More ways to work with us</p>
                   <h2 className="mt-5 max-w-xl font-header text-section-title font-medium">
                     Full-time or project-specific.
                   </h2>
@@ -202,7 +200,6 @@ export default function Careers() {
           <div className="site-gutter">
             <div className="mb-12 flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
               <div>
-                <p className="eyebrow mb-5 text-white/55">Current opportunities</p>
                 <h2 id="positions-title" className="font-header text-section-title font-medium">
                   Available Positions
                 </h2>
@@ -235,7 +232,6 @@ export default function Careers() {
         <section className="py-24 md:py-32 lg:py-40" aria-labelledby="we-are-title">
           <div className="site-gutter grid gap-14 lg:grid-cols-[0.72fr_1.28fr] lg:items-center lg:gap-20 xl:gap-28">
             <div>
-              <p className="eyebrow mb-6 text-[#5f626b]">Life at Harkcon</p>
               <h2 id="we-are-title" className="font-header text-section-title font-medium">
                 We are Harkcon.
               </h2>
@@ -326,7 +322,6 @@ export default function Careers() {
         >
           <div className="site-gutter grid gap-14 lg:grid-cols-[minmax(250px,0.65fr)_minmax(0,1.35fr)] lg:gap-20 xl:gap-28">
             <div className="self-start lg:sticky lg:top-36">
-              <p className="eyebrow mb-6 text-white/55">Careers FAQ</p>
               <h2 id="careers-faq-title" className="max-w-xl font-header text-section-title">
                 What to know before you apply.
               </h2>
@@ -341,7 +336,6 @@ export default function Careers() {
         <section className="py-24 md:py-32 lg:py-40" aria-labelledby="equal-opportunity-title">
           <div className="site-gutter grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20 xl:gap-28">
             <div>
-              <p className="eyebrow mb-6 text-[#5f626b]">Equal employment opportunity</p>
               <h2 id="equal-opportunity-title" className={headingClassName}>
                 Everyone should be treated fairly.
               </h2>
@@ -374,7 +368,6 @@ export default function Careers() {
         <section className="bg-[#0d132d] text-white">
           <div className="site-gutter flex flex-col items-start justify-between gap-10 py-20 md:flex-row md:items-end md:py-24">
             <div>
-              <p className="eyebrow mb-5 text-white/55">Your next chapter</p>
               <h2 className="max-w-4xl font-header text-section-title">
                 See where your experience can take you.
               </h2>
