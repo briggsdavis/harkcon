@@ -828,7 +828,7 @@ function ScrollStatement() {
   return (
     <section
       ref={containerRef}
-      className="flex min-h-[100vh] items-center py-[6.16rem] text-center md:py-[7.92rem]"
+      className="flex min-h-[70vh] items-center py-[4.31rem] text-center md:py-[5.54rem]"
       aria-label="What Harkcon does"
     >
       <div className="site-gutter">
