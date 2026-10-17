@@ -39,7 +39,7 @@ export default function NewsPage() {
       <div className="relative">
         <section className="pt-[clamp(13rem,20vw,19rem)] pb-28" aria-labelledby="news-index-title">
           <div className="site-gutter">
-            <h1 id="news-index-title" className="font-header text-display font-medium">
+            <h1 id="news-index-title" className="font-header text-display font-medium text-balance">
               News &amp; Insights
             </h1>
 
@@ -47,7 +47,7 @@ export default function NewsPage() {
               className="mt-10 flex flex-col justify-between gap-6 py-7 md:flex-row md:items-center"
               data-reveal-line
             >
-              <p className="font-eyebrow text-eyebrow-label font-semibold tracking-[0.12em] uppercase">
+              <p className="font-eyebrow text-eyebrow-label font-semibold tracking-[0.12em] text-pretty uppercase">
                 Filter
               </p>
               <div
@@ -101,10 +101,10 @@ export default function NewsPage() {
                         displayDate={article.displayDate}
                         category={article.category}
                       />
-                      <h2 className="mt-5 max-w-4xl font-header text-card-title font-medium">
+                      <h2 className="mt-5 max-w-4xl font-header text-card-title font-medium text-balance">
                         {article.title}
                       </h2>
-                      <p className="mt-4 max-w-3xl text-base leading-relaxed text-[#5f626b]">
+                      <p className="mt-4 max-w-3xl text-base leading-relaxed text-pretty text-[#5f626b]">
                         {article.excerpt}
                       </p>
                     </div>

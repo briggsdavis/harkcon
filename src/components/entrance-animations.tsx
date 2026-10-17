@@ -10,7 +10,7 @@ const revealSelectors = [
   "h5",
   "h6",
   "p",
-  ".pill-button",
+  ".action-button",
   "button",
   "img",
   "[data-reveal-line]",
@@ -55,13 +55,13 @@ export default function EntranceAnimations() {
           ;(element as HTMLElement).style.setProperty("--reveal-delay", `${sequenceIndex * 85}ms`)
         } else if (element.matches("[data-reveal-line]")) {
           element.classList.add("reveal-line")
-        } else if (element.matches(".pill-button, button")) {
+        } else if (element.matches(".action-button, button")) {
           element.classList.add("reveal-button")
         } else if (element.matches("img")) {
           if (element.closest(".hero")) return
           revealTarget = element.parentElement ?? element
           revealTarget.classList.add("reveal-image")
-        } else if (!element.closest(".pill-button, button")) {
+        } else if (!element.closest(".action-button, button")) {
           element.classList.add("reveal-text")
         } else {
           return

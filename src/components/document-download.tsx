@@ -25,7 +25,7 @@ export default function DocumentDownload({
         <strong className="mt-3 font-header text-card-title font-medium">{title}</strong>
         <span className="mt-2 text-sm leading-relaxed text-[#5f626b]">{description}</span>
       </span>
-      <span className="flex h-12 w-12 items-center justify-center justify-self-end rounded-full border border-[#0d132d]/20 transition-all duration-500 group-hover:border-[#0d132d] group-hover:bg-[#0d132d] group-hover:text-white group-focus-visible:border-[#0d132d] group-focus-visible:bg-[#0d132d] group-focus-visible:text-white md:h-16 md:w-16">
+      <span className="flex h-12 w-12 items-center justify-center justify-self-end rounded-none border border-[#0d132d]/20 transition-all duration-500 group-hover:border-[#0d132d] group-hover:bg-[#0d132d] group-hover:text-white group-focus-visible:border-[#0d132d] group-focus-visible:bg-[#0d132d] group-focus-visible:text-white md:h-16 md:w-16">
         <Arrow
           diagonal
           className="transition-transform duration-500 group-hover:rotate-45 group-focus-visible:rotate-45"

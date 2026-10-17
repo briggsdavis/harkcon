@@ -96,20 +96,20 @@ export default function RouteTransition() {
 
   return (
     <div
-      className={`fixed inset-0 z-[100] h-dvh w-screen ${phase === "idle" ? "pointer-events-none" : "pointer-events-auto"}`}
+      className={`fixed inset-0 z-[100] isolate grid place-items-center ${phase === "idle" ? "pointer-events-none" : "pointer-events-auto"}`}
       aria-hidden="true"
       data-reveal-skip
     >
       <div className={`absolute inset-0 bg-[#f4f3f0] will-change-transform ${curtainClassName}`} />
       <div
-        className={`absolute top-1/2 left-1/2 grid h-28 w-28 -translate-1/2 place-items-center overflow-hidden bg-[#0d132d] will-change-[clip-path] sm:h-32 sm:w-32 ${markClassName}`}
+        className={`relative grid h-28 w-28 place-items-center overflow-hidden bg-[#0d132d] will-change-[clip-path] sm:h-32 sm:w-32 ${markClassName}`}
       >
         <Image
-          src="/images/logo-white.svg"
+          src="/images/transition-logo-white.svg"
           alt=""
           width={40}
           height={40}
-          className="m-auto block h-20 w-20 object-contain sm:h-24 sm:w-24"
+          className="block h-20 w-20 object-contain sm:h-24 sm:w-24"
           priority
         />
       </div>

@@ -23,7 +23,7 @@ export default function ArticleLoader({ slug }: { slug: string }) {
   if (!article) {
     return (
       <div className={loadingClassName}>
-        <h1 className="text-[40px]">Article not found</h1>
+        <h1 className="text-[40px] text-balance">Article not found</h1>
         <Link href="/news-insights">Return to News &amp; Insights</Link>
       </div>
     )

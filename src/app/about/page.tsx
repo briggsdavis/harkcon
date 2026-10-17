@@ -97,7 +97,7 @@ const people = [
     image: "/images/paula-harkins.png",
     imagePosition: "50% 34%",
     bio: [
-      "Paula leads strategies that expand Harkcon’s federal-sector impact and drive sustainable growth. She works with senior leaders and partners to identify opportunities, strengthen organizational capacity, and deliver solutions that improve workforce performance and mission outcomes.",
+      "Paula leads Harkcon’s business development and growth strategy in the federal sector. She works with senior leaders and partners to assess opportunities, build teams, and develop proposals around client requirements in workforce performance and organizational support.",
       "A Lean Six Sigma Black Belt and member of AERA, SHRM, and ISPI, Paula is also an international speaker on leadership, performance improvement, and organizational transformation.",
     ],
   },
@@ -113,8 +113,8 @@ const people = [
   },
 ]
 
-const headingClassName = "max-w-4xl font-header text-section-title font-medium"
-const proseClassName = "mt-7 max-w-[850px] text-body-copy text-[#454955]"
+const headingClassName = "text-balance max-w-4xl font-header text-section-title font-medium"
+const proseClassName = "text-pretty mt-7 max-w-[850px] text-body-copy text-[#454955]"
 
 function SectionLabel({
   number,
@@ -130,7 +130,7 @@ function SectionLabel({
       <span className="font-eyebrow text-eyebrow-label tracking-[0.15em] text-[#8b8e96]">
         {number}
       </span>
-      <p className="eyebrow leading-tight">{children}</p>
+      <p className="eyebrow leading-tight text-pretty">{children}</p>
     </div>
   )
 }
@@ -153,14 +153,17 @@ export default function About() {
           <div className="about-hero-overlay absolute inset-0 z-[1]" />
           <div className="site-gutter relative z-10 flex h-full items-end pb-12 md:pb-16">
             <div className="max-w-4xl text-white">
-              <h1 id="about-hero-title" className="max-w-3xl font-header text-display font-medium">
+              <h1
+                id="about-hero-title"
+                className="max-w-3xl font-header text-display font-medium text-balance"
+              >
                 Built for better performance.
               </h1>
               <div
                 className="mt-8 flex items-center border-t border-white/35 pt-6 md:mt-10"
                 data-reveal-line
               >
-                <p className="max-w-xl text-sm leading-relaxed text-white/80 md:text-base">
+                <p className="max-w-xl text-sm leading-relaxed text-pretty text-white/80 md:text-base">
                   Service. Expertise. A shared commitment to the mission.
                 </p>
               </div>
@@ -176,11 +179,11 @@ export default function About() {
                 <h2 id="who-we-are-title" className={headingClassName}>
                   Improving people, workplaces, and organizations since 2005.
                 </h2>
-                <p className="mt-10 max-w-[850px] text-body-copy text-[#0d132d]">
-                  Harkcon is an internationally recognized, service-disabled veteran-owned business
-                  providing organizational and workforce performance analysis, training,
-                  intelligence analysis, and customized performance support to public- and
-                  private-sector clients.
+                <p className="mt-10 max-w-[850px] text-body-copy text-pretty text-[#0d132d]">
+                  Harkcon is a service-disabled veteran-owned business providing workforce and
+                  organizational analysis, training, intelligence analysis, and performance support.
+                  We work with public- and private-sector clients to understand requirements and
+                  improve how their organizations perform.
                 </p>
                 <p className={proseClassName}>
                   Founder and CEO Dr. Kevin Harkins established Harkcon in 2005 after retiring from
@@ -193,8 +196,8 @@ export default function About() {
                   Today, our team supports organizations including the U.S. Coast Guard, Department
                   of Energy, Department of Homeland Security, Department of Defense, and Department
                   of State. Headquartered in Fredericksburg, Virginia, with associates in more than
-                  15 states, we combine practical experience, disciplined analysis, and innovative
-                  tools to improve people, workplaces, and organizations of every size.
+                  15 states, we combine practical experience, disciplined analysis, and tools suited
+                  to each requirement to improve workforce and organizational performance.
                 </p>
               </div>
             </div>
@@ -212,7 +215,7 @@ export default function About() {
                 <h2 id="our-people-title" className={headingClassName}>
                   Experience that moves missions forward.
                 </h2>
-                <p className="mt-6 max-w-2xl text-body-copy text-[#5f626b]">
+                <p className="mt-6 max-w-2xl text-body-copy text-pretty text-[#5f626b]">
                   Meet the leaders guiding Harkcon’s people, performance, technology, and growth.
                 </p>
               </div>
@@ -232,8 +235,10 @@ export default function About() {
                     />
                   </div>
                   <div className="border-t border-[#0d132d] pt-5">
-                    <h3 className="font-header text-card-title font-medium">{person.name}</h3>
-                    <p className="mt-2 min-h-10 text-sm leading-relaxed text-[#5f626b]">
+                    <h3 className="font-header text-card-title font-medium text-balance">
+                      {person.name}
+                    </h3>
+                    <p className="mt-2 min-h-10 text-sm leading-relaxed text-pretty text-[#5f626b]">
                       {person.title}
                     </p>
                     <details className="disclosure group mt-5 border-t border-[#dedfe2]">
@@ -268,11 +273,11 @@ export default function About() {
                   <span className="font-eyebrow text-eyebrow-label tracking-[0.15em] text-white/35">
                     01
                   </span>
-                  <p className="eyebrow text-white/55">Our mission</p>
+                  <p className="eyebrow text-pretty text-white/55">Our mission</p>
                 </div>
                 <h2
                   id="mission-title"
-                  className="max-w-5xl font-header text-section-title transition-transform duration-500 ease-out group-hover:translate-x-3"
+                  className="max-w-5xl font-header text-section-title text-balance"
                 >
                   To provide the highest quality, customized, and innovative organizational and
                   workforce performance solutions at the best value, while strictly adhering to our
@@ -284,9 +289,9 @@ export default function About() {
                   <span className="font-eyebrow text-eyebrow-label tracking-[0.15em] text-white/35">
                     02
                   </span>
-                  <p className="eyebrow text-white/55">Our vision</p>
+                  <p className="eyebrow text-pretty text-white/55">Our vision</p>
                 </div>
-                <h2 className="max-w-5xl font-header text-section-title transition-transform duration-500 ease-out group-hover:translate-x-3">
+                <h2 className="max-w-5xl font-header text-section-title text-balance">
                   Harkcon and its people are regarded as the best and most sought-after human
                   performance experts in the nation.
                 </h2>
@@ -308,7 +313,7 @@ export default function About() {
                 <h2 id="principles-title" className={headingClassName}>
                   The foundation for how we work.
                 </h2>
-                <p className="mt-7 max-w-2xl text-body-copy text-[#5f626b]">
+                <p className="mt-7 max-w-2xl text-body-copy text-pretty text-[#5f626b]">
                   Our guiding principles shape our day-to-day efforts and guide our responsibilities
                   to our clients, our employees, and our communities.
                 </p>
@@ -324,7 +329,7 @@ export default function About() {
                   <span className="pt-1 font-eyebrow text-eyebrow-label tracking-[0.12em] text-[#8b8e96]">
                     {String(index + 1).padStart(2, "0")}
                   </span>
-                  <p className="max-w-4xl font-header text-card-title">{principle}</p>
+                  <p className="max-w-4xl font-header text-card-title text-pretty">{principle}</p>
                 </li>
               ))}
             </ol>
@@ -373,10 +378,10 @@ export default function About() {
                 <h2 id="community-title" className={headingClassName}>
                   Service extends beyond our work.
                 </h2>
-                <p className="mt-9 max-w-[850px] text-body-copy text-[#0d132d]">
-                  Built on years of service to our country and to others, Harkcon continues to give
-                  its resources, time, and talent. We are proud to stand among the thousands of
-                  companies that give back to their communities.
+                <p className="mt-9 max-w-[850px] text-body-copy text-pretty text-[#0d132d]">
+                  Our commitment to service extends to the communities where we live and work.
+                  Harkcon contributes funding, professional support, and volunteer time, and
+                  supports associates who give their skills and time to local organizations.
                 </p>
               </div>
             </div>
@@ -416,10 +421,12 @@ export default function About() {
                   aria-label="Show organizations receiving financial support"
                   className="flex cursor-pointer list-none items-center justify-between gap-8 py-8 md:py-10"
                 >
-                  <h3 className="font-header text-card-title font-medium">Financial support</h3>
+                  <h3 className="font-header text-card-title font-medium text-balance">
+                    Financial support
+                  </h3>
                   <span
                     aria-hidden="true"
-                    className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-[#0d132d]/20 transition-all duration-300 group-open:border-[#0d132d] group-open:bg-[#0d132d] group-open:text-white md:h-14 md:w-14"
+                    className="flex h-12 w-12 shrink-0 items-center justify-center rounded-none border border-[#0d132d]/20 transition-all duration-300 group-open:border-[#0d132d] group-open:bg-[#0d132d] group-open:text-white md:h-14 md:w-14"
                   >
                     <CaretDown className="h-5 w-5 transition-transform duration-300 group-open:rotate-180" />
                   </span>
@@ -446,10 +453,12 @@ export default function About() {
                   aria-label="Show organizations supported through volunteer involvement"
                   className="flex cursor-pointer list-none items-center justify-between gap-8 py-8 md:py-10"
                 >
-                  <h3 className="font-header text-card-title font-medium">Volunteer involvement</h3>
+                  <h3 className="font-header text-card-title font-medium text-balance">
+                    Volunteer involvement
+                  </h3>
                   <span
                     aria-hidden="true"
-                    className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-[#0d132d]/20 transition-all duration-300 group-open:border-[#0d132d] group-open:bg-[#0d132d] group-open:text-white md:h-14 md:w-14"
+                    className="flex h-12 w-12 shrink-0 items-center justify-center rounded-none border border-[#0d132d]/20 transition-all duration-300 group-open:border-[#0d132d] group-open:bg-[#0d132d] group-open:text-white md:h-14 md:w-14"
                   >
                     <CaretDown className="h-5 w-5 transition-transform duration-300 group-open:rotate-180" />
                   </span>
@@ -475,11 +484,11 @@ export default function About() {
         <section className="bg-[#0d132d] text-white">
           <div className="site-gutter flex flex-col items-start justify-between gap-10 py-20 md:flex-row md:items-end md:py-24">
             <div>
-              <h2 className="max-w-4xl font-header text-section-title">
+              <h2 className="max-w-4xl font-header text-section-title text-balance">
                 Bring your next challenge to a team built to solve it.
               </h2>
             </div>
-            <Link href="/contact" className="pill-button pill-button--light shrink-0">
+            <Link href="/contact" className="action-button action-button--light shrink-0">
               Start a conversation <Arrow />
             </Link>
           </div>

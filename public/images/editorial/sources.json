@@ -1,0 +1,93 @@
+{
+  "contracts-gsa": {
+    "src": "/images/editorial/contracts-gsa.jpg",
+    "alt": "Classical civic architecture with stone columns",
+    "source": "https://unsplash.com/photos/white-concrete-building-under-sky-o0kbc907i20",
+    "original": "https://images.unsplash.com/photo-1523292562811-8fa7962a78c8",
+    "usage": "Illustrative editorial imagery; does not document Harkcon project execution."
+  },
+  "contracts-teps": {
+    "src": "/images/editorial/contracts-teps.jpg",
+    "alt": "Electricity transmission towers across the landscape at sunset",
+    "source": "https://unsplash.com/photos/photo-of-truss-towers-yETqkLnhsUI",
+    "original": "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e",
+    "usage": "Illustrative editorial imagery; does not document Harkcon project execution."
+  },
+  "contracts-uscg": {
+    "src": "/images/editorial/contracts-uscg.jpg",
+    "alt": "A U.S. Coast Guard cutter viewed from the water",
+    "source": "https://unsplash.com/photos/black-and-white-ship-on-sea-during-daytime-gMb4pRfDB0Y",
+    "original": "https://images.unsplash.com/photo-1598719830669-369ae6e72aa1",
+    "usage": "Illustrative editorial imagery; does not document Harkcon project execution."
+  },
+  "contracts-uscg-itass": {
+    "src": "/images/editorial/contracts-uscg-itass.jpg",
+    "alt": "A rescue crew underway in an orange lifeboat",
+    "source": "https://unsplash.com/photos/people-riding-orange-and-white-boat-on-sea-during-daytime-Ja3IsLM9Mzw",
+    "original": "https://images.unsplash.com/photo-1613993854053-151c103d3fb6",
+    "usage": "Illustrative editorial imagery; does not document Harkcon project execution."
+  },
+  "contracts-idiq": {
+    "src": "/images/editorial/contracts-idiq.jpg",
+    "alt": "An aerial view of road bridges crossing water",
+    "source": "https://unsplash.com/photos/three-gray-concrete-highways-zN4mtLHkHn4",
+    "original": "https://images.unsplash.com/photo-1510410493114-38f0a17d66ef",
+    "usage": "Illustrative editorial imagery; does not document Harkcon project execution."
+  },
+  "oasis-small-business": {
+    "src": "/images/editorial/oasis-small-business.jpg",
+    "alt": "A cargo vessel maneuvering through a working container port",
+    "source": "https://unsplash.com/photos/red-and-blue-cargo-ship-on-body-of-water-during-daytime-NndKt2kF1L4",
+    "original": "https://images.unsplash.com/photo-1606185540834-d6e7483ee1a4",
+    "usage": "Illustrative editorial imagery; does not document Harkcon project execution."
+  },
+  "oasis-sdvosb": {
+    "src": "/images/editorial/oasis-sdvosb.jpg",
+    "alt": "An American flag flying against a softly lit evening sky",
+    "source": "https://unsplash.com/photos/us-a-flag-on-pole-under-cloudy-sky-T41c_r3CVOs",
+    "original": "https://images.unsplash.com/photo-1618420138990-25842589a7c4",
+    "usage": "Illustrative editorial imagery; does not document Harkcon project execution."
+  },
+  "oasis-legacy": {
+    "src": "/images/editorial/oasis-legacy.jpg",
+    "alt": "Container cranes and shipping lanes illuminated at night",
+    "source": "https://unsplash.com/photos/shipping-port-with-containers-and-cranes-sWOvgOOFk1g",
+    "original": "https://images.unsplash.com/photo-1590497008432-598f04441de8",
+    "usage": "Illustrative editorial imagery; does not document Harkcon project execution."
+  },
+  "contracts-naics": {
+    "src": "/images/editorial/contracts-naics.jpg",
+    "alt": "An American flag suspended inside a large industrial hall",
+    "source": "https://unsplash.com/photos/large-american-flag-hanging-indoors-with-sunlight-Ck7fJZQE0z0",
+    "original": "https://images.unsplash.com/photo-1760570317681-6930171d1dc0",
+    "usage": "Illustrative editorial imagery; does not document Harkcon project execution."
+  },
+  "oasis-hero": {
+    "src": "/images/editorial/oasis-hero.jpg",
+    "alt": "An aerial view of connected road infrastructure and surrounding trees",
+    "source": "https://unsplash.com/photos/aerial-photography-of-concrete-roads-7nrsVjvALnA",
+    "original": "https://images.unsplash.com/photo-1465447142348-e9952c393450",
+    "usage": "Illustrative editorial imagery; does not document Harkcon project execution."
+  },
+  "contracts-hero": {
+    "src": "/images/editorial/contracts-hero.jpg",
+    "alt": "The United States Capitol beneath a clear blue sky",
+    "source": "https://unsplash.com/photos/the-united-states-capitol-building-under-a-clear-blue-sky-O1R-Jnh_Shk",
+    "original": "https://images.unsplash.com/photo-1775436889537-4859f965a6e4",
+    "usage": "Illustrative editorial imagery; does not document Harkcon project execution."
+  },
+  "workforce-detail": {
+    "src": "/images/editorial/workforce-detail.jpg",
+    "alt": "Sunlight and shadows along a colonnaded civic walkway",
+    "source": "https://unsplash.com/photos/marble-columns-line-a-sunlit-walkway-with-shadows-zCuUvqeQ9Mg",
+    "original": "https://images.unsplash.com/photo-1760054333343-e758377d89ea",
+    "usage": "Illustrative editorial imagery; does not document Harkcon project execution."
+  },
+  "policy-detail": {
+    "src": "/images/editorial/policy-detail.jpg",
+    "alt": "A black-and-white view of a neoclassical building with tall columns",
+    "source": "https://unsplash.com/photos/a-grand-neoclassical-building-with-tall-columns-t0bJlqg3jeU",
+    "original": "https://images.unsplash.com/photo-1768617154318-b2caa1e97a60",
+    "usage": "Illustrative editorial imagery; does not document Harkcon project execution."
+  }
+}

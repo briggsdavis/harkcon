@@ -183,38 +183,12 @@
       box-shadow 280ms ease;
   }
 
-  .pill-button {
-    @apply relative inline-flex min-h-12 items-center justify-center gap-4 overflow-hidden rounded-full border border-[#0d132d] bg-[#0d132d] px-6 py-3 text-action font-medium text-white transition-colors duration-500;
-    isolation: isolate;
+  .action-button {
+    @apply relative isolate inline-flex min-h-[39px] items-center justify-center gap-4 overflow-hidden rounded-none bg-[#0d132d] px-5 py-[7.5px] text-action font-medium text-white transition-colors duration-700 before:absolute before:inset-0 before:-z-10 before:origin-right before:scale-x-0 before:bg-white before:transition-transform before:duration-700 before:ease-out after:pointer-events-none after:absolute after:inset-0 after:border-[0.5px] after:border-[#0d132d] after:opacity-0 after:transition-opacity after:duration-700 hover:text-[#0d132d] hover:before:origin-left hover:before:scale-x-100 hover:after:opacity-100 focus-visible:text-[#0d132d] focus-visible:before:origin-left focus-visible:before:scale-x-100 focus-visible:after:opacity-100 disabled:cursor-wait disabled:opacity-50;
   }
 
-  .pill-button::before {
-    content: "";
-    @apply absolute inset-0 -z-10 translate-y-full rounded-full bg-white transition-transform duration-500 ease-out;
-  }
-
-  .pill-button:hover,
-  .pill-button:focus-visible {
-    @apply text-[#0d132d];
-    border-width: 0.5px;
-  }
-
-  .pill-button:hover::before,
-  .pill-button:focus-visible::before {
-    @apply translate-y-0;
-  }
-
-  .pill-button--light {
-    @apply border-white bg-white text-[#0d132d];
-  }
-
-  .pill-button--light::before {
-    @apply bg-[#0d132d];
-  }
-
-  .pill-button--light:hover,
-  .pill-button--light:focus-visible {
-    @apply text-white;
+  .action-button--light {
+    @apply bg-white text-[#0d132d] before:bg-[#0d132d] after:border-white hover:text-white focus-visible:text-white;
   }
 
   .hero-overlay {

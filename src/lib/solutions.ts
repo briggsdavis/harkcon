@@ -26,9 +26,9 @@ export const solutions: Solution[] = [
     title: "Workforce & Organizational Analysis",
     shortTitle: "Workforce analysis",
     description:
-      "Harkcon delivers tailored workforce and organizational analysis solutions to optimize readiness, improve staffing, and ensure mission success. Our team helps federal agencies assess current capabilities, identify gaps, and develop actionable workforce strategies.",
+      "Harkcon analyzes workforce requirements and organizational structure to improve staffing and readiness. We help federal agencies assess capabilities, identify gaps, and build workforce plans grounded in evidence and mission requirements.",
     proofPoint:
-      "Since 2007, Harkcon has completed more than 40 workforce requirements analyses for the U.S. Coast Guard. Our Workforce Calculator Forecasting Tools have been repeatedly praised by USCG stakeholders for precision, transparency, and adaptability, enabling scenario modeling to support real-time resourcing decisions.",
+      "Since 2007, Harkcon has completed more than 40 workforce requirements analyses for the U.S. Coast Guard. Our Workforce Calculator Forecasting Tools make staffing assumptions visible and let USCG stakeholders compare scenarios, adjust inputs, and assess requirements as operational needs change.",
     solutions: [
       "Workforce requirements analysis and modeling",
       "Workforce assessments and staffing analysis",
@@ -40,8 +40,8 @@ export const solutions: Solution[] = [
     heroAlt: "A U.S. Coast Guard helicopter operating over open water",
     wideImage: unsplash("1621310547536-9f03189e36f1"),
     wideAlt: "A U.S. Coast Guard patrol boat ready for operations",
-    detailImage: unsplash("1618656172765-26774a4a38d2"),
-    detailAlt: "The United States Capitol viewed from its eastern steps",
+    detailImage: "/images/editorial/workforce-detail.jpg",
+    detailAlt: "Sunlight and shadows along a colonnaded civic walkway",
   },
   {
     slug: "training-human-systems-integration",
@@ -50,7 +50,7 @@ export const solutions: Solution[] = [
     title: "Training & Human Systems Integration",
     shortTitle: "Training & HSI",
     description:
-      "Harkcon designs and delivers high-impact training and Human Systems Integration solutions to equip workforces with the skills, processes, and tools needed to excel. From curriculum development to HSI support, we enhance mission effectiveness.",
+      "Harkcon designs training and Human Systems Integration support around the tasks people need to perform. From curriculum development to acquisition support, we align skills, processes, and tools with operational requirements.",
     proofPoint:
       "Since 2017, Harkcon has provided continuous Human Performance Support and Training technical support for the U.S. Coast Guard Offshore Patrol Cutter program under the direction of the USCG Office of Human Systems Integration.",
     solutions: [
@@ -73,7 +73,7 @@ export const solutions: Solution[] = [
     title: "Process Improvement & Transformation",
     shortTitle: "Process transformation",
     description:
-      "Our process improvement and transformation solutions streamline operations, reduce risk, and drive measurable efficiency gains. We help agencies reengineer outdated workflows to meet modern mission demands.",
+      "We analyze processes, identify avoidable delays, and help agencies improve how work gets done. Our team redesigns workflows and updates supporting policies to reduce risk and meet operational requirements.",
     proofPoint:
       "Harkcon conducted detailed process reengineering and policy modernization for the U.S. Coast Guard National Maritime Center Merchant Mariner Credentialing program, improving end-to-end credentialing workflows.",
     solutions: [
@@ -96,7 +96,7 @@ export const solutions: Solution[] = [
     title: "Policy, Strategy, & Program Support",
     shortTitle: "Policy & strategy",
     description:
-      "Harkcon provides strategic advisory and program support to help federal agencies develop policies, align mission objectives, and manage complex programs effectively. Harkcon integrates AI-enabled tools responsibly to accelerate contract execution while ensuring human oversight and policy compliance.",
+      "Harkcon helps federal agencies develop policies, set priorities, and manage complex programs. We connect analysis with the decisions program leaders need to make. Where appropriate, we use AI-enabled tools to support contract work, with human oversight and checks for policy compliance.",
     proofPoint:
       "Harkcon has executed complex manpower requirements analyses across U.S. Coast Guard Atlantic Area and Pacific Area operational missions, informing future resourcing decisions.",
     solutions: [
@@ -109,8 +109,8 @@ export const solutions: Solution[] = [
     heroAlt: "The United States Capitol beneath an expansive sky",
     wideImage: unsplash("1573181759662-1c146525b21f"),
     wideAlt: "Civic architecture representing public-sector programs",
-    detailImage: unsplash("1759020622261-a876260db765"),
-    detailAlt: "The National Archives building and American flag in Washington, D.C.",
+    detailImage: "/images/editorial/policy-detail.jpg",
+    detailAlt: "A black-and-white view of a neoclassical building with tall columns",
   },
   {
     slug: "international-advisory-capacity-building",
@@ -119,7 +119,7 @@ export const solutions: Solution[] = [
     title: "International Advisory & Capacity Building",
     shortTitle: "International advisory",
     description:
-      "Harkcon helps clients strengthen global partnerships through advisory support, training programs, and capacity-building initiatives that enhance maritime security and operational readiness abroad.",
+      "Harkcon supports international partners with practical advice, maritime training, and capacity development. We help teams build the skills and working relationships needed for safe, effective operations abroad.",
     proofPoint:
       "Harkcon supported the U.S. Coast Guard Office of International Affairs and U.S. Embassy Hanoi in delivering shipboard emergency response training to Vietnam’s Customs, Anti-Smuggling, & Investigations Branch.",
     solutions: [
@@ -143,7 +143,7 @@ export const solutions: Solution[] = [
     title: "Administrative & Compliance Support",
     shortTitle: "Compliance support",
     description:
-      "Harkcon delivers reliable administrative, compliance, and operational support to ensure agencies meet regulatory obligations while maintaining smooth daily operations.",
+      "Harkcon helps agencies manage records, address privacy requirements, and meet regulatory obligations. Our administrative and operational support keeps essential daily work on track.",
     proofPoint:
       "Harkcon delivered privacy compliance support to the Department of Homeland Security, including the development of privacy impact assessments and records retention schedules.",
     solutions: [
@@ -165,7 +165,7 @@ export const solutions: Solution[] = [
     title: "Emergency Management & Continuity Support",
     shortTitle: "Emergency management",
     description:
-      "Harkcon delivers comprehensive all-hazards emergency management and continuity solutions to help agencies strengthen preparedness, response, and recovery efforts and ensure mission-critical functions remain uninterrupted.",
+      "Harkcon helps agencies plan, exercise, and maintain emergency management and continuity programs. We prepare teams to respond to disruptions, recover operations, and protect the essential functions their missions depend on.",
     proofPoint:
       "Harkcon developed and maintained the U.S. Coast Guard Headquarters Continuity of Operations Operational Plan, Devolution Plan, and Multi-Year Strategy for Continuity, directly aligning with Federal Continuity Directives and PPD-40.",
     solutions: [

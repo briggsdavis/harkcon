@@ -41,11 +41,13 @@ export default function ArticlePage({
                 displayDate={article.displayDate}
                 category={article.category}
               />
-              <h1 className="mt-6 font-header text-display font-medium">{article.title}</h1>
+              <h1 className="mt-6 font-header text-display font-medium text-balance">
+                {article.title}
+              </h1>
             </div>
             <div className="mx-auto max-w-[900px] pt-10 md:pt-12">
               {article.body.map((paragraph) => (
-                <p key={paragraph} className="mb-6 text-body-copy text-[#333744]">
+                <p key={paragraph} className="mb-6 text-body-copy text-pretty text-[#333744]">
                   {paragraph}
                 </p>
               ))}
@@ -60,7 +62,7 @@ export default function ArticlePage({
               data-reveal-line
             >
               <div>
-                <h2 id="related-news-title" className="font-header text-section-title">
+                <h2 id="related-news-title" className="font-header text-section-title text-balance">
                   More from Harkcon
                 </h2>
               </div>
@@ -92,7 +94,7 @@ export default function ArticlePage({
                   >
                     {item.displayDate}
                   </time>
-                  <h3 className="mt-3 font-header text-card-title">{item.title}</h3>
+                  <h3 className="mt-3 font-header text-card-title text-balance">{item.title}</h3>
                 </Link>
               ))}
             </div>

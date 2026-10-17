@@ -12,10 +12,11 @@ import {
   YoutubeLogo,
 } from "@phosphor-icons/react"
 import Image from "next/image"
-import Link from "next/link"
 import { FocusEvent, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react"
 import FeaturedNews from "~/components/featured-news"
+import Link from "~/components/visibility-link"
 import { HARKCON_CAPABILITY_STATEMENT_URL } from "~/lib/documents"
+import { usePageVisibility } from "~/lib/use-page-visibility"
 
 const statement =
   "Since 2005, Harkcon, a service-disabled veteran-owned small business, has helped government agencies solve complex workforce, organizational, and mission challenges."
@@ -66,7 +67,7 @@ const contractLinks: DropdownLink[] = [
   },
   {
     title: "OASIS+",
-    // href: "/contracts?view=oasis-plus",
+    // href: "/oasis-plus",
     detail:
       "Best-in-Class access to integrated professional services through our Small Business and SDVOSB awards.",
   },
@@ -147,7 +148,7 @@ function CompactDropdownContent({
   return (
     <div className="site-gutter grid grid-cols-[0.82fr_1.18fr] gap-16 py-10 xl:gap-24 xl:py-11">
       <div className="flex flex-col items-start border-r border-white/15 pr-16">
-        <p className="eyebrow text-white/55 normal-case">{label}</p>
+        <p className="eyebrow text-pretty text-white/55 normal-case">{label}</p>
         <p className="mt-7 max-w-md font-header text-xl leading-[1.25] tracking-[-0.02em] text-pretty text-white">
           {blurb}
         </p>
@@ -204,14 +205,14 @@ function SolutionsDropdownContent() {
   return (
     <div className="site-gutter grid min-h-[350px] grid-cols-[0.82fr_1.18fr] gap-16 py-10 xl:gap-24 xl:py-11">
       <div className="flex flex-col items-start border-r border-white/15 pr-16">
-        <p className="eyebrow text-white/55 normal-case">Our solutions</p>
-        <p className="mt-7 max-w-md font-header text-xl leading-[1.25] tracking-[-0.02em] text-white">
+        <p className="eyebrow text-pretty text-white/55 normal-case">Our solutions</p>
+        <p className="mt-7 max-w-md font-header text-xl leading-[1.25] tracking-[-0.02em] text-pretty text-white">
           Customized expertise that strengthens workforces, modernizes operations, and improves
           mission performance at every level.
         </p>
       </div>
       <div className="flex flex-col">
-        <p className="eyebrow text-white/55 normal-case">Explore</p>
+        <p className="eyebrow text-pretty text-white/55 normal-case">Explore</p>
         <div className="mt-5 grid gap-0">
           {solutionLinks.map((solution) => (
             // <Link key={solution.href} href={solution.href} onClick={onClose}
@@ -235,7 +236,7 @@ function SolutionsDropdownContent() {
 const dropdownNames: DropdownName[] = ["news", "contracts", "solutions"]
 
 const socialLinkClassName =
-  "flex h-11 w-11 items-center justify-center rounded-full border border-white/30 text-white/80 transition-all duration-300 hover:border-white hover:bg-white hover:text-[#0d132d] focus-visible:border-white focus-visible:bg-white focus-visible:text-[#0d132d] focus-visible:outline-none"
+  "flex h-11 w-11 items-center justify-center rounded-none border border-white/30 text-white/80 transition-all duration-300 hover:border-white hover:bg-white hover:text-[#0d132d] focus-visible:border-white focus-visible:bg-white focus-visible:text-[#0d132d] focus-visible:outline-none"
 
 const clientLogos = [
   {
@@ -279,17 +280,17 @@ const solutions = [
   {
     title: "Workforce & Organizational Analysis",
     href: solutionLinks[0].href,
-    detail: "Readiness, staffing, and actionable workforce strategy.",
+    detail: "Staffing analysis and workforce plans grounded in evidence.",
   },
   {
     title: "Training & Human Systems Integration",
     href: solutionLinks[1].href,
-    detail: "High-impact learning built for mission effectiveness.",
+    detail: "Training built around the work people need to do.",
   },
   {
     title: "Process Improvement & Transformation",
     href: solutionLinks[2].href,
-    detail: "Modern operations that reduce risk and create momentum.",
+    detail: "Practical process changes that reduce risk and wasted effort.",
   },
   {
     title: "Policy, Strategy & Program Support",
@@ -322,12 +323,9 @@ export function Arrow({
   )
 }
 
-const wipeButtonClassName =
-  "relative isolate inline-flex min-h-[39px] items-center justify-center gap-4 overflow-hidden px-5 py-[7.5px] text-action font-medium transition-colors duration-700 before:absolute before:inset-0 before:-z-10 before:origin-right before:scale-x-0 before:transition-transform before:duration-700 before:ease-out hover:before:origin-left hover:before:scale-x-100 focus-visible:before:origin-left focus-visible:before:scale-x-100 after:pointer-events-none after:absolute after:inset-0 after:border-[0.5px] after:opacity-0 after:transition-opacity after:duration-700 hover:after:opacity-100 focus-visible:after:opacity-100"
-const wipeButtonDarkClassName =
-  "bg-[#0d132d] text-white before:bg-white after:border-[#0d132d] hover:text-[#0d132d] focus-visible:text-[#0d132d]"
-const wipeButtonLightClassName =
-  "bg-white text-[#0d132d] before:bg-[#0d132d] after:border-white hover:text-white focus-visible:text-white"
+const wipeButtonClassName = "action-button"
+const wipeButtonDarkClassName = ""
+const wipeButtonLightClassName = "action-button--light"
 
 const navLinkClassName =
   "relative py-2 text-action opacity-85 transition-opacity after:absolute after:right-0 after:bottom-1 after:left-0 after:h-px after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 hover:opacity-100 hover:after:scale-x-100 focus-visible:after:scale-x-100"
@@ -336,12 +334,12 @@ const mobileNavLinkClassName =
   "flex items-center justify-between border-b border-white/15 py-4 text-lg"
 
 export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | "light" }) {
+  const visibility = usePageVisibility()
   const [menuOpen, setMenuOpen] = useState(false)
   const [openDropdown, setOpenDropdown] = useState<DropdownName | null>(null)
   const [shownDropdown, setShownDropdown] = useState<DropdownName>("solutions")
   const [panelHeight, setPanelHeight] = useState(0)
   const [mobileSolutionsOpen, setMobileSolutionsOpen] = useState(false)
-  const [mobileContractsOpen, setMobileContractsOpen] = useState(false)
   const [mobileNewsOpen, setMobileNewsOpen] = useState(false)
   const [atTop, setAtTop] = useState(true)
   const [headerVisible, setHeaderVisible] = useState(true)
@@ -361,7 +359,6 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
     [clearDropdownTimer],
   )
   const openNews = useCallback(() => showDropdown("news"), [showDropdown])
-  const openContracts = useCallback(() => showDropdown("contracts"), [showDropdown])
   const openSolutions = useCallback(() => showDropdown("solutions"), [showDropdown])
   const closeDropdown = useCallback(() => {
     clearDropdownTimer()
@@ -372,7 +369,6 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
     dropdownCloseTimer.current = setTimeout(() => setOpenDropdown(null), 280)
   }, [clearDropdownTimer])
   const toggleMobileSolutions = useCallback(() => setMobileSolutionsOpen((open) => !open), [])
-  const toggleMobileContracts = useCallback(() => setMobileContractsOpen((open) => !open), [])
   const toggleMobileNews = useCallback(() => setMobileNewsOpen((open) => !open), [])
   const handleNavBlur = useCallback((event: FocusEvent<HTMLElement>) => {
     if (!event.currentTarget.contains(event.relatedTarget)) setOpenDropdown(null)
@@ -469,30 +465,46 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
           className="hidden items-center gap-6 lg:flex xl:gap-8"
           onBlur={handleNavBlur}
         >
-          {/* <Link className={navLinkClassName} href="/about"> */}
-          <span className={navLinkClassName}>About</span>
-          {/* </Link> */}
-          {/* <Link className={navLinkClassName} href="/careers"> */}
-          <span className={navLinkClassName}>Careers</span>
-          {/* </Link> */}
-          <NavDropdownTrigger
-            label="News"
-            open={openDropdown === "news"}
-            onOpen={openNews}
-            onScheduleClose={scheduleDropdownClose}
-          />
-          <NavDropdownTrigger
-            label="Contracts"
-            open={openDropdown === "contracts"}
-            onOpen={openContracts}
-            onScheduleClose={scheduleDropdownClose}
-          />
-          <NavDropdownTrigger
-            label="Solutions"
-            open={openDropdown === "solutions"}
-            onOpen={openSolutions}
-            onScheduleClose={scheduleDropdownClose}
-          />
+          <Link href="/about" className={navLinkClassName}>
+            About
+          </Link>
+          <Link href="/careers" className={navLinkClassName}>
+            Careers
+          </Link>
+          {visibility?.news === false ? (
+            <span className={navLinkClassName}>News</span>
+          ) : (
+            <NavDropdownTrigger
+              label="News"
+              open={openDropdown === "news"}
+              onOpen={openNews}
+              onScheduleClose={scheduleDropdownClose}
+            />
+          )}
+          <Link href="/contracts" className={navLinkClassName}>
+            Contracts
+          </Link>
+          <Link href="/oasis-plus" className={navLinkClassName}>
+            OASIS+
+          </Link>
+          <Link
+            href="https://www.kdharkins.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={navLinkClassName}
+          >
+            Kevin Harkins
+          </Link>
+          {visibility?.solutions === false ? (
+            <span className={navLinkClassName}>Solutions</span>
+          ) : (
+            <NavDropdownTrigger
+              label="Solutions"
+              open={openDropdown === "solutions"}
+              onOpen={openSolutions}
+              onScheduleClose={scheduleDropdownClose}
+            />
+          )}
           <Link
             href="/contact"
             className={`${wipeButtonClassName} ml-2 ${darkSurface ? wipeButtonLightClassName : wipeButtonDarkClassName}`}
@@ -519,7 +531,7 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
                 {name === "news" ? (
                   <CompactDropdownContent
                     label="News"
-                    blurb="The latest from Harkcon, from contract awards to the people behind the mission."
+                    blurb="Contract awards, company updates, and insights from the people doing the work."
                     items={newsLinks}
                     onClose={closeDropdown}
                   />
@@ -544,14 +556,25 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
           aria-controls="mobile-navigation"
           aria-label={menuOpen ? "Close menu" : "Open menu"}
           onClick={toggleMenu}
-          className={`flex h-11 w-11 flex-col items-center justify-center gap-2 rounded-full border lg:hidden ${menuButtonLight ? "border-[#0d132d]/35" : "border-white/40"}`}
+          className={`flex h-11 w-11 flex-col items-center justify-center gap-2 rounded-none border lg:hidden ${menuButtonLight ? "border-[#0d132d]/35" : "border-white/40"}`}
         >
-          <span
-            className={`block h-px w-5 transition-transform duration-300 ${menuButtonLight ? "bg-[#0d132d]" : "bg-white"} ${menuOpen ? "translate-y-[5px] rotate-45" : ""}`}
-          />
-          <span
-            className={`block h-px w-5 transition-transform duration-300 ${menuButtonLight ? "bg-[#0d132d]" : "bg-white"} ${menuOpen ? "-translate-y-[5px] -rotate-45" : ""}`}
-          />
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 24 24"
+            className={`h-6 w-6 ${menuButtonLight ? "text-[#0d132d]" : "text-white"}`}
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1"
+          >
+            <path
+              d="M4 12h16"
+              className={`origin-center transition-transform duration-300 ${menuOpen ? "rotate-45" : "-translate-y-1"}`}
+            />
+            <path
+              d="M4 12h16"
+              className={`origin-center transition-transform duration-300 ${menuOpen ? "-rotate-45" : "translate-y-1"}`}
+            />
+          </svg>
         </button>
       </div>
 
@@ -559,15 +582,16 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
         id="mobile-navigation"
         className={`mobile-nav absolute top-24 right-0 left-0 flex max-h-[calc(100svh-6rem)] flex-col overflow-y-auto bg-[#0d132d] px-5 py-5 transition-all duration-300 sm:px-8 ${menuOpen ? "pointer-events-auto translate-y-0 opacity-100" : "pointer-events-none -translate-y-3 opacity-0"}`}
       >
-        {/* <Link href="/about" onClick={closeMenu} className={mobileNavLinkClassName}> */}
-        <span className={mobileNavLinkClassName}>About</span>
-        {/* </Link> */}
-        {/* <Link href="/careers" onClick={closeMenu} className={mobileNavLinkClassName}> */}
-        <span className={mobileNavLinkClassName}>Careers</span>
-        {/* </Link> */}
+        <Link href="/about" className={mobileNavLinkClassName}>
+          About
+        </Link>
+        <Link href="/careers" className={mobileNavLinkClassName}>
+          Careers
+        </Link>
         <button
           type="button"
           className="flex w-full items-center justify-between border-b border-white/15 py-4 text-left text-lg"
+          disabled={visibility?.news === false}
           aria-expanded={mobileNewsOpen}
           aria-controls="mobile-news-list"
           onClick={toggleMobileNews}
@@ -595,33 +619,25 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
             LinkedIn
           </a>
         </div>
+        <Link href="/contracts" onClick={closeMenu} className={mobileNavLinkClassName}>
+          Contracts
+        </Link>
+        <Link href="/oasis-plus" onClick={closeMenu} className={mobileNavLinkClassName}>
+          OASIS+
+        </Link>
+        <Link
+          href="https://www.kdharkins.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={closeMenu}
+          className={mobileNavLinkClassName}
+        >
+          Kevin Harkins
+        </Link>
         <button
           type="button"
           className="flex w-full items-center justify-between border-b border-white/15 py-4 text-left text-lg"
-          aria-expanded={mobileContractsOpen}
-          aria-controls="mobile-contracts-list"
-          onClick={toggleMobileContracts}
-        >
-          Contracts{" "}
-          {mobileContractsOpen ? <Minus aria-hidden="true" /> : <Plus aria-hidden="true" />}
-        </button>
-        <div
-          id="mobile-contracts-list"
-          className={`grid overflow-hidden pl-4 transition-all duration-500 ${mobileContractsOpen ? "max-h-[640px] opacity-100" : "max-h-0 opacity-0"}`}
-        >
-          {contractLinks.map((contract) => (
-            // <Link key={contract.href} href={contract.href} onClick={closeMenu}>
-            <span
-              key={contract.title}
-              className="flex items-center justify-between border-b border-white/15 py-3 text-sm leading-snug text-white/70"
-            >
-              {contract.title}
-            </span>
-          ))}
-        </div>
-        <button
-          type="button"
-          className="flex w-full items-center justify-between border-b border-white/15 py-4 text-left text-lg"
+          disabled={visibility?.solutions === false}
           aria-expanded={mobileSolutionsOpen}
           aria-controls="mobile-solutions-list"
           onClick={toggleMobileSolutions}
@@ -646,7 +662,7 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
         <Link
           href="/contact"
           onClick={closeMenu}
-          className="mt-5 flex items-center justify-center gap-4 rounded-full border border-white bg-white px-6 py-3 text-sm font-medium text-[#0d132d]"
+          className="action-button action-button--light mt-5"
         >
           Contact
         </Link>
@@ -694,7 +710,7 @@ function ClientMarquee() {
     >
       <div className="site-gutter mb-10 flex items-center justify-center gap-6 md:mb-12">
         <span aria-hidden="true" className="h-0.5 w-12 bg-[#0d132d]/25 md:w-20" />
-        <h2 className="text-center font-header text-[clamp(1.5rem,2.4vw,2.25rem)] leading-tight font-medium tracking-[-0.02em] text-[#0d132d]">
+        <h2 className="text-center font-header text-[clamp(1.5rem,2.4vw,2.25rem)] leading-tight font-medium tracking-[-0.02em] text-balance text-[#0d132d]">
           Organizations we have served
         </h2>
         <span aria-hidden="true" className="h-0.5 w-12 bg-[#0d132d]/25 md:w-20" />
@@ -771,14 +787,20 @@ function Hero() {
       <div className="hero-overlay absolute inset-0 z-[1]" />
       <div className="site-gutter relative z-10 flex h-full items-end pb-12 md:pb-16">
         <div className="max-w-5xl text-white">
-          <h1 id="hero-title" className="max-w-3xl font-header text-display font-medium">
+          <p className="mb-5 font-eyebrow text-xs font-semibold tracking-[0.18em] text-pretty text-white/90 uppercase md:text-sm">
+            Master Performance
+          </p>
+          <h1
+            id="hero-title"
+            className="max-w-3xl font-header text-display font-medium text-balance"
+          >
             Better people.
             <br />
             Stronger missions.
           </h1>
           <div className="mt-7 flex items-center gap-4 pt-5 md:mt-9 md:pt-6" data-reveal-line>
-            <p className="max-w-xl text-sm leading-relaxed text-white/80 md:text-base">
-              Purpose-built solutions for the organizations that serve us all.
+            <p className="max-w-xl text-sm leading-relaxed text-pretty text-white/80 md:text-base">
+              Practical expertise for the organizations that serve us all.
             </p>
           </div>
         </div>
@@ -828,13 +850,13 @@ function ScrollStatement() {
   return (
     <section
       ref={containerRef}
-      className="flex min-h-[70vh] items-center py-[4.31rem] text-center md:py-[5.54rem]"
+      className="flex min-h-[70vh] items-center py-[3.017rem] text-center md:py-[3.878rem]"
       aria-label="What Harkcon does"
     >
       <div className="site-gutter">
         <p
           ref={statementRef}
-          className="mx-auto max-w-[1050px] font-header text-[clamp(1.65rem,2.55vw,2.75rem)] leading-[1.15] tracking-[-0.025em] text-[#c6c8cc]"
+          className="mx-auto max-w-[1050px] font-header text-[clamp(1.65rem,2.55vw,2.75rem)] leading-[1.15] tracking-[-0.025em] text-pretty text-[#c6c8cc]"
           aria-label={statement}
         >
           <span aria-hidden="true">
@@ -908,7 +930,7 @@ export function SiteFooter() {
           </div>
 
           <div>
-            <p className="mb-7 text-xs tracking-[0.17em] text-white/45">Solutions</p>
+            <p className="mb-7 text-xs tracking-[0.17em] text-pretty text-white/45">Solutions</p>
             <nav aria-label="Footer solutions navigation" className="grid items-start gap-3">
               {solutionLinks.map((solution) => (
                 // <Link key={solution.href} href={solution.href}>
@@ -920,29 +942,29 @@ export function SiteFooter() {
           </div>
 
           <div>
-            <p className="mb-7 text-xs tracking-[0.17em] text-white/45">Company</p>
+            <p className="mb-7 text-xs tracking-[0.17em] text-pretty text-white/45">Company</p>
             <nav aria-label="Footer company navigation" className="grid items-start gap-3">
-              {/* <Link href="/about" className={footerNavLinkClassName}> */}
-              <span className={footerNavLinkClassName}>About</span>
-              {/* </Link> */}
+              <Link href="/about" className={footerNavLinkClassName}>
+                About
+              </Link>
               <Link href="/news-insights" className={footerNavLinkClassName}>
                 News
               </Link>
-              {/* <Link href="/contracts" className={footerNavLinkClassName}> */}
-              <span className={footerNavLinkClassName}>Contracts</span>
-              {/* </Link> */}
+              <Link href="/contracts" className={footerNavLinkClassName}>
+                Contracts
+              </Link>
               <Link href="/contact" className={footerNavLinkClassName}>
                 Contact
               </Link>
-              {/* <Link href="/careers" className={footerNavLinkClassName}> */}
-              <span className={footerNavLinkClassName}>Careers</span>
-              {/* </Link> */}
+              <Link href="/careers" className={footerNavLinkClassName}>
+                Careers
+              </Link>
             </nav>
           </div>
 
           <div>
-            <p className="mb-7 text-xs tracking-[0.17em] text-white/45">Connect</p>
-            <p className="text-lg leading-snug text-white/85">
+            <p className="mb-7 text-xs tracking-[0.17em] text-pretty text-white/45">Connect</p>
+            <p className="text-lg leading-snug text-pretty text-white/85">
               Have a complex mission?
               <br />
               Let&apos;s solve it together.
@@ -1042,13 +1064,13 @@ export default function HomePage() {
               <div className="self-start lg:sticky lg:top-32">
                 <h2
                   id="solutions-title"
-                  className="max-w-sm font-header text-section-title font-medium"
+                  className="max-w-sm font-header text-section-title font-medium text-balance"
                 >
                   Our Solutions
                 </h2>
                 <p className="mt-7 max-w-sm text-base leading-relaxed text-pretty text-[#5f626b]">
-                  Integrated expertise that strengthens workforces, modernizes operations, and turns
-                  complex challenges into lasting performance.
+                  Workforce analysis, training, and program support that help agencies make sound
+                  decisions and improve performance.
                 </p>
               </div>
 
@@ -1062,11 +1084,11 @@ export default function HomePage() {
                   >
                     <span className="absolute inset-0 origin-left scale-x-0 bg-[#0d132d] transition-transform duration-900 ease-[cubic-bezier(0.45,0,0.2,1)] will-change-transform group-hover:scale-x-100 group-focus-visible:scale-x-100" />
                     <div className="relative z-10 flex h-full flex-col">
-                      <h3 className="max-w-sm font-header text-card-title font-medium">
+                      <h3 className="max-w-sm font-header text-card-title font-medium text-balance">
                         {solution.title}
                       </h3>
                       <div className="mt-auto flex items-end gap-5 pt-10">
-                        <p className="max-w-[15rem] text-sm leading-relaxed text-[#5f626b] transition-colors duration-700 group-hover:text-white/70">
+                        <p className="max-w-[15rem] text-sm leading-relaxed text-pretty text-[#5f626b] transition-colors duration-700 group-hover:text-white/70">
                           {solution.detail}
                         </p>
                         <span className="ml-auto flex h-14 w-14 shrink-0 items-center justify-center bg-[#f4f3f0] text-[#0d132d]">
@@ -1090,10 +1112,13 @@ export default function HomePage() {
         >
           <div className="site-gutter grid gap-12 md:grid-cols-2 md:gap-0">
             <div className="flex flex-col items-start md:pr-12 lg:pr-20">
-              <h2 id="home-contracts-title" className="font-header text-section-title font-medium">
+              <h2
+                id="home-contracts-title"
+                className="font-header text-section-title font-medium text-balance"
+              >
                 Contract vehicles
               </h2>
-              <p className="mt-5 max-w-lg text-base leading-relaxed text-white/70">
+              <p className="mt-5 max-w-lg text-base leading-relaxed text-pretty text-white/70">
                 Flexible federal acquisition paths to Harkcon&apos;s people, performance, and
                 technology expertise.
               </p>
@@ -1104,12 +1129,12 @@ export default function HomePage() {
               {/* </Link> */}
             </div>
             <div className="flex flex-col items-start border-t border-white/15 pt-12 md:border-t-0 md:border-l md:pt-0 md:pl-12 lg:pl-20">
-              <h3 className="font-header text-section-title font-medium">OASIS+</h3>
-              <p className="mt-5 max-w-lg text-base leading-relaxed text-white/70">
+              <h3 className="font-header text-section-title font-medium text-balance">OASIS+</h3>
+              <p className="mt-5 max-w-lg text-base leading-relaxed text-pretty text-white/70">
                 Integrated professional services through Harkcon&apos;s Small Business and SDVOSB
                 vehicles.
               </p>
-              {/* <Link href="/contracts?view=oasis-plus"> */}
+              {/* <Link href="/oasis-plus"> */}
               <span className="text-link mt-8 text-white after:opacity-60" data-reveal-line>
                 Explore OASIS+
               </span>
@@ -1119,7 +1144,9 @@ export default function HomePage() {
           <div className="site-gutter">
             <div className="mt-16 flex flex-col items-start justify-between gap-8 border-t border-white/15 pt-12 md:mt-20 md:flex-row md:items-center md:pt-14">
               <div>
-                <h3 className="font-header text-card-title font-medium">Capability statement</h3>
+                <h3 className="font-header text-card-title font-medium text-balance">
+                  Capability statement
+                </h3>
                 <p className="mt-3 max-w-lg text-base leading-relaxed text-pretty text-white/70">
                   Company capabilities, qualifications, and contracting information.
                 </p>
@@ -1141,10 +1168,13 @@ export default function HomePage() {
           aria-labelledby="about-title"
         >
           <div className="flex flex-col items-start justify-center px-5 py-24 sm:px-8 lg:px-12 lg:py-32 xl:px-16">
-            <h2 id="about-title" className="max-w-xl font-header text-section-title font-medium">
+            <h2
+              id="about-title"
+              className="max-w-xl font-header text-section-title font-medium text-balance"
+            >
               A culture of mastery and action.
             </h2>
-            <p className="mt-8 max-w-xl text-body-copy text-[#5f626b]">
+            <p className="mt-8 max-w-xl text-body-copy text-pretty text-[#5f626b]">
               Harkcon is a service-disabled veteran-owned small business that helps government
               organizations solve complex workforce, organizational, operational, and mission
               challenges. Since 2005, we have supported agencies including the U.S. Coast Guard,
@@ -1153,7 +1183,7 @@ export default function HomePage() {
               organizational analysis, training and performance improvement, emergency management,
               program and project management, and data-driven decision support.
             </p>
-            <p className="mt-5 max-w-xl text-body-copy text-[#5f626b]">
+            <p className="mt-5 max-w-xl text-body-copy text-pretty text-[#5f626b]">
               Headquartered in Fredericksburg, Virginia, Harkcon brings together experienced
               professionals who understand both the mission and the people responsible for
               delivering it. Our approach is practical, responsive, and grounded in a simple
@@ -1185,7 +1215,10 @@ export default function HomePage() {
           <div className="site-gutter">
             <div className="mb-12 flex items-end justify-between gap-8 md:mb-16">
               <div>
-                <h2 id="news-title" className="font-header text-section-title font-medium">
+                <h2
+                  id="news-title"
+                  className="font-header text-section-title font-medium text-balance"
+                >
                   News
                 </h2>
               </div>
@@ -1201,8 +1234,8 @@ export default function HomePage() {
         <section className="bg-white">
           <div className="site-gutter flex flex-col items-start justify-between gap-10 py-20 md:flex-row md:items-end md:py-24">
             <div>
-              <h2 className="max-w-3xl font-header text-section-title font-medium text-[#0d132d]">
-                Let&apos;s make your next mission stronger.
+              <h2 className="max-w-3xl font-header text-section-title font-medium text-balance text-[#0d132d]">
+                Put our experience to work for your mission.
               </h2>
             </div>
             <Link

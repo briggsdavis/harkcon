@@ -21,10 +21,12 @@ import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
 import { FormEvent, useCallback, useMemo, useState, type ReactNode } from "react"
 import { authClient } from "~/lib/auth-client"
+import { visibilityPages } from "~/lib/page-visibility"
 import { api } from "../../../convex/_generated/api"
 import type { Doc, Id } from "../../../convex/_generated/dataModel"
 
 type View =
+  | "visibility"
   | "dashboard"
   | "news"
   | "contacts"
@@ -61,6 +63,7 @@ const emptyArticle: ArticleDraft = {
 }
 
 const pageLabels: Record<View, string> = {
+  visibility: "Page visibility",
   dashboard: "Dashboard",
   news: "News editor",
   contacts: "Contacts",
@@ -354,6 +357,7 @@ function Sidebar({ view, onSelect }: { view: View; onSelect: (view: View) => voi
         {item("dashboard", "grid")}
         {item("news", "news")}
         {item("contacts", "mail")}
+        {item("visibility", "page")}
         <button className={navButton(false)} onClick={() => setPagesOpen((open) => !open)}>
           <Icon name="page" />
           <span>Page editor</span>
@@ -1429,6 +1433,65 @@ function PagePlaceholder({ view }: { view: View }) {
   )
 }
 
+function PageVisibility() {
+  const settings = useQuery(api.content.getPageVisibility)
+  const save = useMutation(api.content.setPageVisibility)
+  const [pending, setPending] = useState<string | null>(null)
+  const [error, setError] = useState("")
+  return (
+    <section className="mx-auto max-w-4xl p-6 md:p-10">
+      <h1 className={pageTitle}>Page visibility</h1>
+      <p className="mt-3 text-sm text-slate-600">
+        Turn pages on to make their links clickable. Turn them off to show their names as plain
+        text. Changes save immediately.
+      </p>
+      {error && (
+        <p role="alert" className="mt-4 text-red-700">
+          {error}
+        </p>
+      )}
+      <div className="mt-8 divide-y divide-slate-200 rounded-xl border border-slate-200 bg-white px-6">
+        {visibilityPages.map((page) => {
+          const visible = settings?.[page.key] ?? page.visible
+          return (
+            <div key={page.key} className="flex items-center justify-between gap-4 py-5">
+              <div>
+                <p className="font-medium">{page.title}</p>
+                <p className="mt-1 text-sm text-slate-500">
+                  {visible ? "Visible and clickable" : "Plain text only"}
+                </p>
+              </div>
+              <button
+                type="button"
+                role="switch"
+                aria-checked={visible}
+                aria-label={`${page.title} visibility`}
+                disabled={!settings || pending !== null}
+                className={`relative h-7 w-12 rounded-full transition-colors disabled:opacity-50 ${visible ? "bg-blue-600" : "bg-slate-300"}`}
+                onClick={async () => {
+                  setPending(page.key)
+                  setError("")
+                  try {
+                    await save({ key: page.key, visible: !visible })
+                  } catch {
+                    setError("Could not save visibility. Please try again.")
+                  } finally {
+                    setPending(null)
+                  }
+                }}
+              >
+                <span
+                  className={`absolute top-1 h-5 w-5 rounded-full bg-white transition-all ${visible ? "left-6" : "left-1"}`}
+                />
+              </button>
+            </div>
+          )
+        })}
+      </div>
+    </section>
+  )
+}
+
 function Workspace() {
   const params = useSearchParams(),
     router = useRouter()
@@ -1454,7 +1517,9 @@ function Workspace() {
             ))}
           </select>
         </header>
-        {view === "dashboard" ? (
+        {view === "visibility" ? (
+          <PageVisibility />
+        ) : view === "dashboard" ? (
           <Dashboard />
         ) : view === "news" ? (
           <NewsEditor />

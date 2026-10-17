@@ -37,8 +37,10 @@ export default function FeaturedNews() {
             >
               {article.displayDate}
             </time>
-            <h3 className="mt-3 max-w-xl font-header text-card-title">{article.title}</h3>
-            <p className="mt-3 line-clamp-2 max-w-2xl text-base leading-relaxed text-[#5f626b]">
+            <h3 className="mt-3 max-w-xl font-header text-card-title text-balance">
+              {article.title}
+            </h3>
+            <p className="mt-3 line-clamp-2 max-w-2xl text-base leading-relaxed text-pretty text-[#5f626b]">
               {article.excerpt}
             </p>
           </div>

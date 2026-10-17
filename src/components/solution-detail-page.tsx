@@ -6,13 +6,13 @@ import SubtleParallaxPhoto from "~/components/subtle-parallax-photo"
 import type { Solution } from "~/lib/solutions"
 
 const capabilityCopy = [
-  "Our expertise across Harkcon’s corporate capabilities can be applied to workgroups in any industry and at any scale.",
-  "We believe strong, dynamic relationships are essential to doing business well, so we invest in long-term partnerships built on trust, clarity, and shared purpose.",
-  "We provide complete and dependable support as clients face their most challenging circumstances. We are the trusted partner who will motivate, inspire, and deliver.",
-  "Whether we work directly for a client or alongside our highly regarded corporate partners, our focus remains the same: meaningful results, delivered on time and within budget. The solutions we employ and the analyses we conduct can adapt to any industry or organization size.",
+  "We apply workforce analysis, training, and program support to the specific requirements of each client and team.",
+  "We build lasting working relationships by listening closely, setting clear expectations, and giving clients and partners straightforward advice.",
+  "We help clients work through difficult requirements with careful analysis, experienced people, and practical recommendations they can put to use.",
+  "Whether we work directly for a client or alongside a partner, we agree on the requirements, schedule, and budget at the outset. We adapt our analysis and delivery to the organization, report progress clearly, and keep the work focused on the results the client needs.",
 ]
 
-const headingClassName = "max-w-4xl font-header text-section-title font-medium"
+const headingClassName = "text-balance max-w-4xl font-header text-section-title font-medium"
 const ctaCardClassName =
   "flex flex-col items-start border-t border-[#0d132d]/20 py-12 md:min-h-[360px] md:py-14"
 
@@ -32,7 +32,7 @@ export default function SolutionDetailPage({ solution }: { solution: Solution })
           />
           <div className="page-hero-overlay absolute inset-0 z-[1]" />
           <div className="site-gutter relative z-10 flex h-full items-end justify-between pb-8 text-white md:pb-10">
-            <p className="eyebrow text-white/75">Harkcon solutions</p>
+            <p className="eyebrow text-pretty text-white/75">Harkcon solutions</p>
             <span className="font-eyebrow text-sm tracking-[0.15em] text-white/70">
               {solution.number}
             </span>
@@ -50,13 +50,16 @@ export default function SolutionDetailPage({ solution }: { solution: Solution })
               <span className="font-eyebrow text-eyebrow-label tracking-[0.15em] text-[#8b8e96]">
                 {solution.number}
               </span>
-              <p className="eyebrow">Our expertise</p>
+              <p className="eyebrow text-pretty">Our expertise</p>
             </div>
             <div>
-              <h1 id="solution-title" className="max-w-5xl font-header text-display font-medium">
+              <h1
+                id="solution-title"
+                className="max-w-5xl font-header text-display font-medium text-balance"
+              >
                 {solution.title}
               </h1>
-              <p className="mt-10 max-w-[900px] text-body-copy text-[#454955]">
+              <p className="mt-10 max-w-[900px] text-body-copy text-pretty text-[#454955]">
                 {solution.description}
               </p>
             </div>
@@ -80,7 +83,7 @@ export default function SolutionDetailPage({ solution }: { solution: Solution })
                 Experience measured in outcomes.
               </h2>
             </div>
-            <p className="max-w-[850px] text-body-copy text-[#454955] lg:pt-12">
+            <p className="max-w-[850px] text-body-copy text-pretty text-[#454955] lg:pt-12">
               {solution.proofPoint}
             </p>
           </div>
@@ -112,7 +115,7 @@ export default function SolutionDetailPage({ solution }: { solution: Solution })
                     <span className="pt-1 font-eyebrow text-eyebrow-label tracking-[0.12em] text-[#8b8e96]">
                       {String(index + 1).padStart(2, "0")}
                     </span>
-                    <p className="font-header text-card-title transition-transform duration-500 group-hover:translate-x-2.5">
+                    <p className="font-header text-card-title text-pretty transition-transform duration-500 group-hover:translate-x-2.5">
                       {item}
                     </p>
                   </li>
@@ -129,7 +132,7 @@ export default function SolutionDetailPage({ solution }: { solution: Solution })
           <div className="site-gutter grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20 xl:gap-28">
             <div>
               <h2 id="partnership-title" className={headingClassName}>
-                Expertise that travels with the challenge.
+                Experienced people. Practical advice.
               </h2>
             </div>
             <div className="space-y-7 text-body-copy text-white/68">
@@ -146,7 +149,7 @@ export default function SolutionDetailPage({ solution }: { solution: Solution })
               <h2 className={`mb-10 md:mb-auto ${headingClassName}`}>
                 Ready to put this expertise to work?
               </h2>
-              <Link href="/contact" className="pill-button mt-auto">
+              <Link href="/contact" className="action-button mt-auto">
                 Contact us <Arrow />
               </Link>
             </article>
@@ -154,7 +157,7 @@ export default function SolutionDetailPage({ solution }: { solution: Solution })
               <h2 className={`mb-10 md:mb-auto ${headingClassName}`}>
                 Interested in doing work in this field?
               </h2>
-              <Link href="/careers" className="pill-button mt-auto">
+              <Link href="/careers" className="action-button mt-auto">
                 Join Harkcon <Arrow />
               </Link>
             </article>

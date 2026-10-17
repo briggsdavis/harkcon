@@ -189,3 +189,30 @@ export const addTopic = mutation({
     return await ctx.db.insert("newsTopics", { name: name.trim(), slug, order: topics.length })
   },
 })
+
+export const getPageVisibility = query({
+  args: {},
+  handler: async (ctx) =>
+    Object.fromEntries(
+      (await ctx.db.query("pageVisibility").collect()).map((row) => [row.key, row.visible]),
+    ),
+})
+
+export const setPageVisibility = mutation({
+  args: { key: v.string(), visible: v.boolean() },
+  handler: async (ctx, { key, visible }) => {
+    await requireAdmin(ctx)
+    if (
+      !["about", "careers", "contracts", "oasis", "news", "solutions", "contact", "kevin"].includes(
+        key,
+      )
+    )
+      throw new Error("Unknown page")
+    const existing = await ctx.db
+      .query("pageVisibility")
+      .withIndex("by_key", (q) => q.eq("key", key))
+      .unique()
+    if (existing) await ctx.db.patch(existing._id, { visible })
+    else await ctx.db.insert("pageVisibility", { key, visible })
+  },
+})

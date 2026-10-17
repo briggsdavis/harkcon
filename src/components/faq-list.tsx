@@ -36,9 +36,9 @@ export default function FaqList({ faqs, dark = false }: { faqs: Faq[]; dark?: bo
               aria-controls={answerId}
               onClick={toggle}
             >
-              <span>{faq.question}</span>
+              <span className="text-balance">{faq.question}</span>
               <span
-                className={`ml-auto flex h-10 w-10 shrink-0 items-center justify-center rounded-full border font-body ${dark ? "border-white/25" : "border-[#0d132d]/25"} text-2xl transition-transform duration-300 ${open ? "rotate-45" : ""}`}
+                className={`ml-auto flex h-10 w-10 shrink-0 items-center justify-center rounded-none border font-body ${dark ? "border-white/25" : "border-[#0d132d]/25"} text-2xl transition-transform duration-300 ${open ? "rotate-45" : ""}`}
                 aria-hidden="true"
               >
                 <Plus />
@@ -51,7 +51,7 @@ export default function FaqList({ faqs, dark = false }: { faqs: Faq[]; dark?: bo
             >
               <div className="overflow-hidden">
                 <p
-                  className={`max-w-3xl pr-12 text-body-copy md:pr-20 ${dark ? "text-white/68" : "text-[#5f626b]"} ${open ? "translate-y-0 pb-8 md:pb-10" : "-translate-y-2.5 pb-0"}`}
+                  className={`max-w-3xl pr-12 text-body-copy text-pretty md:pr-20 ${dark ? "text-white/68" : "text-[#5f626b]"} ${open ? "translate-y-0 pb-8 md:pb-10" : "-translate-y-2.5 pb-0"}`}
                 >
                   {faq.answer}
                 </p>

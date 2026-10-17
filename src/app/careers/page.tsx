@@ -60,7 +60,7 @@ const careerFaqs = [
   {
     question: "What is the promotion potential?",
     answer:
-      "Harkcon rewards associates’ professional accomplishments through promotions, rewards, and recognition. As a company with definite plans for expansion, we expect many opportunities for advancement. A significant part of our strategy is to promote from within, and we strive to advance team members who demonstrate superior performance, show increased ability, and seek greater responsibility before hiring externally.",
+      "Harkcon rewards associates’ professional accomplishments through promotions, rewards, and recognition. As the company grows, advancement opportunities depend on project needs and individual readiness. A significant part of our strategy is to promote from within, and we strive to advance team members who demonstrate superior performance, show increased ability, and seek greater responsibility before hiring externally.",
   },
   {
     question: "Is my resume confidential?",
@@ -75,17 +75,17 @@ const careerFaqs = [
   {
     question: "Why would I want to work at Harkcon?",
     answer:
-      "If you want the personal satisfaction of professional success, Harkcon is for you. Our standards of excellence are evident in the expertise of our associates, the complexity of the projects for which we compete, and the quality of the work we produce. We help federal agencies improve performance, especially in complex human systems where mission success depends on how people are organized. Our success comes from the exacting work of our team members, and with Harkcon, your career has endless possibilities.",
+      "At Harkcon, you can apply your expertise to the workforce and organizational challenges federal agencies face. Our work calls for careful analysis, practical recommendations, and responsibility for the result. You will work with experienced colleagues on projects where staffing, training, and sound decisions matter to the mission. We support professional development, value different perspectives, and give associates access to leadership. If you take pride in rigorous work and want to keep learning, explore the roles that match your experience and interests.",
   },
   {
     question: "Where does Harkcon see itself going?",
     answer:
-      "In short, the sky is the limit. We envision a thriving international company of more than 300 associates serving human performance consulting needs at all levels of government and across industries. We will continue to attract the best professionals in the field and be known as the company that produces expert results.",
+      "Our goal is to expand our human performance work across government and industry while maintaining the quality clients expect. We plan to grow our team and international work by developing our people, building lasting client relationships, and taking on projects where our experience addresses a clear need.",
   },
 ]
 
-const headingClassName = "max-w-4xl font-header text-section-title font-medium"
-const proseClassName = "mt-8 max-w-[850px] text-body-copy text-[#454955]"
+const headingClassName = "text-balance max-w-4xl font-header text-section-title font-medium"
+const proseClassName = "text-pretty mt-8 max-w-[850px] text-body-copy text-[#454955]"
 
 export default function Careers() {
   return (
@@ -104,14 +104,17 @@ export default function Careers() {
           <div className="careers-hero-overlay absolute inset-0 z-[1]" />
           <div className="site-gutter relative z-10 flex h-full items-end pb-12 md:pb-16">
             <div className="max-w-4xl text-white">
-              <h1 id="careers-title" className="max-w-3xl font-header text-display font-medium">
+              <h1
+                id="careers-title"
+                className="max-w-3xl font-header text-display font-medium text-balance"
+              >
                 Do work that matters.
               </h1>
               <div
                 className="mt-8 flex items-center border-t border-white/35 pt-6 md:mt-10"
                 data-reveal-line
               >
-                <p className="max-w-xl text-sm leading-relaxed text-white/80 md:text-base">
+                <p className="max-w-xl text-sm leading-relaxed text-pretty text-white/80 md:text-base">
                   Bring your experience, ideas, and ambition to the mission.
                 </p>
               </div>
@@ -126,17 +129,17 @@ export default function Careers() {
                 <span className="font-eyebrow text-eyebrow-label tracking-[0.15em] text-[#8b8e96]">
                   01
                 </span>
-                <p className="eyebrow">Join our team</p>
+                <p className="eyebrow text-pretty">Join our team</p>
               </div>
               <div>
                 <h2 id="join-title" className={headingClassName}>
                   Build your career with people who value people.
                 </h2>
-                <p className="mt-8 max-w-[850px] text-body-copy text-[#0d132d]">
-                  We are a dynamic and growing company, always looking for talented, experienced,
-                  and highly creative professionals across a variety of disciplines. Harkcon is
-                  built on a cornerstone belief: when businesses take care of their people, their
-                  people take care of the business.
+                <p className="mt-8 max-w-[850px] text-body-copy text-pretty text-[#0d132d]">
+                  We look for experienced professionals who ask good questions, take responsibility,
+                  and care about the quality of their work. Harkcon is built on a straightforward
+                  belief: when businesses take care of their people, their people take care of the
+                  business.
                 </p>
               </div>
             </div>
@@ -152,15 +155,15 @@ export default function Careers() {
                 </div>
 
                 <div className="mt-14 border-t border-[#0d132d]/20 pt-12">
-                  <h2 className="mt-5 max-w-xl font-header text-section-title font-medium">
+                  <h2 className="mt-5 max-w-xl font-header text-section-title font-medium text-balance">
                     Full-time or project-specific.
                   </h2>
-                  <p className="mt-8 text-body-copy text-[#454955]">
+                  <p className="mt-8 text-body-copy text-pretty text-[#454955]">
                     In addition to our full-time associates, we routinely hire full- and part-time
-                    independent contractors for specific projects and contract work. If you enjoy
-                    exciting, dynamic work that makes a meaningful impact for clients, we encourage
-                    you to explore available positions below, whether as a full-time associate or a
-                    contract-specific independent contractor.
+                    independent contractors for specific projects and contract work. If you want to
+                    apply your experience to specific client requirements, review the available
+                    positions below. Each listing explains the role and whether it is for a
+                    full-time associate or a project-specific independent contractor.
                   </p>
                 </div>
               </div>
@@ -174,7 +177,7 @@ export default function Careers() {
                     <span className="pt-1 font-eyebrow text-eyebrow-label tracking-[0.12em] text-[#8b8e96]">
                       {String(index + 1).padStart(2, "0")}
                     </span>
-                    <p className="font-header text-card-title">{discipline}</p>
+                    <p className="font-header text-card-title text-pretty">{discipline}</p>
                   </li>
                 ))}
               </ol>
@@ -200,7 +203,10 @@ export default function Careers() {
           <div className="site-gutter">
             <div className="mb-12 flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
               <div>
-                <h2 id="positions-title" className="font-header text-section-title font-medium">
+                <h2
+                  id="positions-title"
+                  className="font-header text-section-title font-medium text-balance"
+                >
                   Available Positions
                 </h2>
               </div>
@@ -214,7 +220,7 @@ export default function Careers() {
               </a>
             </div>
             <CareersPositionsEmbed />
-            <p className="mt-5 text-sm leading-relaxed text-white/60">
+            <p className="mt-5 text-sm leading-relaxed text-pretty text-white/60">
               If the positions portal does not appear,{" "}
               <a
                 href="https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=15aa7385-7aee-410b-90e3-5972b600f083&ccId=19000101_000001&type=JS&lang=en_US&selectedMenuKey=CurrentOpenings"
@@ -232,14 +238,17 @@ export default function Careers() {
         <section className="py-24 md:py-32 lg:py-40" aria-labelledby="we-are-title">
           <div className="site-gutter grid gap-14 lg:grid-cols-[0.72fr_1.28fr] lg:items-center lg:gap-20 xl:gap-28">
             <div>
-              <h2 id="we-are-title" className="font-header text-section-title font-medium">
+              <h2
+                id="we-are-title"
+                className="font-header text-section-title font-medium text-balance"
+              >
                 We are Harkcon.
               </h2>
-              <p className="mt-8 text-body-copy text-[#454955]">
-                We are a dynamic and growing company, always looking for talented, experienced, and
-                highly creative professionals in many disciplines. Harkcon is built on the belief
-                that when businesses take care of their people, their people take care of the
-                business.
+              <p className="mt-8 text-body-copy text-pretty text-[#454955]">
+                Our team brings experience in analysis, training, program support, and government
+                operations. We value sound judgment, clear communication, and careful work. Harkcon
+                is built on the belief that when businesses take care of their people, their people
+                take care of the business.
               </p>
             </div>
             <div className="relative aspect-video overflow-hidden bg-[#0d132d]">
@@ -264,7 +273,7 @@ export default function Careers() {
                 <span className="font-eyebrow text-eyebrow-label tracking-[0.15em] text-[#8b8e96]">
                   02
                 </span>
-                <p className="eyebrow">Competitive benefits</p>
+                <p className="eyebrow text-pretty">Competitive benefits</p>
               </div>
               <div>
                 <h2 id="benefits-title" className={headingClassName}>
@@ -284,14 +293,14 @@ export default function Careers() {
                 className="flex cursor-pointer list-none items-center justify-between gap-8 py-8 md:py-10"
               >
                 <div>
-                  <p className="eyebrow">Benefits package</p>
-                  <h3 className="mt-3 font-header text-card-title font-medium">
+                  <p className="eyebrow text-pretty">Benefits package</p>
+                  <h3 className="mt-3 font-header text-card-title font-medium text-balance">
                     View all benefits
                   </h3>
                 </div>
                 <span
                   aria-hidden="true"
-                  className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-[#0d132d]/20 transition-all duration-300 group-open:border-[#0d132d] group-open:bg-[#0d132d] group-open:text-white md:h-14 md:w-14"
+                  className="flex h-12 w-12 shrink-0 items-center justify-center rounded-none border border-[#0d132d]/20 transition-all duration-300 group-open:border-[#0d132d] group-open:bg-[#0d132d] group-open:text-white md:h-14 md:w-14"
                 >
                   <Plus className="h-5 w-5 transition-transform duration-300 group-open:rotate-45" />
                 </span>
@@ -307,7 +316,9 @@ export default function Careers() {
                       className="flex min-h-20 items-center rounded-full border border-[#0d132d]/15 bg-white px-6 py-5 md:min-h-24 md:px-7"
                       data-reveal-item
                     >
-                      <p className="text-sm leading-snug text-[#333744] md:text-base">{benefit}</p>
+                      <p className="text-sm leading-snug text-pretty text-[#333744] md:text-base">
+                        {benefit}
+                      </p>
                     </li>
                   ))}
                 </ul>
@@ -322,10 +333,13 @@ export default function Careers() {
         >
           <div className="site-gutter grid gap-14 lg:grid-cols-[minmax(250px,0.65fr)_minmax(0,1.35fr)] lg:gap-20 xl:gap-28">
             <div className="self-start lg:sticky lg:top-36">
-              <h2 id="careers-faq-title" className="max-w-xl font-header text-section-title">
+              <h2
+                id="careers-faq-title"
+                className="max-w-xl font-header text-section-title text-balance"
+              >
                 What to know before you apply.
               </h2>
-              <p className="mt-7 max-w-md text-body-copy text-white/62">
+              <p className="mt-7 max-w-md text-body-copy text-pretty text-white/62">
                 Answers about Harkcon, our growth, and what a career here can offer.
               </p>
             </div>
@@ -368,11 +382,11 @@ export default function Careers() {
         <section className="bg-[#0d132d] text-white">
           <div className="site-gutter flex flex-col items-start justify-between gap-10 py-20 md:flex-row md:items-end md:py-24">
             <div>
-              <h2 className="max-w-4xl font-header text-section-title">
+              <h2 className="max-w-4xl font-header text-section-title text-balance">
                 See where your experience can take you.
               </h2>
             </div>
-            <Link href="#positions-title" className="pill-button pill-button--light shrink-0">
+            <Link href="#positions-title" className="action-button action-button--light shrink-0">
               View positions <Arrow />
             </Link>
           </div>

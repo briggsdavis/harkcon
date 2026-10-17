@@ -95,11 +95,14 @@ export default function ContactPage() {
         <section className="pt-40 pb-28 md:pt-52 md:pb-36" aria-labelledby="contact-title">
           <div className="site-gutter grid gap-20 lg:grid-cols-[minmax(260px,0.72fr)_minmax(0,1.55fr)] lg:gap-16 xl:gap-28">
             <div className="self-start lg:sticky lg:top-36">
-              <h1 id="contact-title" className="max-w-lg font-header text-display font-medium">
-                Need more information? Let&apos;s talk.
+              <h1
+                id="contact-title"
+                className="max-w-lg font-header text-display font-medium text-balance"
+              >
+                Tell us what your organization needs.
               </h1>
               <div className="mt-14 pt-8" data-reveal-line>
-                <p className="eyebrow">Main Office</p>
+                <p className="eyebrow text-pretty">Main Office</p>
                 <address className="mt-6 text-lg leading-relaxed text-[#333744] not-italic">
                   <strong className="font-normal text-[#0d132d]">Harkcon, Inc.</strong>
                   <br />
@@ -117,8 +120,8 @@ export default function ContactPage() {
                 </div>
               </div>
               <div className="mt-10 pt-8" data-reveal-line>
-                <p className="eyebrow text-[#5f626b]">Contracts &amp; OASIS+</p>
-                <p className="mt-5 text-sm leading-relaxed text-[#5f626b]">
+                <p className="eyebrow text-pretty text-[#5f626b]">Contracts &amp; OASIS+</p>
+                <p className="mt-5 text-sm leading-relaxed text-pretty text-[#5f626b]">
                   For contract-vehicle selection, OASIS+ scope questions, acquisition planning, or
                   teaming opportunities:
                 </p>
@@ -253,11 +256,11 @@ export default function ContactPage() {
                   </output>
                 ) : null}
                 {error ? (
-                  <p className="max-w-[420px] text-[13px] text-[#ad2d3c]" role="alert">
+                  <p className="max-w-[420px] text-[13px] text-pretty text-[#ad2d3c]" role="alert">
                     {error}
                   </p>
                 ) : null}
-                <button type="submit" className="pill-button sm:ml-auto" disabled={submitting}>
+                <button type="submit" className="action-button sm:ml-auto" disabled={submitting}>
                   {submitting ? "Sending…" : "Submit"} <Arrow diagonal />
                 </button>
               </div>
@@ -271,12 +274,15 @@ export default function ContactPage() {
         >
           <div className="site-gutter grid gap-14 lg:grid-cols-[minmax(250px,0.65fr)_minmax(0,1.35fr)] lg:gap-20 xl:gap-28">
             <div className="self-start lg:sticky lg:top-36">
-              <h2 id="contact-faq-title" className="max-w-xl font-header text-section-title">
+              <h2
+                id="contact-faq-title"
+                className="max-w-xl font-header text-section-title text-balance"
+              >
                 Before you get in touch.
               </h2>
-              <p className="mt-7 max-w-md text-body-copy text-[#5f626b]">
-                A few quick answers about contacting Harkcon, our office, and where to direct your
-                inquiry.
+              <p className="mt-7 max-w-md text-body-copy text-pretty text-[#5f626b]">
+                Find our office details, the right contact for your request, and answers to common
+                questions.
               </p>
             </div>
             <FaqList faqs={contactFaqs} />

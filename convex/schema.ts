@@ -2,6 +2,7 @@ import { defineSchema, defineTable } from "convex/server"
 import { v } from "convex/values"
 
 export default defineSchema({
+  pageVisibility: defineTable({ key: v.string(), visible: v.boolean() }).index("by_key", ["key"]),
   articles: defineTable({
     slug: v.string(),
     title: v.string(),
