@@ -183,6 +183,14 @@
       box-shadow 280ms ease;
   }
 
+  .control-fill {
+    @apply relative isolate overflow-hidden transition-colors duration-700 group-open:text-white group-focus-within:text-white group-hover:text-white group-focus-visible:text-white before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:origin-bottom before:scale-y-0 before:bg-[#0d132d] before:transition-transform before:duration-700 before:ease-out group-open:before:scale-y-100 group-focus-within:before:scale-y-100 group-hover:before:scale-y-100 group-focus-visible:before:scale-y-100 data-[active=true]:text-white data-[active=true]:before:scale-y-100 motion-reduce:transition-none motion-reduce:before:transition-none;
+  }
+
+  .control-fill--light {
+    @apply group-focus-within:text-[#0d132d] group-hover:text-[#0d132d] group-focus-visible:text-[#0d132d] before:bg-white data-[active=true]:text-[#0d132d];
+  }
+
   .action-button {
     @apply relative isolate inline-flex min-h-[39px] items-center justify-center gap-4 overflow-hidden rounded-none bg-[#0d132d] px-5 py-[7.5px] text-action font-medium text-white transition-colors duration-700 before:absolute before:inset-0 before:-z-10 before:origin-right before:scale-x-0 before:bg-white before:transition-transform before:duration-700 before:ease-out after:pointer-events-none after:absolute after:inset-0 after:border-[0.5px] after:border-[#0d132d] after:opacity-0 after:transition-opacity after:duration-700 hover:text-[#0d132d] hover:before:origin-left hover:before:scale-x-100 hover:after:opacity-100 focus-visible:text-[#0d132d] focus-visible:before:origin-left focus-visible:before:scale-x-100 focus-visible:after:opacity-100 disabled:cursor-wait disabled:opacity-50;
   }

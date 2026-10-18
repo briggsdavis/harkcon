@@ -692,9 +692,11 @@ export default function ContractsPage({ view = "contracts" }: { view?: ContractV
             <div className={contractColumnsClassName}>
               <div>
                 <div className="flex items-start gap-5">
-                  <span className="font-eyebrow text-eyebrow-label tracking-[0.15em] text-[#8b8e96]">
-                    {view === "contracts" ? "01" : "02"}
-                  </span>
+                  {view !== "contracts" && (
+                    <span className="font-eyebrow text-eyebrow-label tracking-[0.15em] text-[#8b8e96]">
+                      02
+                    </span>
+                  )}
                   <p className="eyebrow text-pretty">{content.label}</p>
                 </div>
                 <SectionLinks

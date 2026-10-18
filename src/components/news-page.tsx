@@ -109,7 +109,7 @@ export default function NewsPage() {
                       </p>
                     </div>
                     <span
-                      className="hidden h-[72px] w-[72px] items-center justify-center justify-self-end bg-[#f4f3f0] transition-colors duration-500 group-hover:bg-[#0d132d] group-hover:text-white md:flex"
+                      className="control-fill hidden h-[72px] w-[72px] items-center justify-center justify-self-end bg-[#f4f3f0] transition-colors duration-500 md:flex"
                       aria-hidden="true"
                     >
                       <Arrow

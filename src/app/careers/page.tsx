@@ -1,45 +1,14 @@
-import { Plus } from "@phosphor-icons/react/ssr"
 import { Metadata } from "next"
-import Link from "next/link"
 import CareersPositionsEmbed from "~/components/careers-positions-embed"
 import FaqList from "~/components/faq-list"
 import HeroParallaxImage from "~/components/hero-parallax-image"
 import { Arrow, Header, SiteFooter } from "~/components/home-page"
-import SubtleParallaxPhoto from "~/components/subtle-parallax-photo"
 
 export const metadata: Metadata = {
   title: "Careers",
   description:
-    "Explore careers at Harkcon, available positions, employee benefits, FAQs, and equal employment opportunities.",
+    "Explore careers at Harkcon, available positions, FAQs, and equal employment opportunities.",
 }
-
-const disciplines = [
-  "Organizational and Workforce Analysis",
-  "Competency Modeling and Management",
-  "Business Process Reengineering",
-  "Training Design and Development",
-  "Program and Project Management",
-  "Federal Government or Military Experience in Human Resources",
-  "Emergency Management Policy",
-  "Emergency Management Practitioner",
-]
-
-const benefits = [
-  "401(k) with Company Match",
-  "Disability Insurance, Short- and Long-Term",
-  "Employee Assistance Program",
-  "Flexible Work Hours",
-  "Health Insurance, Medical, Dental, and Vision",
-  "Health Savings Account",
-  "Legal Resources",
-  "Life Insurance, Company and Voluntary",
-  "Paid Federal Holidays and Paid Floating Holidays",
-  "Paid Sick Days",
-  "Paid Vacation",
-  "Pet Discount Program",
-  "LinkedIn Learning",
-  "Social Security Benefits, Workers’ Compensation, and Unemployment Insurance",
-]
 
 const careerFaqs = [
   {
@@ -85,17 +54,13 @@ const careerFaqs = [
 ]
 
 const headingClassName = "text-balance max-w-4xl font-header text-section-title font-medium"
-const proseClassName = "text-pretty mt-8 max-w-[850px] text-body-copy text-[#454955]"
 
 export default function Careers() {
   return (
     <div id="top" className="overflow-clip bg-white text-[#0d132d]">
       <Header />
       <div className="relative">
-        <section
-          className="relative h-[100svh] min-h-[650px] overflow-hidden"
-          aria-labelledby="careers-title"
-        >
+        <section className="relative h-[55svh] overflow-hidden" aria-labelledby="careers-title">
           <HeroParallaxImage
             src="/images/careers-hero.jpg"
             alt="Business professionals discussing strategy in a bright modern office"
@@ -143,63 +108,10 @@ export default function Careers() {
                 </p>
               </div>
             </div>
-
-            <div className="mt-24 grid gap-14 border-t border-[#0d132d]/20 pt-16 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20 xl:gap-28">
-              <div className="self-start">
-                <div>
-                  <h2 className={headingClassName}>Experience that moves missions forward.</h2>
-                  <p className={proseClassName}>
-                    Our talent needs constantly evolve and expand with current and future projects
-                    and contracts. We regularly seek experience and expertise in these areas:
-                  </p>
-                </div>
-
-                <div className="mt-14 border-t border-[#0d132d]/20 pt-12">
-                  <h2 className="mt-5 max-w-xl font-header text-section-title font-medium text-balance">
-                    Full-time or project-specific.
-                  </h2>
-                  <p className="mt-8 text-body-copy text-pretty text-[#454955]">
-                    In addition to our full-time associates, we routinely hire full- and part-time
-                    independent contractors for specific projects and contract work. If you want to
-                    apply your experience to specific client requirements, review the available
-                    positions below. Each listing explains the role and whether it is for a
-                    full-time associate or a project-specific independent contractor.
-                  </p>
-                </div>
-              </div>
-              <ol>
-                {disciplines.map((discipline, index) => (
-                  <li
-                    key={discipline}
-                    className="grid grid-cols-[42px_1fr] gap-4 py-6 md:grid-cols-[56px_1fr] md:gap-6 md:py-7"
-                    data-reveal-line
-                  >
-                    <span className="pt-1 font-eyebrow text-eyebrow-label tracking-[0.12em] text-[#8b8e96]">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    <p className="font-header text-card-title text-pretty">{discipline}</p>
-                  </li>
-                ))}
-              </ol>
-            </div>
           </div>
         </section>
 
-        <section
-          className="h-[41svh] min-h-[312px] w-full overflow-hidden md:h-[52svh] md:min-h-[408px]"
-          aria-label="Life at Harkcon"
-        >
-          <SubtleParallaxPhoto
-            src="/images/careers-interview.jpg"
-            label="Three women talking during a professional interview in a bright conference room"
-            strength={110}
-          />
-        </section>
-
-        <section
-          className="bg-[#0d132d] py-24 text-white md:py-32"
-          aria-labelledby="positions-title"
-        >
+        <section className="bg-white pb-24 md:pb-32" aria-labelledby="positions-title">
           <div className="site-gutter">
             <div className="mb-12 flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
               <div>
@@ -214,19 +126,19 @@ export default function Careers() {
                 href="https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=15aa7385-7aee-410b-90e3-5972b600f083&ccId=19000101_000001&type=JS&lang=en_US&selectedMenuKey=CurrentOpenings"
                 target="_blank"
                 rel="noreferrer"
-                className="animated-underline flex items-center gap-4 pb-2 text-sm text-white transition-colors hover:text-white/55"
+                className="animated-underline flex items-center gap-4 pb-2 text-sm text-[#0d132d] transition-opacity hover:opacity-55"
               >
                 Open careers portal <Arrow diagonal />
               </a>
             </div>
             <CareersPositionsEmbed />
-            <p className="mt-5 text-sm leading-relaxed text-pretty text-white/60">
+            <p className="mt-5 text-sm leading-relaxed text-pretty text-[#5f626b]">
               If the positions portal does not appear,{" "}
               <a
                 href="https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=15aa7385-7aee-410b-90e3-5972b600f083&ccId=19000101_000001&type=JS&lang=en_US&selectedMenuKey=CurrentOpenings"
                 target="_blank"
                 rel="noreferrer"
-                className="border-b border-white/35 text-white transition-opacity hover:opacity-55"
+                className="border-b border-[#0d132d]/35 text-[#0d132d] transition-opacity hover:opacity-55"
               >
                 view current openings in a new window
               </a>
@@ -235,121 +147,10 @@ export default function Careers() {
           </div>
         </section>
 
-        <section className="py-24 md:py-32 lg:py-40" aria-labelledby="we-are-title">
-          <div className="site-gutter grid gap-14 lg:grid-cols-[0.72fr_1.28fr] lg:items-center lg:gap-20 xl:gap-28">
-            <div>
-              <h2
-                id="we-are-title"
-                className="font-header text-section-title font-medium text-balance"
-              >
-                We are Harkcon.
-              </h2>
-              <p className="mt-8 text-body-copy text-pretty text-[#454955]">
-                Our team brings experience in analysis, training, program support, and government
-                operations. We value sound judgment, clear communication, and careful work. Harkcon
-                is built on the belief that when businesses take care of their people, their people
-                take care of the business.
-              </p>
-            </div>
-            <div className="relative aspect-video overflow-hidden bg-[#0d132d]">
-              {/* oxlint-disable-next-line react/iframe-missing-sandbox -- YouTube needs scripts and its own origin; the iframe is cross-origin. */}
-              <iframe
-                sandbox="allow-scripts allow-same-origin allow-presentation allow-popups allow-popups-to-escape-sandbox"
-                src="https://www.youtube.com/embed/OXuAgvjinSs?si=mdVrO1kUsyOpAcMl"
-                title="We are Harkcon"
-                className="absolute inset-0 h-full w-full border-0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerPolicy="strict-origin-when-cross-origin"
-                allowFullScreen
-              />
-            </div>
-          </div>
-        </section>
-
-        <section className="bg-[#f4f3f0] py-24 md:py-32 lg:py-40" aria-labelledby="benefits-title">
-          <div className="site-gutter">
-            <div className="grid gap-12 lg:grid-cols-[minmax(190px,0.55fr)_minmax(0,1.7fr)] lg:gap-16 xl:gap-28">
-              <div className="flex items-start gap-5 self-start lg:sticky lg:top-36">
-                <span className="font-eyebrow text-eyebrow-label tracking-[0.15em] text-[#8b8e96]">
-                  02
-                </span>
-                <p className="eyebrow text-pretty">Competitive benefits</p>
-              </div>
-              <div>
-                <h2 id="benefits-title" className={headingClassName}>
-                  Support for today and tomorrow.
-                </h2>
-                <p className={proseClassName}>
-                  Harkcon offers benefit programs that address associates’ immediate needs, such as
-                  insurance coverage, and long-term needs, such as retirement savings. Benefits are
-                  a significant component of total compensation, may cover associates and selected
-                  beneficiaries, and are available based on employment status.
-                </p>
-              </div>
-            </div>
-            <details className="disclosure group mt-14 border-y border-[#0d132d]/20 md:mt-16">
-              <summary
-                aria-label="Show all competitive benefits"
-                className="flex cursor-pointer list-none items-center justify-between gap-8 py-8 md:py-10"
-              >
-                <div>
-                  <p className="eyebrow text-pretty">Benefits package</p>
-                  <h3 className="mt-3 font-header text-card-title font-medium text-balance">
-                    View all benefits
-                  </h3>
-                </div>
-                <span
-                  aria-hidden="true"
-                  className="flex h-12 w-12 shrink-0 items-center justify-center rounded-none border border-[#0d132d]/20 transition-all duration-300 group-open:border-[#0d132d] group-open:bg-[#0d132d] group-open:text-white md:h-14 md:w-14"
-                >
-                  <Plus className="h-5 w-5 transition-transform duration-300 group-open:rotate-45" />
-                </span>
-              </summary>
-              <div className="border-t border-[#0d132d]/20 pb-10">
-                <ul
-                  className="mt-16 grid gap-3 sm:grid-cols-2 xl:grid-cols-3 xl:gap-4"
-                  data-reveal-sequence
-                >
-                  {benefits.map((benefit) => (
-                    <li
-                      key={benefit}
-                      className="flex min-h-20 items-center rounded-full border border-[#0d132d]/15 bg-white px-6 py-5 md:min-h-24 md:px-7"
-                      data-reveal-item
-                    >
-                      <p className="text-sm leading-snug text-pretty text-[#333744] md:text-base">
-                        {benefit}
-                      </p>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </details>
-          </div>
-        </section>
-
-        <section
-          className="bg-[#0d132d] py-24 text-white md:py-32 lg:py-40"
-          aria-labelledby="careers-faq-title"
-        >
-          <div className="site-gutter grid gap-14 lg:grid-cols-[minmax(250px,0.65fr)_minmax(0,1.35fr)] lg:gap-20 xl:gap-28">
-            <div className="self-start lg:sticky lg:top-36">
-              <h2
-                id="careers-faq-title"
-                className="max-w-xl font-header text-section-title text-balance"
-              >
-                What to know before you apply.
-              </h2>
-              <p className="mt-7 max-w-md text-body-copy text-pretty text-white/62">
-                Answers about Harkcon, our growth, and what a career here can offer.
-              </p>
-            </div>
-            <FaqList faqs={careerFaqs} dark />
-          </div>
-        </section>
-
         <section className="py-24 md:py-32 lg:py-40" aria-labelledby="equal-opportunity-title">
-          <div className="site-gutter grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20 xl:gap-28">
+          <div className="site-gutter grid gap-12 lg:grid-cols-[minmax(190px,0.55fr)_minmax(0,1.7fr)] lg:gap-16 xl:gap-28">
             <div>
+              <p className="eyebrow mb-8">Equal employment opportunity</p>
               <h2 id="equal-opportunity-title" className={headingClassName}>
                 Everyone should be treated fairly.
               </h2>
@@ -379,16 +180,23 @@ export default function Careers() {
           </div>
         </section>
 
-        <section className="bg-[#0d132d] text-white">
-          <div className="site-gutter flex flex-col items-start justify-between gap-10 py-20 md:flex-row md:items-end md:py-24">
-            <div>
-              <h2 className="max-w-4xl font-header text-section-title text-balance">
-                See where your experience can take you.
+        <section
+          className="bg-[#0d132d] py-24 text-white md:py-32 lg:py-40"
+          aria-labelledby="careers-faq-title"
+        >
+          <div className="site-gutter grid gap-14 lg:grid-cols-[minmax(250px,0.65fr)_minmax(0,1.35fr)] lg:gap-20 xl:gap-28">
+            <div className="self-start lg:sticky lg:top-36">
+              <h2
+                id="careers-faq-title"
+                className="max-w-xl font-header text-section-title text-balance"
+              >
+                What to know before you apply.
               </h2>
+              <p className="mt-7 max-w-md text-body-copy text-pretty text-white/62">
+                Answers about Harkcon, our growth, and what a career here can offer.
+              </p>
             </div>
-            <Link href="#positions-title" className="action-button action-button--light shrink-0">
-              View positions <Arrow />
-            </Link>
+            <FaqList faqs={careerFaqs} dark />
           </div>
         </section>
 

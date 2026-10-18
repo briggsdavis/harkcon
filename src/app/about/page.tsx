@@ -1,7 +1,8 @@
-import { CaretDown, Plus } from "@phosphor-icons/react/ssr"
+import { CaretDown } from "@phosphor-icons/react/ssr"
 import { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
+import AboutProcess from "~/components/about-process"
 import HeroParallaxImage from "~/components/hero-parallax-image"
 import { Arrow, Header, SiteFooter } from "~/components/home-page"
 import SubtleParallaxPhoto from "~/components/subtle-parallax-photo"
@@ -60,59 +61,6 @@ const volunteerOrganizations = [
   "Wounded Warrior Program at Walter Reed Army Medical Center",
 ]
 
-const people = [
-  {
-    name: "Kevin Harkins, Ph.D.",
-    title: "Chief Executive Officer",
-    image: "/images/kevin-harkins.jpeg",
-    imagePosition: "50% 34%",
-    bio: [
-      "Dr. Harkins leads Harkcon’s overall direction and success, working with the Board of Directors to establish and oversee the company’s long-range goals, strategies, plans, and policies.",
-      "He brings more than 30 years of public- and private-sector leadership experience, with deep expertise in workforce analysis, competency management, strategic planning, organizational assessment, training, performance evaluation, and organizational design.",
-    ],
-  },
-  {
-    name: "Brittany Hammond",
-    title: "Workforce Analysis & Training Program Manager",
-    image: "/images/brittany-hammond.jpeg",
-    imagePosition: "50% 34%",
-    bio: [
-      "Brittany manages Harkcon’s U.S. Coast Guard portfolio, overseeing training and workforce analysis contracts supporting domestic and overseas operations. Her background spans instructional design, human performance technology, and program management.",
-      "A Coast Guard veteran and former intelligence analyst, she earned a B.S. in Government from the U.S. Coast Guard Academy and an M.S. in Education from Old Dominion University. She also coaches middle school basketball and serves on a preschool board.",
-    ],
-  },
-  {
-    name: "Jim Davis",
-    title: "Chief Human Capital Officer",
-    image: "/images/jim-davis.jpeg",
-    imagePosition: "50% 30%",
-    bio: [
-      "Jim leads Harkcon’s human capital strategy, workforce development, and employee engagement programs, aligning talent priorities with the company’s mission, culture, and long-term growth.",
-      "He brings more than 30 years of executive leadership and federal human capital experience across the Departments of Homeland Security and Veterans Affairs. Jim joined Harkcon in 2026 after serving as a Senior Human Capital Consultant at Serco.",
-    ],
-  },
-  {
-    name: "Paula Harkins",
-    title: "Chief Growth Officer",
-    image: "/images/paula-harkins.png",
-    imagePosition: "50% 34%",
-    bio: [
-      "Paula leads Harkcon’s business development and growth strategy in the federal sector. She works with senior leaders and partners to assess opportunities, build teams, and develop proposals around client requirements in workforce performance and organizational support.",
-      "A Lean Six Sigma Black Belt and member of AERA, SHRM, and ISPI, Paula is also an international speaker on leadership, performance improvement, and organizational transformation.",
-    ],
-  },
-  {
-    name: "Mohammad Khan",
-    title: "Chief Director of IT",
-    image: "/images/mohammad-khan.png",
-    imagePosition: "50% 50%",
-    bio: [
-      "Mohammad leads Harkcon’s IT security initiatives and cloud solutions, overseeing cloud systems, applications, and data security while keeping the company operational and aligned with industry standards.",
-      "He joined Harkcon in 2020 as a Cloud Systems Administrator and holds a bachelor’s degree in Management Information Systems with a focus on the systems development lifecycle.",
-    ],
-  },
-]
-
 const headingClassName = "text-balance max-w-4xl font-header text-section-title font-medium"
 const proseClassName = "text-pretty mt-7 max-w-[850px] text-body-copy text-[#454955]"
 
@@ -141,10 +89,7 @@ export default function About() {
       <Header />
 
       <div className="relative">
-        <section
-          className="relative h-[100svh] min-h-[650px] overflow-hidden"
-          aria-labelledby="about-hero-title"
-        >
+        <section className="relative h-[55svh] overflow-hidden" aria-labelledby="about-hero-title">
           <HeroParallaxImage
             src={unsplash("1772140994501-a12bbc57a1e5")}
             alt="A U.S. Coast Guard helicopter and crew prepared for an Arctic mission"
@@ -208,57 +153,19 @@ export default function About() {
           className="border-t border-[#dedfe2] bg-white py-24 md:py-32 lg:py-40"
           aria-labelledby="our-people-title"
         >
-          <div className="site-gutter">
-            <div className="grid gap-12 lg:grid-cols-[minmax(190px,0.55fr)_minmax(0,1.7fr)] lg:gap-16 xl:gap-28">
-              <SectionLabel number="02">Our people</SectionLabel>
-              <div>
-                <h2 id="our-people-title" className={headingClassName}>
-                  Experience that moves missions forward.
-                </h2>
-                <p className="mt-6 max-w-2xl text-body-copy text-pretty text-[#5f626b]">
-                  Meet the leaders guiding Harkcon’s people, performance, technology, and growth.
-                </p>
-              </div>
-            </div>
-
-            <div className="mt-16 grid gap-x-7 gap-y-16 sm:grid-cols-2 lg:mt-24 lg:grid-cols-3 lg:gap-y-20">
-              {people.map((person) => (
-                <article className="min-w-0" key={person.name}>
-                  <div className="relative aspect-square overflow-hidden bg-[#eeefef]">
-                    <Image
-                      src={person.image}
-                      alt={`${person.name}, ${person.title}`}
-                      fill
-                      sizes="(min-width: 1024px) 31vw, (min-width: 640px) 48vw, 100vw"
-                      style={{ objectPosition: person.imagePosition }}
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="border-t border-[#0d132d] pt-5">
-                    <h3 className="font-header text-card-title font-medium text-balance">
-                      {person.name}
-                    </h3>
-                    <p className="mt-2 min-h-10 text-sm leading-relaxed text-pretty text-[#5f626b]">
-                      {person.title}
-                    </p>
-                    <details className="disclosure group mt-5 border-t border-[#dedfe2]">
-                      <summary className="flex cursor-pointer list-none items-center justify-between py-4 text-xs font-semibold tracking-[0.08em] uppercase">
-                        <span>Read bio</span>
-                        <Plus
-                          aria-hidden="true"
-                          className="h-5 w-5 transition-transform duration-300 group-open:rotate-45"
-                        />
-                      </summary>
-                      <div className="space-y-4 pb-5 text-sm leading-relaxed text-[#555a66]">
-                        {person.bio.map((paragraph) => (
-                          <p key={paragraph}>{paragraph}</p>
-                        ))}
-                      </div>
-                    </details>
-                  </div>
-                </article>
-              ))}
-            </div>
+          <div className="mx-auto w-[90%] md:w-[75%] lg:w-[55%]">
+            <p className="eyebrow mb-8">Our people</p>
+            <h2 id="our-people-title" className={headingClassName}>
+              Experience that moves missions forward.
+            </h2>
+            <p className="mt-8 text-body-copy text-pretty text-[#5f626b]">
+              Our people bring firsthand mission experience, deep technical expertise, and a shared
+              commitment to service. From veterans and workforce analysts to training specialists
+              and technology professionals, we work together to understand each client’s challenges
+              and turn insight into practical results. We invest in one another’s growth, welcome
+              different perspectives, and take pride in helping the organizations we serve perform
+              at their best.
+            </p>
           </div>
         </section>
 
@@ -268,12 +175,14 @@ export default function About() {
         >
           <div className="site-gutter">
             <div className="border-b border-white/20">
-              <article className="group grid gap-10 border-t border-white/20 py-12 md:grid-cols-[0.52fr_1.48fr] md:gap-16 md:py-16 lg:gap-24">
+              <article className="group relative isolate grid gap-10 overflow-hidden border-t border-white/20 py-12 transition-[color,padding] duration-700 ease-[cubic-bezier(0.45,0,0.2,1)] before:absolute before:inset-0 before:-z-10 before:origin-bottom before:scale-y-0 before:bg-white before:transition-transform before:duration-700 hover:px-6 hover:text-[#0d132d] hover:before:scale-y-100 motion-reduce:transition-none motion-reduce:before:transition-none md:grid-cols-[0.52fr_1.48fr] md:gap-16 md:py-16 lg:gap-24 lg:hover:px-10">
                 <div className="flex items-start gap-5">
-                  <span className="font-eyebrow text-eyebrow-label tracking-[0.15em] text-white/35">
+                  <span className="font-eyebrow text-eyebrow-label tracking-[0.15em] text-white/35 transition-colors duration-700 group-hover:text-[#0d132d]/50">
                     01
                   </span>
-                  <p className="eyebrow text-pretty text-white/55">Our mission</p>
+                  <p className="eyebrow text-pretty text-white/55 transition-colors duration-700 group-hover:text-[#0d132d]/70">
+                    Our mission
+                  </p>
                 </div>
                 <h2
                   id="mission-title"
@@ -284,12 +193,14 @@ export default function About() {
                   guiding principles.
                 </h2>
               </article>
-              <article className="group grid gap-10 border-t border-white/20 py-12 md:grid-cols-[0.52fr_1.48fr] md:gap-16 md:py-16 lg:gap-24">
+              <article className="group relative isolate grid gap-10 overflow-hidden border-t border-white/20 py-12 transition-[color,padding] duration-700 ease-[cubic-bezier(0.45,0,0.2,1)] before:absolute before:inset-0 before:-z-10 before:origin-bottom before:scale-y-0 before:bg-white before:transition-transform before:duration-700 hover:px-6 hover:text-[#0d132d] hover:before:scale-y-100 motion-reduce:transition-none motion-reduce:before:transition-none md:grid-cols-[0.52fr_1.48fr] md:gap-16 md:py-16 lg:gap-24 lg:hover:px-10">
                 <div className="flex items-start gap-5">
-                  <span className="font-eyebrow text-eyebrow-label tracking-[0.15em] text-white/35">
+                  <span className="font-eyebrow text-eyebrow-label tracking-[0.15em] text-white/35 transition-colors duration-700 group-hover:text-[#0d132d]/50">
                     02
                   </span>
-                  <p className="eyebrow text-pretty text-white/55">Our vision</p>
+                  <p className="eyebrow text-pretty text-white/55 transition-colors duration-700 group-hover:text-[#0d132d]/70">
+                    Our vision
+                  </p>
                 </div>
                 <h2 className="max-w-5xl font-header text-section-title text-balance">
                   Harkcon and its people are regarded as the best and most sought-after human
@@ -335,6 +246,8 @@ export default function About() {
             </ol>
           </div>
         </section>
+
+        <AboutProcess />
 
         <section className="bg-[#f4f3f0]" aria-labelledby="culture-title">
           <div className="grid min-h-[92svh] w-full lg:grid-cols-2">
@@ -426,7 +339,7 @@ export default function About() {
                   </h3>
                   <span
                     aria-hidden="true"
-                    className="flex h-12 w-12 shrink-0 items-center justify-center rounded-none border border-[#0d132d]/20 transition-all duration-300 group-open:border-[#0d132d] group-open:bg-[#0d132d] group-open:text-white md:h-14 md:w-14"
+                    className="control-fill flex h-12 w-12 shrink-0 items-center justify-center rounded-none border border-[#0d132d]/20 group-open:border-[#0d132d] md:h-14 md:w-14"
                   >
                     <CaretDown className="h-5 w-5 transition-transform duration-300 group-open:rotate-180" />
                   </span>
@@ -458,7 +371,7 @@ export default function About() {
                   </h3>
                   <span
                     aria-hidden="true"
-                    className="flex h-12 w-12 shrink-0 items-center justify-center rounded-none border border-[#0d132d]/20 transition-all duration-300 group-open:border-[#0d132d] group-open:bg-[#0d132d] group-open:text-white md:h-14 md:w-14"
+                    className="control-fill flex h-12 w-12 shrink-0 items-center justify-center rounded-none border border-[#0d132d]/20 group-open:border-[#0d132d] md:h-14 md:w-14"
                   >
                     <CaretDown className="h-5 w-5 transition-transform duration-300 group-open:rotate-180" />
                   </span>
