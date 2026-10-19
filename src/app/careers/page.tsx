@@ -1,8 +1,8 @@
 import { Metadata } from "next"
-import CareersPositionsEmbed from "~/components/careers-positions-embed"
+import CareersOpenings from "~/components/careers-openings"
 import FaqList from "~/components/faq-list"
 import HeroParallaxImage from "~/components/hero-parallax-image"
-import { Arrow, Header, SiteFooter } from "~/components/home-page"
+import { Header, SiteFooter } from "~/components/home-page"
 
 export const metadata: Metadata = {
   title: "Careers",
@@ -122,28 +122,8 @@ export default function Careers() {
                   Available Positions
                 </h2>
               </div>
-              <a
-                href="https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=15aa7385-7aee-410b-90e3-5972b600f083&ccId=19000101_000001&type=JS&lang=en_US&selectedMenuKey=CurrentOpenings"
-                target="_blank"
-                rel="noreferrer"
-                className="animated-underline flex items-center gap-4 pb-2 text-sm text-[#0d132d] transition-opacity hover:opacity-55"
-              >
-                Open careers portal <Arrow diagonal />
-              </a>
             </div>
-            <CareersPositionsEmbed />
-            <p className="mt-5 text-sm leading-relaxed text-pretty text-[#5f626b]">
-              If the positions portal does not appear,{" "}
-              <a
-                href="https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=15aa7385-7aee-410b-90e3-5972b600f083&ccId=19000101_000001&type=JS&lang=en_US&selectedMenuKey=CurrentOpenings"
-                target="_blank"
-                rel="noreferrer"
-                className="border-b border-[#0d132d]/35 text-[#0d132d] transition-opacity hover:opacity-55"
-              >
-                view current openings in a new window
-              </a>
-              .
-            </p>
+            <CareersOpenings />
           </div>
         </section>
 

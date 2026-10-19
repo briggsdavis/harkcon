@@ -184,7 +184,7 @@
   }
 
   .control-fill {
-    @apply relative isolate overflow-hidden transition-colors duration-700 group-open:text-white group-focus-within:text-white group-hover:text-white group-focus-visible:text-white before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:origin-bottom before:scale-y-0 before:bg-[#0d132d] before:transition-transform before:duration-700 before:ease-out group-open:before:scale-y-100 group-focus-within:before:scale-y-100 group-hover:before:scale-y-100 group-focus-visible:before:scale-y-100 data-[active=true]:text-white data-[active=true]:before:scale-y-100 motion-reduce:transition-none motion-reduce:before:transition-none;
+    @apply relative isolate overflow-hidden transition-colors duration-700 group-open:text-white group-focus-within:text-white group-hover:text-white group-focus-visible:text-white before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:origin-left before:scale-x-0 before:bg-[#0d132d] before:transition-transform before:duration-700 before:ease-out group-open:before:scale-x-100 group-focus-within:before:scale-x-100 group-hover:before:scale-x-100 group-focus-visible:before:scale-x-100 data-[active=true]:text-white data-[active=true]:before:scale-x-100 motion-reduce:transition-none motion-reduce:before:transition-none;
   }
 
   .control-fill--light {

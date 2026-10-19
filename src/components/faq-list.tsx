@@ -36,13 +36,17 @@ export default function FaqList({ faqs, dark = false }: { faqs: Faq[]; dark?: bo
               aria-controls={answerId}
               onClick={toggle}
             >
-              <span className="text-balance">{faq.question}</span>
+              <span className="text-balance transition-transform duration-500 ease-out group-hover:translate-x-1 group-focus-visible:translate-x-1 motion-reduce:transition-none">
+                {faq.question}
+              </span>
               <span
                 data-active={open}
-                className={`control-fill ${dark ? "control-fill--light" : ""} ml-auto flex h-10 w-10 shrink-0 items-center justify-center rounded-none border font-body ${dark ? "border-white/25" : "border-[#0d132d]/25"} text-2xl transition-transform duration-300 ${open ? "rotate-45" : ""}`}
+                className={`control-fill ${dark ? "control-fill--light" : ""} ml-auto flex h-10 w-10 shrink-0 items-center justify-center rounded-none border font-body ${dark ? "border-white/25" : "border-[#0d132d]/25"} text-2xl`}
                 aria-hidden="true"
               >
-                <Plus />
+                <Plus
+                  className={`transition-transform duration-300 motion-reduce:transition-none ${open ? "rotate-45" : ""}`}
+                />
               </span>
             </button>
             <div

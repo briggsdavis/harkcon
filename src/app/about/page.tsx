@@ -175,7 +175,7 @@ export default function About() {
         >
           <div className="site-gutter">
             <div className="border-b border-white/20">
-              <article className="group relative isolate grid gap-10 overflow-hidden border-t border-white/20 py-12 transition-[color,padding] duration-700 ease-[cubic-bezier(0.45,0,0.2,1)] before:absolute before:inset-0 before:-z-10 before:origin-bottom before:scale-y-0 before:bg-white before:transition-transform before:duration-700 hover:px-6 hover:text-[#0d132d] hover:before:scale-y-100 motion-reduce:transition-none motion-reduce:before:transition-none md:grid-cols-[0.52fr_1.48fr] md:gap-16 md:py-16 lg:gap-24 lg:hover:px-10">
+              <article className="group relative isolate grid gap-10 overflow-hidden border-t border-white/20 py-12 transition-[color,padding] duration-700 ease-[cubic-bezier(0.45,0,0.2,1)] before:absolute before:inset-0 before:-z-10 before:origin-left before:scale-x-0 before:bg-white before:transition-transform before:duration-700 hover:px-6 hover:text-[#0d132d] hover:before:scale-x-100 motion-reduce:transition-none motion-reduce:before:transition-none md:grid-cols-[0.52fr_1.48fr] md:gap-16 md:py-16 lg:gap-24 lg:hover:px-10">
                 <div className="flex items-start gap-5">
                   <span className="font-eyebrow text-eyebrow-label tracking-[0.15em] text-white/35 transition-colors duration-700 group-hover:text-[#0d132d]/50">
                     01
@@ -193,7 +193,7 @@ export default function About() {
                   guiding principles.
                 </h2>
               </article>
-              <article className="group relative isolate grid gap-10 overflow-hidden border-t border-white/20 py-12 transition-[color,padding] duration-700 ease-[cubic-bezier(0.45,0,0.2,1)] before:absolute before:inset-0 before:-z-10 before:origin-bottom before:scale-y-0 before:bg-white before:transition-transform before:duration-700 hover:px-6 hover:text-[#0d132d] hover:before:scale-y-100 motion-reduce:transition-none motion-reduce:before:transition-none md:grid-cols-[0.52fr_1.48fr] md:gap-16 md:py-16 lg:gap-24 lg:hover:px-10">
+              <article className="group relative isolate grid gap-10 overflow-hidden border-t border-white/20 py-12 transition-[color,padding] duration-700 ease-[cubic-bezier(0.45,0,0.2,1)] before:absolute before:inset-0 before:-z-10 before:origin-left before:scale-x-0 before:bg-white before:transition-transform before:duration-700 hover:px-6 hover:text-[#0d132d] hover:before:scale-x-100 motion-reduce:transition-none motion-reduce:before:transition-none md:grid-cols-[0.52fr_1.48fr] md:gap-16 md:py-16 lg:gap-24 lg:hover:px-10">
                 <div className="flex items-start gap-5">
                   <span className="font-eyebrow text-eyebrow-label tracking-[0.15em] text-white/35 transition-colors duration-700 group-hover:text-[#0d132d]/50">
                     02
