@@ -74,7 +74,7 @@ function SectionLabel({
   className?: string
 }) {
   return (
-    <div className={`flex items-start gap-5 self-start lg:sticky lg:top-36 ${className}`}>
+    <div className={`flex items-start gap-5 self-start ${className}`}>
       <span className="font-eyebrow text-eyebrow-label tracking-[0.15em] text-[#8b8e96]">
         {number}
       </span>
@@ -153,7 +153,7 @@ export default function About() {
           className="border-t border-[#dedfe2] bg-white py-24 md:py-32 lg:py-40"
           aria-labelledby="our-people-title"
         >
-          <div className="mx-auto w-[90%] md:w-[75%] lg:w-[55%]">
+          <div className="site-gutter">
             <p className="eyebrow mb-8">Our people</p>
             <h2 id="our-people-title" className={headingClassName}>
               Experience that moves missions forward.
@@ -215,8 +215,8 @@ export default function About() {
           className="pt-12 pb-24 md:pt-16 md:pb-32 lg:pt-20 lg:pb-40"
           aria-labelledby="principles-title"
         >
-          <div className="site-gutter grid gap-16 lg:grid-cols-[minmax(260px,0.72fr)_minmax(0,1.28fr)] lg:gap-20 xl:gap-28">
-            <div className="self-start lg:sticky lg:top-32">
+          <div className="site-gutter grid gap-12">
+            <div className="self-start">
               <SectionLabel number="03" className="mb-10">
                 Guiding principles
               </SectionLabel>
@@ -240,7 +240,7 @@ export default function About() {
                   <span className="pt-1 font-eyebrow text-eyebrow-label tracking-[0.12em] text-[#8b8e96]">
                     {String(index + 1).padStart(2, "0")}
                   </span>
-                  <p className="max-w-4xl font-header text-card-title text-pretty">{principle}</p>
+                  <p className="font-header text-card-title text-pretty">{principle}</p>
                 </li>
               ))}
             </ol>
@@ -291,13 +291,13 @@ export default function About() {
                 <h2 id="community-title" className={headingClassName}>
                   Service extends beyond our work.
                 </h2>
-                <p className="mt-9 max-w-[850px] text-body-copy text-pretty text-[#0d132d]">
-                  Our commitment to service extends to the communities where we live and work.
-                  Harkcon contributes funding, professional support, and volunteer time, and
-                  supports associates who give their skills and time to local organizations.
-                </p>
               </div>
             </div>
+            <p className="mt-9 text-body-copy text-pretty text-[#0d132d]">
+              Our commitment to service extends to the communities where we live and work. Harkcon
+              contributes funding, professional support, and volunteer time, and supports associates
+              who give their skills and time to local organizations.
+            </p>
           </div>
 
           <div className="mt-14 h-[41svh] min-h-[312px] w-full overflow-hidden md:mt-20 md:h-[52svh] md:min-h-[408px]">

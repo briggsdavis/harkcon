@@ -1,4 +1,5 @@
 import { v } from "convex/values"
+import { visibilityPages } from "../src/lib/page-visibility"
 import { mutation, query } from "./_generated/server"
 import { requireAdmin } from "./admin"
 
@@ -202,12 +203,7 @@ export const setPageVisibility = mutation({
   args: { key: v.string(), visible: v.boolean() },
   handler: async (ctx, { key, visible }) => {
     await requireAdmin(ctx)
-    if (
-      !["about", "careers", "contracts", "oasis", "news", "solutions", "contact", "kevin"].includes(
-        key,
-      )
-    )
-      throw new Error("Unknown page")
+    if (!visibilityPages.some((page) => page.key === key)) throw new Error("Unknown page")
     const existing = await ctx.db
       .query("pageVisibility")
       .withIndex("by_key", (q) => q.eq("key", key))

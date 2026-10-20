@@ -1,8 +1,8 @@
 import Image from "next/image"
-import Link from "next/link"
 import HeroParallaxImage from "~/components/hero-parallax-image"
 import { Arrow, Header, SiteFooter } from "~/components/home-page"
 import SubtleParallaxPhoto from "~/components/subtle-parallax-photo"
+import Link from "~/components/visibility-link"
 import type { Solution } from "~/lib/solutions"
 
 const capabilityCopy = [

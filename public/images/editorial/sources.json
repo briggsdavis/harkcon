@@ -89,5 +89,32 @@
     "source": "https://unsplash.com/photos/a-grand-neoclassical-building-with-tall-columns-t0bJlqg3jeU",
     "original": "https://images.unsplash.com/photo-1768617154318-b2caa1e97a60",
     "usage": "Illustrative editorial imagery; does not document Harkcon project execution."
+  },
+  "solutions-harbor": {
+    "src": "/images/editorial/solutions-harbor.jpg",
+    "alt": "Container terminals and transport links in a working harbor",
+    "source": "https://unsplash.com/photos/an-aerial-view-of-a-large-container-port-SUxeK8DpNFs",
+    "original": "https://images.unsplash.com/photo-1670872380078-b37aeec4768d",
+    "photographer": "Zsófia Vera Mezei",
+    "license": "Unsplash License",
+    "usage": "Illustrative editorial imagery; does not document Harkcon project execution."
+  },
+  "careers-readiness": {
+    "src": "/images/editorial/careers-readiness.jpg",
+    "alt": "U.S. Coast Guard training vessel Eagle moored in New London, Connecticut",
+    "source": "https://unsplash.com/photos/a-large-white-ship-docked-at-a-pier-S_nVxYilefI",
+    "original": "https://images.unsplash.com/photo-1634070900721-ffe9e28284d0",
+    "photographer": "Rusty Watson",
+    "license": "Unsplash License",
+    "usage": "Illustrative editorial imagery; does not document Harkcon project execution."
+  },
+  "process-lasting-impact": {
+    "src": "/images/editorial/process-lasting-impact.jpg",
+    "alt": "Portland Head Light and the protected coastline at Cape Elizabeth, Maine",
+    "source": "https://unsplash.com/photos/aerial-photography-of-lighthouse-by-the-sea-N1ztimmVUvg",
+    "original": "https://images.unsplash.com/photo-1572156027607-f27b614051ee",
+    "photographer": "Yoav Hornung",
+    "license": "Unsplash License",
+    "usage": "Illustrative editorial imagery; does not document Harkcon project execution."
   }
 }

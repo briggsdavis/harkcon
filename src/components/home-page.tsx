@@ -205,7 +205,12 @@ function SolutionsDropdownContent() {
   return (
     <div className="site-gutter grid min-h-[350px] grid-cols-[0.82fr_1.18fr] gap-16 py-10 xl:gap-24 xl:py-11">
       <div className="flex flex-col items-start border-r border-white/15 pr-16">
-        <p className="eyebrow text-pretty text-white/55 normal-case">Our solutions</p>
+        <Link
+          href="/solutions"
+          className="eyebrow animated-underline text-pretty text-white/75 normal-case"
+        >
+          Explore our solutions <Arrow diagonal />
+        </Link>
         <p className="mt-7 max-w-md font-header text-xl leading-[1.25] tracking-[-0.02em] text-pretty text-white">
           Customized expertise that strengthens workforces, modernizes operations, and improves
           mission performance at every level.
@@ -215,8 +220,8 @@ function SolutionsDropdownContent() {
         <p className="eyebrow text-pretty text-white/55 normal-case">Explore</p>
         <div className="mt-5 grid gap-0">
           {solutionLinks.map((solution) => (
-            // <Link key={solution.href} href={solution.href} onClick={onClose}
-            <span
+            <Link
+              href={solution.href}
               key={solution.href}
               className="group flex items-center gap-4 border-b border-white/15 py-2 font-header text-base leading-tight tracking-[-0.015em] text-white transition-colors hover:text-white/55 focus-visible:text-white/55 focus-visible:outline-none xl:text-[1.05rem]"
             >
@@ -225,7 +230,7 @@ function SolutionsDropdownContent() {
                 className="h-4 w-4 text-white/50 transition-transform duration-300 group-hover:rotate-90 group-focus-visible:rotate-90"
               />
               {solution.title}
-            </span>
+            </Link>
           ))}
         </div>
       </div>
@@ -495,16 +500,12 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
           >
             Kevin Harkins
           </Link>
-          {visibility?.solutions === false ? (
-            <span className={navLinkClassName}>Solutions</span>
-          ) : (
-            <NavDropdownTrigger
-              label="Solutions"
-              open={openDropdown === "solutions"}
-              onOpen={openSolutions}
-              onScheduleClose={scheduleDropdownClose}
-            />
-          )}
+          <NavDropdownTrigger
+            label="Solutions"
+            open={openDropdown === "solutions"}
+            onOpen={openSolutions}
+            onScheduleClose={scheduleDropdownClose}
+          />
           <Link
             href="/contact"
             className={`${wipeButtonClassName} ml-2 ${darkSurface ? wipeButtonLightClassName : wipeButtonDarkClassName}`}
@@ -637,7 +638,6 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
         <button
           type="button"
           className="flex w-full items-center justify-between border-b border-white/15 py-4 text-left text-lg"
-          disabled={visibility?.solutions === false}
           aria-expanded={mobileSolutionsOpen}
           aria-controls="mobile-solutions-list"
           onClick={toggleMobileSolutions}
@@ -649,14 +649,22 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
           id="mobile-solutions-list"
           className={`grid overflow-hidden pl-4 transition-all duration-500 ${mobileSolutionsOpen ? "max-h-[640px] opacity-100" : "max-h-0 opacity-0"}`}
         >
+          <Link
+            href="/solutions"
+            onClick={closeMenu}
+            className="border-b border-white/15 py-3 text-sm text-white"
+          >
+            All solutions <Arrow diagonal />
+          </Link>
           {solutionLinks.map((solution) => (
-            // <Link key={solution.href} href={solution.href} onClick={closeMenu}>
-            <span
+            <Link
+              href={solution.href}
+              onClick={closeMenu}
               key={solution.href}
               className="flex items-center justify-between border-b border-white/15 py-3 text-sm leading-snug text-white/70"
             >
               {solution.title}
-            </span>
+            </Link>
           ))}
         </div>
         <Link
@@ -933,10 +941,13 @@ export function SiteFooter() {
             <p className="mb-7 text-xs tracking-[0.17em] text-pretty text-white/45">Solutions</p>
             <nav aria-label="Footer solutions navigation" className="grid items-start gap-3">
               {solutionLinks.map((solution) => (
-                // <Link key={solution.href} href={solution.href}>
-                <span key={solution.href} className={`${footerNavLinkClassName} max-w-md`}>
+                <Link
+                  href={solution.href}
+                  key={solution.href}
+                  className={`${footerNavLinkClassName} max-w-md`}
+                >
                   {solution.title}
-                </span>
+                </Link>
               ))}
             </nav>
           </div>
@@ -1076,8 +1087,8 @@ export default function HomePage() {
 
               <div className="grid gap-x-7 gap-y-0 md:grid-cols-2 xl:grid-cols-3">
                 {solutions.map((solution) => (
-                  // <Link href={solution.href} key={solution.title} aria-label={`Learn about ${solution.title}`}>
-                  <div
+                  <Link
+                    href={solution.href}
                     key={solution.title}
                     className="group relative min-h-[310px] overflow-hidden px-5 py-7 text-[#0d132d] transition-colors duration-500 hover:text-white focus-visible:text-white focus-visible:outline-none md:min-h-[340px] md:px-6 md:py-8"
                     data-reveal-line
@@ -1099,7 +1110,7 @@ export default function HomePage() {
                         </span>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>

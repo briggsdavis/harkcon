@@ -62,8 +62,8 @@ export default function Careers() {
       <div className="relative">
         <section className="relative h-[55svh] overflow-hidden" aria-labelledby="careers-title">
           <HeroParallaxImage
-            src="/images/careers-hero.jpg"
-            alt="Business professionals discussing strategy in a bright modern office"
+            src="/images/editorial/careers-readiness.jpg"
+            alt="U.S. Coast Guard training vessel Eagle moored in New London, Connecticut"
             imageClassName="scale-[1.015] object-cover"
           />
           <div className="careers-hero-overlay absolute inset-0 z-[1]" />

@@ -47,8 +47,8 @@ const steps = [
   {
     title: "Measure. Learn. Refine.",
     description: "Keep improvement moving long after the first milestone.",
-    image: "/images/about-team.png",
-    alt: "Harkcon team bringing experience together",
+    image: "/images/editorial/process-lasting-impact.jpg",
+    alt: "Portland Head Light and the protected coastline at Cape Elizabeth, Maine",
     tasks: [
       ["Track the results", "Compare outcomes with the baseline and the goals we set together."],
       [
