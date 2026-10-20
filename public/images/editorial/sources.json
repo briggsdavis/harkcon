@@ -116,5 +116,23 @@
     "photographer": "Yoav Hornung",
     "license": "Unsplash License",
     "usage": "Illustrative editorial imagery; does not document Harkcon project execution."
+  },
+  "careers-cutter": {
+    "src": "/images/editorial/careers-cutter.jpg",
+    "alt": "A U.S. Coast Guard patrol vessel on foggy waters off Bodega Bay, California",
+    "source": "https://unsplash.com/photos/white-and-gray-boat-on-body-of-water-tDGFwGIQRpE",
+    "original": "https://images.unsplash.com/photo-1574105079550-0282df1c43b3",
+    "photographer": "Meritt Thomas",
+    "license": "Unsplash License",
+    "usage": "Illustrative editorial imagery; does not document Harkcon project execution."
+  },
+  "solutions-hoover-dam": {
+    "src": "/images/editorial/solutions-hoover-dam.jpg",
+    "alt": "The bridge and canyon at Hoover Dam, United States",
+    "source": "https://unsplash.com/photos/aerial-view-of-a-bridge-over-a-river-MUAXV1H33jY",
+    "original": "https://images.unsplash.com/photo-1583199125156-cc6848d342b3",
+    "photographer": "Patrick",
+    "license": "Unsplash License",
+    "usage": "Illustrative editorial imagery; does not document Harkcon project execution."
   }
 }

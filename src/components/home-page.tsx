@@ -476,16 +476,6 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
           <Link href="/careers" className={navLinkClassName}>
             Careers
           </Link>
-          {visibility?.news === false ? (
-            <span className={navLinkClassName}>News</span>
-          ) : (
-            <NavDropdownTrigger
-              label="News"
-              open={openDropdown === "news"}
-              onOpen={openNews}
-              onScheduleClose={scheduleDropdownClose}
-            />
-          )}
           <Link href="/contracts" className={navLinkClassName}>
             Contracts
           </Link>
@@ -500,6 +490,16 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
           >
             Kevin Harkins
           </Link>
+          {visibility?.news === false ? (
+            <span className={navLinkClassName}>News</span>
+          ) : (
+            <NavDropdownTrigger
+              label="News"
+              open={openDropdown === "news"}
+              onOpen={openNews}
+              onScheduleClose={scheduleDropdownClose}
+            />
+          )}
           <NavDropdownTrigger
             label="Solutions"
             open={openDropdown === "solutions"}
@@ -589,6 +589,21 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
         <Link href="/careers" className={mobileNavLinkClassName}>
           Careers
         </Link>
+        <Link href="/contracts" onClick={closeMenu} className={mobileNavLinkClassName}>
+          Contracts
+        </Link>
+        <Link href="/oasis-plus" onClick={closeMenu} className={mobileNavLinkClassName}>
+          OASIS+
+        </Link>
+        <Link
+          href="https://www.kdharkins.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={closeMenu}
+          className={mobileNavLinkClassName}
+        >
+          Kevin Harkins
+        </Link>
         <button
           type="button"
           className="flex w-full items-center justify-between border-b border-white/15 py-4 text-left text-lg"
@@ -620,21 +635,6 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
             LinkedIn
           </a>
         </div>
-        <Link href="/contracts" onClick={closeMenu} className={mobileNavLinkClassName}>
-          Contracts
-        </Link>
-        <Link href="/oasis-plus" onClick={closeMenu} className={mobileNavLinkClassName}>
-          OASIS+
-        </Link>
-        <Link
-          href="https://www.kdharkins.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={closeMenu}
-          className={mobileNavLinkClassName}
-        >
-          Kevin Harkins
-        </Link>
         <button
           type="button"
           className="flex w-full items-center justify-between border-b border-white/15 py-4 text-left text-lg"

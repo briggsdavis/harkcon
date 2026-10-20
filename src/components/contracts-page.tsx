@@ -12,7 +12,6 @@ import {
   contractRecords,
   naicsCodes,
   oasisSdvosbCapabilities,
-  oasisSupportTypes,
   type ContractRecord,
 } from "~/lib/contract-content"
 import { HARKCON_CAPABILITY_STATEMENT_URL, OASIS_SOLICITATION_URL } from "~/lib/documents"
@@ -27,11 +26,9 @@ const viewContent = {
     heroImage: "/images/editorial/contracts-hero.jpg",
     heroAlt: "The United States Capitol beneath a clear blue sky",
     sections: [
-      ["contracts-overview", "Overview"],
       ["contracts-gsa-group", "GSA"],
       ["contracts-idiq-group", "IDIQ"],
       ["contracts-naics", "Designation & NAICS Codes"],
-      ["contracts-cta", "Get started"],
     ],
   },
   oasis: {
@@ -41,15 +38,12 @@ const viewContent = {
     heroImage: "/images/editorial/oasis-hero.jpg",
     heroAlt: "An aerial view of connected road infrastructure and surrounding trees",
     sections: [
-      ["oasis-overview", "Overview"],
+      ["oasis-scope", "Scope & access"],
       ["oasis-small-business", "Small Business"],
       ["oasis-sdvosb", "SDVOSB"],
       ["oasis-legacy", "Legacy OASIS"],
-      ["oasis-scope", "Scope & access"],
       ["oasis-documents", "Documents"],
       ["oasis-verification", "Verification"],
-      ["oasis-work", "Work with us"],
-      ["oasis-cta", "Get started"],
     ],
   },
 } as const
@@ -148,6 +142,38 @@ function ContractPair({
   const pairRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
     const pair = pairRef.current
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)")
+    if (!pair) return
+    let frame = 0
+    const update = () => {
+      frame = 0
+      if (reduced.matches) {
+        pair.style.setProperty("--contract-photo-y", "0px")
+        return
+      }
+      const rect = pair.getBoundingClientRect()
+      const progress = Math.max(
+        0,
+        Math.min(1, (window.innerHeight - rect.top) / (window.innerHeight + rect.height)),
+      )
+      pair.style.setProperty("--contract-photo-y", `${(progress - 0.5) * 70}px`)
+    }
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update)
+    }
+    update()
+    window.addEventListener("scroll", onScroll, { passive: true })
+    window.addEventListener("resize", onScroll)
+    reduced.addEventListener("change", onScroll)
+    return () => {
+      cancelAnimationFrame(frame)
+      window.removeEventListener("scroll", onScroll)
+      window.removeEventListener("resize", onScroll)
+      reduced.removeEventListener("change", onScroll)
+    }
+  }, [])
+  useEffect(() => {
+    const pair = pairRef.current
     const heading = pair?.querySelector("h3")
     if (!pair || !heading) return
     const description = pair.querySelector<HTMLParagraphElement>(".contract-description")
@@ -192,20 +218,8 @@ function ContractPair({
             alt={photo.alt}
             fill
             sizes="(min-width: 1024px) 44vw, 100vw"
-            className="object-cover grayscale-50"
+            className="translate-y-(--contract-photo-y) scale-[1.18] object-cover will-change-transform motion-reduce:transform-none"
           />
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 transition-[clip-path] duration-900 ease-[cubic-bezier(0.77,0,0.18,1)] [clip-path:inset(0_100%_0_0)] group-hover:[clip-path:inset(0)] motion-reduce:transition-none"
-          >
-            <Image
-              src={photo.src}
-              alt=""
-              fill
-              sizes="(min-width: 1024px) 44vw, 100vw"
-              className="object-cover"
-            />
-          </div>
         </div>
       </div>
       <div className="min-w-0 lg:pt-[var(--contract-details-offset,4rem)]">{children}</div>
@@ -320,7 +334,6 @@ const overviewLinks: Record<ContractView, readonly (readonly [string, string])[]
     ["oasis-scope", "Scope & access"],
     ["oasis-documents", "Documents"],
     ["oasis-verification", "Verification"],
-    ["oasis-work", "Work with us"],
   ],
 }
 
@@ -481,8 +494,6 @@ function ContractsContent() {
 function OasisContent() {
   return (
     <>
-      <ContractGroup groupKey="oasis" />
-      <ContractGroup groupKey="legacy" />
       <section id="oasis-scope" className={contractSectionClassName("navy")}>
         <div className={`site-gutter ${contractColumnsClassName}`}>
           <div className="self-start lg:sticky lg:top-36">
@@ -502,22 +513,8 @@ function OasisContent() {
         </div>
       </section>
 
-      <section id="oasis-documents" className={contractSectionClassName()}>
-        <div className={`site-gutter ${contractColumnsClassName}`}>
-          <h2 className={contractHeadingClassName}>Review the program solicitation.</h2>
-          <div>
-            <p className="text-body-copy text-pretty text-[#454955]">
-              Open the governing solicitation sections for detailed OASIS contract structure,
-              requirements, and terms.
-            </p>
-            <DocumentDownload
-              href={OASIS_SOLICITATION_URL}
-              title="OASIS Solicitation — Sections B through J"
-              description="Official contract solicitation sections and requirements."
-            />
-          </div>
-        </div>
-      </section>
+      <ContractGroup groupKey="oasis" />
+      <ContractGroup groupKey="legacy" />
 
       <section id="oasis-verification" className={contractSectionClassName("soft")}>
         <div
@@ -552,23 +549,6 @@ function OasisContent() {
               ))}
             </div>
           </div>
-        </div>
-      </section>
-
-      <section id="oasis-work" className={contractSectionClassName()}>
-        <div className={`site-gutter ${contractColumnsClassName}`}>
-          <div className="self-start lg:sticky lg:top-36">
-            <h2 className={contractHeadingClassName}>
-              Start with the requirement. Build the right path.
-            </h2>
-            <p className="mt-8 max-w-xl text-body-copy text-pretty text-[#454955]">
-              Federal customers and teaming partners can use Harkcon’s OASIS+ vehicles for
-              professional services requirements aligned with GSA scope and Harkcon’s awarded
-              contract domains.
-            </p>
-            <OasisContactCard className="mt-12" label="Contact for OASIS+ opportunities" />
-          </div>
-          <NumberedList items={oasisSupportTypes} />
         </div>
       </section>
 
@@ -712,6 +692,15 @@ export default function ContractsPage({ view = "contracts" }: { view?: ContractV
                     title="Harkcon Capability Statement"
                     description="Company capabilities, qualifications, and contracting information."
                   />
+                  {view === "oasis" && (
+                    <div id="oasis-documents" className="scroll-mt-28">
+                      <DocumentDownload
+                        href={OASIS_SOLICITATION_URL}
+                        title="OASIS Solicitation — Sections B through J"
+                        description="Official contract solicitation sections and requirements."
+                      />
+                    </div>
+                  )}
                 </div>
                 <Link href="/contact" className="action-button mt-6">
                   Contact business development <Arrow />

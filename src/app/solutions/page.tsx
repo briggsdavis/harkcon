@@ -28,8 +28,8 @@ export default function Solutions() {
       <div className="relative">
         <section className="relative h-[55svh] overflow-hidden" aria-labelledby="solutions-title">
           <HeroParallaxImage
-            src="/images/editorial/solutions-harbor.jpg"
-            alt="Container terminals and transport links in a working harbor"
+            src="/images/editorial/solutions-hoover-dam.jpg"
+            alt="The bridge and canyon at Hoover Dam, United States"
             imageClassName="object-cover"
           />
           <div className="page-hero-overlay absolute inset-0 z-[1]" />

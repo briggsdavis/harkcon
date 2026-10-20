@@ -108,7 +108,7 @@ export default function CareersOpenings() {
         rel="noopener noreferrer"
         className="action-button mt-10"
       >
-        Join Our Talent Community <Arrow diagonal />
+        Join Our Talent Community <Arrow />
         <span className="sr-only">(opens in a new tab)</span>
       </a>
     </div>
