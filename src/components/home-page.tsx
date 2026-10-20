@@ -14,6 +14,7 @@ import {
 import Image from "next/image"
 import { FocusEvent, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react"
 import FeaturedNews from "~/components/featured-news"
+import SolutionCardWatermark from "~/components/solution-card-watermark"
 import Link from "~/components/visibility-link"
 import { HARKCON_CAPABILITY_STATEMENT_URL } from "~/lib/documents"
 import { usePageVisibility } from "~/lib/use-page-visibility"
@@ -1094,6 +1095,7 @@ export default function HomePage() {
                     data-reveal-line
                   >
                     <span className="absolute inset-0 origin-left scale-x-0 bg-[#0d132d] transition-transform duration-900 ease-[cubic-bezier(0.45,0,0.2,1)] will-change-transform group-hover:scale-x-100 group-focus-visible:scale-x-100" />
+                    <SolutionCardWatermark />
                     <div className="relative z-10 flex h-full flex-col">
                       <h3 className="max-w-sm font-header text-card-title font-medium text-balance">
                         {solution.title}

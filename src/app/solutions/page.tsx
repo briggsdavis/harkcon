@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import HeroParallaxImage from "~/components/hero-parallax-image"
 import { Arrow, Header, SiteFooter } from "~/components/home-page"
+import SolutionCardWatermark from "~/components/solution-card-watermark"
 import SolutionsProcess from "~/components/solutions-process"
 import Link from "~/components/visibility-link"
 import { solutions } from "~/lib/solutions"
@@ -77,6 +78,7 @@ export default function Solutions() {
                   aria-hidden="true"
                   className="absolute inset-0 origin-left scale-x-0 bg-[#0d132d] transition-transform duration-900 ease-[cubic-bezier(0.45,0,0.2,1)] will-change-transform group-hover:scale-x-100 group-focus-visible:scale-x-100 motion-reduce:transition-none"
                 />
+                <SolutionCardWatermark />
                 <span
                   aria-hidden="true"
                   className={`absolute top-5 right-5 z-10 h-2 w-2 rounded-full opacity-0 transition-opacity duration-700 group-hover:opacity-100 group-focus-visible:opacity-100 motion-reduce:transition-none ${["bg-[#ffb612]", "bg-[#ff334f]", "bg-[#8b8e96]"][index % 3]}`}
