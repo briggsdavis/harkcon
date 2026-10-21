@@ -4,6 +4,7 @@ import Link from "next/link"
 import { Arrow, Header, SiteFooter } from "~/components/home-page"
 import PublicationMeta from "~/components/publication-meta"
 import type { NewsArticle } from "~/lib/news"
+import { keepClosingWords } from "~/lib/typography"
 
 export default function ArticlePage({
   article,
@@ -42,13 +43,13 @@ export default function ArticlePage({
                 category={article.category}
               />
               <h1 className="mt-6 font-header text-display font-medium text-balance">
-                {article.title}
+                {keepClosingWords(article.title)}
               </h1>
             </div>
             <div className="mx-auto max-w-[900px] pt-10 md:pt-12">
               {article.body.map((paragraph) => (
                 <p key={paragraph} className="mb-6 text-body-copy text-pretty text-[#333744]">
-                  {paragraph}
+                  {keepClosingWords(paragraph)}
                 </p>
               ))}
             </div>
@@ -63,7 +64,7 @@ export default function ArticlePage({
             >
               <div>
                 <h2 id="related-news-title" className="font-header text-section-title text-balance">
-                  More from Harkcon
+                  More from&nbsp;Harkcon
                 </h2>
               </div>
               <Link href="/news-insights" className="text-link" data-reveal-line>
@@ -94,7 +95,9 @@ export default function ArticlePage({
                   >
                     {item.displayDate}
                   </time>
-                  <h3 className="mt-3 font-header text-card-title text-balance">{item.title}</h3>
+                  <h3 className="relative mt-3 font-header text-card-title text-balance after:pointer-events-none after:absolute after:-bottom-2 after:left-0 after:h-px after:w-8 after:origin-left after:scale-x-0 after:bg-brand-red after:transition-transform after:duration-200 group-hover:after:scale-x-100 group-focus-visible:after:scale-x-100 motion-reduce:after:transition-none">
+                    {keepClosingWords(item.title)}
+                  </h3>
                 </Link>
               ))}
             </div>

@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
 @theme inline {
+  --color-brand-gold: #ffb612;
+  --color-brand-red: #ec1f2e;
   --font-header: var(--font-header-source);
   --font-body: var(--font-body-source);
   --font-eyebrow: var(--font-eyebrow-source);
@@ -66,6 +68,19 @@
     color: #ffffff;
   }
 
+  p {
+    @apply text-pretty;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply text-balance;
+  }
+
   button {
     @apply cursor-pointer;
   }
@@ -90,6 +105,11 @@
       opacity 700ms ease var(--reveal-delay, 0ms),
       color 500ms ease,
       border-color 500ms ease;
+  }
+
+  .site-header .action-button,
+  .reveal-button.reveal-visible {
+    animation: button-entrance 650ms ease-out var(--reveal-delay, 0ms) backwards;
   }
 
   .reveal-pill {
@@ -379,5 +399,28 @@
   from {
     opacity: 0;
     transform: translateY(14px) scale(0.985);
+  }
+}
+
+@keyframes button-entrance {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  .action-button:not(.reveal-visible):not(
+      :where(
+        .site-header *,
+        .admin-root *,
+        .admin-login *,
+        [data-reveal-skip],
+        [data-reveal-skip] *
+      )
+    ) {
+    opacity: 0;
   }
 }

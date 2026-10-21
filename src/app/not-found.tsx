@@ -22,10 +22,10 @@ export default function NotFound() {
                 id="not-found-title"
                 className="max-w-2xl font-header text-display font-medium text-balance"
               >
-                This page is off mission.
+                This page is off&nbsp;mission.
               </h1>
               <p className="mt-7 max-w-xl text-body-copy text-pretty text-[#5f626b]">
-                The page you are looking for may have moved or no longer exists.
+                The page you are looking for may have moved or no longer&nbsp;exists.
               </p>
               <Link href="/" className="action-button mt-9">
                 Back to home <Arrow />

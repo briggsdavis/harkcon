@@ -250,7 +250,7 @@ function Login() {
         <div>
           <p className={kicker}>Content workspace</p>
           <h1 className={`mt-1 ${pageTitle}`}>
-            {mode === "signin" ? "Welcome back." : "Create your password."}
+            {mode === "signin" ? "Welcome\u00a0back." : "Create your password."}
           </h1>
           <p className={loginBodyClassName}>
             {mode === "signin"

@@ -188,9 +188,9 @@ export const contractRecords: Record<string, ContractRecord> = {
     id: "contracts-teps",
     navLabel: "TEPS III",
     eyebrow: "TEPS III Blanket Purchase Agreement",
-    title: "Technical, Engineering, and Programmatic Support Services III",
+    title: "TEPS III",
     description:
-      "The TEPS III Blanket Purchase Agreement supports DOE and NNSA across eight technical and operational areas. Harkcon works with MELE Associates to provide program management, training, analytical support, and emergency operations expertise.",
+      "The Technical, Engineering, and Programmatic Support Services (TEPS) III Blanket Purchase Agreement supports DOE and NNSA across eight technical and operational areas. Harkcon works with MELE Associates to provide program management, training, analytical support, and emergency operations expertise.",
     capabilities: tepsCapabilities,
     prime: "MELE Associates, Inc.; Harkcon as CTA Lead",
     contract: "89233122ANA000014",
@@ -201,7 +201,7 @@ export const contractRecords: Record<string, ContractRecord> = {
     id: "contracts-uscg",
     navLabel: "USCG Workforce",
     eyebrow: "U.S. Coast Guard · Workforce requirements",
-    title: "Determination analytical & clerical support services",
+    title: "Workforce BPA",
     description:
       "Harkcon supports the USCG Workforce Requirements Determination Division with the analysis and documentation needed for sound human-capital planning and resource decisions.",
     capabilities: uscgWorkforceCapabilities,
@@ -254,7 +254,7 @@ export const contractRecords: Record<string, ContractRecord> = {
     id: "oasis-sdvosb",
     navLabel: "SDVOSB",
     eyebrow: "OASIS+ SDVOSB",
-    title: "OASIS+ Service-Disabled Veteran-Owned Small Business",
+    title: "OASIS+ SDVOSB",
     description:
       "The OASIS+ SDVOSB vehicle provides access to Harkcon’s program support, training, process improvement, and workforce development services. Federal customers can work with an experienced service-disabled veteran-owned small business within the awarded scope.",
     capabilities: oasisSdvosbItems,
@@ -283,7 +283,7 @@ export const contractGroups = {
   gsa: {
     id: "contracts-gsa-group",
     title: "GSA",
-    description: "Government Services Administration (GSA) Vehicles",
+    description: "General Services Administration (GSA) Vehicles",
     recordIds: ["contracts-gsa", "contracts-teps", "contracts-uscg", "contracts-uscg-itass"],
   },
   idiq: {

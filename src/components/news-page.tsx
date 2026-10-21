@@ -6,8 +6,20 @@ import Link from "next/link"
 import { useState } from "react"
 import { Arrow, Header, SiteFooter } from "~/components/home-page"
 import PublicationMeta, { categoryColor } from "~/components/publication-meta"
-import { harkconInTheNews, newsArticles, type NewsCategory } from "~/lib/news"
+import { publicArticles, harkconInTheNews, newsArticles, type NewsCategory } from "~/lib/news"
+import { keepClosingWords } from "~/lib/typography"
 import { api } from "../../convex/_generated/api"
+
+const unsupportedPressMentions = new Set([
+  "Harkcon recognized among the region’s most people-centered government contractors",
+  "How mission-driven firms are modernizing federal workforce strategy",
+  "Harkcon leaders discuss the future of performance-based training",
+  "Small business innovation is reshaping continuity and preparedness support",
+  "Kevin Harkins on building a culture of expertise, ownership, and service",
+  "Harkcon expands advisory capability across complex government missions",
+  "Industry leaders share practical approaches to organizational transformation",
+  "The teams behind the next generation of federal mission readiness",
+])
 
 type NewsFilter = "all" | NewsCategory | "coverage"
 
@@ -16,10 +28,13 @@ export default function NewsPage() {
   const storedArticles = useQuery(api.content.listPublicArticles)
   const storedMentions = useQuery(api.content.listPressMentions)
   const storedTopics = useQuery(api.content.listTopics)
-  const articles = storedArticles?.length ? storedArticles : newsArticles
-  const mentions = storedMentions?.length
-    ? storedMentions.map((item) => item.headline)
+  const articles = publicArticles(storedArticles?.length ? storedArticles : newsArticles)
+  const verifiedMentions = storedMentions?.length
+    ? storedMentions
+        .map((item) => item.headline)
+        .filter((headline) => !unsupportedPressMentions.has(headline))
     : harkconInTheNews
+  const mentions = verifiedMentions.length ? verifiedMentions : harkconInTheNews
   const topics = storedTopics?.length
     ? storedTopics.map((topic) => topic.name)
     : ["News", "Awards", "Insights"]
@@ -40,7 +55,7 @@ export default function NewsPage() {
         <section className="pt-[clamp(13rem,20vw,19rem)] pb-28" aria-labelledby="news-index-title">
           <div className="site-gutter">
             <h1 id="news-index-title" className="font-header text-display font-medium text-balance">
-              News &amp; Insights
+              News &amp;&nbsp;Insights
             </h1>
 
             <div
@@ -101,11 +116,11 @@ export default function NewsPage() {
                         displayDate={article.displayDate}
                         category={article.category}
                       />
-                      <h2 className="mt-5 max-w-4xl font-header text-card-title font-medium text-balance">
-                        {article.title}
+                      <h2 className="relative mt-5 max-w-4xl font-header text-card-title font-medium text-balance">
+                        {keepClosingWords(article.title)}
                       </h2>
                       <p className="mt-4 max-w-3xl text-base leading-relaxed text-pretty text-[#5f626b]">
-                        {article.excerpt}
+                        {keepClosingWords(article.excerpt)}
                       </p>
                     </div>
                     <span

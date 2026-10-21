@@ -24,7 +24,7 @@ export const solutions: Solution[] = [
     number: "01",
     color: "#ff334f",
     title: "Workforce & Organizational Analysis",
-    shortTitle: "Workforce analysis",
+    shortTitle: "Workforce Analysis",
     description:
       "Harkcon analyzes workforce requirements and organizational structure to improve staffing and readiness. We help federal agencies assess capabilities, identify gaps, and build workforce plans grounded in evidence and mission requirements.",
     proofPoint:
@@ -71,7 +71,7 @@ export const solutions: Solution[] = [
     number: "03",
     color: "#ffc400",
     title: "Process Improvement & Transformation",
-    shortTitle: "Process transformation",
+    shortTitle: "Process Improvement",
     description:
       "We analyze processes, identify avoidable delays, and help agencies improve how work gets done. Our team redesigns workflows and updates supporting policies to reduce risk and meet operational requirements.",
     proofPoint:
@@ -94,7 +94,7 @@ export const solutions: Solution[] = [
     number: "04",
     color: "#16c172",
     title: "Policy, Strategy, & Program Support",
-    shortTitle: "Policy & strategy",
+    shortTitle: "Policy & Strategy",
     description:
       "Harkcon helps federal agencies develop policies, set priorities, and manage complex programs. We connect analysis with the decisions program leaders need to make. Where appropriate, we use AI-enabled tools to support contract work, with human oversight and checks for policy compliance.",
     proofPoint:
@@ -117,7 +117,7 @@ export const solutions: Solution[] = [
     number: "05",
     color: "#a23cff",
     title: "International Advisory & Capacity Building",
-    shortTitle: "International advisory",
+    shortTitle: "Global Advisory",
     description:
       "Harkcon supports international partners with practical advice, maritime training, and capacity development. We help teams build the skills and working relationships needed for safe, effective operations abroad.",
     proofPoint:
@@ -141,7 +141,7 @@ export const solutions: Solution[] = [
     number: "06",
     color: "#ff7a1a",
     title: "Administrative & Compliance Support",
-    shortTitle: "Compliance support",
+    shortTitle: "Compliance Support",
     description:
       "Harkcon helps agencies manage records, address privacy requirements, and meet regulatory obligations. Our administrative and operational support keeps essential daily work on track.",
     proofPoint:
@@ -163,7 +163,7 @@ export const solutions: Solution[] = [
     number: "07",
     color: "#00a8a8",
     title: "Emergency Management & Continuity Support",
-    shortTitle: "Emergency management",
+    shortTitle: "Emergency Support",
     description:
       "Harkcon helps agencies plan, exercise, and maintain emergency management and continuity programs. We prepare teams to respond to disruptions, recover operations, and protect the essential functions their missions depend on.",
     proofPoint:

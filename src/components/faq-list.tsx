@@ -3,6 +3,7 @@
 import { Plus } from "@phosphor-icons/react"
 import { useCallback, useState } from "react"
 import type { MouseEvent } from "react"
+import { keepClosingWords } from "~/lib/typography"
 
 type Faq = {
   question: string
@@ -26,7 +27,7 @@ export default function FaqList({ faqs, dark = false }: { faqs: Faq[]; dark?: bo
         return (
           <div
             className={`border-t last:border-b ${dark ? "border-white/18" : "border-[#0d132d]/20"}`}
-            key={faq.question}
+            key={keepClosingWords(faq.question)}
           >
             <button
               type="button"
@@ -37,7 +38,7 @@ export default function FaqList({ faqs, dark = false }: { faqs: Faq[]; dark?: bo
               onClick={toggle}
             >
               <span className="text-balance transition-transform duration-500 ease-out group-hover:translate-x-1 group-focus-visible:translate-x-1 motion-reduce:transition-none">
-                {faq.question}
+                {keepClosingWords(faq.question)}
               </span>
               <span
                 data-active={open}
@@ -58,7 +59,7 @@ export default function FaqList({ faqs, dark = false }: { faqs: Faq[]; dark?: bo
                 <p
                   className={`max-w-3xl pr-12 text-body-copy text-pretty md:pr-20 ${dark ? "text-white/68" : "text-[#5f626b]"} ${open ? "translate-y-0 pb-8 md:pb-10" : "-translate-y-2.5 pb-0"}`}
                 >
-                  {faq.answer}
+                  {keepClosingWords(faq.answer)}
                 </p>
               </div>
             </div>

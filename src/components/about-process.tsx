@@ -2,59 +2,59 @@
 
 import Image from "next/image"
 import { useEffect, useRef, useState } from "react"
+import { keepClosingWords } from "~/lib/typography"
 
 const steps = [
   {
-    title: "Understand the mission.",
-    description:
-      "Start with the people, priorities, and real-world conditions behind the challenge.",
+    title: "Understand the workforce.",
+    description: "Assess roles, staffing, and organizational requirements with evidence.",
     image: "/images/careers-interview.jpg",
-    alt: "Colleagues discussing priorities in an interview",
+    alt: "Colleagues discussing workforce requirements",
     tasks: [
-      ["Listen first", "Meet stakeholders and define what success needs to look like."],
       [
-        "Establish a baseline",
-        "Review workflows, workforce data, and current performance to identify the gaps.",
+        "Analyze",
+        "Model workforce requirements and assess staffing needs against operational demands.",
       ],
+      ["Align", "Develop competencies and align roles with the work people need to perform."],
     ],
   },
   {
-    title: "Design the right approach.",
-    description: "Turn evidence into a focused plan built around your organization.",
+    title: "Develop practical training.",
+    description: "Design training and Human Systems Integration support around the work.",
     image: "/images/about-collaboration.jpg",
-    alt: "Team members collaborating on an approach",
+    alt: "Colleagues developing a training approach",
     tasks: [
+      ["Design", "Develop training strategies, curricula, and instructional systems."],
       [
-        "Shape the solution",
-        "Connect findings to practical changes in people, processes, and training.",
+        "Support",
+        "Provide Human Systems Integration support through major acquisition lifecycles.",
       ],
-      ["Align the team", "Agree on priorities, responsibilities, and measures of progress."],
     ],
   },
   {
-    title: "Put the plan to work.",
-    description: "Work alongside your team to translate recommendations into everyday capability.",
+    title: "Improve how work gets done.",
+    description: "Connect process analysis, policy, and program support to organizational needs.",
     image: "/images/careers-collaboration.jpg",
-    alt: "Colleagues working together to deliver a project",
+    alt: "Colleagues coordinating program support",
     tasks: [
-      ["Build and test", "Pilot tools and training, gather feedback, and adjust before expanding."],
+      ["Review", "Analyze business processes and identify opportunities to improve performance."],
       [
-        "Support adoption",
-        "Equip your people with the guidance and resources to sustain new ways of working.",
+        "Refine",
+        "Reengineer workflows and modernize policies to support operational requirements.",
       ],
     ],
   },
   {
-    title: "Measure. Learn. Refine.",
-    description: "Keep improvement moving long after the first milestone.",
+    title: "Strengthen mission readiness.",
+    description: "Help agencies prepare for disruptions and maintain continuity programs.",
     image: "/images/editorial/process-lasting-impact.jpg",
-    alt: "Portland Head Light and the protected coastline at Cape Elizabeth, Maine",
+    alt: "Portland Head Light on the coast of Maine",
     tasks: [
-      ["Track the results", "Compare outcomes with the baseline and the goals we set together."],
       [
-        "Make progress last",
-        "Share lessons, transfer knowledge, and identify the next opportunity to improve.",
+        "Prepare",
+        "Develop and maintain continuity, devolution, and emergency preparedness programs.",
       ],
+      ["Exercise", "Support tabletop, functional, and full-scale exercises under HSEEP guidance."],
     ],
   },
 ]
@@ -90,12 +90,12 @@ export default function AboutProcess() {
   return (
     <section className="bg-[#f4f3f0] py-24 md:py-32" aria-labelledby="process-title">
       <div className="site-gutter">
-        <p className="eyebrow mb-8">Our process</p>
+        <p className="eyebrow mb-8">Our&nbsp;capabilities</p>
         <h2
           id="process-title"
           className="max-w-3xl font-header text-section-title font-medium text-balance"
         >
-          A clear path to better performance.
+          Performance in&nbsp;practice.
         </h2>
         <div className="relative mt-16 grid items-start gap-12 lg:grid-cols-2 lg:gap-20">
           <ol ref={timeline} className="ml-3 border-l border-[#0d132d]/20">
@@ -106,19 +106,28 @@ export default function AboutProcess() {
                 className="relative pb-16 pl-8 last:pb-0 lg:flex lg:min-h-[75svh] lg:flex-col lg:justify-center lg:pb-20 lg:pl-12"
               >
                 <span
-                  className={`absolute top-1 -left-[7px] h-[13px] w-[13px] rounded-full border border-[#0d132d] transition-colors duration-500 lg:top-[calc(50%-150px)] ${active === index ? "bg-[#0d132d]" : "bg-[#f4f3f0]"}`}
-                />
+                  aria-hidden="true"
+                  className="absolute top-1 -left-[7px] grid h-[13px] w-[13px] place-items-center rounded-full border border-[#0d132d] bg-[#f4f3f0] lg:top-[calc(50%-150px)]"
+                >
+                  <span
+                    className={`h-1 w-1 rounded-full bg-brand-gold transition-opacity duration-200 motion-reduce:transition-none ${active === index ? "opacity-100" : "opacity-0"}`}
+                  />
+                </span>
                 <p className="mb-5 font-eyebrow text-xs tracking-[0.15em] text-[#5f626b]">
                   STEP 0{index + 1}
                 </p>
-                <h3 className="font-header text-card-title font-medium">{step.title}</h3>
-                <p className="mt-5 max-w-md text-body-copy text-[#454955]">{step.description}</p>
+                <h3 className="font-header text-card-title font-medium">
+                  {keepClosingWords(step.title)}
+                </h3>
+                <p className="mt-5 max-w-md text-body-copy text-[#454955]">
+                  {keepClosingWords(step.description)}
+                </p>
                 <ul className="mt-8 space-y-6">
                   {step.tasks.map(([title, description]) => (
                     <li key={title}>
-                      <h4 className="text-sm font-semibold">{title}</h4>
+                      <h4 className="text-sm font-semibold">{keepClosingWords(title)}</h4>
                       <p className="mt-2 max-w-md text-sm leading-relaxed text-[#5f626b]">
-                        {description}
+                        {keepClosingWords(description)}
                       </p>
                     </li>
                   ))}
@@ -147,9 +156,9 @@ export default function AboutProcess() {
                 className={`object-cover transition-opacity duration-700 ease-in-out motion-reduce:transition-none ${active === index ? "opacity-100" : "opacity-0"}`}
               />
             ))}
-            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#0d132d]/80 to-transparent px-8 pt-24 pb-8 text-white">
-              <p className="text-xs tracking-[0.15em]">0{active + 1} / 04</p>
-              <p className="mt-3 font-header text-2xl">{steps[active].title}</p>
+            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-8 pt-24 pb-8 text-white">
+              <p className="text-xs tracking-[0.15em]">0{active + 1} /&nbsp;04</p>
+              <p className="mt-3 font-header text-2xl">{keepClosingWords(steps[active].title)}</p>
             </div>
           </div>
         </div>

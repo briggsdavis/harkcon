@@ -6,5 +6,5 @@ export const metadata: Metadata = {
 }
 
 export default function PrivacyTerms() {
-  return <h1>Privacy Policy & Terms of Use</h1>
+  return <h1>Privacy Policy & Terms of&nbsp;Use</h1>
 }

@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect } from "react"
+import { useLayoutEffect } from "react"
 
 const revealSelectors = [
   "h1",
@@ -18,7 +18,7 @@ const revealSelectors = [
 ].join(",")
 
 export default function EntranceAnimations() {
-  useEffect(() => {
+  useLayoutEffect(() => {
     const observed = new WeakSet<Element>()
     const observer = new IntersectionObserver(
       (entries) => {

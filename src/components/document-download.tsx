@@ -24,7 +24,9 @@ export default function DocumentDownload({
       </span>
       <span className="grid min-w-0">
         <span className="eyebrow text-[#8b8e96]">Contract document</span>
-        <strong className="mt-3 font-header text-card-title font-medium">{title}</strong>
+        <strong className="relative mt-3 font-header text-card-title font-medium after:pointer-events-none after:absolute after:-bottom-2 after:left-0 after:h-px after:w-8 after:origin-left after:scale-x-0 after:bg-brand-red after:transition-transform after:duration-200 group-hover:after:scale-x-100 group-focus-visible:after:scale-x-100 motion-reduce:after:transition-none">
+          {title}
+        </strong>
         <span className="mt-2 text-sm leading-relaxed text-[#5f626b]">{description}</span>
       </span>
       <span className="control-fill flex h-12 w-12 items-center justify-center justify-self-end rounded-none border border-[#0d132d]/20 transition-all duration-500 group-hover:border-[#0d132d] group-hover:text-white group-focus-visible:border-[#0d132d] group-focus-visible:text-white md:h-16 md:w-16">

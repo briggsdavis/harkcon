@@ -6,6 +6,7 @@ import AboutProcess from "~/components/about-process"
 import HeroParallaxImage from "~/components/hero-parallax-image"
 import { Arrow, Header, SiteFooter } from "~/components/home-page"
 import SubtleParallaxPhoto from "~/components/subtle-parallax-photo"
+import { keepClosingWords } from "~/lib/typography"
 
 const unsplash = (id: string) =>
   `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=2400&q=88`
@@ -102,14 +103,14 @@ export default function About() {
                 id="about-hero-title"
                 className="max-w-3xl font-header text-display font-medium text-balance"
               >
-                Built for better performance.
+                Built to&nbsp;perform.
               </h1>
               <div
                 className="mt-8 flex items-center border-t border-white/35 pt-6 md:mt-10"
                 data-reveal-line
               >
                 <p className="max-w-xl text-sm leading-relaxed text-pretty text-white/80 md:text-base">
-                  Service. Expertise. A shared commitment to the mission.
+                  Service. Expertise. A shared commitment to the&nbsp;mission.
                 </p>
               </div>
             </div>
@@ -122,27 +123,27 @@ export default function About() {
               <SectionLabel number="01">Who we are</SectionLabel>
               <div>
                 <h2 id="who-we-are-title" className={headingClassName}>
-                  Improving people, workplaces, and organizations since 2005.
+                  Improving performance since&nbsp;2005.
                 </h2>
                 <p className="mt-10 max-w-[850px] text-body-copy text-pretty text-[#0d132d]">
                   Harkcon is a service-disabled veteran-owned business providing workforce and
                   organizational analysis, training, intelligence analysis, and performance support.
                   We work with public- and private-sector clients to understand requirements and
-                  improve how their organizations perform.
+                  improve how their organizations&nbsp;perform.
                 </p>
                 <p className={proseClassName}>
                   Founder and CEO Dr. Kevin Harkins established Harkcon in 2005 after retiring from
                   the U.S. Coast Guard and meeting other experienced military professionals through
                   his work in human performance and competency modeling. The company won its first
                   Coast Guard work in 2006, incorporated in Virginia in 2009, and has grown to more
-                  than 100 employees and core contractors.
+                  than 100 employees and core&nbsp;contractors.
                 </p>
                 <p className={proseClassName}>
                   Today, our team supports organizations including the U.S. Coast Guard, Department
                   of Energy, Department of Homeland Security, Department of Defense, and Department
                   of State. Headquartered in Fredericksburg, Virginia, with associates in more than
                   15 states, we combine practical experience, disciplined analysis, and tools suited
-                  to each requirement to improve workforce and organizational performance.
+                  to each requirement to improve workforce and organizational&nbsp;performance.
                 </p>
               </div>
             </div>
@@ -154,9 +155,9 @@ export default function About() {
           aria-labelledby="our-people-title"
         >
           <div className="site-gutter">
-            <p className="eyebrow mb-8">Our people</p>
+            <p className="eyebrow mb-8">Our&nbsp;people</p>
             <h2 id="our-people-title" className={headingClassName}>
-              Experience that moves missions forward.
+              Experience in&nbsp;action.
             </h2>
             <p className="mt-8 text-body-copy text-pretty text-[#5f626b]">
               Our people bring firsthand mission experience, deep technical expertise, and a shared
@@ -164,7 +165,7 @@ export default function About() {
               and technology professionals, we work together to understand each client’s challenges
               and turn insight into practical results. We invest in one another’s growth, welcome
               different perspectives, and take pride in helping the organizations we serve perform
-              at their best.
+              at their&nbsp;best.
             </p>
           </div>
         </section>
@@ -177,11 +178,11 @@ export default function About() {
             <div className="border-b border-white/20">
               <article className="group relative isolate grid gap-10 overflow-hidden border-t border-white/20 py-12 transition-[color,padding] duration-700 ease-[cubic-bezier(0.45,0,0.2,1)] before:absolute before:inset-0 before:-z-10 before:origin-left before:scale-x-0 before:bg-white before:transition-transform before:duration-700 hover:px-6 hover:text-[#0d132d] hover:before:scale-x-100 motion-reduce:transition-none motion-reduce:before:transition-none md:grid-cols-[0.52fr_1.48fr] md:gap-16 md:py-16 lg:gap-24 lg:hover:px-10">
                 <div className="flex items-start gap-5">
-                  <span className="font-eyebrow text-eyebrow-label tracking-[0.15em] text-white/35 transition-colors duration-700 group-hover:text-[#0d132d]/50">
+                  <span className="font-eyebrow text-eyebrow-label tracking-[0.15em] text-brand-gold transition-colors duration-700 group-hover:text-[#0d132d]/70">
                     01
                   </span>
-                  <p className="eyebrow text-pretty text-white/55 transition-colors duration-700 group-hover:text-[#0d132d]/70">
-                    Our mission
+                  <p className="eyebrow text-pretty text-brand-gold transition-colors duration-700 group-hover:text-[#0d132d]/70">
+                    Our&nbsp;mission
                   </p>
                 </div>
                 <h2
@@ -190,21 +191,21 @@ export default function About() {
                 >
                   To provide the highest quality, customized, and innovative organizational and
                   workforce performance solutions at the best value, while strictly adhering to our
-                  guiding principles.
+                  guiding&nbsp;principles.
                 </h2>
               </article>
               <article className="group relative isolate grid gap-10 overflow-hidden border-t border-white/20 py-12 transition-[color,padding] duration-700 ease-[cubic-bezier(0.45,0,0.2,1)] before:absolute before:inset-0 before:-z-10 before:origin-left before:scale-x-0 before:bg-white before:transition-transform before:duration-700 hover:px-6 hover:text-[#0d132d] hover:before:scale-x-100 motion-reduce:transition-none motion-reduce:before:transition-none md:grid-cols-[0.52fr_1.48fr] md:gap-16 md:py-16 lg:gap-24 lg:hover:px-10">
                 <div className="flex items-start gap-5">
-                  <span className="font-eyebrow text-eyebrow-label tracking-[0.15em] text-white/35 transition-colors duration-700 group-hover:text-[#0d132d]/50">
+                  <span className="font-eyebrow text-eyebrow-label tracking-[0.15em] text-brand-gold transition-colors duration-700 group-hover:text-[#0d132d]/70">
                     02
                   </span>
-                  <p className="eyebrow text-pretty text-white/55 transition-colors duration-700 group-hover:text-[#0d132d]/70">
-                    Our vision
+                  <p className="eyebrow text-pretty text-brand-gold transition-colors duration-700 group-hover:text-[#0d132d]/70">
+                    Our&nbsp;vision
                   </p>
                 </div>
                 <h2 className="max-w-5xl font-header text-section-title text-balance">
                   Harkcon and its people are regarded as the best and most sought-after human
-                  performance experts in the nation.
+                  performance experts in the&nbsp;nation.
                 </h2>
               </article>
             </div>
@@ -222,11 +223,11 @@ export default function About() {
               </SectionLabel>
               <div>
                 <h2 id="principles-title" className={headingClassName}>
-                  The foundation for how we work.
+                  The foundation for how we&nbsp;work.
                 </h2>
                 <p className="mt-7 max-w-2xl text-body-copy text-pretty text-[#5f626b]">
                   Our guiding principles shape our day-to-day efforts and guide our responsibilities
-                  to our clients, our employees, and our communities.
+                  to our clients, our employees, and our&nbsp;communities.
                 </p>
               </div>
             </div>
@@ -240,7 +241,9 @@ export default function About() {
                   <span className="pt-1 font-eyebrow text-eyebrow-label tracking-[0.12em] text-[#8b8e96]">
                     {String(index + 1).padStart(2, "0")}
                   </span>
-                  <p className="font-header text-card-title text-pretty">{principle}</p>
+                  <p className="font-header text-card-title text-pretty">
+                    {keepClosingWords(principle)}
+                  </p>
                 </li>
               ))}
             </ol>
@@ -266,17 +269,17 @@ export default function About() {
               </SectionLabel>
               <div>
                 <h2 id="culture-title" className={headingClassName}>
-                  Everyone has a voice. Every voice matters.
+                  Every voice&nbsp;matters.
                 </h2>
                 <p className={proseClassName}>
                   We value different perspectives and build our culture around teamwork, trust, and
                   collaboration. Associates are empowered to identify problems, shape solutions, and
-                  make decisions because their individual experience makes our work stronger.
+                  make decisions because their individual experience makes our work&nbsp;stronger.
                 </p>
                 <p className={proseClassName}>
                   Challenging work, professional growth, flexible scheduling, and accessible
                   leadership create a rewarding environment where people can excel while respecting
-                  life beyond the office. At Harkcon, our associates matter.
+                  life beyond the office. At Harkcon, our associates&nbsp;matter.
                 </p>
               </div>
             </div>
@@ -286,17 +289,17 @@ export default function About() {
         <section className="py-24 md:py-32 lg:py-40" aria-labelledby="community-title">
           <div className="site-gutter">
             <div className="grid gap-12 lg:grid-cols-[minmax(190px,0.55fr)_minmax(0,1.7fr)] lg:gap-16 xl:gap-28">
-              <SectionLabel number="05">Community &amp; responsibility</SectionLabel>
+              <SectionLabel number="05">Community &amp;&nbsp;responsibility</SectionLabel>
               <div>
                 <h2 id="community-title" className={headingClassName}>
-                  Service extends beyond our work.
+                  Service extends beyond our&nbsp;work.
                 </h2>
               </div>
             </div>
             <p className="mt-9 text-body-copy text-pretty text-[#0d132d]">
               Our commitment to service extends to the communities where we live and work. Harkcon
               contributes funding, professional support, and volunteer time, and supports associates
-              who give their skills and time to local organizations.
+              who give their skills and time to local&nbsp;organizations.
             </p>
           </div>
 
@@ -316,12 +319,12 @@ export default function About() {
                 The Warriors™, a 501(c)(3) organization dedicated to enhancing the quality of life
                 for U.S. service members and families affected by injuries or death in the line of
                 duty. Its work helps ensure the sacrifices and needs of wounded and fallen warriors
-                and their families are never forgotten.
+                and their families are never&nbsp;forgotten.
               </p>
               <p>
                 We also support team members’ community involvement through flexible work schedules
                 and recognition programs, making it easier for our people to contribute directly to
-                the causes that matter to them.
+                the causes that matter to&nbsp;them.
               </p>
             </div>
 
@@ -332,10 +335,10 @@ export default function About() {
               >
                 <summary
                   aria-label="Show organizations receiving financial support"
-                  className="flex cursor-pointer list-none items-center justify-between gap-8 py-8 md:py-10"
+                  className="group/summary flex cursor-pointer list-none items-center justify-between gap-8 py-8 md:py-10"
                 >
-                  <h3 className="font-header text-card-title font-medium text-balance">
-                    Financial support
+                  <h3 className="relative font-header text-card-title font-medium text-balance after:pointer-events-none after:absolute after:-bottom-2 after:left-0 after:h-px after:w-8 after:origin-left after:scale-x-0 after:bg-brand-red after:transition-transform after:duration-200 group-hover/summary:after:scale-x-100 group-focus-visible/summary:after:scale-x-100 motion-reduce:after:transition-none">
+                    Financial&nbsp;support
                   </h3>
                   <span
                     aria-hidden="true"
@@ -364,10 +367,10 @@ export default function About() {
               >
                 <summary
                   aria-label="Show organizations supported through volunteer involvement"
-                  className="flex cursor-pointer list-none items-center justify-between gap-8 py-8 md:py-10"
+                  className="group/summary flex cursor-pointer list-none items-center justify-between gap-8 py-8 md:py-10"
                 >
-                  <h3 className="font-header text-card-title font-medium text-balance">
-                    Volunteer involvement
+                  <h3 className="relative font-header text-card-title font-medium text-balance after:pointer-events-none after:absolute after:-bottom-2 after:left-0 after:h-px after:w-8 after:origin-left after:scale-x-0 after:bg-brand-red after:transition-transform after:duration-200 group-hover/summary:after:scale-x-100 group-focus-visible/summary:after:scale-x-100 motion-reduce:after:transition-none">
+                    Volunteer&nbsp;involvement
                   </h3>
                   <span
                     aria-hidden="true"
@@ -398,7 +401,7 @@ export default function About() {
           <div className="site-gutter flex flex-col items-start justify-between gap-10 py-20 md:flex-row md:items-end md:py-24">
             <div>
               <h2 className="max-w-4xl font-header text-section-title text-balance">
-                Bring your next challenge to a team built to solve it.
+                Bring your next challenge to a team built to solve&nbsp;it.
               </h2>
             </div>
             <Link href="/contact" className="action-button action-button--light shrink-0">

@@ -17,6 +17,7 @@ import FeaturedNews from "~/components/featured-news"
 import SolutionCardWatermark from "~/components/solution-card-watermark"
 import Link from "~/components/visibility-link"
 import { HARKCON_CAPABILITY_STATEMENT_URL } from "~/lib/documents"
+import { keepClosingWords } from "~/lib/typography"
 import { usePageVisibility } from "~/lib/use-page-visibility"
 
 const statement =
@@ -161,7 +162,7 @@ function CompactDropdownContent({
               <span className={dropdownItemTitleClassName}>
                 <Plus
                   aria-hidden="true"
-                  className="h-4 w-4 text-white/50 transition-transform duration-300 group-hover:rotate-90 group-focus-visible:rotate-90"
+                  className="h-4 w-4 text-white/50 transition-transform duration-300 group-hover:rotate-90 group-hover:text-brand-gold group-focus-visible:rotate-90 group-focus-visible:text-brand-gold"
                 />
                 {item.title}
               </span>
@@ -208,17 +209,17 @@ function SolutionsDropdownContent() {
       <div className="flex flex-col items-start border-r border-white/15 pr-16">
         <Link
           href="/solutions"
-          className="eyebrow animated-underline text-pretty text-white/75 normal-case"
+          className="eyebrow inline-flex items-center gap-3 whitespace-nowrap text-white/75 normal-case"
         >
-          Explore our solutions <Arrow diagonal />
+          Explore our solutions <Arrow diagonal className="shrink-0" />
         </Link>
         <p className="mt-7 max-w-md font-header text-xl leading-[1.25] tracking-[-0.02em] text-pretty text-white">
           Customized expertise that strengthens workforces, modernizes operations, and improves
-          mission performance at every level.
+          mission performance at every&nbsp;level.
         </p>
       </div>
       <div className="flex flex-col">
-        <p className="eyebrow text-pretty text-white/55 normal-case">Explore</p>
+        <p className="eyebrow text-pretty text-brand-gold normal-case">Explore</p>
         <div className="mt-5 grid gap-0">
           {solutionLinks.map((solution) => (
             <Link
@@ -228,7 +229,7 @@ function SolutionsDropdownContent() {
             >
               <Plus
                 aria-hidden="true"
-                className="h-4 w-4 text-white/50 transition-transform duration-300 group-hover:rotate-90 group-focus-visible:rotate-90"
+                className="h-4 w-4 text-white/50 transition-transform duration-300 group-hover:rotate-90 group-hover:text-brand-gold group-focus-visible:rotate-90 group-focus-visible:text-brand-gold"
               />
               {solution.title}
             </Link>
@@ -334,7 +335,7 @@ const wipeButtonDarkClassName = ""
 const wipeButtonLightClassName = "action-button--light"
 
 const navLinkClassName =
-  "relative py-2 text-action opacity-85 transition-opacity after:absolute after:right-0 after:bottom-1 after:left-0 after:h-px after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 hover:opacity-100 hover:after:scale-x-100 focus-visible:after:scale-x-100"
+  "relative py-2 text-action opacity-85 transition-opacity after:absolute after:right-0 after:bottom-1 after:left-0 after:h-px after:origin-left after:scale-x-0 after:bg-(--nav-accent) after:transition-transform after:duration-300 hover:opacity-100 hover:after:scale-x-100 focus-visible:after:scale-x-100"
 
 const mobileNavLinkClassName =
   "flex items-center justify-between border-b border-white/15 py-4 text-lg"
@@ -449,7 +450,7 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
 
   return (
     <header
-      className={`site-header fixed inset-x-0 top-0 z-30 ${surfaceClassName} ${headerVisible || expanded ? "" : "-translate-y-[105%]"}`}
+      className={`site-header fixed inset-x-0 top-0 z-30 ${darkSurface ? "[--nav-accent:var(--color-brand-gold)]" : "[--nav-accent:var(--color-brand-red)]"} ${surfaceClassName} ${headerVisible || expanded ? "" : "-translate-y-[105%]"}`}
     >
       <div className="site-gutter flex h-24 items-center justify-between">
         <Link href="/" aria-label="Harkcon home" className="block shrink-0">
@@ -720,7 +721,7 @@ function ClientMarquee() {
       <div className="site-gutter mb-10 flex items-center justify-center gap-6 md:mb-12">
         <span aria-hidden="true" className="h-0.5 w-12 bg-[#0d132d]/25 md:w-20" />
         <h2 className="text-center font-header text-[clamp(1.5rem,2.4vw,2.25rem)] leading-tight font-medium tracking-[-0.02em] text-balance text-[#0d132d]">
-          Organizations we have served
+          Organizations we have&nbsp;served
         </h2>
         <span aria-hidden="true" className="h-0.5 w-12 bg-[#0d132d]/25 md:w-20" />
       </div>
@@ -797,19 +798,19 @@ function Hero() {
       <div className="site-gutter relative z-10 flex h-full items-end pb-12 md:pb-16">
         <div className="max-w-5xl text-white">
           <p className="mb-5 font-eyebrow text-xs font-semibold tracking-[0.18em] text-pretty text-white/90 uppercase md:text-sm">
-            Master Performance
+            Master&nbsp;Performance
           </p>
           <h1
             id="hero-title"
             className="max-w-3xl font-header text-display font-medium text-balance"
           >
-            Better people.
+            Better&nbsp;people.
             <br />
-            Stronger missions.
+            Stronger&nbsp;missions.
           </h1>
           <div className="mt-7 flex items-center gap-4 pt-5 md:mt-9 md:pt-6" data-reveal-line>
             <p className="max-w-xl text-sm leading-relaxed text-pretty text-white/80 md:text-base">
-              Practical expertise for the organizations that serve us all.
+              Practical expertise for the organizations that serve us&nbsp;all.
             </p>
           </div>
         </div>
@@ -977,9 +978,9 @@ export function SiteFooter() {
           <div>
             <p className="mb-7 text-xs tracking-[0.17em] text-pretty text-white/45">Connect</p>
             <p className="text-lg leading-snug text-pretty text-white/85">
-              Have a complex mission?
+              Have a complex&nbsp;mission?
               <br />
-              Let&apos;s solve it together.
+              Let&apos;s solve it&nbsp;together.
             </p>
             <Link
               href="/contact"
@@ -1078,11 +1079,11 @@ export default function HomePage() {
                   id="solutions-title"
                   className="max-w-sm font-header text-section-title font-medium text-balance"
                 >
-                  Our Solutions
+                  Our&nbsp;Solutions
                 </h2>
                 <p className="mt-7 max-w-sm text-base leading-relaxed text-pretty text-[#5f626b]">
                   Workforce analysis, training, and program support that help agencies make sound
-                  decisions and improve performance.
+                  decisions and improve&nbsp;performance.
                 </p>
               </div>
 
@@ -1096,13 +1097,17 @@ export default function HomePage() {
                   >
                     <span className="absolute inset-0 origin-left scale-x-0 bg-[#0d132d] transition-transform duration-900 ease-[cubic-bezier(0.45,0,0.2,1)] will-change-transform group-hover:scale-x-100 group-focus-visible:scale-x-100" />
                     <SolutionCardWatermark />
+                    <span
+                      aria-hidden="true"
+                      className="pointer-events-none absolute top-5 right-5 z-10 h-1.5 w-1.5 rounded-full bg-brand-gold opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100 motion-reduce:transition-none"
+                    />
                     <div className="relative z-10 flex h-full flex-col">
-                      <h3 className="max-w-sm font-header text-card-title font-medium text-balance">
-                        {solution.title}
+                      <h3 className="max-w-sm pr-3 font-header text-card-title font-medium text-balance">
+                        {keepClosingWords(solution.title)}
                       </h3>
                       <div className="mt-auto flex items-end gap-5 pt-10">
                         <p className="max-w-[15rem] text-sm leading-relaxed text-pretty text-[#5f626b] transition-colors duration-700 group-hover:text-white/70">
-                          {solution.detail}
+                          {keepClosingWords(solution.detail)}
                         </p>
                         <span className="ml-auto flex h-14 w-14 shrink-0 items-center justify-center bg-[#f4f3f0] text-[#0d132d]">
                           <Arrow
@@ -1125,15 +1130,16 @@ export default function HomePage() {
         >
           <div className="site-gutter grid gap-12 md:grid-cols-2 md:gap-0">
             <div className="flex flex-col items-start md:pr-12 lg:pr-20">
+              <p className="eyebrow mb-5 text-brand-gold">Government contracting</p>
               <h2
                 id="home-contracts-title"
                 className="font-header text-section-title font-medium text-balance"
               >
-                Contract vehicles
+                Contract&nbsp;vehicles
               </h2>
               <p className="mt-5 max-w-lg text-base leading-relaxed text-pretty text-white/70">
                 Flexible federal acquisition paths to Harkcon&apos;s people, performance, and
-                technology expertise.
+                technology&nbsp;expertise.
               </p>
               {/* <Link href="/contracts"> */}
               <span className="text-link mt-8 text-white after:opacity-60" data-reveal-line>
@@ -1144,8 +1150,8 @@ export default function HomePage() {
             <div className="flex flex-col items-start border-t border-white/15 pt-12 md:border-t-0 md:border-l md:pt-0 md:pl-12 lg:pl-20">
               <h3 className="font-header text-section-title font-medium text-balance">OASIS+</h3>
               <p className="mt-5 max-w-lg text-base leading-relaxed text-pretty text-white/70">
-                Integrated professional services through Harkcon&apos;s Small Business and SDVOSB
-                vehicles.
+                Integrated professional services through Harkcon&apos;s Small Business and
+                SDVOSB&nbsp;vehicles.
               </p>
               {/* <Link href="/oasis-plus"> */}
               <span className="text-link mt-8 text-white after:opacity-60" data-reveal-line>
@@ -1155,24 +1161,27 @@ export default function HomePage() {
             </div>
           </div>
           <div className="site-gutter">
-            <div className="mt-16 flex flex-col items-start justify-between gap-8 border-t border-white/15 pt-12 md:mt-20 md:flex-row md:items-center md:pt-14">
+            <a
+              href={HARKCON_CAPABILITY_STATEMENT_URL}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Download Harkcon capability statement PDF (opens in a new tab)"
+              className="group mt-16 flex w-full flex-col items-start justify-between gap-8 border-t border-white/15 pt-12 focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-white md:mt-20 md:flex-row md:items-center md:pt-14"
+            >
               <div>
-                <h3 className="font-header text-card-title font-medium text-balance">
-                  Capability statement
+                <h3 className="relative font-header text-card-title font-medium text-balance">
+                  Capability&nbsp;statement
                 </h3>
                 <p className="mt-3 max-w-lg text-base leading-relaxed text-pretty text-white/70">
-                  Company capabilities, qualifications, and contracting information.
+                  Company capabilities, qualifications, and contracting&nbsp;information.
                 </p>
               </div>
-              <a
-                href={HARKCON_CAPABILITY_STATEMENT_URL}
-                target="_blank"
-                rel="noreferrer"
-                className={`${wipeButtonClassName} shrink-0 ${wipeButtonLightClassName}`}
+              <span
+                className={`${wipeButtonClassName} shrink-0 ${wipeButtonLightClassName} group-hover:text-white group-focus-visible:text-white group-hover:before:origin-left group-hover:before:scale-x-100 group-focus-visible:before:origin-left group-focus-visible:before:scale-x-100 group-hover:after:opacity-100 group-focus-visible:after:opacity-100`}
               >
                 Download PDF <DownloadSimple aria-hidden="true" className="h-5 w-5" />
-              </a>
-            </div>
+              </span>
+            </a>
           </div>
         </section>
 
@@ -1185,7 +1194,7 @@ export default function HomePage() {
               id="about-title"
               className="max-w-xl font-header text-section-title font-medium text-balance"
             >
-              A culture of mastery and action.
+              A culture of mastery and&nbsp;action.
             </h2>
             <p className="mt-8 max-w-xl text-body-copy text-pretty text-[#5f626b]">
               Harkcon is a service-disabled veteran-owned small business that helps government
@@ -1194,14 +1203,14 @@ export default function HomePage() {
               Department of Homeland Security, Department of Energy, Federal Bureau of
               Investigation, and Department of War with expertise in human capital, workforce and
               organizational analysis, training and performance improvement, emergency management,
-              program and project management, and data-driven decision support.
+              program and project management, and data-driven decision&nbsp;support.
             </p>
             <p className="mt-5 max-w-xl text-body-copy text-pretty text-[#5f626b]">
               Headquartered in Fredericksburg, Virginia, Harkcon brings together experienced
               professionals who understand both the mission and the people responsible for
               delivering it. Our approach is practical, responsive, and grounded in a simple
               objective: understand the problem, build the right solution, and help our clients
-              perform better.
+              perform&nbsp;better.
             </p>
             {/* <Link href="/about"> */}
             <span className={`${wipeButtonClassName} mt-10 ${wipeButtonDarkClassName}`}>
@@ -1248,7 +1257,7 @@ export default function HomePage() {
           <div className="site-gutter flex flex-col items-start justify-between gap-10 py-20 md:flex-row md:items-end md:py-24">
             <div>
               <h2 className="max-w-3xl font-header text-section-title font-medium text-balance text-[#0d132d]">
-                Put our experience to work for your mission.
+                Put our experience to work for your&nbsp;mission.
               </h2>
             </div>
             <Link

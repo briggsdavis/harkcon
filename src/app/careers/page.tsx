@@ -2,7 +2,9 @@ import { Metadata } from "next"
 import CareersOpenings from "~/components/careers-openings"
 import FaqList from "~/components/faq-list"
 import HeroParallaxImage from "~/components/hero-parallax-image"
-import { Header, SiteFooter } from "~/components/home-page"
+import { Arrow, Header, SiteFooter } from "~/components/home-page"
+import SectionWatermark from "~/components/section-watermark"
+import { talentCommunityUrl } from "~/lib/careers"
 
 export const metadata: Metadata = {
   title: "Careers",
@@ -73,14 +75,14 @@ export default function Careers() {
                 id="careers-title"
                 className="max-w-3xl font-header text-display font-medium text-balance"
               >
-                Do work that matters.
+                Do work that&nbsp;matters.
               </h1>
               <div
                 className="mt-8 flex items-center border-t border-white/35 pt-6 md:mt-10"
                 data-reveal-line
               >
                 <p className="max-w-xl text-sm leading-relaxed text-pretty text-white/80 md:text-base">
-                  Bring your experience, ideas, and ambition to the mission.
+                  Bring your experience, ideas, and ambition to the&nbsp;mission.
                 </p>
               </div>
             </div>
@@ -94,17 +96,17 @@ export default function Careers() {
                 <span className="font-eyebrow text-eyebrow-label tracking-[0.15em] text-[#8b8e96]">
                   01
                 </span>
-                <p className="eyebrow text-pretty">Join our team</p>
+                <p className="eyebrow text-pretty">Join our&nbsp;team</p>
               </div>
               <div>
                 <h2 id="join-title" className={headingClassName}>
-                  Build your career with people who value people.
+                  Build your career with people who value&nbsp;people.
                 </h2>
                 <p className="mt-8 max-w-[850px] text-body-copy text-pretty text-[#0d132d]">
                   We look for experienced professionals who ask good questions, take responsibility,
                   and care about the quality of their work. Harkcon is built on a straightforward
-                  belief: when businesses take care of their people, their people take care of the
-                  business.
+                  belief: when businesses take care of their people, their people take care of
+                  the&nbsp;business.
                 </p>
               </div>
             </div>
@@ -113,15 +115,24 @@ export default function Careers() {
 
         <section className="bg-white pb-24 md:pb-32" aria-labelledby="positions-title">
           <div className="site-gutter">
-            <div className="mb-12 flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
+            <div className="mb-12 flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
               <div>
                 <h2
                   id="positions-title"
                   className="font-header text-section-title font-medium text-balance"
                 >
-                  Available Positions
+                  Available&nbsp;Positions
                 </h2>
               </div>
+              <a
+                href={talentCommunityUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="action-button shrink-0"
+              >
+                Join Our Talent Community <Arrow />
+                <span className="sr-only">(opens in a new tab)</span>
+              </a>
             </div>
             <CareersOpenings />
           </div>
@@ -130,9 +141,9 @@ export default function Careers() {
         <section className="py-24 md:py-32 lg:py-40" aria-labelledby="equal-opportunity-title">
           <div className="site-gutter grid gap-12 lg:grid-cols-[minmax(190px,0.55fr)_minmax(0,1.7fr)] lg:gap-16 xl:gap-28">
             <div>
-              <p className="eyebrow mb-8">Equal employment opportunity</p>
+              <p className="eyebrow mb-8">Equal employment&nbsp;opportunity</p>
               <h2 id="equal-opportunity-title" className={headingClassName}>
-                Everyone should be treated fairly.
+                Everyone should be treated&nbsp;fairly.
               </h2>
             </div>
             <div className="max-w-[850px] space-y-7 text-body-copy text-[#454955]">
@@ -142,7 +153,7 @@ export default function Careers() {
                 promotion, transfers, benefits, compensation, placement, and termination, are made
                 without regard to race, color, religion, sex, sexual orientation, gender identity,
                 national origin, age, disability, marital status, veteran status, or any other
-                factor protected by federal, state, or local law.
+                factor protected by federal, state, or local&nbsp;law.
               </p>
               <p>
                 Harkcon is committed to complying with the Americans with Disabilities Act.
@@ -161,19 +172,21 @@ export default function Careers() {
         </section>
 
         <section
-          className="bg-[#0d132d] py-24 text-white md:py-32 lg:py-40"
+          className="relative isolate bg-[#0d132d] py-24 text-white md:py-32 lg:py-40"
           aria-labelledby="careers-faq-title"
         >
-          <div className="site-gutter grid gap-14 lg:grid-cols-[minmax(250px,0.65fr)_minmax(0,1.35fr)] lg:gap-20 xl:gap-28">
+          <SectionWatermark />
+          <div className="site-gutter relative grid gap-14 lg:grid-cols-[minmax(250px,0.65fr)_minmax(0,1.35fr)] lg:gap-20 xl:gap-28">
             <div className="self-start lg:sticky lg:top-36">
+              <p className="eyebrow mb-5 text-brand-gold">Career FAQs</p>
               <h2
                 id="careers-faq-title"
                 className="max-w-xl font-header text-section-title text-balance"
               >
-                What to know before you apply.
+                What to know before you&nbsp;apply.
               </h2>
               <p className="mt-7 max-w-md text-body-copy text-pretty text-white/62">
-                Answers about Harkcon, our growth, and what a career here can offer.
+                Answers about Harkcon, our growth, and what a career here can&nbsp;offer.
               </p>
             </div>
             <FaqList faqs={careerFaqs} dark />

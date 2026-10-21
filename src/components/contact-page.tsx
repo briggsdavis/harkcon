@@ -21,9 +21,9 @@ const contactFaqs = [
       "We welcome questions about consulting services, training, business and partnership opportunities, and general information about Harkcon.",
   },
   {
-    question: "How soon will I hear from the Harkcon team?",
+    question: "Who can help with a partnership inquiry?",
     answer:
-      "We review every inquiry and route it to the right team member. Response times vary by request, but we will follow up as soon as possible.",
+      "Contact Paula Harkins at pharkins@harkcon.com or 540-783-8271 to discuss business development and partnership opportunities.",
   },
   {
     question: "Where is Harkcon headquartered?",
@@ -33,7 +33,7 @@ const contactFaqs = [
   {
     question: "Can I contact Harkcon about employment opportunities?",
     answer:
-      "Yes. For current openings and detailed career information, visit our Careers page. Questions that are not related to a specific opening may also be submitted here.",
+      "For current openings, role requirements, and application instructions, visit our Careers page.",
   },
   {
     question: "How can I reach Harkcon by phone?",
@@ -45,7 +45,8 @@ const fieldLabelClassName =
   "font-eyebrow text-eyebrow-label font-semibold tracking-[0.12em] text-[#5f626b] uppercase"
 const fieldInputClassName =
   "w-full resize-none bg-transparent font-body text-lg text-[#0d132d] outline-none"
-const contactLinkClassName = "w-fit transition-opacity hover:opacity-55"
+const contactLinkClassName =
+  "relative w-fit after:pointer-events-none after:absolute after:-bottom-1 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-brand-red after:transition-transform after:duration-200 hover:after:scale-x-100 focus-visible:after:scale-x-100 motion-reduce:after:transition-none"
 const bdLinkClassName = `${contactLinkClassName} border-b border-[#0d132d]/25 text-[#0d132d]`
 
 export default function ContactPage() {
@@ -99,10 +100,10 @@ export default function ContactPage() {
                 id="contact-title"
                 className="max-w-lg font-header text-display font-medium text-balance"
               >
-                Tell us what your organization needs.
+                Let’s&nbsp;talk.
               </h1>
               <div className="mt-14 pt-8" data-reveal-line>
-                <p className="eyebrow text-pretty">Main Office</p>
+                <p className="eyebrow text-pretty">Main&nbsp;Office</p>
                 <address className="mt-6 text-lg leading-relaxed text-[#333744] not-italic">
                   <strong className="font-normal text-[#0d132d]">Harkcon, Inc.</strong>
                   <br />
@@ -120,10 +121,10 @@ export default function ContactPage() {
                 </div>
               </div>
               <div className="mt-10 pt-8" data-reveal-line>
-                <p className="eyebrow text-pretty text-[#5f626b]">Contracts &amp; OASIS+</p>
+                <p className="eyebrow text-pretty text-[#5f626b]">Contracts &amp;&nbsp;OASIS+</p>
                 <p className="mt-5 text-sm leading-relaxed text-pretty text-[#5f626b]">
                   For contract-vehicle selection, OASIS+ scope questions, acquisition planning, or
-                  teaming opportunities:
+                  teaming&nbsp;opportunities:
                 </p>
                 <address className="mt-6 grid gap-1 text-sm not-italic">
                   <strong className="font-header text-lg font-medium text-[#0d132d]">
@@ -278,11 +279,11 @@ export default function ContactPage() {
                 id="contact-faq-title"
                 className="max-w-xl font-header text-section-title text-balance"
               >
-                Before you get in touch.
+                Before you get in&nbsp;touch.
               </h2>
               <p className="mt-7 max-w-md text-body-copy text-pretty text-[#5f626b]">
-                Find our office details, the right contact for your request, and answers to common
-                questions.
+                Find our office details, the right contact for your request, and answers to
+                common&nbsp;questions.
               </p>
             </div>
             <FaqList faqs={contactFaqs} />

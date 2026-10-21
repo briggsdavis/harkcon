@@ -3,7 +3,7 @@
 import { useQuery } from "convex/react"
 import Link from "next/link"
 import ArticlePage from "~/components/article-page"
-import { newsArticles, type NewsArticle } from "~/lib/news"
+import { publicArticles, newsArticles, type NewsArticle } from "~/lib/news"
 import { api } from "../../convex/_generated/api"
 
 const loadingClassName =
@@ -14,8 +14,11 @@ export default function ArticleLoader({ slug }: { slug: string }) {
   const storedArticles = useQuery(api.content.listPublicArticles)
   const fallbackIndex = newsArticles.findIndex((item) => item.slug === slug)
   const fallback = fallbackIndex >= 0 ? newsArticles[fallbackIndex] : null
-  const article = (storedArticle ?? fallback) as NewsArticle | null
-  const all = (storedArticles?.length ? storedArticles : newsArticles) as NewsArticle[]
+  const article = ((storedArticle && publicArticles([storedArticle])[0]) ||
+    fallback) as NewsArticle | null
+  const all = publicArticles(
+    storedArticles?.length ? storedArticles : newsArticles,
+  ) as NewsArticle[]
 
   if (storedArticle === undefined && !fallback) {
     return <div className={loadingClassName}>Loading article…</div>
@@ -23,7 +26,7 @@ export default function ArticleLoader({ slug }: { slug: string }) {
   if (!article) {
     return (
       <div className={loadingClassName}>
-        <h1 className="text-[40px] text-balance">Article not found</h1>
+        <h1 className="text-[40px] text-balance">Article not&nbsp;found</h1>
         <Link href="/news-insights">Return to News &amp; Insights</Link>
       </div>
     )

@@ -6,6 +6,7 @@ import { MouseEvent, ReactNode, useCallback, useEffect, useRef, useState } from 
 import DocumentDownload from "~/components/document-download"
 import HeroParallaxImage from "~/components/hero-parallax-image"
 import { Arrow, Header, SiteFooter } from "~/components/home-page"
+import SectionWatermark from "~/components/section-watermark"
 import {
   contractGroups,
   contractImages,
@@ -15,6 +16,7 @@ import {
   type ContractRecord,
 } from "~/lib/contract-content"
 import { HARKCON_CAPABILITY_STATEMENT_URL, OASIS_SOLICITATION_URL } from "~/lib/documents"
+import { keepClosingWords } from "~/lib/typography"
 
 type ContractView = "contracts" | "oasis"
 
@@ -64,7 +66,7 @@ function NumberedList({ items, navy = false }: { items: readonly string[]; navy?
     <ol className={`border-b ${navy ? "border-white/20" : "border-[#0d132d]/20"}`}>
       {items.map((item, index) => (
         <li
-          key={item}
+          key={keepClosingWords(item)}
           className="group grid grid-cols-[42px_1fr] gap-4 py-7 md:grid-cols-[56px_1fr] md:gap-6 md:py-8"
           data-reveal-line
         >
@@ -74,7 +76,7 @@ function NumberedList({ items, navy = false }: { items: readonly string[]; navy?
             {String(index + 1).padStart(2, "0")}
           </span>
           <p className="font-header text-card-title text-pretty transition-transform duration-500 group-hover:translate-x-[9px]">
-            {item}
+            {keepClosingWords(item)}
           </p>
         </li>
       ))}
@@ -258,7 +260,7 @@ function ContractListing({
               id={`${id}-title`}
               className="font-header text-section-title font-medium text-balance"
             >
-              {title}
+              {keepClosingWords(title)}
             </h3>
             <ContractDescription text={description} />
           </>
@@ -283,7 +285,7 @@ function ContractListing({
             ))}
           </dl>
           <h4 className="mt-9 font-eyebrow text-xs font-semibold tracking-[0.12em] uppercase">
-            Services provided
+            Services&nbsp;provided
           </h4>
           <ul className="mt-4 divide-y divide-[#0d132d]/10">
             {capabilities.map((item) => (
@@ -367,7 +369,9 @@ function SectionLinks({
           onClick={scrollToProject}
           className={`group flex min-h-14 items-center gap-3 border-t py-4 text-sm leading-snug focus-visible:outline-2 focus-visible:outline-offset-4 ${dark ? "border-white/25 focus-visible:outline-white" : "border-[#0d132d]/20 focus-visible:outline-[#0d132d]"}`}
         >
-          <span className={`font-eyebrow text-[10px] ${dark ? "text-white/40" : "text-[#8b8e96]"}`}>
+          <span
+            className={`font-eyebrow text-[10px] transition-colors duration-200 ${dark ? "text-white/40 group-hover:text-brand-gold group-focus-visible:text-brand-gold" : "text-[#8b8e96] group-hover:text-brand-red group-focus-visible:text-brand-red"}`}
+          >
             {String(index + 1).padStart(2, "0")}
           </span>
           <span className="text-pretty transition-transform duration-500 ease-out group-hover:translate-x-1.5 group-focus-visible:translate-x-1.5">
@@ -399,7 +403,7 @@ function ContractGroupHeading({ title, description }: { title: string; descripti
                   : "Contract vehicles"}
           </p>
           <h2 className="mt-4 max-w-xl font-header text-[clamp(2.25rem,3.2vw,3.25rem)] leading-tight font-medium text-balance">
-            {title}
+            {keepClosingWords(title)}
           </h2>
         </div>
         <div>
@@ -452,7 +456,7 @@ function ContractsContent() {
                   id="contracts-designation-title"
                   className="font-header text-section-title font-medium text-balance"
                 >
-                  Service-Disabled Veteran-Owned Small Business
+                  Service-Disabled Veteran-Owned Small&nbsp;Business
                 </h3>
                 <ContractDescription text="Harkcon is a VA-certified Service-Disabled Veteran-Owned Small Business. Our professional, technical, administrative, and training classifications help federal customers identify the services that fit their acquisition requirements." />
               </>
@@ -466,7 +470,7 @@ function ContractsContent() {
                 <dd className="mt-2 text-sm">T3GVAM6E2XD9</dd>
               </dl>
               <h4 className="mt-9 font-eyebrow text-xs font-semibold tracking-[0.12em] uppercase">
-                NAICS codes
+                NAICS&nbsp;codes
               </h4>
               <ul
                 id="contracts-naics-list"
@@ -478,7 +482,9 @@ function ContractsContent() {
                     <span className="font-eyebrow text-xs font-semibold tracking-[0.05em]">
                       {code}
                     </span>
-                    <p className="text-sm leading-relaxed text-pretty text-[#454955]">{title}</p>
+                    <p className="text-sm leading-relaxed text-pretty text-[#454955]">
+                      {keepClosingWords(title)}
+                    </p>
                   </li>
                 ))}
               </ul>
@@ -494,14 +500,16 @@ function ContractsContent() {
 function OasisContent() {
   return (
     <>
-      <section id="oasis-scope" className={contractSectionClassName("navy")}>
-        <div className={`site-gutter ${contractColumnsClassName}`}>
+      <section id="oasis-scope" className={`relative isolate ${contractSectionClassName("navy")}`}>
+        <SectionWatermark />
+        <div className={`site-gutter relative ${contractColumnsClassName}`}>
           <div className="self-start lg:sticky lg:top-36">
-            <h2 className={contractHeadingClassName}>Aligned to the requirement.</h2>
+            <p className="eyebrow mb-5 text-brand-gold">Scope &amp; access</p>
+            <h2 className={contractHeadingClassName}>Aligned to the&nbsp;requirement.</h2>
             <p className="mt-8 max-w-xl text-body-copy text-pretty text-white/65">
               Harkcon’s vehicles provide access to professional services aligned with the GSA OASIS+
               program structure. We support requirements consistent with our awarded contract
-              domains, scope, and ordering procedures.
+              domains, scope, and ordering&nbsp;procedures.
             </p>
             <div className="mt-12 grid items-start gap-5">
               <Link href="/contact" className="text-link w-fit text-white" data-reveal-line>
@@ -521,13 +529,13 @@ function OasisContent() {
           className={`mx-auto w-full max-w-[1600px] px-5 sm:px-8 lg:px-12 xl:px-16 ${contractTwoColumnClassName}`}
         >
           <div>
-            <h2 className={contractHeadingClassName}>Official sources. Current information.</h2>
+            <h2 className={contractHeadingClassName}>Verify our&nbsp;contracts.</h2>
           </div>
           <div className="text-body-copy text-[#454955]">
             <p>
               Federal customers and teaming partners can verify Harkcon’s GSA contract information
               through official government sources. For current task-order availability, scope fit,
-              teaming discussions, or customer-specific questions, contact Harkcon directly.
+              teaming discussions, or customer-specific questions, contact Harkcon&nbsp;directly.
             </p>
             <div className="mt-10 grid border-b border-[#0d132d]/20">
               {publicLinks.map(([href, label]) => (
@@ -538,7 +546,7 @@ function OasisContent() {
                   rel="noreferrer"
                   className="group flex items-center justify-between gap-5 border-b border-[#0d132d]/35 py-6 font-header text-card-title text-[#0d132d]"
                 >
-                  <span className="transition-transform duration-500 group-hover:translate-x-1.5">
+                  <span className="relative transition-transform duration-500 group-hover:translate-x-1.5 after:pointer-events-none after:absolute after:-bottom-2 after:left-0 after:h-px after:w-8 after:origin-left after:scale-x-0 after:bg-brand-red after:transition-transform after:duration-200 group-hover:after:scale-x-100 group-focus-visible:after:scale-x-100 motion-reduce:after:transition-none">
                     {label}
                   </span>
                   <Arrow
@@ -587,7 +595,7 @@ function ContractCta({ id }: { id: string }) {
       <div className="mx-auto flex w-full max-w-[1600px] flex-col items-start justify-between gap-10 px-5 py-20 sm:px-8 md:flex-row md:items-end md:py-24 lg:px-12 xl:px-16">
         <div>
           <h2 className={contractHeadingClassName}>
-            Let’s find the clearest path to your next mission outcome.
+            Let’s find the clearest path to your next mission&nbsp;outcome.
           </h2>
         </div>
         <Link href="/contact" className="action-button action-button--light shrink-0">
@@ -711,10 +719,10 @@ export default function ContractsPage({ view = "contracts" }: { view?: ContractV
                   id="contracts-hero-title"
                   className="max-w-5xl font-header text-display font-medium text-balance"
                 >
-                  {content.title}
+                  {keepClosingWords(content.title)}
                 </h1>
                 <p className="mt-8 max-w-3xl text-body-copy text-pretty text-[#5f626b]">
-                  {content.summary}
+                  {keepClosingWords(content.summary)}
                 </p>
                 {view === "contracts" ? (
                   <div className="mt-9 max-w-3xl border-t border-[#0d132d]/15 pt-8">
@@ -722,14 +730,14 @@ export default function ContractsPage({ view = "contracts" }: { view?: ContractV
                       Harkcon provides workforce analysis, training, and program support to
                       government and commercial clients. Since 2005, our teams have helped agencies
                       assess requirements, develop their people, and manage complex programs through
-                      established contract vehicles.
+                      established contract&nbsp;vehicles.
                     </p>
                     <p className="mt-6 text-body-copy text-pretty text-[#454955]">
                       Need help choosing a vehicle? Contact Paula Harkins at{" "}
                       <a href="mailto:pharkins@harkcon.com" className={contractInlineLinkClassName}>
                         pharkins@harkcon.com
                       </a>{" "}
-                      or{" "}
+                      or{"\u00a0"}
                       <a href="tel:+15407838271" className={contractInlineLinkClassName}>
                         540-783-8271
                       </a>
@@ -743,7 +751,7 @@ export default function ContractsPage({ view = "contracts" }: { view?: ContractV
                       governmentwide, multi-agency contract program for complex professional
                       services. It gives federal agencies flexible access to Harkcon&apos;s program
                       management, workforce development, training, process improvement, and
-                      organizational performance support.
+                      organizational performance&nbsp;support.
                     </p>
                     <OasisContactCard className="mt-10" label="OASIS+ point of contact" />
                   </div>

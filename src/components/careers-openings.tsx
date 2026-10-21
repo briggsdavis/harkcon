@@ -2,7 +2,8 @@
 
 import { useCallback, useEffect, useState } from "react"
 import { Arrow } from "~/components/home-page"
-import { careersPortalUrl, talentCommunityUrl, type CareerOpening } from "~/lib/careers"
+import { careersPortalUrl, type CareerOpening } from "~/lib/careers"
+import { keepClosingWords } from "~/lib/typography"
 
 type Result =
   | { status: "loading" }
@@ -40,7 +41,7 @@ export default function CareersOpenings() {
       <div aria-live="polite" aria-busy={result.status === "loading"}>
         {result.status === "loading" && (
           <div className="border-y border-[#0d132d]/20 py-10">
-            <p className="text-sm text-[#5f626b]">Loading current openings…</p>
+            <p className="text-sm text-[#5f626b]">Loading current&nbsp;openings…</p>
             <div aria-hidden="true" className="mt-7 space-y-6 motion-safe:animate-pulse">
               <div className="h-5 w-2/3 bg-[#f4f3f0]" />
               <div className="h-5 w-1/2 bg-[#f4f3f0]" />
@@ -50,7 +51,7 @@ export default function CareersOpenings() {
         )}
         {result.status === "error" && (
           <div className="border-y border-[#0d132d]/20 py-10">
-            <p className="text-body-copy">We couldn’t load the current openings.</p>
+            <p className="text-body-copy">We couldn’t load the current&nbsp;openings.</p>
             <div className="mt-6 flex flex-wrap items-center gap-6">
               <button type="button" onClick={retry} className="action-button">
                 Try again <Arrow />
@@ -78,8 +79,8 @@ export default function CareersOpenings() {
                     className="group flex items-center justify-between gap-6 py-7 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#0d132d] md:py-9"
                   >
                     <div className="transition-transform duration-500 ease-out group-hover:translate-x-1 group-focus-visible:translate-x-1 motion-reduce:transition-none">
-                      <h3 className="font-header text-card-title font-medium text-balance">
-                        {opening.title}
+                      <h3 className="relative font-header text-card-title font-medium text-balance after:pointer-events-none after:absolute after:-bottom-2 after:left-0 after:h-px after:w-8 after:origin-left after:scale-x-0 after:bg-brand-red after:transition-transform after:duration-200 group-hover:after:scale-x-100 group-focus-visible:after:scale-x-100 motion-reduce:after:transition-none">
+                        {keepClosingWords(opening.title)}
                       </h3>
                       <p className="mt-3 text-sm text-[#5f626b]">
                         {[opening.location, opening.employmentType].filter(Boolean).join(" · ")}
@@ -98,19 +99,10 @@ export default function CareersOpenings() {
             </ul>
           ) : (
             <p className="border-y border-[#0d132d]/20 py-10 text-body-copy">
-              There are no current openings. Join our talent community to stay connected.
+              There are no current openings. Join our talent community to stay&nbsp;connected.
             </p>
           ))}
       </div>
-      <a
-        href={talentCommunityUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="action-button mt-10"
-      >
-        Join Our Talent Community <Arrow />
-        <span className="sr-only">(opens in a new tab)</span>
-      </a>
     </div>
   )
 }

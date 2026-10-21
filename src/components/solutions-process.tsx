@@ -1,81 +1,73 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import { keepClosingWords } from "~/lib/typography"
 
 const processSteps = [
   {
-    title: "Define the challenge.",
-    outcome: "A shared definition of success.",
-    detail: "Build a clear picture of your mission before deciding what needs to change.",
+    title: "Understand the workforce.",
+    outcome: "Workforce plans grounded in mission needs.",
+    detail: "Assess roles, staffing, and organizational requirements with evidence.",
     tasks: [
       [
-        "01 / Listen",
-        "Meet leaders, practitioners, and end users. Capture operational priorities and the constraints your team works within.",
+        "01 / Analyze",
+        "Model workforce requirements and assess staffing needs against operational demands.",
       ],
+      ["02 / Align", "Develop competencies and align roles with the work people need to perform."],
       [
-        "02 / Examine",
-        "Review workforce data, existing processes, and performance measures. Identify where evidence is missing.",
-      ],
-      [
-        "03 / Align",
-        "Agree on the problem, scope, and outcomes. Establish a baseline against which progress can be measured.",
+        "03 / Evaluate",
+        "Use job task analysis and credentialing reviews to identify performance needs.",
       ],
     ],
   },
   {
-    title: "Shape the solution.",
-    outcome: "An actionable plan, built together.",
-    detail: "Translate findings into a practical approach that fits the people doing the work.",
+    title: "Develop practical training.",
+    outcome: "Skills aligned with operational tasks.",
+    detail: "Design training and Human Systems Integration support around the work.",
+    tasks: [
+      ["01 / Design", "Develop training strategies, curricula, and instructional systems."],
+      [
+        "02 / Support",
+        "Provide Human Systems Integration support through major acquisition lifecycles.",
+      ],
+      ["03 / Deliver", "Develop and deliver training for domestic and international audiences."],
+    ],
+  },
+  {
+    title: "Improve how work gets done.",
+    outcome: "Processes that support the mission.",
+    detail: "Connect process analysis, policy, and program support to organizational needs.",
     tasks: [
       [
-        "01 / Map",
-        "Connect performance gaps to their causes across roles, processes, training, and supporting systems.",
+        "01 / Review",
+        "Analyze business processes and identify opportunities to improve performance.",
       ],
       [
-        "02 / Prioritize",
-        "Compare options by impact, feasibility, and mission risk. Focus effort where it can make the greatest difference.",
+        "02 / Refine",
+        "Reengineer workflows and modernize policies to support operational requirements.",
       ],
       [
-        "03 / Plan",
-        "Define workstreams, responsibilities, milestones, and measures. Validate the approach with the people who will use it.",
+        "03 / Coordinate",
+        "Provide strategic planning, acquisition support, and program management.",
       ],
     ],
   },
   {
-    title: "Build capability.",
-    outcome: "A solution ready for everyday use.",
-    detail: "Work alongside your team to test the approach and put improvement into practice.",
+    title: "Strengthen mission readiness.",
+    outcome: "Support for essential operations.",
+    detail: "Help agencies prepare for disruptions and maintain continuity programs.",
     tasks: [
       [
-        "01 / Develop",
-        "Create the tools, workflows, guidance, or learning resources needed to support the agreed approach.",
+        "01 / Prepare",
+        "Develop and maintain continuity, devolution, and emergency preparedness programs.",
       ],
       [
-        "02 / Pilot",
-        "Test with representative users and realistic tasks. Gather feedback and refine before a broader rollout.",
+        "02 / Exercise",
+        "Support tabletop, functional, and full-scale exercises under HSEEP guidance.",
       ],
       [
-        "03 / Implement",
-        "Introduce changes in manageable stages. Support managers and practitioners as new ways of working take hold.",
-      ],
-    ],
-  },
-  {
-    title: "Make progress last.",
-    outcome: "Evidence of progress. A path forward.",
-    detail: "Measure what changed, transfer knowledge, and keep strengthening performance.",
-    tasks: [
-      [
-        "01 / Evaluate",
-        "Compare results with the baseline. Review both measurable outcomes and the experience of the people doing the work.",
-      ],
-      [
-        "02 / Transfer",
-        "Hand over resources, document decisions, and build internal ownership so the organization can sustain the work.",
-      ],
-      [
-        "03 / Refine",
-        "Use lessons learned to adjust the approach. Identify the next improvement and agree on a practical path forward.",
+        "03 / Improve",
+        "Develop after-action reports, corrective action programs, and lessons learned analysis.",
       ],
     ],
   },
@@ -98,7 +90,7 @@ const milestones = steps.flatMap((step, stepIndex) => [
   {
     title: step.title,
     description: step.detail,
-    label: `STEP 0${stepIndex + 1}`,
+    label: `AREA 0${stepIndex + 1}`,
     stepIndex,
     checkpoint: true,
   },
@@ -163,10 +155,10 @@ export default function SolutionsProcess() {
       <div className="hidden overflow-hidden lg:motion-safe:sticky lg:motion-safe:top-0 lg:motion-safe:flex lg:motion-safe:h-svh lg:motion-safe:min-h-[600px] lg:motion-safe:flex-col">
         <div className="site-gutter flex items-center justify-between pt-32">
           <h2 id="solutions-process-title" className="eyebrow">
-            Our process
+            Our&nbsp;capabilities
           </h2>
           <p className="font-eyebrow text-xs tracking-widest text-[#6b6e78]">
-            0{milestones[active].stepIndex + 1} / 04
+            0{milestones[active].stepIndex + 1} /&nbsp;04
           </p>
         </div>
         <div className="relative mx-auto flex w-full max-w-4xl flex-1 items-center justify-center overflow-hidden px-12 text-center">
@@ -177,13 +169,13 @@ export default function SolutionsProcess() {
               className={`absolute inset-x-0 px-12 transition-transform duration-[1100ms] ease-[cubic-bezier(0.45,0,0.2,1)] ${active === index ? "translate-x-0" : index < active ? "-translate-x-full" : "translate-x-full"}`}
             >
               <p className="mb-7 font-eyebrow text-xs tracking-[0.18em] text-[#777b85] uppercase">
-                {milestone.label}
+                {keepClosingWords(milestone.label)}
               </p>
               <h3 className="font-header text-section-title font-medium text-balance">
-                {milestone.title}
+                {keepClosingWords(milestone.title)}
               </h3>
               <p className="mx-auto mt-7 max-w-xl text-base leading-relaxed text-pretty text-[#5f626b]">
-                {milestone.description}
+                {keepClosingWords(milestone.description)}
               </p>
             </div>
           ))}
@@ -229,21 +221,25 @@ export default function SolutionsProcess() {
           />
         </div>
         <p className="pb-8 text-center font-eyebrow text-[10px] tracking-[0.18em] text-[#8b8e96] uppercase">
-          Scroll to follow the process
+          Scroll to follow the&nbsp;process
         </p>
       </div>
       <div className="site-gutter py-24 lg:motion-safe:hidden">
-        <p className="eyebrow mb-10">Our process</p>
+        <p className="eyebrow mb-10">Our&nbsp;capabilities</p>
         <h2 className="mb-14 font-header text-section-title font-medium">
-          From insight to lasting impact.
+          From insight to lasting&nbsp;impact.
         </h2>
         <ol className="ml-2 border-l border-[#0d132d]/20">
           {steps.map((step, index) => (
             <li key={step.title} className="relative pb-16 pl-8 last:pb-0">
               <span aria-hidden="true" className="absolute top-1 -left-2 h-4 w-4 bg-[#0d132d]" />
               <p className="eyebrow mb-5 text-[#777b85]">Step 0{index + 1}</p>
-              <h3 className="font-header text-card-title font-medium">{step.title}</h3>
-              <p className="mt-4 text-sm leading-relaxed text-[#5f626b]">{step.detail}</p>
+              <h3 className="font-header text-card-title font-medium">
+                {keepClosingWords(step.title)}
+              </h3>
+              <p className="mt-4 text-sm leading-relaxed text-[#5f626b]">
+                {keepClosingWords(step.detail)}
+              </p>
               <ol className="mt-8 space-y-8">
                 {step.tasks.map(([title, detail]) => (
                   <li key={title} className="relative">
@@ -252,7 +248,9 @@ export default function SolutionsProcess() {
                       className="absolute top-2 -left-[35px] h-1.5 w-1.5 rounded-full bg-[#8b8e96]"
                     />
                     <h4 className="text-sm font-semibold">{title.split(" / ")[1]}</h4>
-                    <p className="mt-2 text-sm leading-relaxed text-[#5f626b]">{detail}</p>
+                    <p className="mt-2 text-sm leading-relaxed text-[#5f626b]">
+                      {keepClosingWords(detail)}
+                    </p>
                   </li>
                 ))}
               </ol>

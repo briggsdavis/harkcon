@@ -50,83 +50,29 @@ export const newsArticles: NewsArticle[] = [
       "We are proud of the people behind this honor and grateful to the clients and partners who continue to place their trust in our team.",
     ],
   },
-  {
-    slug: "building-workforce-readiness",
-    title: "Building workforce readiness for missions in motion",
-    date: "2025-08-14",
-    displayDate: "August 14, 2025",
-    category: "Awards",
-    image:
-      "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1800&q=85",
-    imageAlt: "A team collaborating around a table",
-    excerpt:
-      "A practical framework for aligning people, roles, and capability with rapidly changing mission requirements.",
-    body: [
-      "Workforce readiness is more than staffing. It is the deliberate alignment of people, capability, structure, and mission demand.",
-      "Organizations build resilience when they can see emerging gaps early, develop talent with purpose, and connect individual performance to operational outcomes. That requires good data, clear roles, and leaders who can translate strategy into everyday decisions.",
-      "Harkcon helps clients create practical workforce systems that adapt as the mission changes—without losing clarity, accountability, or momentum.",
-    ],
-  },
-  {
-    slug: "modern-training-systems",
-    title: "Modern training systems turn knowledge into performance",
-    date: "2025-06-03",
-    displayDate: "June 3, 2025",
-    category: "Insights",
-    image:
-      "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1800&q=85",
-    imageAlt: "Colleagues participating in a training workshop",
-    excerpt:
-      "Effective learning ecosystems connect instruction, practice, assessment, and the realities of the work itself.",
-    body: [
-      "The strongest training programs begin with the work, not the classroom. They define the performance people need to deliver and build learning around real decisions, conditions, and constraints.",
-      "A modern learning system combines focused instruction with practice, coaching, measurement, and timely reinforcement. It gives leaders evidence that training is changing performance—not simply documenting participation.",
-      "By integrating human systems thinking with instructional expertise, organizations can create learning that lasts and capability that scales.",
-    ],
-  },
-  {
-    slug: "continuity-planning-with-purpose",
-    title: "Continuity planning with purpose",
-    date: "2025-03-19",
-    displayDate: "March 19, 2025",
-    category: "News",
-    image:
-      "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1800&q=85",
-    imageAlt: "Digital systems in a modern operations environment",
-    excerpt:
-      "Prepared organizations make continuity a living operational capability rather than a document on a shelf.",
-    body: [
-      "Continuity planning is most valuable when it becomes part of how an organization operates. Plans need owners, assumptions need testing, and people need the confidence to act when conditions change.",
-      "Exercises expose dependencies that are easy to miss on paper. They also create the shared understanding teams need to make sound decisions under pressure.",
-      "Harkcon supports continuity programs that are measurable, usable, and closely connected to the mission functions they protect.",
-    ],
-  },
-  {
-    slug: "from-policy-to-practice",
-    title: "From policy to practice: making strategy actionable",
-    date: "2024-12-05",
-    displayDate: "December 5, 2024",
-    category: "Insights",
-    image:
-      "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1800&q=85",
-    imageAlt: "Documents and planning materials on a desk",
-    excerpt:
-      "Clear policy creates value when teams can translate it into decisions, responsibilities, and measurable action.",
-    body: [
-      "Policy sets direction, but execution depends on whether people understand what changes in their work. Strong implementation connects intent to roles, processes, decisions, and measures.",
-      "That translation is where many initiatives lose momentum. The answer is not more documentation; it is a clearer operating model and a disciplined path from strategy to action.",
-      "Harkcon works with leaders and delivery teams to make complex policy understandable, implementable, and durable.",
-    ],
-  },
 ]
 
+// Historical coverage listed on Harkcon's original In the News page.
 export const harkconInTheNews = [
-  "Harkcon recognized among the region’s most people-centered government contractors",
-  "How mission-driven firms are modernizing federal workforce strategy",
-  "Harkcon leaders discuss the future of performance-based training",
-  "Small business innovation is reshaping continuity and preparedness support",
-  "Kevin Harkins on building a culture of expertise, ownership, and service",
-  "Harkcon expands advisory capability across complex government missions",
-  "Industry leaders share practical approaches to organizational transformation",
-  "The teams behind the next generation of federal mission readiness",
+  "2018 DHS Small Business Achievement Award",
+  "2016 Inc. 5000 recognition — No. 3354",
+  "2015 Inc. 5000 recognition — No. 2250",
+  "2014 Inc. 5000 recognition — No. 1164",
+  "2014 DiversityBusiness Top Veteran Owned Business award",
+  "2013 SmartCEO magazine profile",
+  "2013 GOVStar Award finalist",
+  "2013 ISPI Awards of Excellence for Coast Guard training projects",
 ]
+
+// Exclude the four invented articles from the original seed, including databases
+// seeded before this audit. Newly authored articles remain available to editors.
+const unsupportedSlugs = new Set([
+  "building-workforce-readiness",
+  "modern-training-systems",
+  "continuity-planning-with-purpose",
+  "from-policy-to-practice",
+])
+
+export function publicArticles<T extends NewsArticle>(articles: T[]): T[] {
+  return articles.filter((article) => !unsupportedSlugs.has(article.slug))
+}
