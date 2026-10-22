@@ -96,42 +96,62 @@ const dropdownItemTitleClassName =
 
 function NavDropdownTrigger({
   label,
+  href,
   open,
   onOpen,
   onScheduleClose,
 }: {
   label: string
+  href?: string
   open: boolean
   onOpen: () => void
   onScheduleClose: () => void
 }) {
+  const content = (
+    <>
+      {label}
+      <span
+        aria-hidden="true"
+        className={`inline-flex transition-transform duration-300 ${open ? "-rotate-180" : ""}`}
+      >
+        <CaretDown
+          className="h-4 w-4"
+          stroke="currentColor"
+          strokeWidth={8}
+          strokeLinejoin="round"
+        />
+      </span>
+    </>
+  )
+
   return (
     <div
       className="flex h-24 items-center pb-px"
       onMouseEnter={onOpen}
       onMouseLeave={onScheduleClose}
     >
-      <button
-        type="button"
-        className={`${navLinkClassName} flex items-center gap-2`}
-        aria-expanded={open}
-        aria-controls="nav-dropdown-panel"
-        onClick={onOpen}
-        onFocus={onOpen}
-      >
-        {label}
-        <span
-          aria-hidden="true"
-          className={`inline-flex transition-transform duration-300 ${open ? "-rotate-180" : ""}`}
+      {href ? (
+        <Link
+          href={href}
+          className={`${navLinkClassName} flex items-center gap-2`}
+          aria-expanded={open}
+          aria-controls="nav-dropdown-panel"
+          onFocus={onOpen}
         >
-          <CaretDown
-            className="h-4 w-4"
-            stroke="currentColor"
-            strokeWidth={8}
-            strokeLinejoin="round"
-          />
-        </span>
-      </button>
+          {content}
+        </Link>
+      ) : (
+        <button
+          type="button"
+          className={`${navLinkClassName} flex items-center gap-2`}
+          aria-expanded={open}
+          aria-controls="nav-dropdown-panel"
+          onClick={onOpen}
+          onFocus={onOpen}
+        >
+          {content}
+        </button>
+      )}
     </div>
   )
 }
@@ -209,9 +229,12 @@ function SolutionsDropdownContent() {
       <div className="flex flex-col items-start border-r border-white/15 pr-16">
         <Link
           href="/solutions"
-          className="eyebrow inline-flex items-center gap-3 whitespace-nowrap text-white/75 normal-case"
+          className="eyebrow group inline-flex items-center gap-3 whitespace-nowrap text-white/75 normal-case"
         >
-          Explore our solutions <Arrow diagonal className="shrink-0" />
+          <span className="relative after:absolute after:right-0 after:-bottom-1 after:left-0 after:h-px after:origin-left after:scale-x-0 after:bg-brand-gold after:transition-transform after:duration-300 group-hover:after:scale-x-100 group-focus-visible:after:scale-x-100">
+            Explore our solutions
+          </span>
+          <Arrow diagonal className="shrink-0" />
         </Link>
         <p className="mt-7 max-w-md font-header text-xl leading-[1.25] tracking-[-0.02em] text-pretty text-white">
           Customized expertise that strengthens workforces, modernizes operations, and improves
@@ -504,6 +527,7 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
           )}
           <NavDropdownTrigger
             label="Solutions"
+            href="/solutions"
             open={openDropdown === "solutions"}
             onOpen={openSolutions}
             onScheduleClose={scheduleDropdownClose}
@@ -637,16 +661,21 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
             LinkedIn
           </a>
         </div>
-        <button
-          type="button"
-          className="flex w-full items-center justify-between border-b border-white/15 py-4 text-left text-lg"
-          aria-expanded={mobileSolutionsOpen}
-          aria-controls="mobile-solutions-list"
-          onClick={toggleMobileSolutions}
-        >
-          Solutions{" "}
-          {mobileSolutionsOpen ? <Minus aria-hidden="true" /> : <Plus aria-hidden="true" />}
-        </button>
+        <div className="flex items-center border-b border-white/15 text-lg">
+          <Link href="/solutions" onClick={closeMenu} className="flex-1 py-4">
+            Solutions
+          </Link>
+          <button
+            type="button"
+            className="-mr-4 p-4"
+            aria-label="Toggle solutions submenu"
+            aria-expanded={mobileSolutionsOpen}
+            aria-controls="mobile-solutions-list"
+            onClick={toggleMobileSolutions}
+          >
+            {mobileSolutionsOpen ? <Minus aria-hidden="true" /> : <Plus aria-hidden="true" />}
+          </button>
+        </div>
         <div
           id="mobile-solutions-list"
           className={`grid overflow-hidden pl-4 transition-all duration-500 ${mobileSolutionsOpen ? "max-h-[640px] opacity-100" : "max-h-0 opacity-0"}`}
