@@ -1,7 +1,9 @@
 import { defineSchema, defineTable } from "convex/server"
 import { v } from "convex/values"
+import { openingValidator } from "./careerValidators"
 
 export default defineSchema({
+  careerOpenings: defineTable({ openings: v.array(openingValidator), updatedAt: v.number() }),
   pageVisibility: defineTable({ key: v.string(), visible: v.boolean() }).index("by_key", ["key"]),
   articles: defineTable({
     slug: v.string(),

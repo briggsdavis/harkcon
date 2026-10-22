@@ -116,7 +116,7 @@ export default function SolutionDetailPage({ solution }: { solution: Solution })
                     <span className="pt-1 font-eyebrow text-eyebrow-label tracking-[0.12em] text-[#8b8e96]">
                       {String(index + 1).padStart(2, "0")}
                     </span>
-                    <p className="font-header text-card-title text-pretty transition-transform duration-500 group-hover:translate-x-2.5">
+                    <p className="font-header text-card-title text-pretty transition-transform duration-500 delay-0 ease-out group-hover:translate-x-2.5">
                       {keepClosingWords(item)}
                     </p>
                   </li>

@@ -40,12 +40,10 @@ const viewContent = {
     heroImage: "/images/editorial/oasis-hero.jpg",
     heroAlt: "An aerial view of connected road infrastructure and surrounding trees",
     sections: [
-      ["oasis-scope", "Scope & access"],
       ["oasis-small-business", "Small Business"],
       ["oasis-sdvosb", "SDVOSB"],
       ["oasis-legacy", "Legacy OASIS"],
       ["oasis-documents", "Documents"],
-      ["oasis-verification", "Verification"],
     ],
   },
 } as const
@@ -75,7 +73,7 @@ function NumberedList({ items, navy = false }: { items: readonly string[]; navy?
           >
             {String(index + 1).padStart(2, "0")}
           </span>
-          <p className="font-header text-card-title text-pretty transition-transform duration-500 group-hover:translate-x-[9px]">
+          <p className="font-header text-card-title text-pretty transition-transform delay-0 duration-500 ease-out group-hover:translate-x-[9px]">
             {keepClosingWords(item)}
           </p>
         </li>
@@ -88,10 +86,12 @@ function SectionRail({
   view,
   activeSection,
   visible,
+  dark,
 }: {
   view: ContractView
   activeSection: string
   visible: boolean
+  dark: boolean
 }) {
   const handleSectionClick = useCallback((event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault()
@@ -121,7 +121,7 @@ function SectionRail({
         >
           <span
             aria-hidden="true"
-            className={`h-1.5 w-1.5 rounded-full transition-all duration-200 group-hover:scale-[1.75] group-hover:bg-[#0d132d] group-focus-visible:scale-[1.75] group-focus-visible:bg-[#0d132d] ${activeSection === id ? "scale-[1.75] bg-[#0d132d]" : "bg-[#0d132d]/25"}`}
+            className={`h-1.5 w-1.5 rounded-full transition-all duration-200 group-hover:scale-[1.75] group-focus-visible:scale-[1.75] ${activeSection === id ? "scale-[1.75]" : ""} ${dark ? `group-hover:bg-white group-focus-visible:bg-white ${activeSection === id ? "bg-white" : "bg-white/40"}` : `group-hover:bg-[#0d132d] group-focus-visible:bg-[#0d132d] ${activeSection === id ? "bg-[#0d132d]" : "bg-[#0d132d]/25"}`}`}
           />
           <strong className="pointer-events-none absolute left-5 -translate-x-1 rounded-sm bg-[#0d132d] px-2.5 py-1.5 font-eyebrow text-[0.6rem] font-semibold tracking-[0.1em] whitespace-nowrap text-white uppercase opacity-0 shadow-lg transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100">
             {label}
@@ -374,7 +374,7 @@ function SectionLinks({
           >
             {String(index + 1).padStart(2, "0")}
           </span>
-          <span className="text-pretty transition-transform duration-500 ease-out group-hover:translate-x-1.5 group-focus-visible:translate-x-1.5">
+          <span className="text-pretty transition-transform delay-0 duration-500 ease-out group-hover:translate-x-1.5 group-focus-visible:translate-x-1.5">
             {text}
           </span>
           <Arrow
@@ -546,7 +546,7 @@ function OasisContent() {
                   rel="noreferrer"
                   className="group flex items-center justify-between gap-5 border-b border-[#0d132d]/35 py-6 font-header text-card-title text-[#0d132d]"
                 >
-                  <span className="relative transition-transform duration-500 group-hover:translate-x-1.5 after:pointer-events-none after:absolute after:-bottom-2 after:left-0 after:h-px after:w-8 after:origin-left after:scale-x-0 after:bg-brand-red after:transition-transform after:duration-200 group-hover:after:scale-x-100 group-focus-visible:after:scale-x-100 motion-reduce:after:transition-none">
+                  <span className="relative transition-transform delay-0 duration-500 ease-out group-hover:translate-x-1.5 after:pointer-events-none after:absolute after:-bottom-2 after:left-0 after:h-px after:w-8 after:origin-left after:scale-x-0 after:bg-brand-red after:transition-transform after:duration-200 group-hover:after:scale-x-100 group-focus-visible:after:scale-x-100 motion-reduce:after:transition-none">
                     {label}
                   </span>
                   <Arrow
@@ -609,6 +609,7 @@ function ContractCta({ id }: { id: string }) {
 export default function ContractsPage({ view = "contracts" }: { view?: ContractView }) {
   const [activeSection, setActiveSection] = useState<string>(viewContent[view].sections[0][0])
   const [railVisible, setRailVisible] = useState(false)
+  const [railDark, setRailDark] = useState(false)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -634,14 +635,21 @@ export default function ContractsPage({ view = "contracts" }: { view?: ContractV
     const update = () => {
       frame = 0
       setRailVisible(window.scrollY > Math.max(360, window.innerHeight * 0.58))
+      const background = document
+        .elementsFromPoint(1, window.innerHeight / 2)
+        .map((element) => getComputedStyle(element).backgroundColor)
+        .find((color) => color !== "rgba(0, 0, 0, 0)" && color !== "transparent")
+      setRailDark(background === "rgb(13, 19, 45)")
     }
     const onScroll = () => {
       if (!frame) frame = requestAnimationFrame(update)
     }
     update()
     window.addEventListener("scroll", onScroll, { passive: true })
+    window.addEventListener("resize", onScroll)
     return () => {
       window.removeEventListener("scroll", onScroll)
+      window.removeEventListener("resize", onScroll)
       if (frame) cancelAnimationFrame(frame)
     }
   }, [])
@@ -761,7 +769,12 @@ export default function ContractsPage({ view = "contracts" }: { view?: ContractV
           </div>
         </section>
 
-        <SectionRail view={view} activeSection={activeSection} visible={railVisible} />
+        <SectionRail
+          view={view}
+          activeSection={activeSection}
+          visible={railVisible}
+          dark={railDark}
+        />
         <div key={view} className="relative">
           {view === "contracts" ? <ContractsContent /> : <OasisContent />}
         </div>

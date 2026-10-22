@@ -110,7 +110,7 @@ export default function NewsPage() {
                         className="object-cover transition-transform duration-700 group-hover:scale-[1.025]"
                       />
                     </div>
-                    <div className="transition-transform duration-500 group-hover:translate-x-2 group-focus-visible:translate-x-2">
+                    <div className="transition-transform duration-500 delay-0 ease-out group-hover:translate-x-2 group-focus-visible:translate-x-2">
                       <PublicationMeta
                         date={article.date}
                         displayDate={article.displayDate}

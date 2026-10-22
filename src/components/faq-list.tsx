@@ -37,7 +37,7 @@ export default function FaqList({ faqs, dark = false }: { faqs: Faq[]; dark?: bo
               aria-controls={answerId}
               onClick={toggle}
             >
-              <span className="text-balance transition-transform duration-500 ease-out group-hover:translate-x-1 group-focus-visible:translate-x-1 motion-reduce:transition-none">
+              <span className="text-balance transition-transform duration-500 delay-0 ease-out group-hover:translate-x-1 group-focus-visible:translate-x-1 motion-reduce:transition-none">
                 {keepClosingWords(faq.question)}
               </span>
               <span
