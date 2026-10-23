@@ -21,7 +21,7 @@ import { keepClosingWords } from "~/lib/typography"
 import { usePageVisibility } from "~/lib/use-page-visibility"
 
 const statement =
-  "Since 2005, Harkcon, a service-disabled veteran-owned small business, has helped government agencies solve complex workforce, organizational, and mission challenges."
+  "Since 2005, Harkcon has helped government agencies and private-sector organizations overcome complex challenges, strengthen organizational performance, and achieve mission-critical outcomes."
 
 const solutionLinks = [
   {
@@ -825,17 +825,19 @@ function Hero() {
       <div className="hero-overlay absolute inset-0 z-[1]" />
       <div className="site-gutter relative z-10 flex h-full items-end pb-12 md:pb-16">
         <div className="max-w-5xl text-white">
-          <p className="mb-5 font-eyebrow text-xs font-semibold tracking-[0.18em] text-pretty text-white/90 uppercase md:text-sm">
+          <p className="mb-5 font-eyebrow text-[0.9rem] font-semibold tracking-[0.18em] text-pretty text-white/90 uppercase md:text-[1.05rem]">
             Master&nbsp;Performance
           </p>
           <h1
             id="hero-title"
             data-reveal-skip
-            className="max-w-3xl animate-[hero-opacity_720ms_ease_210ms_both,hero-move_900ms_cubic-bezier(0.22,1,0.36,1)_210ms_both] font-header text-display font-medium text-balance motion-reduce:animate-none"
+            className="max-w-3xl animate-[hero-opacity_720ms_ease_210ms_both,hero-move_900ms_cubic-bezier(0.22,1,0.36,1)_210ms_both] font-header text-[clamp(1.75rem,8.82vw,2.15rem)] font-medium text-balance motion-reduce:animate-none sm:text-display"
           >
-            Better&nbsp;people.
+            Better&nbsp;People.
             <br />
-            Stronger&nbsp;missions.
+            Better&nbsp;Performance.
+            <br />
+            Better&nbsp;Outcomes
           </h1>
           <div className="mt-7 flex items-center gap-4 pt-5 md:mt-9 md:pt-6" data-reveal-line>
             <p className="max-w-xl text-sm leading-relaxed text-pretty text-white/80 md:text-base">
@@ -1111,10 +1113,6 @@ export default function HomePage() {
                 >
                   Our&nbsp;Solutions
                 </h2>
-                <p className="mt-7 max-w-sm text-base leading-relaxed text-pretty text-[#5f626b]">
-                  Workforce analysis, training, and program support that help agencies make sound
-                  decisions and improve&nbsp;performance.
-                </p>
               </div>
 
               <div className="grid gap-x-7 gap-y-0 md:grid-cols-2 xl:grid-cols-3">
