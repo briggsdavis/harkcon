@@ -37,7 +37,7 @@ export default function FeaturedNews() {
           <div className="pt-5">
             <time
               dateTime={article.date}
-              className="font-eyebrow text-eyebrow-label tracking-[0.14em] text-[#5f626b]"
+              className="font-eyebrow text-xs tracking-[0.14em] text-[#5f626b]"
             >
               {article.displayDate}
             </time>

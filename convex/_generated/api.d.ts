@@ -16,6 +16,7 @@ import type * as careers from "../careers.js";
 import type * as contacts from "../contacts.js";
 import type * as content from "../content.js";
 import type * as crons from "../crons.js";
+import type * as email from "../email.js";
 import type * as http from "../http.js";
 import type * as seed from "../seed.js";
 import type * as solutions from "../solutions.js";
@@ -35,6 +36,7 @@ declare const fullApi: ApiFromModules<{
   contacts: typeof contacts;
   content: typeof content;
   crons: typeof crons;
+  email: typeof email;
   http: typeof http;
   seed: typeof seed;
   solutions: typeof solutions;
@@ -68,4 +70,6 @@ export declare const internal: FilterApi<
 
 export declare const components: {
   betterAuth: import("@convex-dev/better-auth/_generated/component.js").ComponentApi<"betterAuth">;
+  resend: import("@convex-dev/resend/_generated/component.js").ComponentApi<"resend">;
+  rateLimiter: import("@convex-dev/rate-limiter/_generated/component.js").ComponentApi<"rateLimiter">;
 };

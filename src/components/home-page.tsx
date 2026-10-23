@@ -972,7 +972,9 @@ export function SiteFooter() {
           </div>
 
           <div>
-            <p className="mb-7 text-xs tracking-[0.17em] text-pretty text-white/45">Solutions</p>
+            <p className="mb-7 text-sm tracking-[0.17em] text-pretty text-white/45 uppercase">
+              Solutions
+            </p>
             <nav aria-label="Footer solutions navigation" className="grid items-start gap-3">
               {solutionLinks.map((solution) => (
                 <Link
@@ -987,7 +989,9 @@ export function SiteFooter() {
           </div>
 
           <div>
-            <p className="mb-7 text-xs tracking-[0.17em] text-pretty text-white/45">Company</p>
+            <p className="mb-7 text-sm tracking-[0.17em] text-pretty text-white/45 uppercase">
+              Company
+            </p>
             <nav aria-label="Footer company navigation" className="grid items-start gap-3">
               <Link href="/about" className={footerNavLinkClassName}>
                 About
@@ -1008,7 +1012,9 @@ export function SiteFooter() {
           </div>
 
           <div>
-            <p className="mb-7 text-xs tracking-[0.17em] text-pretty text-white/45">Connect</p>
+            <p className="mb-7 text-sm tracking-[0.17em] text-pretty text-white/45 uppercase">
+              Connect
+            </p>
             <p className="text-lg leading-snug text-pretty text-white/85">
               Have a complex&nbsp;mission?
               <br />
@@ -1018,7 +1024,7 @@ export function SiteFooter() {
               href="/contact"
               className="animated-underline mt-8 flex w-fit items-center gap-4 pb-2 text-sm transition-colors hover:text-white/55"
             >
-              Start a conversation
+              Start a Conversation
             </Link>
             <div className="mt-8 flex flex-wrap gap-3">
               <a
@@ -1059,7 +1065,7 @@ export function SiteFooter() {
           {/* oxlint-disable-next-line react/purity -- The copyright year intentionally follows the current date. */}
           <span>© {new Date().getFullYear()} Harkcon</span>
           {/* <Link href="/privacy-terms" className={footerBottomLinkClassName}> */}
-          <span className={footerBottomLinkClassName}>Privacy & terms</span>
+          <span className={footerBottomLinkClassName}>Privacy & Terms</span>
           {/* </Link> */}
           <a
             href="https://socialsatisfaction.agency/"
@@ -1079,7 +1085,7 @@ export function SiteFooter() {
             }}
             className={`${footerBottomLinkClassName} flex items-center gap-3 sm:ml-auto`}
           >
-            Back to top
+            Back to Top
           </a>
         </div>
       </div>
@@ -1192,13 +1198,7 @@ export default function HomePage() {
 
         <section className="bg-white py-12 text-[#0d132d] md:py-14">
           <div className="site-gutter">
-            <a
-              href={HARKCON_CAPABILITY_STATEMENT_URL}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Download Harkcon capability statement PDF (opens in a new tab)"
-              className="group flex w-full flex-col items-start justify-between gap-8 focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-[#0d132d] md:flex-row md:items-center"
-            >
+            <div className="flex w-full flex-col items-start justify-between gap-8 md:flex-row md:items-center">
               <div>
                 <h3 className="relative font-header text-card-title font-medium text-balance">
                   Capability&nbsp;statement
@@ -1207,12 +1207,16 @@ export default function HomePage() {
                   Company capabilities, qualifications, and contracting&nbsp;information.
                 </p>
               </div>
-              <span
-                className={`${wipeButtonClassName} shrink-0 ${wipeButtonDarkClassName} group-hover:text-white group-focus-visible:text-white group-hover:before:origin-left group-hover:before:scale-x-100 group-focus-visible:before:origin-left group-focus-visible:before:scale-x-100 group-hover:after:opacity-100 group-focus-visible:after:opacity-100`}
+              <a
+                href={HARKCON_CAPABILITY_STATEMENT_URL}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Download Harkcon capability statement PDF (opens in a new tab)"
+                className={`${wipeButtonClassName} shrink-0 ${wipeButtonDarkClassName}`}
               >
                 Download PDF <DownloadSimple aria-hidden="true" className="h-5 w-5" />
-              </span>
-            </a>
+              </a>
+            </div>
           </div>
         </section>
 
