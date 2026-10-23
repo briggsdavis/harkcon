@@ -96,7 +96,7 @@ export default function RouteTransition() {
 
   return (
     <div
-      className={`fixed inset-0 z-[100] isolate grid place-items-center ${phase === "idle" ? "pointer-events-none" : "pointer-events-auto"}`}
+      className={`fixed inset-0 isolate z-[100] grid place-items-center ${phase === "idle" ? "pointer-events-none" : "pointer-events-auto"}`}
       aria-hidden="true"
       data-reveal-skip
     >

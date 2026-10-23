@@ -78,7 +78,7 @@ export default function CareersOpenings() {
                     rel="noopener noreferrer"
                     className="group flex items-center justify-between gap-6 py-7 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#0d132d] md:py-9"
                   >
-                    <div className="transition-transform duration-500 delay-0 ease-out group-hover:translate-x-1 group-focus-visible:translate-x-1 motion-reduce:transition-none">
+                    <div className="transition-transform delay-0 duration-500 ease-out group-hover:translate-x-1 group-focus-visible:translate-x-1 motion-reduce:transition-none">
                       <h3 className="relative font-header text-card-title font-medium text-balance after:pointer-events-none after:absolute after:-bottom-2 after:left-0 after:h-px after:w-8 after:origin-left after:scale-x-0 after:bg-brand-red after:transition-transform after:duration-200 group-hover:after:scale-x-100 group-focus-visible:after:scale-x-100 motion-reduce:after:transition-none">
                         {keepClosingWords(opening.title)}
                       </h3>
