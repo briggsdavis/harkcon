@@ -53,7 +53,8 @@ export default function HeroParallaxImage({
         fill
         priority
         unoptimized={src.startsWith("http")}
-        sizes="100vw"
+        quality={85}
+        sizes="(max-width: 1920px) 1920px, 100vw"
         className={imageClassName}
       />
     </div>

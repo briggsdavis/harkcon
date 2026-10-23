@@ -266,7 +266,7 @@ function SolutionsDropdownContent() {
 const dropdownNames: DropdownName[] = ["news", "contracts", "solutions"]
 
 const socialLinkClassName =
-  "flex h-11 w-11 items-center justify-center rounded-none border border-white/30 text-white/80 transition-all duration-300 hover:border-white hover:bg-white hover:text-[#0d132d] focus-visible:border-white focus-visible:bg-white focus-visible:text-[#0d132d] focus-visible:outline-none"
+  "flex h-11 w-11 items-center justify-center text-white/80 transition-colors duration-300 hover:text-white focus-visible:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
 
 const clientLogos = [
   {
@@ -485,7 +485,8 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
             width={336}
             height={86}
             className="h-auto w-[155px] sm:w-[180px]"
-            priority
+            sizes="(min-width: 640px) 180px, 155px"
+            preload
           />
         </Link>
 
@@ -607,7 +608,8 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
 
       <div
         id="mobile-navigation"
-        className={`mobile-nav absolute top-24 right-0 left-0 flex max-h-[calc(100svh-6rem)] flex-col overflow-y-auto bg-[#0d132d] px-5 py-5 transition-all duration-300 sm:px-8 ${menuOpen ? "pointer-events-auto translate-y-0 opacity-100" : "pointer-events-none -translate-y-3 opacity-0"}`}
+        inert={!menuOpen}
+        className={`mobile-nav absolute top-24 right-0 left-0 flex max-h-[calc(100svh-6rem)] flex-col overflow-y-auto overscroll-contain bg-[#0d132d] px-5 py-5 transition-all duration-300 sm:px-8 [&>*]:shrink-0 ${menuOpen ? "pointer-events-auto translate-y-0 opacity-100" : "pointer-events-none -translate-y-3 opacity-0"}`}
       >
         <Link href="/about" className={mobileNavLinkClassName}>
           About
@@ -642,7 +644,7 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
         </button>
         <div
           id="mobile-news-list"
-          className={`grid overflow-hidden pl-4 transition-all duration-500 ${mobileNewsOpen ? "max-h-[640px] opacity-100" : "max-h-0 opacity-0"}`}
+          className={`grid overflow-hidden pl-4 transition-all duration-500 ${mobileNewsOpen ? "" : "hidden"}`}
         >
           <Link
             href="/news-insights"
@@ -661,24 +663,19 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
             LinkedIn
           </a>
         </div>
-        <div className="flex items-center border-b border-white/15 text-lg">
-          <Link href="/solutions" onClick={closeMenu} className="flex-1 py-4">
-            Solutions
-          </Link>
-          <button
-            type="button"
-            className="-mr-4 p-4"
-            aria-label="Toggle solutions submenu"
-            aria-expanded={mobileSolutionsOpen}
-            aria-controls="mobile-solutions-list"
-            onClick={toggleMobileSolutions}
-          >
-            {mobileSolutionsOpen ? <Minus aria-hidden="true" /> : <Plus aria-hidden="true" />}
-          </button>
-        </div>
+        <button
+          type="button"
+          className="flex w-full items-center justify-between border-b border-white/15 py-4 text-left text-lg"
+          aria-expanded={mobileSolutionsOpen}
+          aria-controls="mobile-solutions-list"
+          onClick={toggleMobileSolutions}
+        >
+          Solutions{" "}
+          {mobileSolutionsOpen ? <Minus aria-hidden="true" /> : <Plus aria-hidden="true" />}
+        </button>
         <div
           id="mobile-solutions-list"
-          className={`grid overflow-hidden pl-4 transition-all duration-500 ${mobileSolutionsOpen ? "max-h-[640px] opacity-100" : "max-h-0 opacity-0"}`}
+          className={`grid overflow-hidden pl-4 transition-all duration-500 ${mobileSolutionsOpen ? "" : "hidden"}`}
         >
           <Link
             href="/solutions"
@@ -767,6 +764,7 @@ function ClientMarquee() {
                 alt={copy === "first" ? logo.name : ""}
                 width={270}
                 height={135}
+                sizes="(min-width: 768px) 232px, 184px"
                 className="h-full w-full object-contain"
               />
             </div>
@@ -819,7 +817,8 @@ function Hero() {
           alt="The United States Capitol at sunrise"
           fill
           preload
-          sizes="100vw"
+          quality={85}
+          sizes="(max-width: 1672px) 1672px, 100vw"
           className="object-cover"
         />
       </div>
@@ -831,7 +830,8 @@ function Hero() {
           </p>
           <h1
             id="hero-title"
-            className="max-w-3xl font-header text-display font-medium text-balance"
+            data-reveal-skip
+            className="max-w-3xl animate-[hero-opacity_720ms_ease_210ms_both,hero-move_900ms_cubic-bezier(0.22,1,0.36,1)_210ms_both] font-header text-display font-medium text-balance motion-reduce:animate-none"
           >
             Better&nbsp;people.
             <br />
@@ -896,8 +896,8 @@ function ScrollStatement() {
         <p
           ref={statementRef}
           className="mx-auto max-w-[1050px] font-header text-[clamp(1.65rem,2.55vw,2.75rem)] leading-[1.15] tracking-[-0.025em] text-pretty text-[#c6c8cc]"
-          aria-label={statement}
         >
+          <span className="sr-only">{statement}</span>
           <span aria-hidden="true">
             {Array.from(statement).map((character, index) => (
               <span
@@ -961,6 +961,7 @@ export function SiteFooter() {
                     alt={badge.name}
                     width={176}
                     height={172}
+                    sizes="68px"
                     className="h-full w-full object-contain"
                   />
                 </li>
@@ -1154,7 +1155,7 @@ export default function HomePage() {
         </section>
 
         <section
-          className="bg-[#0d132d] py-32 text-white md:py-40"
+          className="bg-[#0d132d] pt-16 pb-32 text-white md:pt-20 md:pb-40"
           aria-labelledby="home-contracts-title"
         >
           <div className="site-gutter grid gap-12 md:grid-cols-2 md:gap-0">
@@ -1189,24 +1190,27 @@ export default function HomePage() {
               {/* </Link> */}
             </div>
           </div>
+        </section>
+
+        <section className="bg-white py-12 text-[#0d132d] md:py-14">
           <div className="site-gutter">
             <a
               href={HARKCON_CAPABILITY_STATEMENT_URL}
               target="_blank"
               rel="noreferrer"
               aria-label="Download Harkcon capability statement PDF (opens in a new tab)"
-              className="group mt-16 flex w-full flex-col items-start justify-between gap-8 border-t border-white/15 pt-12 focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-white md:mt-20 md:flex-row md:items-center md:pt-14"
+              className="group flex w-full flex-col items-start justify-between gap-8 focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-[#0d132d] md:flex-row md:items-center"
             >
               <div>
                 <h3 className="relative font-header text-card-title font-medium text-balance">
                   Capability&nbsp;statement
                 </h3>
-                <p className="mt-3 max-w-lg text-base leading-relaxed text-pretty text-white/70">
+                <p className="mt-3 max-w-lg text-base leading-relaxed text-pretty text-[#5f626b]">
                   Company capabilities, qualifications, and contracting&nbsp;information.
                 </p>
               </div>
               <span
-                className={`${wipeButtonClassName} shrink-0 ${wipeButtonLightClassName} group-hover:text-white group-focus-visible:text-white group-hover:before:origin-left group-hover:before:scale-x-100 group-focus-visible:before:origin-left group-focus-visible:before:scale-x-100 group-hover:after:opacity-100 group-focus-visible:after:opacity-100`}
+                className={`${wipeButtonClassName} shrink-0 ${wipeButtonDarkClassName} group-hover:text-white group-focus-visible:text-white group-hover:before:origin-left group-hover:before:scale-x-100 group-focus-visible:before:origin-left group-focus-visible:before:scale-x-100 group-hover:after:opacity-100 group-focus-visible:after:opacity-100`}
               >
                 Download PDF <DownloadSimple aria-hidden="true" className="h-5 w-5" />
               </span>
@@ -1253,9 +1257,8 @@ export default function HomePage() {
                 src="/images/about-team.png"
                 alt="Harkcon consultants collaborating around a table"
                 fill
-                loading="eager"
-                unoptimized
-                sizes="(min-width: 900px) 50vw, 100vw"
+                quality={85}
+                sizes="(max-width: 1536px) 1536px, 100vw"
                 className="z-[1] object-cover"
               />
             </div>

@@ -30,7 +30,6 @@ export default function FeaturedNews() {
               src={article.image}
               alt={article.imageAlt}
               fill
-              unoptimized
               sizes="(min-width: 768px) 50vw, 100vw"
               className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
             />

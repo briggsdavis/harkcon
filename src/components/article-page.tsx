@@ -30,7 +30,6 @@ export default function ArticlePage({
                 src={article.image}
                 alt={article.imageAlt}
                 fill
-                unoptimized
                 priority
                 sizes="(min-width: 1200px) 1400px, 100vw"
                 className="object-cover"
@@ -84,7 +83,6 @@ export default function ArticlePage({
                       src={item.image}
                       alt={item.imageAlt}
                       fill
-                      unoptimized
                       sizes="(min-width: 900px) 33vw, 100vw"
                       className="object-cover transition-transform duration-700 group-hover:scale-[1.025]"
                     />

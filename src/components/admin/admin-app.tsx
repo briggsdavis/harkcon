@@ -19,7 +19,7 @@ import { Authenticated, AuthLoading, Unauthenticated, useMutation, useQuery } fr
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
-import { FormEvent, useCallback, useMemo, useState, type ReactNode } from "react"
+import { FormEvent, useCallback, useEffect, useMemo, useState, type ReactNode } from "react"
 import { authClient } from "~/lib/auth-client"
 import { visibilityPages } from "~/lib/page-visibility"
 import { api } from "../../../convex/_generated/api"
@@ -449,7 +449,52 @@ function LineChart({ data }: { data: { date: string; views: number; visitors: nu
           strokeWidth="3"
           vectorEffect="non-scaling-stroke"
         />
+        {data.map((item, index) => (
+          <circle
+            key={item.date}
+            cx={padding + (index / Math.max(1, data.length - 1)) * (width - padding * 2)}
+            cy={height - padding - (item.views / max) * (height - padding * 2)}
+            r="5"
+            fill="#4169e1"
+            fillOpacity="0"
+            className="hover:fill-opacity-100"
+          >
+            <title>
+              {item.date}: {item.views} views, {item.visitors} tracked browsers
+            </title>
+          </circle>
+        ))}
       </svg>
+      <details className="mt-3 text-xs text-slate-500">
+        <summary className="cursor-pointer">
+          Explore daily counts · peak{" "}
+          {max === 1 && data.every((item) => item.views === 0) ? 0 : max} views/day
+        </summary>
+        <div className="mt-3 max-h-60 overflow-auto">
+          <table className="w-full text-left tabular-nums">
+            <thead>
+              <tr>
+                <th scope="col" className="py-2">
+                  Date (UTC)
+                </th>
+                <th scope="col">Views</th>
+                <th scope="col">Browsers</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.map((item) => (
+                <tr key={item.date} className="border-t border-slate-100">
+                  <th scope="row" className="py-2 font-normal">
+                    {item.date}
+                  </th>
+                  <td>{item.views}</td>
+                  <td>{item.visitors}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </details>
       <div className="flex justify-between pt-[9px] text-[11px] text-[#9298a6]">
         <span>{data[0]?.date}</span>
         <span>{data.at(-1)?.date}</span>
@@ -460,7 +505,12 @@ function LineChart({ data }: { data: { date: string; views: number; visitors: nu
 
 function Dashboard() {
   const [days, setDays] = useState<30 | 90 | 180>(30)
-  const stats = useQuery(api.analytics.dashboard, { days })
+  const [asOf, setAsOf] = useState(() => Date.now())
+  useEffect(() => {
+    const timer = window.setInterval(() => setAsOf(Date.now()), 60_000)
+    return () => window.clearInterval(timer)
+  }, [])
+  const stats = useQuery(api.analytics.dashboard, { days, asOf })
   return (
     <section className={viewClassName}>
       <ViewHeading
@@ -483,9 +533,20 @@ function Dashboard() {
         <LoadingCards />
       ) : (
         <>
+          {stats.limited ? (
+            <output className="mb-4 block rounded-xl bg-amber-50 p-4 text-sm text-amber-900">
+              This range exceeds the reporting limit. These figures are partial; choose a shorter
+              range.
+            </output>
+          ) : null}
+          <p className="mb-4 text-xs leading-relaxed text-slate-500">
+            First-party recorded activity · UTC calendar days, including today · refreshed every
+            minute. Browsers use a stored anonymous ID; blocked tracking and cleared storage affect
+            counts. Sessions follow a browser tab’s lifetime, not an inactivity timer.
+          </p>
           <div className="mb-[18px] grid grid-cols-4 gap-[15px] max-[1000px]:grid-cols-2 max-[760px]:grid-cols-1">
             <Stat
-              label="Visitors"
+              label="Tracked browsers"
               value={stats.totals.visitors}
               note={changePercent(stats.totals.visitors, stats.totals.previousVisitors)}
             />
@@ -513,8 +574,13 @@ function Dashboard() {
             </div>
             <LineChart data={stats.daily} />
           </div>
+          <EngagementPanels data={stats.engagement} />
           <div className="mt-[18px] grid grid-cols-2 gap-[18px] max-[760px]:grid-cols-1">
-            <Ranked title="Top pages" subtitle="Where people spend their time" data={stats.pages} />
+            <Ranked
+              title="Top pages"
+              subtitle="Most viewed pages; counts do not measure time spent"
+              data={stats.pages}
+            />
             <Ranked
               title="Traffic sources"
               subtitle="How visitors found Harkcon"
@@ -524,6 +590,153 @@ function Dashboard() {
         </>
       )}
     </section>
+  )
+}
+
+const insightColors = ["#6366f1", "#06b6d4", "#f59e0b", "#ec4899", "#10b981", "#8b5cf6"]
+
+function InsightBars({ data, empty }: { data: { label: string; value: number }[]; empty: string }) {
+  const max = Math.max(1, ...data.map((item) => item.value))
+  return data.length ? (
+    <div className="mt-6 space-y-4">
+      {data.map((item, index) => (
+        <div key={item.label}>
+          <div className="mb-2 flex justify-between gap-4 text-xs text-slate-600">
+            <span className="break-words">{item.label}</span>
+            <strong className="shrink-0 text-slate-900 tabular-nums">
+              {item.value.toLocaleString()}
+            </strong>
+          </div>
+          <div className="h-2 overflow-hidden rounded-full bg-slate-100">
+            <div
+              className="h-full rounded-full transition-[width] duration-700 motion-reduce:transition-none"
+              style={{
+                width: `${(item.value / max) * 100}%`,
+                backgroundColor: insightColors[index % insightColors.length],
+              }}
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+  ) : (
+    <p className="mt-6 text-sm text-slate-500">{empty}</p>
+  )
+}
+
+function MetricRing({ value, label, color }: { value: number; label: string; color: string }) {
+  return (
+    <div className="relative mx-auto my-6 grid h-36 w-36 place-items-center">
+      <svg
+        viewBox="0 0 120 120"
+        className="absolute inset-0 h-full w-full -rotate-90"
+        aria-label={label}
+      >
+        <title>{label}</title>
+        <circle cx="60" cy="60" r="50" fill="none" stroke="#f1f5f9" strokeWidth="10" />
+        <circle
+          cx="60"
+          cy="60"
+          r="50"
+          fill="none"
+          stroke={color}
+          strokeWidth="10"
+          strokeLinecap="round"
+          strokeDasharray={`${Math.max(0, Math.min(100, value)) * Math.PI} ${100 * Math.PI}`}
+          className="transition-all duration-700 motion-reduce:transition-none"
+        />
+      </svg>
+      <strong className="font-header text-3xl tabular-nums">{Math.round(value)}%</strong>
+    </div>
+  )
+}
+
+function EngagementPanels({ data }: { data: import("~/lib/analytics-summary").EngagementSummary }) {
+  return (
+    <div className="mt-[18px] grid grid-cols-6 gap-[18px] max-[1000px]:grid-cols-2 max-[760px]:grid-cols-1">
+      <div className={`${card} col-span-2 p-6 max-[1000px]:col-span-1`}>
+        <h2 className={cardTitle}>Browsing sessions</h2>
+        <p className={cardSubtitle}>Distinct tab sessions active in this period.</p>
+        <strong className="mt-6 block font-header text-4xl text-indigo-600">
+          {data.sessions.toLocaleString()}
+        </strong>
+        <InsightBars data={data.depths} empty="No sessions recorded yet." />
+      </div>
+      <div className={`${card} col-span-2 p-6 max-[1000px]:col-span-1`}>
+        <h2 className={cardTitle}>Pages per session</h2>
+        <p className={cardSubtitle}>Recorded page views ÷ active tab sessions.</p>
+        <strong className="mt-6 block font-header text-4xl text-cyan-600">
+          {data.sessions ? data.pagesPerSession.toFixed(2) : "—"}
+        </strong>
+        <div className="mt-8 flex h-12 overflow-hidden rounded-xl bg-slate-100" aria-hidden="true">
+          {data.depths.map((item, index) => (
+            <div
+              key={item.label}
+              title={`${item.label}: ${item.value} sessions`}
+              className="transition-[width] duration-700 motion-reduce:transition-none"
+              style={{
+                width: `${data.sessions ? (item.value / data.sessions) * 100 : 0}%`,
+                backgroundColor: insightColors[index],
+              }}
+            />
+          ))}
+        </div>
+        <div className="mt-4 flex flex-wrap gap-3 text-xs text-slate-500">
+          {data.depths.map((item, index) => (
+            <span key={item.label} className="flex items-center gap-1.5">
+              <span
+                className="h-2 w-2 rounded-full"
+                style={{ backgroundColor: insightColors[index] }}
+              />
+              {item.label}: {item.value}
+            </span>
+          ))}
+        </div>
+        <p className="mt-5 text-xs text-slate-500">
+          Repeat views count. Sessions crossing the date boundary include only views in this range.
+        </p>
+      </div>
+      <div className={`${card} col-span-2 p-6 max-[1000px]:col-span-1`}>
+        <h2 className={cardTitle}>Multi-page sessions</h2>
+        <p className={cardSubtitle}>Sessions with at least two recorded views.</p>
+        {data.sessions ? (
+          <MetricRing
+            value={data.multiPageRate}
+            label={`${data.multiPageRate.toFixed(1)} percent of sessions recorded multiple page views`}
+            color="#10b981"
+          />
+        ) : (
+          <p className="my-10 text-sm text-slate-500">No sessions recorded yet.</p>
+        )}
+        <p className="text-center text-xs text-slate-500">
+          {data.multiPageSessions.toLocaleString()} of {data.sessions.toLocaleString()} sessions ·
+          includes repeat views
+        </p>
+      </div>
+      <div className={`${card} col-span-3 p-6 max-[1000px]:col-span-1`}>
+        <h2 className={cardTitle}>Solution page interest</h2>
+        <p className={cardSubtitle}>
+          Page views of individual solutions, rather than inferred intent.
+        </p>
+        <InsightBars
+          data={data.solutions.map((item) => ({
+            ...item,
+            label: item.label.replace(/^\/solutions\//, "").replaceAll("-", " "),
+          }))}
+          empty="No solution detail views in this period."
+        />
+      </div>
+      <div className={`${card} col-span-3 p-6 max-[1000px]:col-span-1`}>
+        <h2 className={cardTitle}>Inquiry topics</h2>
+        <p className={cardSubtitle}>
+          Topics selected on submitted contact forms. A form can select several.
+        </p>
+        <InsightBars data={data.interests} empty="No inquiry topics submitted in this period." />
+        <p className="mt-5 text-xs text-slate-500">
+          Based on retained messages; deleting a message removes it from these counts.
+        </p>
+      </div>
+    </div>
   )
 }
 
