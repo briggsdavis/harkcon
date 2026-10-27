@@ -6,13 +6,6 @@ import Link from "~/components/visibility-link"
 import type { Solution } from "~/lib/solutions"
 import { keepClosingWords } from "~/lib/typography"
 
-const capabilityCopy = [
-  "We apply workforce analysis, training, and program support to the specific requirements of each client and team.",
-  "We build lasting working relationships by listening closely, setting clear expectations, and giving clients and partners straightforward advice.",
-  "We help clients work through difficult requirements with careful analysis, experienced people, and practical recommendations they can put to use.",
-  "Whether we work directly for a client or alongside a partner, our focus is quality service, meaningful results, and delivery on time and within budget. We tailor our analysis and solutions to the organization and its requirements.",
-]
-
 const headingClassName = "text-balance max-w-4xl font-header text-section-title font-medium"
 const ctaCardClassName =
   "flex flex-col items-start border-t border-[#0d132d]/20 py-12 md:min-h-[360px] md:py-14"
@@ -121,25 +114,6 @@ export default function SolutionDetailPage({ solution }: { solution: Solution })
                   </li>
                 ))}
               </ol>
-            </div>
-          </div>
-        </section>
-
-        <section
-          className="bg-[#0d132d] py-24 text-white md:py-32 lg:py-40"
-          aria-labelledby="partnership-title"
-        >
-          <div className="site-gutter grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20 xl:gap-28">
-            <div>
-              <p className="eyebrow mb-5 text-brand-gold">Our approach</p>
-              <h2 id="partnership-title" className={headingClassName}>
-                Practical&nbsp;expertise.
-              </h2>
-            </div>
-            <div className="space-y-7 text-body-copy text-white/68">
-              {capabilityCopy.map((paragraph) => (
-                <p key={paragraph}>{keepClosingWords(paragraph)}</p>
-              ))}
             </div>
           </div>
         </section>

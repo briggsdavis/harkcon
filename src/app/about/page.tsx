@@ -5,6 +5,8 @@ import Link from "next/link"
 import AboutProcess from "~/components/about-process"
 import HeroParallaxImage from "~/components/hero-parallax-image"
 import { Arrow, Header, SiteFooter } from "~/components/home-page"
+import LeadershipTeams from "~/components/leadership-teams"
+import SolutionsOverview from "~/components/solutions-overview"
 import SubtleParallaxPhoto from "~/components/subtle-parallax-photo"
 import { keepClosingWords } from "~/lib/typography"
 
@@ -140,10 +142,10 @@ export default function About() {
                 </p>
                 <p className={proseClassName}>
                   Today, our team supports organizations including the U.S. Coast Guard, Department
-                  of Energy, Department of Homeland Security, Department of Defense, and Department
-                  of State. Headquartered in Fredericksburg, Virginia, with associates in more than
-                  15 states, we combine practical experience, disciplined analysis, and tools suited
-                  to each requirement to improve workforce and organizational&nbsp;performance.
+                  of Energy, Department of Homeland Security, Department of War, and Department of
+                  State. Headquartered in Fredericksburg, Virginia, with associates in more than 15
+                  states, we combine practical experience, disciplined analysis, and tools suited to
+                  each requirement to improve workforce and organizational&nbsp;performance.
                 </p>
               </div>
             </div>
@@ -250,6 +252,8 @@ export default function About() {
           </div>
         </section>
 
+        <LeadershipTeams />
+        <SolutionsOverview />
         <AboutProcess />
 
         <section className="bg-[#f4f3f0]" aria-labelledby="culture-title">

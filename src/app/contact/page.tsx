@@ -20,7 +20,7 @@ const contactFaqs = [
   {
     question: "Who does Harkcon work with?",
     answer:
-      "We support public- and private-sector clients, including the U.S. Coast Guard, Department of Energy, Department of Homeland Security, Department of Defense, and Department of State.",
+      "We support public- and private-sector clients, including the U.S. Coast Guard, Department of Energy, Department of Homeland Security, Department of War, and Department of State.",
   },
   {
     question: "Can I ask about a specific contract vehicle?",

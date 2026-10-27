@@ -90,8 +90,30 @@ export const solutions: Solution[] = [
     detailAlt: "Infrastructure professionals coordinating work in the field",
   },
   {
-    slug: "policy-strategy-program-support",
+    slug: "administrative-compliance-support",
     number: "04",
+    color: "#ff7a1a",
+    title: "Administrative & Compliance Support",
+    shortTitle: "Compliance Support",
+    description:
+      "Harkcon helps agencies manage records, address privacy requirements, and meet regulatory obligations. Our administrative and operational support keeps essential daily work on track.",
+    proofPoint:
+      "Harkcon delivered privacy compliance support to the Department of Homeland Security, including the development of privacy impact assessments and records retention schedules.",
+    solutions: [
+      "Records management and Freedom of Information Act support",
+      "Privacy and regulatory compliance solutions",
+      "Administrative and operational support",
+    ],
+    heroImage: unsplash("1759020622261-a876260db765"),
+    heroAlt: "The National Archives building in Washington, D.C.",
+    wideImage: unsplash("1521587760476-6c12a4b040da"),
+    wideAlt: "A monumental archive interior lined with organized collections",
+    detailImage: unsplash("1507842217343-583bb7270b66"),
+    detailAlt: "Structured library shelves representing careful records management",
+  },
+  {
+    slug: "policy-strategy-program-support",
+    number: "05",
     color: "#16c172",
     title: "Policy, Strategy, & Program Support",
     shortTitle: "Policy & Strategy",
@@ -114,7 +136,7 @@ export const solutions: Solution[] = [
   },
   {
     slug: "international-advisory-capacity-building",
-    number: "05",
+    number: "06",
     color: "#a23cff",
     title: "International Advisory & Capacity Building",
     shortTitle: "Global Advisory",
@@ -137,32 +159,10 @@ export const solutions: Solution[] = [
     detailAlt: "A water-rescue trainee practicing emergency response skills",
   },
   {
-    slug: "administrative-compliance-support",
-    number: "06",
-    color: "#ff7a1a",
-    title: "Administrative & Compliance Support",
-    shortTitle: "Compliance Support",
-    description:
-      "Harkcon helps agencies manage records, address privacy requirements, and meet regulatory obligations. Our administrative and operational support keeps essential daily work on track.",
-    proofPoint:
-      "Harkcon delivered privacy compliance support to the Department of Homeland Security, including the development of privacy impact assessments and records retention schedules.",
-    solutions: [
-      "Records management and Freedom of Information Act support",
-      "Privacy and regulatory compliance solutions",
-      "Administrative and operational support",
-    ],
-    heroImage: unsplash("1759020622261-a876260db765"),
-    heroAlt: "The National Archives building in Washington, D.C.",
-    wideImage: unsplash("1521587760476-6c12a4b040da"),
-    wideAlt: "A monumental archive interior lined with organized collections",
-    detailImage: unsplash("1507842217343-583bb7270b66"),
-    detailAlt: "Structured library shelves representing careful records management",
-  },
-  {
     slug: "emergency-management-continuity-support",
     number: "07",
     color: "#00a8a8",
-    title: "Emergency Management & Continuity Support",
+    title: "Emergency Management & Contingency Support",
     shortTitle: "Emergency Support",
     description:
       "Harkcon helps agencies plan, exercise, and maintain emergency management and continuity programs. We prepare teams to respond to disruptions, recover operations, and protect the essential functions their missions depend on.",

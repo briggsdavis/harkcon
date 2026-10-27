@@ -12,16 +12,17 @@ import {
   YoutubeLogo,
 } from "@phosphor-icons/react"
 import Image from "next/image"
+import NextLink from "next/link"
 import { FocusEvent, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react"
+import CompanyStats from "~/components/company-stats"
 import FeaturedNews from "~/components/featured-news"
-import SolutionCardWatermark from "~/components/solution-card-watermark"
+import SectionSearch, { type SearchSection } from "~/components/section-search"
+import SolutionsOverview from "~/components/solutions-overview"
 import Link from "~/components/visibility-link"
 import { HARKCON_CAPABILITY_STATEMENT_URL } from "~/lib/documents"
-import { keepClosingWords } from "~/lib/typography"
-import { usePageVisibility } from "~/lib/use-page-visibility"
 
 const statement =
-  "Since 2005, Harkcon has helped government agencies and private-sector organizations overcome complex challenges, strengthen organizational performance, and achieve mission-critical outcomes."
+  "Since 2005, Harkcon has helped government agencies and private-sector companies overcome complex challenges, strengthen organizational performance, and achieve mission-critical outcomes."
 
 const solutionLinks = [
   {
@@ -37,6 +38,11 @@ const solutionLinks = [
     href: "/solutions/process-improvement-transformation",
   },
   {
+    title: "Administrative & Compliance Support",
+    href: "/solutions/administrative-compliance-support",
+  },
+
+  {
     title: "Policy, Strategy, & Program Support",
     href: "/solutions/policy-strategy-program-support",
   },
@@ -45,11 +51,7 @@ const solutionLinks = [
     href: "/solutions/international-advisory-capacity-building",
   },
   {
-    title: "Administrative & Compliance Support",
-    href: "/solutions/administrative-compliance-support",
-  },
-  {
-    title: "Emergency Management & Continuity Support",
+    title: "Emergency Management & Contingency Support",
     href: "/solutions/emergency-management-continuity-support",
   },
 ]
@@ -269,6 +271,11 @@ const socialLinkClassName =
   "flex h-11 w-11 items-center justify-center text-white/80 transition-colors duration-300 hover:text-white focus-visible:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
 
 const clientLogos = [
+  { name: "Federal Bureau of Investigation", src: "/images/FBI.webp" },
+  {
+    name: "Social Security Administration",
+    src: "/images/social-security-administration-logo.svg",
+  },
   {
     name: "Bureau of Safety and Environmental Enforcement",
     src: "/images/bsee-logo.jpg",
@@ -306,39 +313,6 @@ const clientLogos = [
   { name: "WildAid Marine Program", src: "/images/wildaid-marine-logo.png" },
 ]
 
-const solutions = [
-  {
-    title: "Workforce & Organizational Analysis",
-    href: solutionLinks[0].href,
-    detail: "Staffing analysis and workforce plans grounded in evidence.",
-  },
-  {
-    title: "Training & Human Systems Integration",
-    href: solutionLinks[1].href,
-    detail: "Training built around the work people need to do.",
-  },
-  {
-    title: "Process Improvement & Transformation",
-    href: solutionLinks[2].href,
-    detail: "Practical process changes that reduce risk and wasted effort.",
-  },
-  {
-    title: "Policy, Strategy & Program Support",
-    href: solutionLinks[3].href,
-    detail: "Clear direction for complex programs and decisions.",
-  },
-  {
-    title: "International Advisory & Capacity Building",
-    href: solutionLinks[4].href,
-    detail: "Stronger partnerships and operational readiness abroad.",
-  },
-  {
-    title: "Emergency Management & Continuity",
-    href: solutionLinks[6].href,
-    detail: "Preparedness that protects mission-critical functions.",
-  },
-]
-
 export function Arrow({
   diagonal = false,
   className = "",
@@ -363,14 +337,20 @@ const navLinkClassName =
 const mobileNavLinkClassName =
   "flex items-center justify-between border-b border-white/15 py-4 text-lg"
 
-export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | "light" }) {
-  const visibility = usePageVisibility()
+export function Header({
+  initialSurface = "dark",
+  searchSections,
+  searchPageTitle = "This page",
+}: {
+  initialSurface?: "dark" | "light"
+  searchPageTitle?: string
+  searchSections?: SearchSection[]
+}) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [openDropdown, setOpenDropdown] = useState<DropdownName | null>(null)
   const [shownDropdown, setShownDropdown] = useState<DropdownName>("solutions")
   const [panelHeight, setPanelHeight] = useState(0)
   const [mobileSolutionsOpen, setMobileSolutionsOpen] = useState(false)
-  const [mobileNewsOpen, setMobileNewsOpen] = useState(false)
   const [atTop, setAtTop] = useState(true)
   const [headerVisible, setHeaderVisible] = useState(true)
   const dropdownCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -399,7 +379,6 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
     dropdownCloseTimer.current = setTimeout(() => setOpenDropdown(null), 280)
   }, [clearDropdownTimer])
   const toggleMobileSolutions = useCallback(() => setMobileSolutionsOpen((open) => !open), [])
-  const toggleMobileNews = useCallback(() => setMobileNewsOpen((open) => !open), [])
   const handleNavBlur = useCallback((event: FocusEvent<HTMLElement>) => {
     if (!event.currentTarget.contains(event.relatedTarget)) setOpenDropdown(null)
   }, [])
@@ -516,16 +495,13 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
           >
             Kevin Harkins
           </Link>
-          {visibility?.news === false ? (
-            <span className={navLinkClassName}>News</span>
-          ) : (
-            <NavDropdownTrigger
-              label="News"
-              open={openDropdown === "news"}
-              onOpen={openNews}
-              onScheduleClose={scheduleDropdownClose}
-            />
-          )}
+          <NavDropdownTrigger
+            label="News"
+            href="/news-insights"
+            open={openDropdown === "news"}
+            onOpen={openNews}
+            onScheduleClose={scheduleDropdownClose}
+          />
           <NavDropdownTrigger
             label="Solutions"
             href="/solutions"
@@ -533,6 +509,13 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
             onOpen={openSolutions}
             onScheduleClose={scheduleDropdownClose}
           />
+          {searchSections && (
+            <SectionSearch
+              key={searchPageTitle}
+              sections={searchSections}
+              pageTitle={searchPageTitle}
+            />
+          )}
           <Link
             href="/contact"
             className={`${wipeButtonClassName} ml-2 ${darkSurface ? wipeButtonLightClassName : wipeButtonDarkClassName}`}
@@ -578,32 +561,41 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
           </div>
         </nav>
 
-        <button
-          type="button"
-          aria-expanded={menuOpen}
-          aria-controls="mobile-navigation"
-          aria-label={menuOpen ? "Close menu" : "Open menu"}
-          onClick={toggleMenu}
-          className={`flex h-11 w-11 flex-col items-center justify-center gap-2 rounded-none border lg:hidden ${menuButtonLight ? "border-[#0d132d]/35" : "border-white/40"}`}
-        >
-          <svg
-            aria-hidden="true"
-            viewBox="0 0 24 24"
-            className={`h-6 w-6 ${menuButtonLight ? "text-[#0d132d]" : "text-white"}`}
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1"
+        <div className="flex items-center gap-3 lg:hidden">
+          {searchSections && (
+            <SectionSearch
+              key={searchPageTitle}
+              sections={searchSections}
+              pageTitle={searchPageTitle}
+            />
+          )}
+          <button
+            type="button"
+            aria-expanded={menuOpen}
+            aria-controls="mobile-navigation"
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            onClick={toggleMenu}
+            className={`flex h-11 w-11 flex-col items-center justify-center gap-2 rounded-none border lg:hidden ${menuButtonLight ? "border-[#0d132d]/35" : "border-white/40"}`}
           >
-            <path
-              d="M4 12h16"
-              className={`origin-center transition-transform duration-300 ${menuOpen ? "rotate-45" : "-translate-y-1"}`}
-            />
-            <path
-              d="M4 12h16"
-              className={`origin-center transition-transform duration-300 ${menuOpen ? "-rotate-45" : "translate-y-1"}`}
-            />
-          </svg>
-        </button>
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              className={`h-6 w-6 ${menuButtonLight ? "text-[#0d132d]" : "text-white"}`}
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1"
+            >
+              <path
+                d="M4 12h16"
+                className={`origin-center transition-transform duration-300 ${menuOpen ? "rotate-45" : "-translate-y-1"}`}
+              />
+              <path
+                d="M4 12h16"
+                className={`origin-center transition-transform duration-300 ${menuOpen ? "-rotate-45" : "translate-y-1"}`}
+              />
+            </svg>
+          </button>
+        </div>
       </div>
 
       <div
@@ -632,37 +624,9 @@ export function Header({ initialSurface = "dark" }: { initialSurface?: "dark" | 
         >
           Kevin Harkins
         </Link>
-        <button
-          type="button"
-          className="flex w-full items-center justify-between border-b border-white/15 py-4 text-left text-lg"
-          disabled={visibility?.news === false}
-          aria-expanded={mobileNewsOpen}
-          aria-controls="mobile-news-list"
-          onClick={toggleMobileNews}
-        >
-          News {mobileNewsOpen ? <Minus aria-hidden="true" /> : <Plus aria-hidden="true" />}
-        </button>
-        <div
-          id="mobile-news-list"
-          className={`grid overflow-hidden pl-4 transition-all duration-500 ${mobileNewsOpen ? "" : "hidden"}`}
-        >
-          <Link
-            href="/news-insights"
-            onClick={closeMenu}
-            className="flex items-center justify-between border-b border-white/15 py-3 text-sm leading-snug text-white/70"
-          >
-            News
-          </Link>
-          <a
-            href="https://www.linkedin.com/company/harkcon-inc./"
-            target="_blank"
-            rel="noreferrer"
-            onClick={closeMenu}
-            className="flex items-center justify-between border-b border-white/15 py-3 text-sm leading-snug text-white/70"
-          >
-            LinkedIn
-          </a>
-        </div>
+        <NextLink href="/news-insights" onClick={closeMenu} className={mobileNavLinkClassName}>
+          News
+        </NextLink>
         <button
           type="button"
           className="flex w-full items-center justify-between border-b border-white/15 py-4 text-left text-lg"
@@ -837,7 +801,7 @@ function Hero() {
             <br />
             Better&nbsp;Performance.
             <br />
-            Better&nbsp;Outcomes
+            Better&nbsp;Outcomes.
           </h1>
           <div className="mt-7 flex items-center gap-4 pt-5 md:mt-9 md:pt-6" data-reveal-line>
             <p className="max-w-xl text-sm leading-relaxed text-pretty text-white/80 md:text-base">
@@ -1105,61 +1069,11 @@ export default function HomePage() {
 
         <ScrollStatement />
 
-        <section
-          id="solutions"
-          className="bg-white py-20 md:py-24 lg:py-28"
-          aria-labelledby="solutions-title"
-        >
-          <div className="site-gutter">
-            <div className="grid gap-16 lg:grid-cols-[minmax(230px,0.7fr)_minmax(0,2.3fr)] lg:gap-12 xl:gap-20">
-              <div className="self-start lg:sticky lg:top-32">
-                <h2
-                  id="solutions-title"
-                  className="max-w-sm font-header text-section-title font-medium text-balance"
-                >
-                  Our&nbsp;Solutions
-                </h2>
-              </div>
-
-              <div className="grid gap-x-7 gap-y-0 md:grid-cols-2 xl:grid-cols-3">
-                {solutions.map((solution) => (
-                  <Link
-                    href={solution.href}
-                    key={solution.title}
-                    className="group relative min-h-[310px] overflow-hidden px-5 py-7 text-[#0d132d] transition-colors duration-500 hover:text-white focus-visible:text-white focus-visible:outline-none md:min-h-[340px] md:px-6 md:py-8"
-                    data-reveal-line
-                  >
-                    <span className="absolute inset-0 origin-left scale-x-0 bg-[#0d132d] transition-transform duration-900 ease-[cubic-bezier(0.45,0,0.2,1)] will-change-transform group-hover:scale-x-100 group-focus-visible:scale-x-100" />
-                    <SolutionCardWatermark />
-                    <span
-                      aria-hidden="true"
-                      className="pointer-events-none absolute top-5 right-5 z-10 h-1.5 w-1.5 rounded-full bg-brand-gold opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100 motion-reduce:transition-none"
-                    />
-                    <div className="relative z-10 flex h-full flex-col">
-                      <h3 className="max-w-sm pr-3 font-header text-card-title font-medium text-balance">
-                        {keepClosingWords(solution.title)}
-                      </h3>
-                      <div className="mt-auto flex items-end gap-5 pt-10">
-                        <p className="max-w-[15rem] text-sm leading-relaxed text-pretty text-[#5f626b] transition-colors duration-700 group-hover:text-white/70">
-                          {keepClosingWords(solution.detail)}
-                        </p>
-                        <span className="ml-auto flex h-14 w-14 shrink-0 items-center justify-center bg-[#f4f3f0] text-[#0d132d]">
-                          <Arrow
-                            diagonal
-                            className="transition-transform duration-600 ease-smooth group-hover:rotate-45 group-focus-visible:rotate-45"
-                          />
-                        </span>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
+        <CompanyStats />
+        <SolutionsOverview />
 
         <section
-          className="bg-[#0d132d] pt-16 pb-32 text-white md:pt-20 md:pb-40"
+          className="bg-[#0d132d] py-[3.2rem] text-white md:py-16"
           aria-labelledby="home-contracts-title"
         >
           <div className="site-gutter grid gap-12 md:grid-cols-2 md:gap-0">
@@ -1247,13 +1161,14 @@ export default function HomePage() {
               objective: understand the problem, build the right solution, and help our clients
               perform&nbsp;better.
             </p>
-            {/* <Link href="/about"> */}
-            <span className={`${wipeButtonClassName} mt-10 ${wipeButtonDarkClassName}`}>
+            <NextLink
+              href="/about"
+              className={`${wipeButtonClassName} mt-10 ${wipeButtonDarkClassName}`}
+            >
               Discover Harkcon
-            </span>
-            {/* </Link> */}
+            </NextLink>
           </div>
-          <div className="py-20 md:py-24 lg:py-28">
+          <div className="px-5 py-20 sm:px-8 md:py-24 lg:py-28 lg:pr-12 lg:pl-0 xl:pr-16">
             <div className="relative h-full min-h-[70svh] overflow-hidden lg:min-h-[90svh]">
               <Image
                 src="/images/about-team.png"

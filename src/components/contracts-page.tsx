@@ -387,10 +387,18 @@ function SectionLinks({
   )
 }
 
-function ContractGroupHeading({ title, description }: { title: string; description: string }) {
+function ContractGroupHeading({
+  title,
+  description,
+  transparent = false,
+}: {
+  title: string
+  description: string
+  transparent?: boolean
+}) {
   const links = contractGroupLinks[title] ?? emptySectionLinks
   return (
-    <header className="bg-[#0d132d] text-white">
+    <header className={`${transparent ? "" : "bg-[#0d132d]"} text-white`}>
       <div className={`site-gutter py-18 md:py-21 ${contractColumnsClassName}`}>
         <div>
           <p className="font-eyebrow text-xs font-semibold tracking-[0.16em] text-[#ffb612] uppercase">
@@ -500,28 +508,41 @@ function ContractsContent() {
 function OasisContent() {
   return (
     <>
-      <section id="oasis-scope" className={`relative isolate ${contractSectionClassName("navy")}`}>
+      <div className="relative isolate bg-[#0d132d] text-white">
         <SectionWatermark />
-        <div className={`site-gutter relative ${contractColumnsClassName}`}>
-          <div className="self-start lg:sticky lg:top-36">
-            <p className="eyebrow mb-5 text-brand-gold">Scope &amp; access</p>
-            <h2 className={contractHeadingClassName}>Aligned to the&nbsp;requirement.</h2>
-            <p className="mt-8 max-w-xl text-body-copy text-pretty text-white/65">
-              Harkcon’s vehicles provide access to professional services aligned with the GSA OASIS+
-              program structure. We support requirements consistent with our awarded contract
-              domains, scope, and ordering&nbsp;procedures.
-            </p>
-            <div className="mt-12 grid items-start gap-5">
-              <Link href="/contact" className="text-link w-fit text-white" data-reveal-line>
-                Discuss scope fit <Arrow />
-              </Link>
+        <section id="oasis-scope" className={contractSectionClassName()}>
+          <div className={`site-gutter relative ${contractColumnsClassName}`}>
+            <div className="self-start lg:sticky lg:top-36">
+              <p className="eyebrow mb-5 text-brand-gold">Scope &amp; access</p>
+              <h2 className={contractHeadingClassName}>Aligned to the&nbsp;requirement.</h2>
+              <p className="mt-8 max-w-xl text-body-copy text-pretty text-white/65">
+                Harkcon’s vehicles provide access to professional services aligned with the GSA
+                OASIS+ program structure. We support requirements consistent with our awarded
+                contract domains, scope, and ordering&nbsp;procedures.
+              </p>
+              <div className="mt-12 grid items-start gap-5">
+                <Link href="/contact" className="text-link w-fit text-white" data-reveal-line>
+                  Discuss scope fit <Arrow />
+                </Link>
+              </div>
             </div>
+            <NumberedList items={oasisSdvosbCapabilities} navy />
           </div>
-          <NumberedList items={oasisSdvosbCapabilities} navy />
-        </div>
-      </section>
+        </section>
 
-      <ContractGroup groupKey="oasis" />
+        <div id="oasis-vehicles" className="relative scroll-mt-28">
+          <ContractGroupHeading
+            title={contractGroups.oasis.title}
+            description={contractGroups.oasis.description}
+            transparent
+          />
+        </div>
+      </div>
+      <div className="relative bg-white">
+        {contractGroups.oasis.recordIds.map((id) => (
+          <ContractListing key={id} {...contractRecords[id]} />
+        ))}
+      </div>
       <ContractGroup groupKey="legacy" />
 
       <section id="oasis-verification" className={contractSectionClassName("soft")}>
@@ -658,7 +679,40 @@ export default function ContractsPage({ view = "contracts" }: { view?: ContractV
 
   return (
     <div id="top" className="overflow-clip bg-white text-[#0d132d]">
-      <Header />
+      <Header
+        searchPageTitle={view === "contracts" ? "Contracts" : "OASIS+"}
+        searchSections={[
+          ...(view === "oasis"
+            ? [
+                { id: "oasis-scope", title: "Scope & Access" },
+                { id: "oasis-vehicles", title: "OASIS+ Vehicles" },
+              ]
+            : []),
+          ...content.sections.map(([id, title]) => ({
+            id,
+            title: contractRecords[id]?.title ?? title,
+          })),
+          ...(view === "contracts"
+            ? [
+                {
+                  id: "contracts-designation",
+                  title: "Service-Disabled Veteran-Owned Small Business",
+                },
+                { id: "contracts-naics-list", title: "NAICS Codes" },
+                { id: "contracts-documents", title: "Documents" },
+              ]
+            : [{ id: "oasis-verification", title: "Verify our contracts" }]),
+          ...Object.values(contractRecords)
+            .filter((record) =>
+              view === "contracts"
+                ? !record.id.startsWith("oasis-")
+                : record.id.startsWith("oasis-"),
+            )
+            .map((record) => ({ id: record.id, title: record.title })),
+        ].filter(
+          (section, index, all) => all.findIndex((item) => item.id === section.id) === index,
+        )}
+      />
       <div className="relative">
         <section
           className="relative h-[52svh] min-h-[360px] overflow-hidden md:min-h-[400px]"
