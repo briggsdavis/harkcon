@@ -3,7 +3,8 @@ import { v } from "convex/values"
 import { openingValidator } from "./careerValidators"
 
 export default defineSchema({
-  homeSettings: defineTable({ hero: v.union(v.literal("capitol"), v.literal("social-work")) }),
+  homeSettings: defineTable({ hero: v.string() }),
+  heroImages: defineTable({ storageId: v.id("_storage"), name: v.string() }),
   careerOpenings: defineTable({ openings: v.array(openingValidator), updatedAt: v.number() }),
   pageVisibility: defineTable({ key: v.string(), visible: v.boolean() }).index("by_key", ["key"]),
   articles: defineTable({

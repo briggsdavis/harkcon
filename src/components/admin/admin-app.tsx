@@ -1535,6 +1535,9 @@ function Empty({ text }: { text: string }) {
 
 function HomeEditor() {
   const hero = useQuery(api.content.getHomeHero)
+  const images = useQuery(api.content.listHeroImages)
+  const uploadUrl = useMutation(api.content.generateImageUploadUrl)
+  const addImage = useMutation(api.content.addHeroImage)
   const save = useMutation(api.content.setHomeHero)
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState("")
@@ -1546,20 +1549,62 @@ function HomeEditor() {
         description="Choose the hero image shown on the website."
       />
       <div className={`${card} p-6`}>
+        <label className="mb-6 block text-sm font-medium">
+          Upload a new hero image
+          <input
+            type="file"
+            accept="image/jpeg,image/png,image/webp,image/avif"
+            disabled={saving}
+            className="mt-3 block w-full cursor-pointer text-sm file:mr-4 file:border-0 file:bg-[#0d132d] file:px-4 file:py-3 file:text-white disabled:opacity-50"
+            onChange={async (event) => {
+              const file = event.target.files?.[0]
+              event.target.value = ""
+              if (!file) return
+              if (
+                !["image/jpeg", "image/png", "image/webp", "image/avif"].includes(file.type) ||
+                file.size > 10 * 1024 * 1024
+              ) {
+                setMessage("Choose a JPG, PNG, WebP, or AVIF image smaller than 10 MB.")
+                return
+              }
+              setSaving(true)
+              setMessage("")
+              try {
+                const url = await uploadUrl()
+                const response = await fetch(url, {
+                  method: "POST",
+                  headers: { "Content-Type": file.type },
+                  body: file,
+                })
+                if (!response.ok) throw new Error("Upload failed")
+                const { storageId } = (await response.json()) as { storageId: Id<"_storage"> }
+                await addImage({ storageId, name: file.name.replace(/\.[^.]+$/, "") })
+                setMessage("Image uploaded. Select it below to use it as the hero.")
+              } catch {
+                setMessage("Could not upload the image. Please try again.")
+              } finally {
+                setSaving(false)
+              }
+            }}
+          />
+          <span className="mt-2 block text-xs text-[#7b8291]">
+            JPG, PNG, WebP or AVIF, up to 10 MB. Uploads are saved as additional options.
+          </span>
+        </label>
         <fieldset disabled={saving || hero === undefined}>
           <legend className="mb-5 font-header text-xl">Hero image</legend>
           <div className="grid gap-5 sm:grid-cols-2">
-            {(
-              [
-                ["capitol", "Capitol", "/images/capitol-hero.png"],
-                ["social-work", "Social Work", "/images/Social Work.png"],
-              ] as const
-            ).map(([value, label, src]) => (
+            {[
+              ["capitol", "Capitol", "/images/capitol-hero.png"],
+              ["social-work", "Social Work", "/images/Social Work.png"],
+              ...(images ?? []).flatMap((image) =>
+                image.url ? [[image.id, image.name, image.url] as const] : [],
+              ),
+            ].map(([value, label, src]) => (
               <label
                 key={value}
                 className={`cursor-pointer border-2 p-3 transition-colors ${hero === value ? "border-[#0d132d]" : "border-transparent"}`}
               >
-                {/* Native image preserves the full preview in the editor. */}
                 <Image
                   src={src}
                   alt={label}

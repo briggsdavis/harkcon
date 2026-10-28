@@ -219,11 +219,52 @@ export const getHomeHero = query({
 })
 
 export const setHomeHero = mutation({
-  args: { hero: v.union(v.literal("capitol"), v.literal("social-work")) },
+  args: { hero: v.string() },
   handler: async (ctx, { hero }) => {
     await requireAdmin(ctx)
+    if (hero !== "capitol" && hero !== "social-work") {
+      const image = (await ctx.db.query("heroImages").collect()).find((image) => image._id === hero)
+      if (!image) throw new Error("Unknown hero image")
+    }
     const settings = await ctx.db.query("homeSettings").first()
     if (settings) await ctx.db.patch(settings._id, { hero })
     else await ctx.db.insert("homeSettings", { hero })
+  },
+})
+
+export const listHeroImages = query({
+  args: {},
+  handler: async (ctx) => {
+    const images = await ctx.db.query("heroImages").collect()
+    return await Promise.all(
+      images.map(async (image) => ({
+        id: image._id,
+        name: image.name,
+        url: await ctx.storage.getUrl(image.storageId),
+      })),
+    )
+  },
+})
+
+export const addHeroImage = mutation({
+  args: { storageId: v.id("_storage"), name: v.string() },
+  handler: async (ctx, { storageId, name }) => {
+    await requireAdmin(ctx)
+    const file = await ctx.db.system.get(storageId)
+    if (
+      !file ||
+      !["image/jpeg", "image/png", "image/webp", "image/avif"].includes(file.contentType ?? "") ||
+      file.size > 10 * 1024 * 1024
+    ) {
+      throw new Error("Choose a JPG, PNG, WebP, or AVIF image smaller than 10 MB.")
+    }
+    const existing = (await ctx.db.query("heroImages").collect()).find(
+      (image) => image.storageId === storageId,
+    )
+    if (existing) return existing._id
+    return await ctx.db.insert("heroImages", {
+      storageId,
+      name: name.trim().slice(0, 120) || "Uploaded hero",
+    })
   },
 })

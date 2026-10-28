@@ -12,6 +12,7 @@ import {
   YoutubeLogo,
 } from "@phosphor-icons/react"
 import { useQueries } from "convex/react"
+import type { FunctionReturnType } from "convex/server"
 import Image from "next/image"
 import NextLink from "next/link"
 import { FocusEvent, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react"
@@ -741,12 +742,21 @@ function ClientMarquee() {
   )
 }
 
-const heroQuery = { hero: { query: api.content.getHomeHero, args: {} } }
+const heroQuery = {
+  hero: { query: api.content.getHomeHero, args: {} },
+  images: { query: api.content.listHeroImages, args: {} },
+}
 
 function Hero() {
   // Keep the current image available while the backend update is rolled out.
-  const { hero } = useQueries(heroQuery)
+  const { hero, images } = useQueries(heroQuery)
   const heroImage = hero instanceof Error || !hero ? "capitol" : hero
+  const uploadedImage =
+    images instanceof Error
+      ? undefined
+      : (images as FunctionReturnType<typeof api.content.listHeroImages> | undefined)?.find(
+          (image) => image.id === heroImage,
+        )
   const mediaRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -784,11 +794,16 @@ function Hero() {
         className="absolute -top-[24%] right-0 -bottom-[24%] left-0 translate-y-(--hero-parallax) will-change-transform"
       >
         <Image
-          src={heroImage === "social-work" ? "/images/Social Work.png" : "/images/capitol-hero.png"}
+          src={
+            uploadedImage?.url ??
+            (heroImage === "social-work" ? "/images/Social Work.png" : "/images/capitol-hero.png")
+          }
           alt={
-            heroImage === "social-work"
-              ? "Social work and community service"
-              : "The United States Capitol at sunrise"
+            uploadedImage
+              ? uploadedImage.name
+              : heroImage === "social-work"
+                ? "Social work and community service"
+                : "The United States Capitol at sunrise"
           }
           fill
           preload
