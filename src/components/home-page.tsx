@@ -757,42 +757,12 @@ function Hero() {
       : (images as FunctionReturnType<typeof api.content.listHeroImages> | undefined)?.find(
           (image) => image.id === heroImage,
         )
-  const mediaRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const media = mediaRef.current
-    if (!media || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
-
-    let frame = 0
-
-    const update = () => {
-      frame = 0
-      const heroHeight = media.parentElement?.offsetHeight ?? window.innerHeight
-      const progress = Math.min(Math.max(window.scrollY, 0), heroHeight)
-      media.style.setProperty("--hero-parallax", `${progress * 0.24}px`)
-    }
-
-    const onScroll = () => {
-      if (!frame) frame = requestAnimationFrame(update)
-    }
-
-    update()
-    window.addEventListener("scroll", onScroll, { passive: true })
-    return () => {
-      window.removeEventListener("scroll", onScroll)
-      if (frame) cancelAnimationFrame(frame)
-    }
-  }, [])
-
   return (
     <section
       className="hero relative h-[100svh] max-h-[1050px] min-h-[650px] overflow-hidden"
       aria-labelledby="hero-title"
     >
-      <div
-        ref={mediaRef}
-        className="absolute -top-[24%] right-0 -bottom-[24%] left-0 translate-y-(--hero-parallax) will-change-transform"
-      >
+      <div className="absolute inset-0">
         <Image
           src={
             uploadedImage?.url ??
