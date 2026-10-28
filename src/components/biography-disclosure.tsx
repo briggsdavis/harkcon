@@ -14,7 +14,7 @@ export default function BiographyDisclosure({
   const id = useId()
   return (
     <>
-      <details className="disclosure group mt-5 hidden lg:block">
+      <details className="disclosure group mx-auto mt-5 hidden w-[85%] lg:block">
         <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#0d132d] [&::-webkit-details-marker]:hidden">
           <span className="relative after:absolute after:-bottom-1 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-brand-red after:transition-transform after:duration-300 group-focus-within:after:scale-x-100 group-hover:after:scale-x-100">
             Biography<span className="sr-only"> of {name}</span>
@@ -26,7 +26,7 @@ export default function BiographyDisclosure({
         </summary>
         {children}
       </details>
-      <div className="group mt-5 lg:hidden">
+      <div className="group mx-auto mt-5 w-[85%] lg:hidden">
         <button
           type="button"
           aria-expanded={open}

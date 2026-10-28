@@ -52,7 +52,7 @@ export default function SolutionsOverview() {
         <div className="pb-12 xl:pb-0">
           <h2
             id="solutions-title"
-            className="font-header text-section-title font-medium xl:sticky xl:top-32"
+            className="font-header text-section-title font-medium xl:sticky xl:top-32 xl:pb-12"
           >
             Our Solutions
           </h2>

@@ -117,9 +117,12 @@ function TeamSection({
           </div>
           <span className="text-sm text-[#5f626b]">Expertise. Perspective. Commitment.</span>
         </div>
-        <div className="grid items-start gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-12 lg:gap-y-16">
+        <div className="grid items-start gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-12 lg:gap-y-8">
           {people.map((person) => (
-            <article key={person.portrait} className="min-w-0 border-t border-[#0d132d]/20 pt-8">
+            <article
+              key={person.portrait}
+              className="relative min-w-0 pt-8 before:absolute before:inset-x-[7.5%] before:top-0 before:border-t before:border-[#0d132d]/20"
+            >
               <div className="relative mx-auto mb-7 aspect-square w-44 overflow-hidden rounded-full bg-[#e9e8e4] md:w-52">
                 <Image
                   src={`/images/leadership-${person.portrait}.jpg`}
@@ -135,19 +138,23 @@ function TeamSection({
               <p className="mt-2 min-h-12 text-center text-sm leading-6 text-[#5f626b]">
                 {person.role}
               </p>
-              {person.linkedin && (
+              {
                 <div className="mt-2 flex justify-center">
                   <a
-                    href={person.linkedin}
+                    href={person.linkedin ?? "https://www.linkedin.com/company/harkcon-inc."}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label={`View ${person.name} on LinkedIn (opens in a new tab)`}
+                    aria-label={
+                      person.linkedin
+                        ? `View ${person.name} on LinkedIn (opens in a new tab)`
+                        : "View Harkcon on LinkedIn (opens in a new tab)"
+                    }
                     className="inline-flex min-h-11 items-center gap-2 px-3 text-sm text-[#5f626b] underline-offset-4 transition-colors hover:text-[#0d132d] hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#0d132d]"
                   >
                     <LinkedinLogo aria-hidden="true" weight="fill" className="size-5" /> LinkedIn
                   </a>
                 </div>
-              )}
+              }
               {person.biography && (
                 <BiographyDisclosure name={person.name}>
                   <p className="pb-6 text-sm leading-7 text-[#454955]">{person.biography}</p>

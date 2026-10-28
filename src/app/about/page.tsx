@@ -95,8 +95,8 @@ export default function About() {
       <div className="relative">
         <section className="relative h-[55svh] overflow-hidden" aria-labelledby="about-hero-title">
           <HeroParallaxImage
-            src={unsplash("1772140994501-a12bbc57a1e5")}
-            alt="A U.S. Coast Guard helicopter and crew prepared for an Arctic mission"
+            src="/images/editorial/about-storm-lighthouse.jpg"
+            alt="Large waves breaking over the pier and lighthouse at Porthcawl, Wales"
             imageClassName="scale-[1.015] object-cover object-[50%_42%]"
           />
           <div className="about-hero-overlay absolute inset-0 z-[1]" />

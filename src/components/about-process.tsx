@@ -8,8 +8,8 @@ const steps = [
   {
     title: "Understand the workforce.",
     description: "Assess roles, staffing, and organizational requirements with evidence.",
-    image: "/images/careers-interview.jpg",
-    alt: "Colleagues discussing workforce requirements",
+    image: "/images/editorial/about-wild-coast.jpg",
+    alt: "Rough ocean waves breaking along a rocky shoreline",
     tasks: [
       [
         "Analyze",
@@ -21,8 +21,8 @@ const steps = [
   {
     title: "Develop practical training.",
     description: "Design training and Human Systems Integration support around the work.",
-    image: "/images/about-collaboration.jpg",
-    alt: "Colleagues developing a training approach",
+    image: "/images/editorial/contracts-uscg-itass.jpg",
+    alt: "A rescue crew underway in an orange lifeboat",
     tasks: [
       ["Design", "Develop training strategies, curricula, and instructional systems."],
       [
@@ -34,8 +34,8 @@ const steps = [
   {
     title: "Improve how work gets done.",
     description: "Connect process analysis, policy, and program support to organizational needs.",
-    image: "/images/careers-collaboration.jpg",
-    alt: "Colleagues coordinating program support",
+    image: "/images/editorial/about-rough-coast.jpg",
+    alt: "Waves breaking against the rocky coast of Western Australia",
     tasks: [
       ["Review", "Analyze business processes and identify opportunities to improve performance."],
       [

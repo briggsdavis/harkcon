@@ -95,7 +95,7 @@
     "alt": "Container terminals and transport links in a working harbor",
     "source": "https://unsplash.com/photos/an-aerial-view-of-a-large-container-port-SUxeK8DpNFs",
     "original": "https://images.unsplash.com/photo-1670872380078-b37aeec4768d",
-    "photographer": "Zsófia Vera Mezei",
+    "photographer": "Zs\u00f3fia Vera Mezei",
     "license": "Unsplash License",
     "usage": "Illustrative editorial imagery; does not document Harkcon project execution."
   },
@@ -132,6 +132,110 @@
     "source": "https://unsplash.com/photos/aerial-view-of-a-bridge-over-a-river-MUAXV1H33jY",
     "original": "https://images.unsplash.com/photo-1583199125156-cc6848d342b3",
     "photographer": "Patrick",
+    "license": "Unsplash License",
+    "usage": "Illustrative editorial imagery; does not document Harkcon project execution."
+  },
+  "about-rough-coast": {
+    "src": "/images/editorial/about-rough-coast.jpg",
+    "alt": "Waves crashing against rocks in Western Australia, by Nathan Hurst",
+    "source": "https://unsplash.com/photos/RI00BAeggbk",
+    "original": "https://images.unsplash.com/photo-1659705601423-d68098cb6017",
+    "usage": "Illustrative editorial imagery; does not document Harkcon project execution."
+  },
+  "about-storm-lighthouse": {
+    "src": "/images/editorial/about-storm-lighthouse.jpg",
+    "alt": "Waves breaking over Porthcawl pier, by Marcus Woodbridge",
+    "source": "https://unsplash.com/photos/j-ukn6RzOFo",
+    "original": "https://images.unsplash.com/photo-1570187853757-b599d3fc5fbd",
+    "usage": "Illustrative editorial imagery; does not document Harkcon project execution."
+  },
+  "about-wild-coast": {
+    "src": "/images/editorial/about-wild-coast.jpg",
+    "alt": "Rough ocean waves breaking along a rocky shoreline",
+    "source": "https://unsplash.com/photos/rough-ocean-waves-crash-against-rocky-shore-qH1xF92iu-k",
+    "original": "https://images.unsplash.com/photo-1760215141216-0c1da2b7473d",
+    "photographer": "Fiona Dodd",
+    "license": "Unsplash License",
+    "usage": "Illustrative editorial imagery; does not document Harkcon project execution."
+  },
+  "international-hero": {
+    "src": "/images/editorial/international-hero.jpg",
+    "alt": "Cargo ship carrying containers across the Gulf of Finland",
+    "source": "https://unsplash.com/photos/qGL1IzI415I",
+    "original": "https://images.unsplash.com/photo-1695221164682-9d42e7e7b69f",
+    "photographer": "Juho Luomala",
+    "license": "Unsplash License",
+    "usage": "Illustrative editorial imagery; does not document Harkcon project execution."
+  },
+  "process-logistics": {
+    "src": "/images/editorial/process-logistics.jpg",
+    "alt": "Aerial view of freight trucks organized in a logistics yard",
+    "source": "https://unsplash.com/photos/kGoPcmpPT7c",
+    "original": "https://images.unsplash.com/photo-1565793298595-6a879b1d9492",
+    "photographer": "Marcin Jozwiak",
+    "license": "Unsplash License",
+    "usage": "Illustrative editorial imagery; does not document Harkcon project execution."
+  },
+  "compliance-paperwork": {
+    "src": "/images/editorial/compliance-paperwork.jpg",
+    "alt": "Professionals reviewing paperwork at a desk",
+    "source": "https://unsplash.com/photos/MhqUBTxQ3Hw",
+    "original": "https://images.unsplash.com/photo-1775163024488-e88e4a71179f",
+    "photographer": "Olena Kholina",
+    "license": "Unsplash License",
+    "usage": "Illustrative editorial imagery; does not document Harkcon project execution."
+  },
+  "international-navy": {
+    "src": "/images/editorial/international-navy.jpg",
+    "alt": "U.S. Navy aircraft carrier USS Gerald R. Ford underway in Norway",
+    "source": "https://unsplash.com/photos/a-large-military-ship-in-the-middle-of-a-body-of-water-c7cx5ThfwSE",
+    "original": "https://images.unsplash.com/photo-1685178362030-9b574eb9ae7c",
+    "photographer": "Vidar Nordli-Mathisen",
+    "license": "Unsplash License",
+    "usage": "Illustrative editorial imagery; does not document Harkcon project execution."
+  },
+  "training-hero": {
+    "src": "/images/editorial/training-hero.jpg",
+    "alt": "Structural engineers conducting disaster-response training in earthquake ruins",
+    "source": "https://unsplash.com/photos/EhPSMCvT9rY",
+    "original": "https://images.unsplash.com/photo-1581094482523-8555833e6aba",
+    "photographer": "ThisisEngineering",
+    "license": "Unsplash License",
+    "usage": "Illustrative editorial imagery; does not document Harkcon project execution."
+  },
+  "training-bridge": {
+    "src": "/images/editorial/training-bridge.jpg",
+    "alt": "Bridge watch aboard NOAA research ship Bell M. Shimada",
+    "source": "https://unsplash.com/photos/6dOcc3ewUwE",
+    "original": "https://images.unsplash.com/photo-1566995956590-7731f4b389ee",
+    "photographer": "NOAA",
+    "license": "Public Domain / Unsplash License",
+    "usage": "Illustrative editorial imagery; does not document Harkcon project execution."
+  },
+  "training-deck": {
+    "src": "/images/editorial/training-deck.jpg",
+    "alt": "A crew member working with heavy chains and deck equipment aboard a cargo ship",
+    "source": "https://unsplash.com/photos/ENO4xnfsPFo",
+    "original": "https://images.unsplash.com/photo-1776661616822-ba34fe4e5638",
+    "photographer": "Alim",
+    "license": "Unsplash License",
+    "usage": "Illustrative editorial imagery; does not document Harkcon project execution."
+  },
+  "workforce-coast": {
+    "src": "/images/editorial/workforce-coast.jpg",
+    "alt": "A rocky coastline with a lighthouse on a cliff",
+    "source": "https://unsplash.com/photos/scIS-YLEwNI",
+    "original": "https://images.unsplash.com/photo-1776141585152-6d3b490e6498",
+    "photographer": "Kellen Riggin",
+    "license": "Unsplash License",
+    "usage": "Illustrative editorial imagery; does not document Harkcon project execution."
+  },
+  "workforce-lighthouse": {
+    "src": "/images/editorial/workforce-lighthouse.jpg",
+    "alt": "Nugget Point Lighthouse beneath stormy skies",
+    "source": "https://unsplash.com/photos/XlU_VVUOyYg",
+    "original": "https://images.unsplash.com/photo-1772986809231-5a4462df1880",
+    "photographer": "Ye Shu",
     "license": "Unsplash License",
     "usage": "Illustrative editorial imagery; does not document Harkcon project execution."
   }
