@@ -8,6 +8,7 @@ import { Arrow, Header, SiteFooter } from "~/components/home-page"
 import LeadershipTeams from "~/components/leadership-teams"
 import SolutionsOverview from "~/components/solutions-overview"
 import SubtleParallaxPhoto from "~/components/subtle-parallax-photo"
+import ViewportCards from "~/components/viewport-cards"
 import { keepClosingWords } from "~/lib/typography"
 
 const unsplash = (id: string) =>
@@ -178,38 +179,47 @@ export default function About() {
         >
           <div className="site-gutter">
             <div className="border-b border-white/20">
-              <article className="group relative isolate grid gap-10 overflow-hidden border-t border-white/20 py-12 transition-[color,padding] delay-0 duration-700 ease-out before:absolute before:inset-0 before:-z-10 before:origin-left before:scale-x-0 before:bg-white before:transition-transform before:duration-700 hover:px-6 hover:text-[#0d132d] hover:before:scale-x-100 motion-reduce:transition-none motion-reduce:before:transition-none md:grid-cols-[0.52fr_1.48fr] md:gap-16 md:py-16 lg:gap-24 lg:hover:px-10">
-                <div className="flex items-start gap-5">
-                  <span className="font-eyebrow text-eyebrow-label tracking-[0.15em] text-brand-gold transition-colors duration-700 group-hover:text-[#0d132d]/70">
-                    01
-                  </span>
-                  <p className="eyebrow text-pretty text-brand-gold transition-colors duration-700 group-hover:text-[#0d132d]/70">
-                    Our&nbsp;mission
-                  </p>
-                </div>
-                <h2
-                  id="mission-title"
-                  className="max-w-5xl font-header text-section-title text-balance"
+              <ViewportCards>
+                {" "}
+                <article
+                  data-center-card
+                  className="group relative isolate grid gap-10 overflow-hidden border-t border-white/20 py-12 transition-[color,padding] delay-0 duration-700 ease-out before:absolute before:inset-0 before:-z-10 before:origin-left before:scale-x-0 before:bg-white before:transition-transform before:duration-700 hover:px-6 hover:text-[#0d132d] hover:before:scale-x-100 data-[center-active=true]:px-6 data-[center-active=true]:text-[#0d132d] data-[center-active=true]:before:scale-x-100 motion-reduce:transition-none motion-reduce:before:transition-none md:grid-cols-[0.52fr_1.48fr] md:gap-16 md:py-16 lg:gap-24 lg:hover:px-10"
                 >
-                  To provide the highest quality, customized, and innovative organizational and
-                  workforce performance solutions at the best value, while strictly adhering to our
-                  guiding&nbsp;principles.
-                </h2>
-              </article>
-              <article className="group relative isolate grid gap-10 overflow-hidden border-t border-white/20 py-12 transition-[color,padding] delay-0 duration-700 ease-out before:absolute before:inset-0 before:-z-10 before:origin-left before:scale-x-0 before:bg-white before:transition-transform before:duration-700 hover:px-6 hover:text-[#0d132d] hover:before:scale-x-100 motion-reduce:transition-none motion-reduce:before:transition-none md:grid-cols-[0.52fr_1.48fr] md:gap-16 md:py-16 lg:gap-24 lg:hover:px-10">
-                <div className="flex items-start gap-5">
-                  <span className="font-eyebrow text-eyebrow-label tracking-[0.15em] text-brand-gold transition-colors duration-700 group-hover:text-[#0d132d]/70">
-                    02
-                  </span>
-                  <p className="eyebrow text-pretty text-brand-gold transition-colors duration-700 group-hover:text-[#0d132d]/70">
-                    Our&nbsp;vision
-                  </p>
-                </div>
-                <h2 className="max-w-5xl font-header text-section-title text-balance">
-                  Harkcon and its people are regarded as the best and most sought-after human
-                  performance experts in the&nbsp;nation.
-                </h2>
-              </article>
+                  <div className="flex items-start gap-5">
+                    <span className="font-eyebrow text-eyebrow-label tracking-[0.15em] text-brand-gold transition-colors duration-700 group-hover:text-[#0d132d]/70 group-data-[center-active=true]:text-[#0d132d]/70">
+                      01
+                    </span>
+                    <p className="eyebrow text-pretty text-brand-gold transition-colors duration-700 group-hover:text-[#0d132d]/70 group-data-[center-active=true]:text-[#0d132d]/70">
+                      Our&nbsp;mission
+                    </p>
+                  </div>
+                  <h2
+                    id="mission-title"
+                    className="max-w-5xl font-header text-section-title text-balance"
+                  >
+                    To provide the highest quality, customized, and innovative organizational and
+                    workforce performance solutions at the best value, while strictly adhering to
+                    our guiding&nbsp;principles.
+                  </h2>
+                </article>
+                <article
+                  data-center-card
+                  className="group relative isolate grid gap-10 overflow-hidden border-t border-white/20 py-12 transition-[color,padding] delay-0 duration-700 ease-out before:absolute before:inset-0 before:-z-10 before:origin-left before:scale-x-0 before:bg-white before:transition-transform before:duration-700 hover:px-6 hover:text-[#0d132d] hover:before:scale-x-100 data-[center-active=true]:px-6 data-[center-active=true]:text-[#0d132d] data-[center-active=true]:before:scale-x-100 motion-reduce:transition-none motion-reduce:before:transition-none md:grid-cols-[0.52fr_1.48fr] md:gap-16 md:py-16 lg:gap-24 lg:hover:px-10"
+                >
+                  <div className="flex items-start gap-5">
+                    <span className="font-eyebrow text-eyebrow-label tracking-[0.15em] text-brand-gold transition-colors duration-700 group-hover:text-[#0d132d]/70 group-data-[center-active=true]:text-[#0d132d]/70">
+                      02
+                    </span>
+                    <p className="eyebrow text-pretty text-brand-gold transition-colors duration-700 group-hover:text-[#0d132d]/70 group-data-[center-active=true]:text-[#0d132d]/70">
+                      Our&nbsp;vision
+                    </p>
+                  </div>
+                  <h2 className="max-w-5xl font-header text-section-title text-balance">
+                    Harkcon and its people are regarded as the best and most sought-after human
+                    performance experts in the&nbsp;nation.
+                  </h2>
+                </article>
+              </ViewportCards>
             </div>
           </div>
         </section>

@@ -212,3 +212,18 @@ export const setPageVisibility = mutation({
     else await ctx.db.insert("pageVisibility", { key, visible })
   },
 })
+
+export const getHomeHero = query({
+  args: {},
+  handler: async (ctx) => (await ctx.db.query("homeSettings").first())?.hero ?? "capitol",
+})
+
+export const setHomeHero = mutation({
+  args: { hero: v.union(v.literal("capitol"), v.literal("social-work")) },
+  handler: async (ctx, { hero }) => {
+    await requireAdmin(ctx)
+    const settings = await ctx.db.query("homeSettings").first()
+    if (settings) await ctx.db.patch(settings._id, { hero })
+    else await ctx.db.insert("homeSettings", { hero })
+  },
+})

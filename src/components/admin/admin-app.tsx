@@ -1533,12 +1533,78 @@ function Empty({ text }: { text: string }) {
   )
 }
 
+function HomeEditor() {
+  const hero = useQuery(api.content.getHomeHero)
+  const save = useMutation(api.content.setHomeHero)
+  const [saving, setSaving] = useState(false)
+  const [message, setMessage] = useState("")
+  return (
+    <section className={viewClassName}>
+      <ViewHeading
+        eyebrow="Page editor"
+        title="Home page"
+        description="Choose the hero image shown on the website."
+      />
+      <div className={`${card} p-6`}>
+        <fieldset disabled={saving || hero === undefined}>
+          <legend className="mb-5 font-header text-xl">Hero image</legend>
+          <div className="grid gap-5 sm:grid-cols-2">
+            {(
+              [
+                ["capitol", "Capitol", "/images/capitol-hero.png"],
+                ["social-work", "Social Work", "/images/Social Work.png"],
+              ] as const
+            ).map(([value, label, src]) => (
+              <label
+                key={value}
+                className={`cursor-pointer border-2 p-3 transition-colors ${hero === value ? "border-[#0d132d]" : "border-transparent"}`}
+              >
+                {/* Native image preserves the full preview in the editor. */}
+                <Image
+                  src={src}
+                  alt={label}
+                  width={640}
+                  height={360}
+                  className="mb-3 aspect-video w-full object-cover"
+                />
+                <span className="flex items-center gap-3">
+                  <input
+                    type="radio"
+                    name="hero"
+                    value={value}
+                    checked={hero === value}
+                    onChange={async () => {
+                      setSaving(true)
+                      setMessage("")
+                      try {
+                        await save({ hero: value })
+                        setMessage("Hero image saved.")
+                      } catch {
+                        setMessage("Could not save the hero image. Please try again.")
+                      } finally {
+                        setSaving(false)
+                      }
+                    }}
+                  />
+                  {label}
+                </span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+        <output className="mt-4 block text-sm">{saving ? "Saving…" : message}</output>
+      </div>
+    </section>
+  )
+}
+
 function PagePlaceholder({ view }: { view: View }) {
   const pages = useQuery(api.solutions.list),
     add = useMutation(api.solutions.add),
     remove = useMutation(api.solutions.remove)
   const [adding, setAdding] = useState(false),
     [confirm, setConfirm] = useState<Doc<"solutionPages"> | null>(null)
+  if (view === "home") return <HomeEditor />
   if (view !== "solutions")
     return (
       <section className={viewClassName}>

@@ -1,5 +1,6 @@
-import { CaretDown, LinkedinLogo } from "@phosphor-icons/react/ssr"
+import { LinkedinLogo } from "@phosphor-icons/react/ssr"
 import Image from "next/image"
+import BiographyDisclosure from "~/components/biography-disclosure"
 
 type Person = {
   name: string
@@ -148,18 +149,9 @@ function TeamSection({
                 </div>
               )}
               {person.biography && (
-                <details className="disclosure group mt-5">
-                  <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#0d132d] [&::-webkit-details-marker]:hidden">
-                    <span className="relative after:absolute after:-bottom-1 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-brand-red after:transition-transform after:duration-300 group-focus-within:after:scale-x-100 group-hover:after:scale-x-100">
-                      Biography<span className="sr-only"> of {person.name}</span>
-                    </span>
-                    <CaretDown
-                      aria-hidden="true"
-                      className="size-4 transition-transform duration-200 group-open:rotate-180 motion-reduce:transition-none"
-                    />
-                  </summary>
+                <BiographyDisclosure name={person.name}>
                   <p className="pb-6 text-sm leading-7 text-[#454955]">{person.biography}</p>
-                </details>
+                </BiographyDisclosure>
               )}
             </article>
           ))}

@@ -112,14 +112,12 @@ export default function SolutionsProcess() {
   const rail = useRef<HTMLOListElement>(null)
   const [active, setActive] = useState(0)
   useEffect(() => {
-    const desktop = window.matchMedia(
-      "(min-width: 1024px) and (prefers-reduced-motion: no-preference)",
-    )
+    const motionEnabled = window.matchMedia("(prefers-reduced-motion: no-preference)")
     let frame = 0
     const update = () => {
       cancelAnimationFrame(frame)
       frame = requestAnimationFrame(() => {
-        if (!section.current || !rail.current || !desktop.matches) return
+        if (!section.current || !rail.current || !motionEnabled.matches) return
         const bounds = section.current.getBoundingClientRect()
         const progress = Math.max(
           0,
@@ -137,23 +135,23 @@ export default function SolutionsProcess() {
     update()
     window.addEventListener("scroll", update, { passive: true })
     window.addEventListener("resize", update)
-    desktop.addEventListener("change", update)
+    motionEnabled.addEventListener("change", update)
     return () => {
       cancelAnimationFrame(frame)
       window.removeEventListener("scroll", update)
       window.removeEventListener("resize", update)
-      desktop.removeEventListener("change", update)
+      motionEnabled.removeEventListener("change", update)
     }
   }, [])
   return (
     <section
       ref={section}
       data-reveal-skip
-      className="relative bg-[#f7f6f3] lg:motion-safe:h-[420svh]"
+      className="relative bg-[#f7f6f3] motion-safe:h-[420svh]"
       aria-labelledby="solutions-process-title"
     >
-      <div className="hidden overflow-hidden lg:motion-safe:sticky lg:motion-safe:top-0 lg:motion-safe:flex lg:motion-safe:h-svh lg:motion-safe:min-h-[600px] lg:motion-safe:flex-col">
-        <div className="site-gutter flex items-center justify-between pt-32">
+      <div className="hidden overflow-hidden motion-safe:sticky motion-safe:top-0 motion-safe:flex motion-safe:h-svh motion-safe:min-h-[480px] motion-safe:flex-col lg:motion-safe:min-h-[600px]">
+        <div className="site-gutter flex items-center justify-between pt-24 lg:pt-32">
           <h2 id="solutions-process-title" className="eyebrow">
             Our&nbsp;capabilities
           </h2>
@@ -166,7 +164,7 @@ export default function SolutionsProcess() {
             <div
               key={milestone.title}
               aria-hidden={active !== index}
-              className={`absolute inset-x-0 px-12 transition-transform duration-[1100ms] ease-[cubic-bezier(0.45,0,0.2,1)] ${active === index ? "translate-x-0" : index < active ? "-translate-x-full" : "translate-x-full"}`}
+              className={`absolute inset-x-0 px-5 transition-transform duration-[1100ms] ease-[cubic-bezier(0.45,0,0.2,1)] lg:px-12 ${active === index ? "translate-x-0" : index < active ? "-translate-x-full" : "translate-x-full"}`}
             >
               <p className="mb-7 font-eyebrow text-xs tracking-[0.18em] text-[#777b85] uppercase">
                 {keepClosingWords(milestone.label)}
@@ -224,7 +222,7 @@ export default function SolutionsProcess() {
           Scroll to follow the&nbsp;process
         </p>
       </div>
-      <div className="site-gutter py-24 lg:motion-safe:hidden">
+      <div className="site-gutter py-24 motion-safe:hidden">
         <p className="eyebrow mb-10">Our&nbsp;capabilities</p>
         <h2 className="mb-14 font-header text-section-title font-medium">
           From insight to lasting&nbsp;impact.

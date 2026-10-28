@@ -50,7 +50,7 @@ export default function SectionSearch({
   )
 
   return (
-    <div ref={root} className="relative shrink-0 lg:static">
+    <div ref={root} className="static shrink-0">
       <button
         ref={trigger}
         type="button"
@@ -79,7 +79,7 @@ export default function SectionSearch({
             "--search-right": `${bounds.right}px`,
           } as CSSProperties
         }
-        className={`absolute top-full right-0 z-50 mt-4 w-[min(340px,calc(100vw-40px))] origin-top bg-white p-5 text-[#0d132d] shadow-[0_12px_40px_rgba(13,19,45,0.16)] transition-[opacity,transform,visibility] duration-300 motion-reduce:transition-none lg:right-(--search-right) lg:left-(--search-left) lg:mt-0 lg:w-auto lg:p-7 ${open ? "visible translate-y-0 opacity-100" : "invisible -translate-y-2 opacity-0"}`}
+        className={`absolute inset-x-0 top-full z-50 mt-0 w-full origin-top bg-white p-5 text-[#0d132d] shadow-[0_12px_40px_rgba(13,19,45,0.16)] transition-[opacity,transform,visibility] duration-300 motion-reduce:transition-none lg:right-(--search-right) lg:left-(--search-left) lg:mt-0 lg:w-auto lg:p-7 ${open ? "visible translate-y-0 opacity-100" : "invisible -translate-y-2 opacity-0"}`}
       >
         <label
           htmlFor={id}

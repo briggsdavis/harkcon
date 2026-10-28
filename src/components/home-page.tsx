@@ -11,6 +11,7 @@ import {
   XLogo,
   YoutubeLogo,
 } from "@phosphor-icons/react"
+import { useQueries } from "convex/react"
 import Image from "next/image"
 import NextLink from "next/link"
 import { FocusEvent, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react"
@@ -20,6 +21,7 @@ import SectionSearch, { type SearchSection } from "~/components/section-search"
 import SolutionsOverview from "~/components/solutions-overview"
 import Link from "~/components/visibility-link"
 import { HARKCON_CAPABILITY_STATEMENT_URL } from "~/lib/documents"
+import { api } from "../../convex/_generated/api"
 
 const statement =
   "Since 2005, Harkcon has helped government agencies and private-sector companies overcome complex challenges, strengthen organizational performance, and achieve mission-critical outcomes."
@@ -575,7 +577,7 @@ export function Header({
             aria-controls="mobile-navigation"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             onClick={toggleMenu}
-            className={`flex h-11 w-11 flex-col items-center justify-center gap-2 rounded-none border lg:hidden ${menuButtonLight ? "border-[#0d132d]/35" : "border-white/40"}`}
+            className={`flex h-11 w-11 flex-col items-center justify-center gap-2 rounded-none lg:hidden`}
           >
             <svg
               aria-hidden="true"
@@ -644,7 +646,7 @@ export function Header({
           <Link
             href="/solutions"
             onClick={closeMenu}
-            className="border-b border-white/15 py-3 text-sm text-white"
+            className="flex items-center gap-3 border-b border-white/15 py-3 text-sm whitespace-nowrap text-white"
           >
             All solutions <Arrow diagonal />
           </Link>
@@ -739,7 +741,12 @@ function ClientMarquee() {
   )
 }
 
+const heroQuery = { hero: { query: api.content.getHomeHero, args: {} } }
+
 function Hero() {
+  // Keep the current image available while the backend update is rolled out.
+  const { hero } = useQueries(heroQuery)
+  const heroImage = hero instanceof Error || !hero ? "capitol" : hero
   const mediaRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -777,8 +784,12 @@ function Hero() {
         className="absolute -top-[24%] right-0 -bottom-[24%] left-0 translate-y-(--hero-parallax) will-change-transform"
       >
         <Image
-          src="/images/capitol-hero.png"
-          alt="The United States Capitol at sunrise"
+          src={heroImage === "social-work" ? "/images/Social Work.png" : "/images/capitol-hero.png"}
+          alt={
+            heroImage === "social-work"
+              ? "Social work and community service"
+              : "The United States Capitol at sunrise"
+          }
           fill
           preload
           quality={85}
@@ -855,7 +866,7 @@ function ScrollStatement() {
   return (
     <section
       ref={containerRef}
-      className="flex min-h-[70vh] items-center py-[3.017rem] text-center md:py-[3.878rem]"
+      className="flex items-center pt-[3.017rem] pb-20 text-center md:pt-[3.878rem] md:pb-24 lg:pb-28"
       aria-label="What Harkcon does"
     >
       <div className="site-gutter">
@@ -1138,7 +1149,7 @@ export default function HomePage() {
           className="mx-auto grid min-h-[90svh] w-full max-w-[1600px] lg:grid-cols-2"
           aria-labelledby="about-title"
         >
-          <div className="flex flex-col items-start justify-center px-5 py-24 sm:px-8 lg:px-12 lg:py-32 xl:px-16">
+          <div className="flex flex-col items-start justify-center px-5 pt-24 pb-12 sm:px-8 lg:px-12 lg:py-32 xl:px-16">
             <h2
               id="about-title"
               className="max-w-xl font-header text-section-title font-medium text-balance"
@@ -1168,7 +1179,7 @@ export default function HomePage() {
               Discover Harkcon
             </NextLink>
           </div>
-          <div className="px-5 py-20 sm:px-8 md:py-24 lg:py-28 lg:pr-12 lg:pl-0 xl:pr-16">
+          <div className="px-5 pt-10 pb-20 sm:px-8 md:pt-12 md:pb-24 lg:py-28 lg:pr-12 lg:pl-0 xl:pr-16">
             <div className="relative h-full min-h-[70svh] overflow-hidden lg:min-h-[90svh]">
               <Image
                 src="/images/about-team.png"
