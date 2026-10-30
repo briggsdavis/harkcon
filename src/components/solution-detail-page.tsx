@@ -1,14 +1,11 @@
 import Image from "next/image"
 import HeroParallaxImage from "~/components/hero-parallax-image"
-import { Arrow, Header, SiteFooter } from "~/components/home-page"
+import { Header, SiteFooter } from "~/components/home-page"
 import SubtleParallaxPhoto from "~/components/subtle-parallax-photo"
-import Link from "~/components/visibility-link"
 import type { Solution } from "~/lib/solutions"
 import { keepClosingWords } from "~/lib/typography"
 
 const headingClassName = "text-balance max-w-4xl font-header text-section-title font-medium"
-const ctaCardClassName =
-  "flex flex-col items-start border-t border-[#0d132d]/20 py-12 md:min-h-[360px] md:py-14"
 
 export default function SolutionDetailPage({ solution }: { solution: Solution }) {
   return (
@@ -115,27 +112,6 @@ export default function SolutionDetailPage({ solution }: { solution: Solution })
                 ))}
               </ol>
             </div>
-          </div>
-        </section>
-
-        <section className="bg-white py-20 md:py-24 lg:py-28" aria-label="Next steps">
-          <div className="site-gutter grid md:grid-cols-2">
-            <article className={`${ctaCardClassName} md:border-r md:pr-10 lg:pr-16`}>
-              <h2 className={`mb-10 md:mb-auto ${headingClassName}`}>
-                Ready to put this expertise to&nbsp;work?
-              </h2>
-              <Link href="/contact" className="action-button mt-auto">
-                Contact us <Arrow />
-              </Link>
-            </article>
-            <article className={`${ctaCardClassName} md:pl-10 lg:pl-16`}>
-              <h2 className={`mb-10 md:mb-auto ${headingClassName}`}>
-                Interested in doing work in this&nbsp;field?
-              </h2>
-              <Link href="/careers" className="action-button mt-auto">
-                Join Harkcon <Arrow />
-              </Link>
-            </article>
           </div>
         </section>
 
