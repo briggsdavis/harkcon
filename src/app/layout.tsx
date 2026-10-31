@@ -23,7 +23,11 @@ export const metadata: Metadata = {
 
 export default function Layout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${header.variable} ${body.variable} ${eyebrow.variable}`}>
+    <html
+      suppressHydrationWarning
+      lang="en"
+      className={`${header.variable} ${body.variable} ${eyebrow.variable}`}
+    >
       <body className="flex min-h-dvh flex-col font-body antialiased">
         <ConvexClientProvider>
           <EntranceAnimations />

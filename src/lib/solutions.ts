@@ -1,4 +1,9 @@
 export type Solution = {
+  proofHeading?: string
+  capabilitiesHeading?: string
+  ctaTitle?: string
+  ctaLabel?: string
+  ctaHref?: string
   slug: string
   number: string
   color: string

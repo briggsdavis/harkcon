@@ -24,6 +24,7 @@ import { authClient } from "~/lib/auth-client"
 import { visibilityPages } from "~/lib/page-visibility"
 import { api } from "../../../convex/_generated/api"
 import type { Doc, Id } from "../../../convex/_generated/dataModel"
+import SolutionEditor from "./solution-editor"
 
 type View =
   | "visibility"
@@ -99,11 +100,12 @@ const rowButton =
 const kicker = "mb-2 font-eyebrow text-[11px] font-bold tracking-[0.16em] text-[#7b8291] uppercase"
 const pageTitle =
   "font-header text-[clamp(30px,4vw,46px)] font-medium tracking-[-0.045em] text-[#17203b]"
-const card = "rounded-[15px] border border-[#e6e8ec] bg-white shadow-[0_1px_2px_#17203b08]"
+const card =
+  "overflow-hidden rounded-2xl border border-[#e6e8ec] bg-white shadow-[0_1px_2px_#17203b08]"
 const cardTitle = "font-header text-[19px] font-semibold tracking-[-0.02em]"
 const cardSubtitle = "mt-[5px] text-[13px] text-[#808696]"
 const selectControl =
-  "min-w-[150px] rounded-[10px] border border-[#dfe2e8] bg-white py-[11px] pr-9 pl-[13px] text-[#394057]"
+  "appearance-none bg-[url('data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2212%22%20height=%2212%22%20viewBox=%220%200%2012%2012%22%3E%3Cpath%20d=%22m3%204%203%203%203-3%22%20fill=%22none%22%20stroke=%22%2364748b%22/%3E%3C/svg%3E')] bg-[position:right_12px_center] bg-no-repeat min-w-[150px] rounded-[10px] border border-[#dfe2e8] bg-white py-[11px] pr-9 pl-[13px] text-[#394057]"
 const formClassName = "flex flex-col gap-4"
 const formGrid = "grid grid-cols-2 gap-[15px] max-[760px]:grid-cols-1"
 const fieldName = "text-xs font-bold text-[#4f586d]"
@@ -960,7 +962,7 @@ function NewsEditor() {
         <div className={`${card} overflow-hidden`}>
           <div className="flex items-center justify-between border-b border-[#eceef1] px-[18px] py-[14px]">
             <p className="text-[13px] text-[#7a8190]">
-              Feature up to two articles on the home page.
+              Feature up to six articles on the home page.
             </p>
             <button className={quietButton} onClick={() => setTopicOpen(true)}>
               <Icon name="plus" /> New topic
@@ -993,7 +995,7 @@ function NewsEditor() {
                         try {
                           await setFeatured({ id: article._id, featured: e.target.checked })
                         } catch (err) {
-                          setError(err instanceof Error ? err.message : "Only two may be featured")
+                          setError(err instanceof Error ? err.message : "Only six may be featured")
                         }
                       }}
                     />
@@ -1126,7 +1128,7 @@ function NewsEditor() {
               </Field>
               <Field label="Topic">
                 <select
-                  className={fieldControl}
+                  className={`${fieldControl} ${selectControl}`}
                   value={draft.category}
                   onChange={(e) => setDraft({ ...draft, category: e.target.value })}
                 >
@@ -1376,7 +1378,7 @@ function Contacts() {
             placeholder="Search messages…"
           />
           <select
-            className="self-stretch border-l border-[#e5e7eb] bg-white pr-7 pl-[11px] text-[#697083]"
+            className={`${selectControl} !min-w-0 self-stretch !rounded-l-none !border-y-0 !border-r-0`}
             value={field}
             onChange={(e) => setField(e.target.value)}
           >
@@ -1644,115 +1646,29 @@ function HomeEditor() {
 }
 
 function PagePlaceholder({ view }: { view: View }) {
-  const pages = useQuery(api.solutions.list),
-    add = useMutation(api.solutions.add),
-    remove = useMutation(api.solutions.remove)
-  const [adding, setAdding] = useState(false),
-    [confirm, setConfirm] = useState<Doc<"solutionPages"> | null>(null)
   if (view === "home") return <HomeEditor />
-  if (view !== "solutions")
-    return (
-      <section className={viewClassName}>
-        <ViewHeading
-          eyebrow="Page editor"
-          title={pageLabels[view]}
-          description="This page is ready for the future visual editor."
-        />
-        <div
-          className={`${card} flex min-h-[360px] flex-col items-center justify-center p-10 text-center`}
-        >
-          <span className="rounded-full bg-[#eef2ff] px-2.5 py-1.5 text-[11px] font-extrabold text-[#526bbb] uppercase">
-            Editor placeholder
-          </span>
-          <h2 className="mt-[18px] mb-2 font-header text-[25px] font-semibold tracking-[-0.02em]">
-            Nothing to manage here yet.
-          </h2>
-          <p className="max-w-[480px] leading-[1.6] text-[#7b8291]">
-            The page is linked in the admin navigation, but its editor has intentionally not been
-            built.
-          </p>
-        </div>
-      </section>
-    )
+  if (view === "solutions") return <SolutionEditor />
   return (
     <section className={viewClassName}>
       <ViewHeading
         eyebrow="Page editor"
-        title="Solution pages"
-        description="Add or remove solution pages. Their full editors will come later."
+        title={pageLabels[view]}
+        description="This page is ready for the future visual editor."
+      />
+      <div
+        className={`${card} flex min-h-[360px] flex-col items-center justify-center p-10 text-center`}
       >
-        <button className={primaryButton} onClick={() => setAdding(true)}>
-          <Icon name="plus" /> Add solution
-        </button>
-      </ViewHeading>
-      <div className={`${card} overflow-hidden`}>
-        {pages?.map((page) => (
-          <div
-            key={page._id}
-            className="flex items-center justify-between gap-5 border-b border-[#eceef1] px-[21px] py-[19px]"
-          >
-            <div>
-              <strong className="block text-sm text-[#303950]">{page.title}</strong>
-              <span className="mt-1 block text-xs text-[#9298a5]">/solutions/{page.slug}</span>
-            </div>
-            <button className={dangerLink} onClick={() => setConfirm(page)}>
-              Delete
-            </button>
-          </div>
-        ))}
+        <span className="rounded-full bg-[#eef2ff] px-2.5 py-1.5 text-[11px] font-extrabold text-[#526bbb] uppercase">
+          Editor placeholder
+        </span>
+        <h2 className="mt-[18px] mb-2 font-header text-[25px] font-semibold tracking-[-0.02em]">
+          Nothing to manage here yet.
+        </h2>
+        <p className="max-w-[480px] leading-[1.6] text-[#7b8291]">
+          The page is linked in the admin navigation, but its editor has intentionally not been
+          built.
+        </p>
       </div>
-      {adding ? (
-        <Modal
-          title="Add a solution page"
-          subtitle="Create its name and URL now. Content editing will be added later."
-          onClose={() => setAdding(false)}
-        >
-          <form
-            className={formClassName}
-            onSubmit={async (e) => {
-              e.preventDefault()
-              const data = new FormData(e.currentTarget)
-              await add({ title: String(data.get("title")), slug: String(data.get("slug")) })
-              setAdding(false)
-            }}
-          >
-            <Field label="Page name">
-              <input name="title" required className={fieldControl} />
-            </Field>
-            <Field label="URL slug">
-              <input name="slug" placeholder="example-solution" required className={fieldControl} />
-            </Field>
-            <div className={modalActions}>
-              <button type="button" className={secondaryButton} onClick={() => setAdding(false)}>
-                Cancel
-              </button>
-              <button className={primaryButton}>Add page</button>
-            </div>
-          </form>
-        </Modal>
-      ) : null}
-      {confirm ? (
-        <Modal
-          title="Delete this solution page?"
-          subtitle={`${confirm.title} will be removed from the admin list.`}
-          onClose={() => setConfirm(null)}
-        >
-          <div className={modalActions}>
-            <button className={secondaryButton} onClick={() => setConfirm(null)}>
-              Keep it
-            </button>
-            <button
-              className={dangerButton}
-              onClick={async () => {
-                await remove({ id: confirm._id })
-                setConfirm(null)
-              }}
-            >
-              Delete page
-            </button>
-          </div>
-        </Modal>
-      ) : null}
     </section>
   )
 }
@@ -1824,13 +1740,13 @@ function Workspace() {
   const select = (next: View) =>
     router.push(next === "dashboard" ? "/admin" : `/admin?view=${next}`)
   return (
-    <div className="admin-root min-h-dvh bg-[#f5f6f8] font-body text-[#17203b]">
+    <div className="admin-root min-h-dvh bg-[#f5f6f8] font-body text-[#17203b] [&_.action-button]:rounded-lg [&_.action-button::after]:rounded-lg">
       <Sidebar view={view} onSelect={select} />
       <main className="ml-64 min-h-dvh max-[760px]:ml-0">
         <header className="hidden items-center justify-between border-b border-[#e5e7eb] bg-white px-[18px] py-3.5 max-[760px]:sticky max-[760px]:top-0 max-[760px]:z-25 max-[760px]:flex">
           <Image src="/images/harkcon-logo-black.avif" alt="Harkcon" width={126} height={33} />
           <select
-            className="max-w-[190px] rounded-lg border border-[#dfe2e8] p-2"
+            className={`${selectControl} max-w-[190px]`}
             value={view}
             onChange={(e) => select(e.target.value as View)}
           >

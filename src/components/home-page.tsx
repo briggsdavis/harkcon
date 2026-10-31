@@ -4,12 +4,9 @@ import {
   ArrowRight,
   ArrowUpRight,
   CaretDown,
-  DownloadSimple,
   LinkedinLogo,
   Minus,
   Plus,
-  XLogo,
-  YoutubeLogo,
 } from "@phosphor-icons/react"
 import { useQueries } from "convex/react"
 import type { FunctionReturnType } from "convex/server"
@@ -18,46 +15,23 @@ import NextLink from "next/link"
 import { FocusEvent, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react"
 import CompanyStats from "~/components/company-stats"
 import FeaturedNews from "~/components/featured-news"
+import HomeEntry from "~/components/home-entry"
 import SectionSearch, { type SearchSection } from "~/components/section-search"
 import SolutionsOverview from "~/components/solutions-overview"
 import Link from "~/components/visibility-link"
 import { HARKCON_CAPABILITY_STATEMENT_URL } from "~/lib/documents"
+import { useSolutions } from "~/lib/use-solutions"
 import { api } from "../../convex/_generated/api"
 
 const statement =
   "Since 2005, Harkcon has helped government agencies and private-sector companies overcome complex challenges, strengthen organizational performance, and achieve mission-critical outcomes."
 
-const solutionLinks = [
-  {
-    title: "Workforce & Organizational Analysis",
-    href: "/solutions/workforce-organizational-analysis",
-  },
-  {
-    title: "Training & Human Systems Integration",
-    href: "/solutions/training-human-systems-integration",
-  },
-  {
-    title: "Process Improvement & Transformation",
-    href: "/solutions/process-improvement-transformation",
-  },
-  {
-    title: "Administrative & Compliance Support",
-    href: "/solutions/administrative-compliance-support",
-  },
-
-  {
-    title: "Policy, Strategy, & Program Support",
-    href: "/solutions/policy-strategy-program-support",
-  },
-  {
-    title: "International Advisory & Capacity Building",
-    href: "/solutions/international-advisory-capacity-building",
-  },
-  {
-    title: "Emergency Management & Contingency Support",
-    href: "/solutions/emergency-management-continuity-support",
-  },
-]
+function useSolutionLinks() {
+  return useSolutions().map((solution) => ({
+    title: solution.title,
+    href: `/solutions/${solution.slug}`,
+  }))
+}
 
 type DropdownLink = {
   title: string
@@ -229,6 +203,7 @@ function CompactDropdownContent({
 }
 
 function SolutionsDropdownContent() {
+  const solutionLinks = useSolutionLinks()
   return (
     <div className="site-gutter grid min-h-[350px] grid-cols-[0.82fr_1.18fr] gap-16 py-10 xl:gap-24 xl:py-11">
       <div className="flex flex-col items-start border-r border-white/15 pr-16">
@@ -349,6 +324,7 @@ export function Header({
   searchPageTitle?: string
   searchSections?: SearchSection[]
 }) {
+  const solutionLinks = useSolutionLinks()
   const [menuOpen, setMenuOpen] = useState(false)
   const [openDropdown, setOpenDropdown] = useState<DropdownName | null>(null)
   const [shownDropdown, setShownDropdown] = useState<DropdownName>("solutions")
@@ -748,7 +724,6 @@ const heroQuery = {
 }
 
 function Hero() {
-  // Keep the current image available while the backend update is rolled out.
   const { hero, images } = useQueries(heroQuery)
   const heroImage = hero instanceof Error || !hero ? "capitol" : hero
   const uploadedImage =
@@ -760,37 +735,43 @@ function Hero() {
   return (
     <section
       className="hero relative h-[100svh] max-h-[1050px] min-h-[650px] overflow-hidden"
+      data-reveal-skip
       aria-labelledby="hero-title"
     >
-      <div className="absolute inset-0">
-        <Image
-          src={
-            uploadedImage?.url ??
-            (heroImage === "social-work" ? "/images/Social Work.png" : "/images/capitol-hero.png")
-          }
-          alt={
-            uploadedImage
-              ? uploadedImage.name
-              : heroImage === "social-work"
-                ? "Social work and community service"
-                : "The United States Capitol at sunrise"
-          }
-          fill
-          preload
-          quality={85}
-          sizes="(max-width: 1672px) 1672px, 100vw"
-          className="object-cover"
-        />
+      <div className="absolute inset-0 bg-[#0d132d]">
+        {hero !== undefined && images !== undefined && (
+          <Image
+            src={
+              uploadedImage?.url ??
+              (heroImage === "social-work" ? "/images/Social Work.png" : "/images/capitol-hero.png")
+            }
+            alt={
+              uploadedImage
+                ? uploadedImage.name
+                : heroImage === "social-work"
+                  ? "Social work and community service"
+                  : "The United States Capitol at sunrise"
+            }
+            fill
+            preload
+            quality={85}
+            sizes="(max-width: 1672px) 1672px, 100vw"
+            className="object-cover"
+          />
+        )}
       </div>
       <div className="hero-overlay absolute inset-0 z-[1]" />
       <div className="site-gutter relative z-10 flex h-full items-end pb-12 md:pb-16">
         <div className="max-w-5xl text-white">
-          <p className="mb-5 font-eyebrow text-[0.9rem] font-semibold tracking-[0.18em] text-pretty text-white/90 uppercase md:text-[1.05rem]">
+          <p
+            data-hero-entrance
+            className="mb-5 animate-[hero-opacity_720ms_ease_100ms_both] font-eyebrow text-[0.9rem] font-semibold tracking-[0.18em] text-pretty text-white/90 uppercase motion-reduce:animate-none md:text-[1.05rem]"
+          >
             Master&nbsp;Performance
           </p>
           <h1
             id="hero-title"
-            data-reveal-skip
+            data-hero-entrance
             className="max-w-3xl animate-[hero-opacity_720ms_ease_210ms_both,hero-move_900ms_cubic-bezier(0.22,1,0.36,1)_210ms_both] font-header text-[clamp(1.75rem,8.82vw,2.15rem)] font-medium text-balance motion-reduce:animate-none sm:text-display"
           >
             Better&nbsp;People.
@@ -799,7 +780,10 @@ function Hero() {
             <br />
             Better&nbsp;Outcomes.
           </h1>
-          <div className="mt-7 flex items-center gap-4 pt-5 md:mt-9 md:pt-6" data-reveal-line>
+          <div
+            data-hero-entrance
+            className="mt-7 flex animate-[hero-opacity_720ms_ease_350ms_both] items-center gap-4 pt-5 motion-reduce:animate-none md:mt-9 md:pt-6"
+          >
             <p className="max-w-xl text-sm leading-relaxed text-pretty text-white/80 md:text-base">
               Practical expertise for the organizations that serve us&nbsp;all.
             </p>
@@ -886,6 +870,7 @@ const footerBadges = [
     src: "/images/virginia-values-veterans-badge.png",
   },
   { name: "CMMC Level 2 self-assessed", src: "/images/cmmc-level-2-badge.png" },
+  { name: "ISO 9001 certified", src: "/images/Social Work (1).png" },
 ]
 
 const footerNavLinkClassName =
@@ -894,6 +879,7 @@ const footerBottomLinkClassName =
   "transition-colors hover:text-white focus-visible:text-white focus-visible:outline-none"
 
 export function SiteFooter() {
+  const solutionLinks = useSolutionLinks()
   return (
     <footer id="site-footer" className="relative z-10 bg-[#0d132d] text-white">
       <div className="site-gutter">
@@ -916,7 +902,7 @@ export function SiteFooter() {
               {footerBadges.map((badge) => (
                 <li
                   key={badge.src}
-                  className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-white p-1.5"
+                  className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full bg-white p-1.5 sm:h-20 sm:w-20"
                 >
                   <Image
                     src={badge.src}
@@ -988,24 +974,6 @@ export function SiteFooter() {
             </Link>
             <div className="mt-8 flex flex-wrap gap-3">
               <a
-                href="https://www.youtube.com/@harkconinc"
-                target="_blank"
-                rel="noreferrer"
-                className={socialLinkClassName}
-                aria-label="Visit Harkcon on YouTube"
-              >
-                <YoutubeLogo aria-hidden="true" weight="fill" className="h-5 w-5" />
-              </a>
-              <a
-                href="https://x.com/harkcon"
-                target="_blank"
-                rel="noreferrer"
-                className={socialLinkClassName}
-                aria-label="Visit Harkcon on X"
-              >
-                <XLogo aria-hidden="true" weight="fill" className="h-5 w-5" />
-              </a>
-              <a
                 href="https://www.linkedin.com/company/harkcon-inc./"
                 target="_blank"
                 rel="noreferrer"
@@ -1026,7 +994,7 @@ export function SiteFooter() {
           <span>© {new Date().getFullYear()} Harkcon</span>
           {/* <Link href="/privacy-terms" className={footerBottomLinkClassName}> */}
           <span className={footerBottomLinkClassName}>Privacy & Terms</span>
-          {/* </Link> */}
+
           <a
             href="https://socialsatisfaction.agency/"
             target="_blank"
@@ -1056,6 +1024,7 @@ export function SiteFooter() {
 export default function HomePage() {
   return (
     <div id="top" className="overflow-clip bg-white text-[#0d132d]">
+      <HomeEntry />
       <Header />
 
       <div className="relative">
@@ -1072,8 +1041,8 @@ export default function HomePage() {
           className="bg-[#0d132d] py-[3.2rem] text-white md:py-16"
           aria-labelledby="home-contracts-title"
         >
-          <div className="site-gutter grid gap-12 md:grid-cols-2 md:gap-0">
-            <div className="flex flex-col items-start md:pr-12 lg:pr-20">
+          <div className="site-gutter grid gap-12 lg:grid-cols-3 lg:gap-8">
+            <div className="flex flex-col items-start lg:pr-6">
               <p className="eyebrow mb-5 text-brand-gold">Government contracting</p>
               <h2
                 id="home-contracts-title"
@@ -1085,95 +1054,35 @@ export default function HomePage() {
                 Flexible federal acquisition paths to Harkcon&apos;s people, performance, and
                 technology&nbsp;expertise.
               </p>
-              {/* <Link href="/contracts"> */}
-              <span className="text-link mt-8 text-white after:opacity-60" data-reveal-line>
+
+              <Link href="/contracts" className="text-link mt-8 text-white after:opacity-60">
                 Explore contract vehicles
-              </span>
-              {/* </Link> */}
+              </Link>
             </div>
-            <div className="flex flex-col items-start border-t border-white/15 pt-12 md:border-t-0 md:border-l md:pt-0 md:pl-12 lg:pl-20">
+            <div className="flex flex-col items-start border-t border-white/15 pt-12 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-8">
               <h3 className="font-header text-section-title font-medium text-balance">OASIS+</h3>
               <p className="mt-5 max-w-lg text-base leading-relaxed text-pretty text-white/70">
                 Integrated professional services through Harkcon&apos;s Small Business and
                 SDVOSB&nbsp;vehicles.
               </p>
-              {/* <Link href="/oasis-plus"> */}
-              <span className="text-link mt-8 text-white after:opacity-60" data-reveal-line>
-                Explore OASIS+
-              </span>
-              {/* </Link> */}
-            </div>
-          </div>
-        </section>
 
-        <section className="bg-white py-12 text-[#0d132d] md:py-14">
-          <div className="site-gutter">
-            <div className="flex w-full flex-col items-start justify-between gap-8 md:flex-row md:items-center">
-              <div>
-                <h3 className="relative font-header text-card-title font-medium text-balance">
-                  Capability&nbsp;statement
-                </h3>
-                <p className="mt-3 max-w-lg text-base leading-relaxed text-pretty text-[#5f626b]">
-                  Company capabilities, qualifications, and contracting&nbsp;information.
-                </p>
-              </div>
+              <Link href="/oasis-plus" className="text-link mt-8 text-white after:opacity-60">
+                Explore OASIS+
+              </Link>
+            </div>
+            <div className="flex flex-col items-start border-t border-white/15 pt-12 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-8">
+              <h3 className="font-header text-section-title font-medium">Capability statement</h3>
+              <p className="mt-5 text-base leading-relaxed text-white/70">
+                Company capabilities, qualifications, and contracting information.
+              </p>
               <a
                 href={HARKCON_CAPABILITY_STATEMENT_URL}
                 target="_blank"
                 rel="noreferrer"
-                aria-label="Download Harkcon capability statement PDF (opens in a new tab)"
-                className={`${wipeButtonClassName} shrink-0 ${wipeButtonDarkClassName}`}
+                className="text-link mt-8 text-white after:opacity-60"
               >
-                Download PDF <DownloadSimple aria-hidden="true" className="h-5 w-5" />
+                Download PDF
               </a>
-            </div>
-          </div>
-        </section>
-
-        <section
-          className="mx-auto grid min-h-[90svh] w-full max-w-[1600px] lg:grid-cols-2"
-          aria-labelledby="about-title"
-        >
-          <div className="flex flex-col items-start justify-center px-5 pt-24 pb-12 sm:px-8 lg:px-12 lg:py-32 xl:px-16">
-            <h2
-              id="about-title"
-              className="max-w-xl font-header text-section-title font-medium text-balance"
-            >
-              A culture of mastery and&nbsp;action.
-            </h2>
-            <p className="mt-8 max-w-xl text-body-copy text-pretty text-[#5f626b]">
-              Harkcon is a service-disabled veteran-owned small business that helps government
-              organizations solve complex workforce, organizational, operational, and mission
-              challenges. Since 2005, we have supported agencies including the U.S. Coast Guard,
-              Department of Homeland Security, Department of Energy, Federal Bureau of
-              Investigation, and Department of War with expertise in human capital, workforce and
-              organizational analysis, training and performance improvement, emergency management,
-              program and project management, and data-driven decision&nbsp;support.
-            </p>
-            <p className="mt-5 max-w-xl text-body-copy text-pretty text-[#5f626b]">
-              Headquartered in Fredericksburg, Virginia, Harkcon brings together experienced
-              professionals who understand both the mission and the people responsible for
-              delivering it. Our approach is practical, responsive, and grounded in a simple
-              objective: understand the problem, build the right solution, and help our clients
-              perform&nbsp;better.
-            </p>
-            <NextLink
-              href="/about"
-              className={`${wipeButtonClassName} mt-10 ${wipeButtonDarkClassName}`}
-            >
-              Discover Harkcon
-            </NextLink>
-          </div>
-          <div className="px-5 pt-10 pb-20 sm:px-8 md:pt-12 md:pb-24 lg:py-28 lg:pr-12 lg:pl-0 xl:pr-16">
-            <div className="relative h-full min-h-[70svh] overflow-hidden lg:min-h-[90svh]">
-              <Image
-                src="/images/about-team.png"
-                alt="Harkcon consultants collaborating around a table"
-                fill
-                quality={85}
-                sizes="(max-width: 1536px) 1536px, 100vw"
-                className="z-[1] object-cover"
-              />
             </div>
           </div>
         </section>

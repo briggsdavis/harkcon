@@ -1,0 +1,20 @@
+import { v } from "convex/values"
+export const solutionContent = v.object({
+  number: v.string(),
+  color: v.string(),
+  shortTitle: v.string(),
+  description: v.string(),
+  proofPoint: v.string(),
+  heroImage: v.string(),
+  heroAlt: v.string(),
+  wideImage: v.string(),
+  wideAlt: v.string(),
+  detailImage: v.string(),
+  detailAlt: v.string(),
+  proofHeading: v.string(),
+  capabilitiesHeading: v.string(),
+  ctaTitle: v.string(),
+  ctaLabel: v.string(),
+  ctaHref: v.string(),
+  solutions: v.array(v.string()),
+})

@@ -59,6 +59,14 @@ const executives: Person[] = [
 ]
 
 const programManagers: Person[] = [
+  {
+    name: "Bradley McNally",
+    role: "Project Manager",
+    portrait: "bradley",
+    linkedin: "https://www.linkedin.com/in/brad-mcnally-007582392/",
+    biography:
+      "Bradley McNally brings extensive U.S. Coast Guard leadership experience in aviation, engineering, logistics, acquisitions, and program management to Harkcon. His previous assignments include Director of Aviation Acquisitions, enterprise software program management, aviation fleet operations, and federal budget coordination. A licensed Professional Engineer, military pilot, and certified program management professional, he combines technical expertise and collaborative leadership to strengthen capabilities, make effective use of resources, and deliver mission-focused results.",
+  },
   { name: "Kersha Poindexter", role: "Compliance & Facility Security Officer", portrait: "kersha" },
   {
     name: "Meredith Phillips",
@@ -125,8 +133,12 @@ function TeamSection({
             >
               <div className="relative mx-auto mb-7 aspect-square w-44 overflow-hidden rounded-full bg-[#e9e8e4] md:w-52">
                 <Image
-                  src={`/images/leadership-${person.portrait}.jpg`}
-                  alt={person.name}
+                  src={`/images/leadership-${person.portrait}.${person.portrait === "bradley" ? "svg" : "jpg"}`}
+                  alt={
+                    person.portrait === "bradley"
+                      ? "Sample portrait placeholder for Bradley McNally"
+                      : person.name
+                  }
                   fill
                   sizes="(min-width: 768px) 208px, 176px"
                   className="object-cover grayscale"

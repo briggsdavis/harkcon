@@ -1,3 +1,4 @@
+import { solutionContent } from "./solutionFields"
 import { defineSchema, defineTable } from "convex/server"
 import { v } from "convex/values"
 import { openingValidator } from "./careerValidators"
@@ -56,6 +57,7 @@ export default defineSchema({
     createdAt: v.number(),
   }).index("by_createdAt", ["createdAt"]),
   solutionPages: defineTable({
+    content: v.optional(solutionContent),
     title: v.string(),
     slug: v.string(),
     order: v.number(),

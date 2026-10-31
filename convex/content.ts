@@ -142,7 +142,7 @@ export const setFeatured = mutation({
       const featuredArticles = (await ctx.db.query("articles").collect()).filter(
         (article) => article.featured && article._id !== id,
       )
-      if (featuredArticles.length >= 2) throw new Error("Only two articles can be featured")
+      if (featuredArticles.length >= 6) throw new Error("Only six articles can be featured")
     }
     await ctx.db.patch(id, { featured })
     return null

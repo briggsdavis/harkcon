@@ -442,3 +442,60 @@
     transform: translate3d(0, 0, 0);
   }
 }
+
+/* The entry curtain shares the route transition's timing and upward wipe. */
+.home-entry {
+  display: none;
+}
+html[data-home-entry] .home-entry {
+  display: grid;
+}
+html[data-home-entry="playing"],
+html[data-home-entry="playing"] body {
+  overflow: hidden;
+}
+html[data-home-entry="playing"] .hero [data-hero-entrance] {
+  animation-play-state: paused;
+}
+html[data-home-entry="revealing"] .home-entry {
+  animation: home-entry-lift 675ms cubic-bezier(0.76, 0, 0.24, 1) both;
+}
+.home-entry-mark {
+  animation: home-entry-mark 675ms cubic-bezier(0.76, 0, 0.24, 1) both;
+}
+.home-entry-letter {
+  animation: home-entry-sharpen 420ms ease-out both;
+}
+@keyframes home-entry-mark {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    clip-path: inset(0);
+  }
+}
+@keyframes home-entry-sharpen {
+  from {
+    filter: blur(9px);
+    opacity: 0;
+  }
+  to {
+    filter: blur(0);
+    opacity: 1;
+  }
+}
+@keyframes home-entry-lift {
+  to {
+    transform: translateY(-101%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-entry-mark,
+  .home-entry-letter,
+  .home-entry-credit {
+    animation: none;
+  }
+  html[data-home-entry="revealing"] .home-entry {
+    animation: hero-opacity 150ms ease reverse both !important;
+  }
+}

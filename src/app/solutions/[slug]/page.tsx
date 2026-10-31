@@ -1,6 +1,5 @@
 import type { Metadata } from "next"
-import { notFound } from "next/navigation"
-import SolutionDetailPage from "~/components/solution-detail-page"
+import SolutionLoader from "~/components/solution-loader"
 import { getSolution, solutions } from "~/lib/solutions"
 
 export function generateStaticParams() {
@@ -22,8 +21,5 @@ export async function generateMetadata({
 
 export default async function SolutionPage({ params }: PageProps<"/solutions/[slug]">) {
   const { slug } = await params
-  const solution = getSolution(slug)
-  if (!solution) notFound()
-
-  return <SolutionDetailPage solution={solution} />
+  return <SolutionLoader slug={slug} />
 }

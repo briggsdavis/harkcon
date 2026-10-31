@@ -2,7 +2,6 @@ import type { Metadata } from "next"
 import HeroParallaxImage from "~/components/hero-parallax-image"
 import { Arrow, Header, SiteFooter } from "~/components/home-page"
 import SolutionsOverview from "~/components/solutions-overview"
-import SolutionsProcess from "~/components/solutions-process"
 import Link from "~/components/visibility-link"
 
 export const metadata: Metadata = {
@@ -47,7 +46,7 @@ export default function Solutions() {
             practical solutions that support the&nbsp;mission.
           </p>
         </section>
-        <SolutionsProcess />
+
         <SolutionsOverview />
         <section className="bg-[#0d132d] text-white">
           <div className="site-gutter flex flex-col items-start justify-between gap-10 py-20 md:flex-row md:items-end">

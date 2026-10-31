@@ -1,6 +1,5 @@
 import { CaretDown } from "@phosphor-icons/react/ssr"
 import { Metadata } from "next"
-import Image from "next/image"
 import Link from "next/link"
 import AboutProcess from "~/components/about-process"
 import HeroParallaxImage from "~/components/hero-parallax-image"
@@ -10,9 +9,6 @@ import SolutionsOverview from "~/components/solutions-overview"
 import SubtleParallaxPhoto from "~/components/subtle-parallax-photo"
 import ViewportCards from "~/components/viewport-cards"
 import { keepClosingWords } from "~/lib/typography"
-
-const unsplash = (id: string) =>
-  `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=2400&q=88`
 
 export const metadata: Metadata = {
   title: "About",
@@ -265,40 +261,6 @@ export default function About() {
         <LeadershipTeams />
         <SolutionsOverview />
         <AboutProcess />
-
-        <section className="bg-[#f4f3f0]" aria-labelledby="culture-title">
-          <div className="grid min-h-[92svh] w-full lg:grid-cols-2">
-            <div className="relative min-h-[60svh] overflow-hidden lg:min-h-[92svh]">
-              <Image
-                src={unsplash("1758599543116-4fdb887911a5")}
-                alt="Three colleagues walking together outside their workplace"
-                fill
-                sizes="(min-width: 1024px) 50vw, 100vw"
-                className="object-cover"
-              />
-            </div>
-            <div className="flex flex-col justify-center px-5 py-24 sm:px-8 md:py-28 lg:px-12 lg:py-32 xl:px-16">
-              <SectionLabel number="04" className="mb-12">
-                Corporate culture
-              </SectionLabel>
-              <div>
-                <h2 id="culture-title" className={headingClassName}>
-                  Every voice&nbsp;matters.
-                </h2>
-                <p className={proseClassName}>
-                  We value different perspectives and build our culture around teamwork, trust, and
-                  collaboration. Associates are empowered to identify problems, shape solutions, and
-                  make decisions because their individual experience makes our work&nbsp;stronger.
-                </p>
-                <p className={proseClassName}>
-                  Challenging work, professional growth, flexible scheduling, and accessible
-                  leadership create a rewarding environment where people can excel while respecting
-                  life beyond the office. At Harkcon, our associates&nbsp;matter.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
 
         <section className="py-24 md:py-32 lg:py-40" aria-labelledby="community-title">
           <div className="site-gutter">

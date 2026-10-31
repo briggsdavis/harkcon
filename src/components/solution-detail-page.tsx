@@ -71,7 +71,7 @@ export default function SolutionDetailPage({ solution }: { solution: Solution })
           <div className="site-gutter grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20 xl:gap-28">
             <div>
               <h2 id="proof-point-title" className={headingClassName}>
-                Experience measured in&nbsp;outcomes.
+                {solution.proofHeading || "Experience measured in outcomes."}
               </h2>
             </div>
             <p className="max-w-[850px] text-body-copy text-pretty text-[#454955] lg:pt-12">
@@ -93,7 +93,7 @@ export default function SolutionDetailPage({ solution }: { solution: Solution })
             </figure>
             <div>
               <h2 id="capabilities-title" className={headingClassName}>
-                Solutions built around the&nbsp;mission.
+                {solution.capabilitiesHeading || "Solutions built around the mission."}
               </h2>
               <ol className="mt-12 border-b border-[#0d132d]/20">
                 {solution.solutions.map((item, index) => (
@@ -115,6 +115,12 @@ export default function SolutionDetailPage({ solution }: { solution: Solution })
           </div>
         </section>
 
+        <section className="site-gutter bg-[#f4f3f0] py-20">
+          <h2 className={headingClassName}>{solution.ctaTitle || "Have a complex mission?"}</h2>
+          <a className="text-link mt-8" href={solution.ctaHref || "/contact"}>
+            {solution.ctaLabel || "Start a conversation"}
+          </a>
+        </section>
         <SiteFooter />
       </div>
     </div>

@@ -1,47 +1,12 @@
+"use client"
 import Link from "next/link"
 import { Arrow } from "~/components/home-page"
 import SolutionCardWatermark from "~/components/solution-card-watermark"
 import ViewportCards from "~/components/viewport-cards"
-
-const capabilities = [
-  [
-    "Workforce & Organizational Analysis",
-    "workforce-organizational-analysis",
-    "Staffing analysis and workforce plans grounded in evidence.",
-  ],
-  [
-    "Training & Human Systems Integration",
-    "training-human-systems-integration",
-    "Training built around the work people need to do.",
-  ],
-  [
-    "Process Improvement & Transformation",
-    "process-improvement-transformation",
-    "Practical process changes that reduce risk and wasted effort.",
-  ],
-  [
-    "Administrative & Compliance Support",
-    "administrative-compliance-support",
-    "Organized operations and dependable compliance support.",
-  ],
-  [
-    "Policy, Strategy, & Program Support",
-    "policy-strategy-program-support",
-    "Clear direction for complex programs and decisions.",
-  ],
-  [
-    "International Advisory & Capacity Building",
-    "international-advisory-capacity-building",
-    "Stronger partnerships and operational readiness abroad.",
-  ],
-  [
-    "Emergency Management & Contingency Support",
-    "emergency-management-continuity-support",
-    "Preparedness that protects mission-critical functions.",
-  ],
-]
+import { useSolutions } from "~/lib/use-solutions"
 
 export default function SolutionsOverview() {
+  const capabilities = useSolutions().map((s) => [s.title, s.slug, s.description])
   return (
     <section
       id="solutions"
