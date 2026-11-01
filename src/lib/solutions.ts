@@ -1,4 +1,6 @@
 export type Solution = {
+  heroLabel?: string
+  expertiseLabel?: string
   proofHeading?: string
   capabilitiesHeading?: string
   ctaTitle?: string

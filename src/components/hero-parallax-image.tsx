@@ -1,7 +1,7 @@
 "use client"
-
 import Image from "next/image"
 import { useEffect, useRef } from "react"
+import { useEditingMode } from "./editing-mode"
 
 export default function HeroParallaxImage({
   src,
@@ -12,9 +12,11 @@ export default function HeroParallaxImage({
   alt: string
   imageClassName: string
 }) {
+  const editing = useEditingMode()
   const mediaRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    if (editing) return
     const media = mediaRef.current
     if (!media || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
 
@@ -40,7 +42,7 @@ export default function HeroParallaxImage({
       window.removeEventListener("resize", onScroll)
       if (frame) cancelAnimationFrame(frame)
     }
-  }, [])
+  }, [editing])
 
   return (
     <div

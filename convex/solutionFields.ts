@@ -1,5 +1,7 @@
 import { v } from "convex/values"
 export const solutionContent = v.object({
+  heroLabel: v.optional(v.string()),
+  expertiseLabel: v.optional(v.string()),
   number: v.string(),
   color: v.string(),
   shortTitle: v.string(),

@@ -499,3 +499,32 @@ html[data-home-entry="revealing"] .home-entry {
     animation: hero-opacity 150ms ease reverse both !important;
   }
 }
+
+/* Editing uses the public layout, with static content inside this boundary only. */
+[data-solution-editor] *, [data-solution-editor] *::before, [data-solution-editor] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+[data-solution-editor] [data-solution-text] { cursor: text; outline-offset: 4px; white-space: pre-line; }
+[data-solution-editor] [data-solution-text]:hover { outline: 1px dashed #7899f1; }
+[data-solution-editor] [data-solution-text]:focus { outline: 2px solid #2563eb; }
+[data-solution-editor] [data-solution-link]:hover { outline: 1px dashed #7899f1; outline-offset: 5px; }
+[data-solution-editor] .group:hover :is(img, p) { transform: none !important; }
+
+/* The direct page preview shares the public markup and suppresses motion only here. */
+[data-page-editor] *, [data-page-editor] *::before, [data-page-editor] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+[data-page-editor] [data-page-text] { cursor: text; outline-offset: 4px; white-space: pre-line; }
+[data-page-editor] [data-page-text]:hover { outline: 1px dashed #7899f1; }
+[data-page-editor] [data-page-text]:focus { outline: 2px solid #2563eb; }
+[data-page-editor] [data-page-link]:hover { outline: 1px dashed #7899f1; outline-offset: 5px; }
+[data-page-editor] [data-page-hero-copy] { z-index: 30; pointer-events: none; }
+[data-page-editor] [data-page-hero-copy] [data-page-text], [data-page-editor] [data-page-hero-copy] [data-page-link] { pointer-events: auto; }
+[data-page-editor] .group:hover :is(img, p, span) { transform: none !important; }
+[data-page-editor] [data-center-card] { color: #0d132d !important; }
+[data-page-editor] [data-center-card] > span[aria-hidden="true"] { transform: scaleX(0) !important; }
+[data-page-editor] [data-center-card] p { color: #5f626b !important; }

@@ -18,6 +18,8 @@ import type * as content from "../content.js";
 import type * as crons from "../crons.js";
 import type * as email from "../email.js";
 import type * as http from "../http.js";
+import type * as pageFields from "../pageFields.js";
+import type * as pages from "../pages.js";
 import type * as seed from "../seed.js";
 import type * as solutionFields from "../solutionFields.js";
 import type * as solutions from "../solutions.js";
@@ -39,6 +41,8 @@ declare const fullApi: ApiFromModules<{
   crons: typeof crons;
   email: typeof email;
   http: typeof http;
+  pageFields: typeof pageFields;
+  pages: typeof pages;
   seed: typeof seed;
   solutionFields: typeof solutionFields;
   solutions: typeof solutions;

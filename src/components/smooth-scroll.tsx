@@ -5,6 +5,7 @@ import { useEffect } from "react"
 
 export default function SmoothScroll() {
   useEffect(() => {
+    if (window.location.pathname.startsWith("/admin")) return
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
 
     const lenis = new Lenis({

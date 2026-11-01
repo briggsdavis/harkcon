@@ -1,5 +1,4 @@
 "use client"
-
 import {
   ArrowRight,
   ArrowUpRight,
@@ -22,6 +21,8 @@ import Link from "~/components/visibility-link"
 import { HARKCON_CAPABILITY_STATEMENT_URL } from "~/lib/documents"
 import { useSolutions } from "~/lib/use-solutions"
 import { api } from "../../convex/_generated/api"
+import { useEditingMode } from "./editing-mode"
+import { PageText, PageImage, PageLink } from "./page-editing"
 
 const statement =
   "Since 2005, Harkcon has helped government agencies and private-sector companies overcome complex challenges, strengthen organizational performance, and achieve mission-critical outcomes."
@@ -324,6 +325,7 @@ export function Header({
   searchPageTitle?: string
   searchSections?: SearchSection[]
 }) {
+  const editing = useEditingMode()
   const solutionLinks = useSolutionLinks()
   const [menuOpen, setMenuOpen] = useState(false)
   const [openDropdown, setOpenDropdown] = useState<DropdownName | null>(null)
@@ -431,7 +433,7 @@ export function Header({
 
   return (
     <header
-      className={`site-header fixed inset-x-0 top-0 z-30 ${darkSurface ? "[--nav-accent:var(--color-brand-gold)]" : "[--nav-accent:var(--color-brand-red)]"} ${surfaceClassName} ${headerVisible || expanded ? "" : "-translate-y-[105%]"}`}
+      className={`site-header ${editing ? "absolute" : "fixed"} inset-x-0 top-0 z-30 ${darkSurface ? "[--nav-accent:var(--color-brand-gold)]" : "[--nav-accent:var(--color-brand-red)]"} ${surfaceClassName} ${headerVisible || expanded ? "" : "-translate-y-[105%]"}`}
     >
       <div className="site-gutter flex h-24 items-center justify-between">
         <Link href="/" aria-label="Harkcon home" className="block shrink-0">
@@ -651,9 +653,11 @@ export function Header({
 }
 
 function ClientMarquee() {
+  const editing = useEditingMode()
   const trackRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    if (editing) return
     const track = trackRef.current
     if (!track || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
 
@@ -676,7 +680,7 @@ function ClientMarquee() {
     return () => {
       if (animationFrame) cancelAnimationFrame(animationFrame)
     }
-  }, [])
+  }, [editing])
 
   const repeatedLogos = ["first", "second"].flatMap((copy) =>
     clientLogos.map((logo) => [copy, logo] as const),
@@ -689,27 +693,38 @@ function ClientMarquee() {
     >
       <div className="site-gutter mb-10 flex items-center justify-center gap-6 md:mb-12">
         <span aria-hidden="true" className="h-0.5 w-12 bg-[#0d132d]/25 md:w-20" />
-        <h2 className="text-center font-header text-[clamp(1.5rem,2.4vw,2.25rem)] leading-tight font-medium tracking-[-0.02em] text-balance text-[#0d132d]">
-          Organizations we have&nbsp;served
-        </h2>
+        <PageText field="home.organizations-we-have-served">
+          <h2 className="text-center font-header text-[clamp(1.5rem,2.4vw,2.25rem)] leading-tight font-medium tracking-[-0.02em] text-balance text-[#0d132d]">
+            Organizations we have&nbsp;served
+          </h2>
+        </PageText>
         <span aria-hidden="true" className="h-0.5 w-12 bg-[#0d132d]/25 md:w-20" />
       </div>
-      <div className="marquee-viewport overflow-hidden">
-        <div ref={trackRef} className="flex w-max items-center will-change-transform">
+      <div className={editing ? "site-gutter overflow-auto" : "marquee-viewport overflow-hidden"}>
+        <div
+          ref={trackRef}
+          className={
+            editing
+              ? "flex flex-wrap items-center"
+              : "flex w-max items-center will-change-transform"
+          }
+        >
           {repeatedLogos.map(([copy, logo]) => (
             <div
-              className="mr-3 flex h-36 w-60 shrink-0 items-center justify-center px-7 py-7 md:h-42 md:w-72"
+              className={`${editing && copy === "second" ? "hidden" : "flex"} relative mr-3 h-36 w-60 shrink-0 items-center justify-center px-7 py-7 md:h-42 md:w-72`}
               key={`${copy}-${logo.src}`}
               aria-hidden={copy === "second"}
             >
-              <Image
-                src={logo.src}
-                alt={copy === "first" ? logo.name : ""}
-                width={270}
-                height={135}
-                sizes="(min-width: 768px) 232px, 184px"
-                className="h-full w-full object-contain"
-              />
+              <PageImage field={`client-logo-${logo.name}`}>
+                <Image
+                  src={logo.src}
+                  alt={copy === "first" ? logo.name : ""}
+                  width={270}
+                  height={135}
+                  sizes="(min-width: 768px) 232px, 184px"
+                  className="h-full w-full object-contain"
+                />
+              </PageImage>
             </div>
           ))}
         </div>
@@ -740,53 +755,66 @@ function Hero() {
     >
       <div className="absolute inset-0 bg-[#0d132d]">
         {hero !== undefined && images !== undefined && (
-          <Image
-            src={
-              uploadedImage?.url ??
-              (heroImage === "social-work" ? "/images/Social Work.png" : "/images/capitol-hero.png")
-            }
-            alt={
-              uploadedImage
-                ? uploadedImage.name
-                : heroImage === "social-work"
-                  ? "Social work and community service"
-                  : "The United States Capitol at sunrise"
-            }
-            fill
-            preload
-            quality={85}
-            sizes="(max-width: 1672px) 1672px, 100vw"
-            className="object-cover"
-          />
+          <PageImage field="home.image-2">
+            <Image
+              src={
+                uploadedImage?.url ??
+                (heroImage === "social-work"
+                  ? "/images/Social Work.png"
+                  : "/images/capitol-hero.png")
+              }
+              alt={
+                uploadedImage
+                  ? uploadedImage.name
+                  : heroImage === "social-work"
+                    ? "Social work and community service"
+                    : "The United States Capitol at sunrise"
+              }
+              fill
+              preload
+              quality={85}
+              sizes="(max-width: 1672px) 1672px, 100vw"
+              className="object-cover"
+            />
+          </PageImage>
         )}
       </div>
       <div className="hero-overlay absolute inset-0 z-[1]" />
-      <div className="site-gutter relative z-10 flex h-full items-end pb-12 md:pb-16">
+      <div
+        data-page-hero-copy
+        className="site-gutter relative z-10 flex h-full items-end pb-12 md:pb-16"
+      >
         <div className="max-w-5xl text-white">
-          <p
-            data-hero-entrance
-            className="mb-5 animate-[hero-opacity_720ms_ease_100ms_both] font-eyebrow text-[0.9rem] font-semibold tracking-[0.18em] text-pretty text-white/90 uppercase motion-reduce:animate-none md:text-[1.05rem]"
-          >
-            Master&nbsp;Performance
-          </p>
-          <h1
-            id="hero-title"
-            data-hero-entrance
-            className="max-w-3xl animate-[hero-opacity_720ms_ease_210ms_both,hero-move_900ms_cubic-bezier(0.22,1,0.36,1)_210ms_both] font-header text-[clamp(1.75rem,8.82vw,2.15rem)] font-medium text-balance motion-reduce:animate-none sm:text-display"
-          >
-            Better&nbsp;People.
-            <br />
-            Better&nbsp;Performance.
-            <br />
-            Better&nbsp;Outcomes.
-          </h1>
+          <PageText field="home.master-performance">
+            <p
+              data-hero-entrance
+              className="mb-5 animate-[hero-opacity_720ms_ease_100ms_both] font-eyebrow text-[0.9rem] font-semibold tracking-[0.18em] text-pretty text-white/90 uppercase motion-reduce:animate-none md:text-[1.05rem]"
+            >
+              Master&nbsp;Performance
+            </p>
+          </PageText>
+          <PageText field="home.hero-title">
+            <h1
+              id="hero-title"
+              data-hero-entrance
+              className="max-w-3xl animate-[hero-opacity_720ms_ease_210ms_both,hero-move_900ms_cubic-bezier(0.22,1,0.36,1)_210ms_both] font-header text-[clamp(1.75rem,8.82vw,2.15rem)] font-medium text-balance motion-reduce:animate-none sm:text-display"
+            >
+              Better&nbsp;People.
+              <br />
+              Better&nbsp;Performance.
+              <br />
+              Better&nbsp;Outcomes.
+            </h1>
+          </PageText>
           <div
             data-hero-entrance
             className="mt-7 flex animate-[hero-opacity_720ms_ease_350ms_both] items-center gap-4 pt-5 motion-reduce:animate-none md:mt-9 md:pt-6"
           >
-            <p className="max-w-xl text-sm leading-relaxed text-pretty text-white/80 md:text-base">
-              Practical expertise for the organizations that serve us&nbsp;all.
-            </p>
+            <PageText field="home.practical-expertise-for-the-organizations">
+              <p className="max-w-xl text-sm leading-relaxed text-pretty text-white/80 md:text-base">
+                Practical expertise for the organizations that serve us&nbsp;all.
+              </p>
+            </PageText>
           </div>
         </div>
       </div>
@@ -795,11 +823,13 @@ function Hero() {
 }
 
 function ScrollStatement() {
+  const editing = useEditingMode()
   const containerRef = useRef<HTMLElement>(null)
   const statementRef = useRef<HTMLParagraphElement>(null)
   const [visibleCharacters, setVisibleCharacters] = useState(0)
 
   useEffect(() => {
+    if (editing) return
     let frame = 0
 
     const update = () => {
@@ -830,7 +860,7 @@ function ScrollStatement() {
       window.removeEventListener("resize", onScroll)
       if (frame) cancelAnimationFrame(frame)
     }
-  }, [])
+  }, [editing])
 
   return (
     <section
@@ -839,22 +869,32 @@ function ScrollStatement() {
       aria-label="What Harkcon does"
     >
       <div className="site-gutter">
-        <p
-          ref={statementRef}
-          className="mx-auto max-w-[1050px] font-header text-[clamp(1.65rem,2.55vw,2.75rem)] leading-[1.15] tracking-[-0.025em] text-pretty text-[#c6c8cc]"
-        >
-          <span className="sr-only">{statement}</span>
-          <span aria-hidden="true">
-            {Array.from(statement).map((character, index) => (
-              <span
-                key={statement.slice(0, index + 1)}
-                className={`transition-colors duration-120 ease-linear ${index < visibleCharacters ? "text-[#0d132d]" : ""}`}
-              >
-                {character}
+        {editing ? (
+          <PageText field="home.statement">
+            <p className="mx-auto max-w-[1050px] font-header text-[clamp(1.65rem,2.55vw,2.75rem)] leading-[1.15] tracking-[-0.025em] text-pretty text-[#0d132d]">
+              {statement}
+            </p>
+          </PageText>
+        ) : (
+          <PageText field="home.statement">
+            <p
+              ref={statementRef}
+              className="mx-auto max-w-[1050px] font-header text-[clamp(1.65rem,2.55vw,2.75rem)] leading-[1.15] tracking-[-0.025em] text-pretty text-[#c6c8cc]"
+            >
+              <span className="sr-only">{statement}</span>
+              <span aria-hidden="true">
+                {Array.from(statement).map((character, index) => (
+                  <span
+                    key={statement.slice(0, index + 1)}
+                    className={`transition-colors duration-120 ease-linear ${index < visibleCharacters ? "text-[#0d132d]" : ""}`}
+                  >
+                    {character}
+                  </span>
+                ))}
               </span>
-            ))}
-          </span>
-        </p>
+            </p>
+          </PageText>
+        )}
       </div>
     </section>
   )
@@ -879,7 +919,9 @@ const footerBottomLinkClassName =
   "transition-colors hover:text-white focus-visible:text-white focus-visible:outline-none"
 
 export function SiteFooter() {
+  const editing = useEditingMode()
   const solutionLinks = useSolutionLinks()
+  if (editing) return null
   return (
     <footer id="site-footer" className="relative z-10 bg-[#0d132d] text-white">
       <div className="site-gutter">
@@ -1022,10 +1064,13 @@ export function SiteFooter() {
 }
 
 export default function HomePage() {
+  const editing = useEditingMode()
   return (
     <div id="top" className="overflow-clip bg-white text-[#0d132d]">
-      <HomeEntry />
-      <Header />
+      {!editing && <HomeEntry />}
+      <div inert={editing}>
+        <Header />
+      </div>
 
       <div className="relative">
         <Hero />
@@ -1043,46 +1088,64 @@ export default function HomePage() {
         >
           <div className="site-gutter grid gap-12 lg:grid-cols-3 lg:gap-8">
             <div className="flex flex-col items-start lg:pr-6">
-              <p className="eyebrow mb-5 text-brand-gold">Government contracting</p>
-              <h2
-                id="home-contracts-title"
-                className="font-header text-section-title font-medium text-balance"
-              >
-                Contract&nbsp;vehicles
-              </h2>
-              <p className="mt-5 max-w-lg text-base leading-relaxed text-pretty text-white/70">
-                Flexible federal acquisition paths to Harkcon&apos;s people, performance, and
-                technology&nbsp;expertise.
-              </p>
+              <PageText field="home.government-contracting">
+                <p className="eyebrow mb-5 text-brand-gold">Government contracting</p>
+              </PageText>
+              <PageText field="home.home-contracts-title">
+                <h2
+                  id="home-contracts-title"
+                  className="font-header text-section-title font-medium text-balance"
+                >
+                  Contract&nbsp;vehicles
+                </h2>
+              </PageText>
+              <PageText field="home.flexible-federal-acquisition-paths-to">
+                <p className="mt-5 max-w-lg text-base leading-relaxed text-pretty text-white/70">
+                  Flexible federal acquisition paths to Harkcon&apos;s people, performance, and
+                  technology&nbsp;expertise.
+                </p>
+              </PageText>
 
               <Link href="/contracts" className="text-link mt-8 text-white after:opacity-60">
                 Explore contract vehicles
               </Link>
             </div>
             <div className="flex flex-col items-start border-t border-white/15 pt-12 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-8">
-              <h3 className="font-header text-section-title font-medium text-balance">OASIS+</h3>
-              <p className="mt-5 max-w-lg text-base leading-relaxed text-pretty text-white/70">
-                Integrated professional services through Harkcon&apos;s Small Business and
-                SDVOSB&nbsp;vehicles.
-              </p>
+              <PageText field="home.oasis">
+                <h3 className="font-header text-section-title font-medium text-balance">OASIS+</h3>
+              </PageText>
+              <PageText field="home.integrated-professional-services-through-harkcon">
+                <p className="mt-5 max-w-lg text-base leading-relaxed text-pretty text-white/70">
+                  Integrated professional services through Harkcon&apos;s Small Business and
+                  SDVOSB&nbsp;vehicles.
+                </p>
+              </PageText>
 
-              <Link href="/oasis-plus" className="text-link mt-8 text-white after:opacity-60">
-                Explore OASIS+
-              </Link>
+              <PageLink field="home.explore-oasis">
+                <Link href="/oasis-plus" className="text-link mt-8 text-white after:opacity-60">
+                  Explore OASIS+
+                </Link>
+              </PageLink>
             </div>
             <div className="flex flex-col items-start border-t border-white/15 pt-12 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-8">
-              <h3 className="font-header text-section-title font-medium">Capability statement</h3>
-              <p className="mt-5 text-base leading-relaxed text-white/70">
-                Company capabilities, qualifications, and contracting information.
-              </p>
-              <a
-                href={HARKCON_CAPABILITY_STATEMENT_URL}
-                target="_blank"
-                rel="noreferrer"
-                className="text-link mt-8 text-white after:opacity-60"
-              >
-                Download PDF
-              </a>
+              <PageText field="home.capability-statement">
+                <h3 className="font-header text-section-title font-medium">Capability statement</h3>
+              </PageText>
+              <PageText field="home.company-capabilities-qualifications-and-contracting">
+                <p className="mt-5 text-base leading-relaxed text-white/70">
+                  Company capabilities, qualifications, and contracting information.
+                </p>
+              </PageText>
+              <PageLink field="home.download-pdf">
+                <a
+                  href={HARKCON_CAPABILITY_STATEMENT_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-link mt-8 text-white after:opacity-60"
+                >
+                  Download PDF
+                </a>
+              </PageLink>
             </div>
           </div>
         </section>
@@ -1091,16 +1154,20 @@ export default function HomePage() {
           <div className="site-gutter">
             <div className="mb-12 flex items-end justify-between gap-8 md:mb-16">
               <div>
-                <h2
-                  id="news-title"
-                  className="font-header text-section-title font-medium text-balance"
-                >
-                  News
-                </h2>
+                <PageText field="home.news-title">
+                  <h2
+                    id="news-title"
+                    className="font-header text-section-title font-medium text-balance"
+                  >
+                    News
+                  </h2>
+                </PageText>
               </div>
-              <Link href="/news-insights" className="text-link" data-reveal-line>
-                Visit the news page
-              </Link>
+              <PageLink field="home.visit-the-news-page">
+                <Link href="/news-insights" className="text-link" data-reveal-line>
+                  Visit the news page
+                </Link>
+              </PageLink>
             </div>
 
             <FeaturedNews />
@@ -1110,16 +1177,20 @@ export default function HomePage() {
         <section className="bg-white">
           <div className="site-gutter flex flex-col items-start justify-between gap-10 py-20 md:flex-row md:items-end md:py-24">
             <div>
-              <h2 className="max-w-3xl font-header text-section-title font-medium text-balance text-[#0d132d]">
-                Put our experience to work for your&nbsp;mission.
-              </h2>
+              <PageText field="home.put-our-experience-to-work">
+                <h2 className="max-w-3xl font-header text-section-title font-medium text-balance text-[#0d132d]">
+                  Put our experience to work for your&nbsp;mission.
+                </h2>
+              </PageText>
             </div>
-            <Link
-              href="/contact"
-              className={`${wipeButtonClassName} shrink-0 ${wipeButtonDarkClassName}`}
-            >
-              Talk with our team
-            </Link>
+            <PageLink field="home.talk-with-our-team">
+              <Link
+                href="/contact"
+                className={`${wipeButtonClassName} shrink-0 ${wipeButtonDarkClassName}`}
+              >
+                Talk with our team
+              </Link>
+            </PageLink>
           </div>
         </section>
 

@@ -1,5 +1,6 @@
 import { Metadata } from "next"
 import HomePage from "~/components/home-page"
+import { PublicPageContent } from "~/components/page-editing"
 
 export const metadata: Metadata = {
   title: { absolute: "Harkcon • Human & Organizational Performance" },
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 }
 
 export default function Home() {
-  return <HomePage />
+  return (
+    <PublicPageContent page="home">
+      <HomePage />
+    </PublicPageContent>
+  )
 }

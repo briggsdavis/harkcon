@@ -1,9 +1,16 @@
-import { solutionContent } from "./solutionFields"
 import { defineSchema, defineTable } from "convex/server"
 import { v } from "convex/values"
 import { openingValidator } from "./careerValidators"
+import { pageKey, pageDraft } from "./pageFields"
+import { solutionContent } from "./solutionFields"
 
 export default defineSchema({
+  editablePages: defineTable({
+    key: pageKey,
+    draft: pageDraft,
+    archived: v.optional(v.boolean()),
+    updatedAt: v.number(),
+  }).index("by_key", ["key"]),
   homeSettings: defineTable({ hero: v.string() }),
   heroImages: defineTable({ storageId: v.id("_storage"), name: v.string() }),
   careerOpenings: defineTable({ openings: v.array(openingValidator), updatedAt: v.number() }),
@@ -57,6 +64,8 @@ export default defineSchema({
     createdAt: v.number(),
   }).index("by_createdAt", ["createdAt"]),
   solutionPages: defineTable({
+    archived: v.optional(v.boolean()),
+    updatedAt: v.optional(v.number()),
     content: v.optional(solutionContent),
     title: v.string(),
     slug: v.string(),

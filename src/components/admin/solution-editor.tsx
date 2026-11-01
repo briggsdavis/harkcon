@@ -1,298 +1,484 @@
 "use client"
+
 import { useMutation, useQuery } from "convex/react"
 import Image from "next/image"
-import { useEffect, useRef, useState } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { getSolution, solutions, type Solution } from "~/lib/solutions"
 import { api } from "../../../convex/_generated/api"
-import type { Doc } from "../../../convex/_generated/dataModel"
+import type { Doc, Id } from "../../../convex/_generated/dataModel"
+import SolutionDetailPage from "../solution-detail-page"
+import { SolutionEditingProvider, type Selection, type TextField } from "../solution-editing"
+import EditorDialog, { editorButton, editorInput } from "./editor-dialog"
+import PageEditor from "./page-editor"
 
-const control =
-  "w-full rounded-lg border border-slate-200 bg-transparent p-2 focus:border-blue-500 focus:outline-none"
-const button = "rounded-lg border border-slate-200 px-4 py-2 text-sm disabled:opacity-50"
-function defaults(page?: Doc<"solutionPages">): Solution {
+function initialDraft(page: Doc<"solutionPages">): Solution {
   return {
-    ...(getSolution(page?.slug || "") || solutions[0]),
+    ...(getSolution(page.slug) ?? {
+      ...solutions[0],
+      shortTitle: page.title,
+      description: "Describe this solution.",
+      proofPoint: "Describe your experience and results.",
+      solutions: ["Add a capability"],
+    }),
     proofHeading: "Experience measured in outcomes.",
     capabilitiesHeading: "Solutions built around the mission.",
     ctaTitle: "Have a complex mission?",
     ctaLabel: "Start a conversation",
     ctaHref: "/contact",
-    ...page?.content,
-    title: page?.title || "New solution",
-    slug: page?.slug || "new-solution",
+    ...page.content,
+    title: page.title,
+    slug: page.slug,
+  }
+}
+function contentOf(draft: Solution) {
+  const { title: _title, slug: _slug, ...content } = draft
+  return {
+    ...content,
+    proofHeading: draft.proofHeading ?? "",
+    capabilitiesHeading: draft.capabilitiesHeading ?? "",
+    ctaTitle: draft.ctaTitle ?? "",
+    ctaLabel: draft.ctaLabel ?? "",
+    ctaHref: draft.ctaHref ?? "/contact",
   }
 }
 export default function SolutionEditor() {
+  const params = useSearchParams()
   const pages = useQuery(api.solutions.list)
-  const [editing, setEditing] = useState<Doc<"solutionPages"> | "new" | null>(null)
-  const [deleting, setDeleting] = useState<Doc<"solutionPages"> | null>(null)
-  const [error, setError] = useState("")
-  const remove = useMutation(api.solutions.remove)
-  return (
-    <section className="p-6 md:p-10">
-      <div className="mb-8 flex justify-between gap-4">
-        <div>
-          <h1 className="font-header text-3xl">Solution pages</h1>
-          <p className="mt-2 text-slate-500">Click a page to edit its content in a preview.</p>
-        </div>
-        <button className={button} onClick={() => setEditing("new")}>
-          Add solution
-        </button>
-      </div>
-      <div className="divide-y divide-slate-200 overflow-hidden rounded-2xl border border-slate-200 bg-white">
-        {pages?.map((page) => (
-          <div key={page._id} className="flex items-center justify-between p-5">
-            <button className="text-left" onClick={() => setEditing(page)}>
-              <strong>{page.title}</strong>
-              <span className="block text-sm text-slate-500">/solutions/{page.slug}</span>
-            </button>
-            <div className="flex gap-3">
-              <button className={button} onClick={() => setEditing(page)}>
-                Edit
-              </button>
-              <button
-                className={button}
-                onClick={() => {
-                  setError("")
-                  setDeleting(page)
-                }}
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-      {editing && (
-        <Editor page={editing === "new" ? undefined : editing} close={() => setEditing(null)} />
-      )}
-      {deleting && (
-        <div className="fixed inset-0 z-[150] grid place-items-center bg-slate-950/50 p-5">
-          <dialog
-            open
-            aria-label="Delete solution"
-            className="relative m-auto rounded-2xl bg-white p-8"
-          >
-            <h2 className="text-xl font-bold">Delete {deleting.title}?</h2>
-            <p className="my-4">This removes the solution page from the site.</p>
-            {error && <p role="alert">{error}</p>}
-            <div className="flex gap-4">
-              <button className={button} onClick={() => setDeleting(null)}>
-                Cancel
-              </button>
-              <button
-                className={button}
-                onClick={async () => {
-                  try {
-                    await remove({ id: deleting._id })
-                    setDeleting(null)
-                  } catch (e) {
-                    setError(e instanceof Error ? e.message : "Unable to delete")
-                  }
-                }}
-              >
-                Delete page
-              </button>
-            </div>
-          </dialog>
-        </div>
-      )}
-    </section>
+  const id = params.get("solution")
+  if (!id) return <PageEditor page="solutions" />
+  if (!pages) return <p className="p-8 text-sm text-slate-500">Loading solution…</p>
+  const page = pages.find((item) => item._id === id)
+  return page ? (
+    <Editor key={page._id} page={page} />
+  ) : (
+    <p role="alert" className="p-8">
+      This solution no longer exists.
+    </p>
   )
 }
-function Editor({ page, close }: { page?: Doc<"solutionPages">; close: () => void }) {
-  const [draft, setDraft] = useState(() => defaults(page))
+
+function Editor({ page }: { page: Doc<"solutionPages"> }) {
+  const router = useRouter()
+  const savePage = useMutation(api.solutions.save)
+  const setArchived = useMutation(api.solutions.setArchived)
+  const uploadUrl = useMutation(api.content.generateImageUploadUrl)
+  const resolveImage = useMutation(api.content.resolveImageUpload)
+  const [draft, setDraft] = useState(() => initialDraft(page))
+  const [baseline, setBaseline] = useState(page.updatedAt)
+  const [dirty, setDirty] = useState(!page.content)
   const [busy, setBusy] = useState(false),
-    [uploading, setUploading] = useState(false),
-    [error, setError] = useState("")
-  const dialog = useRef<HTMLDialogElement>(null)
-  const save = useMutation(api.solutions.save),
-    uploadUrl = useMutation(api.content.generateImageUploadUrl),
-    resolve = useMutation(api.content.resolveImageUpload)
-  useEffect(() => {
-    const el = dialog.current
-    el?.showModal()
-    return () => el?.close()
+    [uploading, setUploading] = useState(false)
+  const [selection, setSelection] = useState<Selection | null>(null)
+  const [archiveConfirm, setArchiveConfirm] = useState(false)
+  const [leave, setLeave] = useState<string | null>(null)
+  const [error, setError] = useState(""),
+    [message, setMessage] = useState("")
+  const archived = !!page.archived
+  const changeText = useCallback((field: TextField, value: string) => {
+    setDraft((current) =>
+      field.startsWith("capability:")
+        ? {
+            ...current,
+            solutions: current.solutions.map((item, index) =>
+              index === Number(field.slice(11)) ? value : item,
+            ),
+          }
+        : { ...current, [field]: value },
+    )
+    setDirty(true)
+    setMessage("")
   }, [])
-  function field(key: keyof Solution, label: string, large = false) {
-    return (
-      <label className="block">
-        <span className="mb-1 block text-xs font-medium text-slate-500">{label}</span>
-        {large ? (
-          <textarea
-            aria-label={label}
-            className={`${control} min-h-28 text-lg`}
-            value={String(draft[key] || "")}
-            onChange={(e) => setDraft({ ...draft, [key]: e.target.value })}
-          />
-        ) : (
-          <input
-            aria-label={label}
-            className={control}
-            value={String(draft[key] || "")}
-            onChange={(e) => setDraft({ ...draft, [key]: e.target.value })}
-          />
-        )}
-      </label>
-    )
+  const editing = useMemo(
+    () => ({
+      changeText,
+      markDirty: () => {
+        setDirty(true)
+        setMessage("")
+      },
+      select: (value: Selection) => {
+        setError("")
+        setSelection(value)
+      },
+    }),
+    [changeText],
+  )
+  useEffect(() => {
+    const navigate = (event: Event) => {
+      if (dirty || busy || uploading) {
+        event.preventDefault()
+        setLeave((event as CustomEvent<{ url: string }>).detail.url)
+      }
+    }
+    const requireClean = (event: Event) => {
+      if (dirty || busy || uploading) {
+        event.preventDefault()
+        setError("Save or discard changes before archiving or deleting a page.")
+      }
+    }
+    const unload = (event: BeforeUnloadEvent) => {
+      if (dirty || uploading) event.preventDefault()
+    }
+    window.addEventListener("harkcon:navigate", navigate)
+    window.addEventListener("harkcon:require-clean", requireClean)
+    window.addEventListener("beforeunload", unload)
+    return () => {
+      window.removeEventListener("harkcon:navigate", navigate)
+      window.removeEventListener("harkcon:require-clean", requireClean)
+      window.removeEventListener("beforeunload", unload)
+    }
+  }, [dirty, busy, uploading])
+  async function save() {
+    setBusy(true)
+    setError("")
+    setMessage("")
+    try {
+      const result = await savePage({
+        id: page._id,
+        title: draft.title,
+        slug: draft.slug,
+        content: contentOf(draft),
+        ...(baseline !== undefined ? { expectedUpdatedAt: baseline } : {}),
+      })
+      setBaseline(result.updatedAt)
+      setDirty(false)
+      setMessage(
+        archived ? "Changes saved. This page is still archived." : "Changes saved and published.",
+      )
+      return true
+    } catch (failure) {
+      setError(
+        failure instanceof Error ? failure.message : "Could not save. Your changes are still here.",
+      )
+      return false
+    } finally {
+      setBusy(false)
+    }
   }
-  function photo(
-    key: "heroImage" | "wideImage" | "detailImage",
-    alt: "heroAlt" | "wideAlt" | "detailAlt",
-    label: string,
-  ) {
-    return (
-      <div className="space-y-3">
-        <label className="relative block cursor-pointer overflow-hidden rounded-xl bg-slate-100">
-          <Image
-            src={draft[key]}
-            alt={draft[alt]}
-            width={960}
-            height={208}
-            unoptimized
-            className="h-52 w-full object-cover"
-          />
-          <span className="absolute right-3 bottom-3 rounded-lg bg-white px-3 py-2 text-sm">
-            {uploading ? "Uploading…" : "Click to replace image"}
-          </span>
-          <input
-            aria-label={label}
-            className="sr-only"
-            type="file"
-            accept="image/*"
-            disabled={uploading || busy}
-            onChange={async (e) => {
-              const file = e.target.files?.[0]
-              if (!file) return
-              setUploading(true)
-              setError("")
-              try {
-                const url = await uploadUrl()
-                const response = await fetch(url, {
-                  method: "POST",
-                  headers: { "Content-Type": file.type },
-                  body: file,
-                })
-                if (!response.ok) throw new Error("Image upload failed")
-                const { storageId } = await response.json()
-                const image = await resolve({ storageId })
-                setDraft((d) => ({ ...d, [key]: image }))
-              } catch (e) {
-                setError(e instanceof Error ? e.message : "Image upload failed")
-              } finally {
-                setUploading(false)
-              }
-            }}
-          />
-        </label>
-        {field(alt, "Image description")}
-      </div>
-    )
+  async function upload(file: File) {
+    if (
+      !["image/jpeg", "image/png", "image/webp", "image/avif"].includes(file.type) ||
+      file.size > 10 * 1024 * 1024
+    ) {
+      setError("Choose a JPG, PNG, WebP or AVIF image smaller than 10 MB.")
+      return
+    }
+    setUploading(true)
+    setError("")
+    try {
+      const url = await uploadUrl()
+      const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": file.type },
+        body: file,
+      })
+      if (!response.ok) throw new Error("Image upload failed")
+      const body: { storageId: Id<"_storage"> } = await response.json()
+      const src = await resolveImage({ storageId: body.storageId })
+      setSelection((current) => (current?.kind === "image" ? { ...current, src } : current))
+    } catch (failure) {
+      setError(failure instanceof Error ? failure.message : "Could not upload image")
+    } finally {
+      setUploading(false)
+    }
+  }
+  function applySelection() {
+    if (!selection) return
+    if (selection.kind === "link") {
+      if (
+        !selection.text.trim() ||
+        !/^(\/(?!\/)|https?:\/\/|mailto:|tel:|#)/i.test(selection.href)
+      ) {
+        setError("Add button text and a valid destination link.")
+        return
+      }
+      setDraft((current) => ({ ...current, ctaLabel: selection.text, ctaHref: selection.href }))
+    } else {
+      if (!/^(\/(?!\/)|https?:\/\/)/i.test(selection.src)) {
+        setError("Choose an image or enter an image URL.")
+        return
+      }
+      const altField = { heroImage: "heroAlt", wideImage: "wideAlt", detailImage: "detailAlt" }[
+        selection.field
+      ]
+      setDraft((current) => ({
+        ...current,
+        [selection.field]: selection.src,
+        [altField]: selection.alt,
+      }))
+    }
+    setDirty(true)
+    setMessage("")
+    setError("")
+    setSelection(null)
+  }
+  function discard() {
+    setDraft(initialDraft(page))
+    setBaseline(page.updatedAt)
+    setDirty(false)
+    setError("")
+    setMessage("")
+    setLeave(null)
   }
   return (
-    <dialog
-      ref={dialog}
-      onCancel={(e) => {
-        e.preventDefault()
-        if (!busy && !uploading) close()
-      }}
-      aria-label="Edit solution page"
-      data-reveal-skip
-      className="fixed inset-0 m-auto max-h-[90dvh] w-[min(960px,94vw)] overflow-auto rounded-2xl border-0 bg-white p-0 text-slate-900 shadow-2xl backdrop:bg-slate-950/60"
-    >
-      <form
-        onSubmit={async (e) => {
-          e.preventDefault()
-          setBusy(true)
-          setError("")
-          try {
-            const { title, slug, ...content } = draft
-            await save({
-              ...(page ? { id: page._id } : {}),
-              title,
-              slug,
-              content: {
-                ...content,
-                proofHeading: content.proofHeading || "",
-                capabilitiesHeading: content.capabilitiesHeading || "",
-                ctaTitle: content.ctaTitle || "",
-                ctaLabel: content.ctaLabel || "",
-                ctaHref: content.ctaHref || "/contact",
-              },
-            })
-            close()
-          } catch (e) {
-            setError(e instanceof Error ? e.message : "Unable to save")
-          } finally {
-            setBusy(false)
-          }
-        }}
-      >
-        <div className="sticky top-0 z-10 flex items-center justify-between gap-4 border-b border-slate-200 bg-white p-5">
-          <h2 className="font-bold">{page ? "Edit solution" : "Create solution"}</h2>
-          <div className="flex gap-3">
-            <button type="button" disabled={busy || uploading} className={button} onClick={close}>
-              Cancel
-            </button>
-            <button disabled={busy || uploading} className={`${button} bg-slate-900 text-white`}>
-              {busy ? "Saving…" : "Save page"}
-            </button>
-          </div>
+    <section className="flex h-dvh min-w-0 flex-col bg-slate-100">
+      <header className="z-40 flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 bg-white px-5 py-4">
+        <div>
+          <p className="text-[10px] font-bold tracking-widest text-slate-400 uppercase">
+            Solution editor
+          </p>
+          <h1 className="mt-1 font-header text-lg font-semibold">{draft.title}</h1>
+          <output className="mt-1 block text-xs text-slate-500">
+            {busy ? "Saving…" : dirty ? "Unsaved changes" : "All changes saved"}
+          </output>
         </div>
-        {error && (
-          <p role="alert" className="p-5 text-red-700">
-            {error}
-          </p>
-        )}
-        <div className="space-y-8 p-6 md:p-10">
-          <p className="text-sm text-slate-500">
-            Click text to edit it or an image to replace it. The page layout stays fixed.
-          </p>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {field("title", "Page title")}
-            {field("slug", "URL slug")}
-            {field("number", "Page number")}
-            {field("color", "Accent color")}
-          </div>
-          {photo("heroImage", "heroAlt", "Replace hero image")}
-          <section className="space-y-5 py-5">
-            {field("shortTitle", "Main heading")}
-            {field("description", "Introduction", true)}
-          </section>
-          {photo("wideImage", "wideAlt", "Replace wide image")}
-          <section className="space-y-5 rounded-xl bg-[#f4f3f0] p-6">
-            {field("proofHeading", "Experience heading")}
-            {field("proofPoint", "Experience text", true)}
-          </section>
-          <section className="grid gap-6 md:grid-cols-2">
-            {photo("detailImage", "detailAlt", "Replace section image")}
-            <div className="space-y-4">
-              {field("capabilitiesHeading", "Capabilities heading")}
-              {draft.solutions.map((text, i) => (
-                <label key={i} className="block">
-                  <span className="text-xs text-slate-500">Capability {i + 1}</span>
-                  <textarea
-                    aria-label={`Capability ${i + 1}`}
-                    className={control}
-                    value={text}
-                    onChange={(e) =>
-                      setDraft({
-                        ...draft,
-                        solutions: draft.solutions.map((s, n) => (n === i ? e.target.value : s)),
-                      })
-                    }
+        <div className="flex flex-wrap gap-2">
+          <button
+            className={`${editorButton} ${archived ? "!border-amber-200 !bg-amber-50 !text-amber-800" : "!border-green-200 !bg-green-50 !text-green-800"}`}
+            disabled={busy || uploading}
+            onClick={() => {
+              if (dirty) {
+                setError("Save or discard changes before changing publication status.")
+                return
+              }
+              setError("")
+              setArchiveConfirm(true)
+            }}
+          >
+            {archived ? "Archived · Unarchive" : "Published · Archive"}
+          </button>
+          {dirty && (
+            <button
+              className={editorButton}
+              disabled={busy || uploading}
+              onClick={() => setLeave("discard")}
+            >
+              Discard
+            </button>
+          )}
+          <button
+            className={`${editorButton} !border-blue-700 !bg-blue-700 !text-white`}
+            disabled={!dirty || busy || uploading}
+            onClick={() => void save()}
+          >
+            {busy ? "Saving…" : "Save changes"}
+          </button>
+        </div>
+      </header>
+      <p className="border-b border-slate-200 bg-white px-5 py-2 text-xs text-slate-500">
+        Click text to edit. Click an image or the page’s call-to-action button to change it. Save
+        changes to publish.
+      </p>
+      {(error || message) && (
+        <p
+          role={error ? "alert" : "status"}
+          className={`px-5 py-3 text-sm ${error ? "bg-red-50 text-red-800" : "bg-green-50 text-green-800"}`}
+        >
+          {error || message}
+        </p>
+      )}
+      <div className="min-h-0 flex-1 overflow-auto p-4">
+        <div
+          data-solution-editor
+          className="relative isolate overflow-hidden border border-slate-200 bg-white shadow-sm"
+          onClickCapture={(event) => {
+            const target = event.target as HTMLElement
+            if (target.closest("a") && !target.closest("[data-solution-link]")) {
+              event.preventDefault()
+              event.stopPropagation()
+            }
+          }}
+        >
+          <SolutionEditingProvider value={editing}>
+            <SolutionDetailPage solution={draft} />
+          </SolutionEditingProvider>
+        </div>
+      </div>
+      {selection && (
+        <EditorDialog
+          title={selection.kind === "image" ? "Edit image" : "Edit button"}
+          close={() => {
+            if (!uploading) {
+              setSelection(null)
+              setError("")
+            }
+          }}
+        >
+          <form
+            onSubmit={(event) => {
+              event.preventDefault()
+              applySelection()
+            }}
+          >
+            {selection.kind === "link" ? (
+              <>
+                <label className="block text-sm">
+                  Button text
+                  <input
+                    required
+                    className={editorInput}
+                    value={selection.text}
+                    onChange={(event) => setSelection({ ...selection, text: event.target.value })}
                   />
                 </label>
-              ))}
+                <label className="mt-4 block text-sm">
+                  Destination link
+                  <input
+                    required
+                    className={editorInput}
+                    value={selection.href}
+                    onChange={(event) => setSelection({ ...selection, href: event.target.value })}
+                  />
+                </label>
+              </>
+            ) : (
+              <>
+                <Image
+                  src={selection.src}
+                  alt={selection.alt}
+                  width={800}
+                  height={400}
+                  unoptimized
+                  className="mb-4 max-h-56 w-full rounded-lg bg-slate-100 object-contain"
+                />
+                <label className="block text-sm">
+                  Replace image
+                  <input
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp,image/avif"
+                    disabled={uploading}
+                    className="mt-2 block w-full text-sm"
+                    onChange={(event) => {
+                      const file = event.target.files?.[0]
+                      if (file) void upload(file)
+                    }}
+                  />
+                </label>
+                <label className="mt-4 block text-sm">
+                  Image URL
+                  <input
+                    required
+                    className={editorInput}
+                    value={selection.src}
+                    onChange={(event) => setSelection({ ...selection, src: event.target.value })}
+                  />
+                </label>
+                <label className="mt-4 block text-sm">
+                  Alternative text
+                  <input
+                    className={editorInput}
+                    value={selection.alt}
+                    onChange={(event) => setSelection({ ...selection, alt: event.target.value })}
+                  />
+                </label>
+              </>
+            )}
+            {error && (
+              <p role="alert" className="mt-4 text-sm text-red-700">
+                {error}
+              </p>
+            )}
+            <div className="mt-6 flex justify-end gap-3">
+              <button
+                type="button"
+                className={editorButton}
+                disabled={uploading}
+                onClick={() => {
+                  setSelection(null)
+                  setError("")
+                }}
+              >
+                Cancel
+              </button>
+              <button className={`${editorButton} !bg-blue-700 !text-white`} disabled={uploading}>
+                {uploading ? "Uploading…" : "Apply to draft"}
+              </button>
             </div>
-          </section>
-          <section className="space-y-4 rounded-xl bg-[#f4f3f0] p-6">
-            {field("ctaTitle", "Call to action heading")}
-            {field("ctaLabel", "Call to action text")}
-            {field("ctaHref", "Call to action destination")}
-          </section>
-        </div>
-      </form>
-    </dialog>
+          </form>
+        </EditorDialog>
+      )}
+      {archiveConfirm && (
+        <EditorDialog
+          title={archived ? `Publish ${draft.title}?` : `Archive ${draft.title}?`}
+          close={() => {
+            if (!busy) setArchiveConfirm(false)
+          }}
+        >
+          <p className="text-sm leading-relaxed text-slate-600">
+            {archived
+              ? "The saved version will become publicly accessible and return to the website’s solution lists."
+              : "This removes the page from public navigation and blocks its URL. You can keep editing it here."}
+          </p>
+          {error && (
+            <p role="alert" className="mt-4 text-sm text-red-700">
+              {error}
+            </p>
+          )}
+          <div className="mt-6 flex justify-end gap-3">
+            <button
+              className={editorButton}
+              disabled={busy}
+              onClick={() => setArchiveConfirm(false)}
+            >
+              Cancel
+            </button>
+            <button
+              className={`${editorButton} !bg-blue-700 !text-white`}
+              disabled={busy}
+              onClick={async () => {
+                setBusy(true)
+                setError("")
+                try {
+                  await setArchived({ id: page._id, archived: !archived })
+                  setArchiveConfirm(false)
+                  setMessage(archived ? "Page unarchived and published." : "Page archived.")
+                } catch (failure) {
+                  setError(failure instanceof Error ? failure.message : "Could not change status")
+                } finally {
+                  setBusy(false)
+                }
+              }}
+            >
+              {busy ? "Updating…" : archived ? "Unarchive and publish" : "Archive page"}
+            </button>
+          </div>
+        </EditorDialog>
+      )}
+      {leave && (
+        <EditorDialog title="Unsaved changes" close={() => setLeave(null)}>
+          <p className="text-sm text-slate-600">
+            Save your changes or discard them before{" "}
+            {leave === "discard" ? "resetting this draft" : "leaving this page"}.
+          </p>
+          <div className="mt-6 flex flex-wrap justify-end gap-3">
+            <button className={editorButton} disabled={busy} onClick={() => setLeave(null)}>
+              Keep editing
+            </button>
+            <button
+              className={`${editorButton} !text-red-700`}
+              disabled={busy || uploading}
+              onClick={() => {
+                if (leave === "discard") discard()
+                else router.push(leave)
+              }}
+            >
+              Discard changes
+            </button>
+            <button
+              className={`${editorButton} !bg-blue-700 !text-white`}
+              disabled={busy || uploading}
+              onClick={async () => {
+                if (await save()) {
+                  if (leave !== "discard") router.push(leave)
+                  setLeave(null)
+                }
+              }}
+            >
+              {busy ? "Saving…" : "Save changes"}
+            </button>
+          </div>
+        </EditorDialog>
+      )}
+    </section>
   )
 }

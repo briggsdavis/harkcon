@@ -22,6 +22,7 @@ export default function RouteTransition() {
 
   useEffect(() => {
     const handleClick = (event: MouseEvent) => {
+      if (window.location.pathname.startsWith("/admin")) return
       if (
         event.defaultPrevented ||
         event.button !== 0 ||

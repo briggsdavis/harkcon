@@ -1,4 +1,5 @@
 "use client"
+import { useEditingMode } from "./editing-mode"
 
 import { useEffect, useRef, type ReactNode } from "react"
 
@@ -10,8 +11,10 @@ export default function ViewportCards({
   children: ReactNode
   className?: string
 }) {
+  const editing = useEditingMode()
   const root = useRef<HTMLDivElement>(null)
   useEffect(() => {
+    if (editing) return
     const media = window.matchMedia("(max-width: 1023px)")
     let frame = 0
     const update = () => {
@@ -49,7 +52,7 @@ export default function ViewportCards({
       window.removeEventListener("resize", schedule)
       media.removeEventListener("change", schedule)
     }
-  }, [])
+  }, [editing])
   return (
     <div ref={root} className={className}>
       {children}

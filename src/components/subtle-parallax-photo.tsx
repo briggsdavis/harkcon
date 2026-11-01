@@ -1,6 +1,6 @@
 "use client"
-
 import { useEffect, useMemo, useRef } from "react"
+import { useEditingMode } from "./editing-mode"
 
 export default function SubtleParallaxPhoto({
   src,
@@ -13,6 +13,7 @@ export default function SubtleParallaxPhoto({
   label: string
   strength?: number
 }) {
+  const editing = useEditingMode()
   const photoRef = useRef<HTMLDivElement>(null)
   const backgroundStyle = useMemo(
     () => (src ? { backgroundImage: `url("${src}")` } : undefined),
@@ -20,6 +21,7 @@ export default function SubtleParallaxPhoto({
   )
 
   useEffect(() => {
+    if (editing) return
     const photo = photoRef.current
     if (!photo || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
 
@@ -48,7 +50,7 @@ export default function SubtleParallaxPhoto({
       window.removeEventListener("resize", onScroll)
       if (frame) cancelAnimationFrame(frame)
     }
-  }, [strength])
+  }, [strength, editing])
 
   return (
     <div

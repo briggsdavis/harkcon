@@ -24,7 +24,10 @@ import { authClient } from "~/lib/auth-client"
 import { visibilityPages } from "~/lib/page-visibility"
 import { api } from "../../../convex/_generated/api"
 import type { Doc, Id } from "../../../convex/_generated/dataModel"
+import { requestEditorNavigation } from "./editor-dialog"
+import PageEditor from "./page-editor"
 import SolutionEditor from "./solution-editor"
+import SolutionNavigation from "./solution-navigation"
 
 type View =
   | "visibility"
@@ -36,6 +39,7 @@ type View =
   | "careers"
   | "contracts"
   | "solutions"
+  | "oasis"
   | "global"
 type ArticleDraft = Pick<
   Doc<"articles">,
@@ -73,6 +77,7 @@ const pageLabels: Record<View, string> = {
   careers: "Careers page",
   contracts: "Contracts page",
   solutions: "Solution pages",
+  oasis: "OASIS+ page",
   global: "Global details & contact",
 }
 
@@ -175,9 +180,9 @@ function LoginAside() {
 }
 
 const loginClassName =
-  "admin-login grid min-h-dvh grid-cols-[minmax(420px,45%)_1fr] bg-[#f8f8f6] text-[#17203b] max-[1000px]:grid-cols-1"
+  "admin-login grid min-h-dvh grid-cols-[minmax(420px,45%)_1fr] bg-white text-[#17203b] max-[1000px]:grid-cols-1"
 const loginCardClassName =
-  "flex w-[min(490px,100%)] flex-col justify-center bg-white px-[clamp(35px,6vw,82px)] py-[50px] max-[1000px]:m-auto max-[1000px]:w-[min(560px,100%)] max-[760px]:px-6 max-[760px]:py-9"
+  "flex w-full flex-col justify-center bg-white px-[clamp(35px,6vw,82px)] py-[50px] max-[1000px]:m-auto max-[1000px]:w-[min(560px,100%)] max-[760px]:px-6 max-[760px]:py-9"
 const loginLogoClassName = "mb-[70px] h-auto w-[170px] max-[760px]:mb-[50px]"
 const loginBodyClassName = "mt-3 mb-[25px] text-sm leading-[1.6] text-[#737b8b]"
 
@@ -355,7 +360,10 @@ function Sidebar({ view, onSelect }: { view: View; onSelect: (view: View) => voi
           Admin
         </span>
       </div>
-      <nav aria-label="Admin navigation" className="flex flex-1 flex-col gap-1">
+      <nav
+        aria-label="Admin navigation"
+        className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto"
+      >
         {item("dashboard", "grid")}
         {item("news", "news")}
         {item("contacts", "mail")}
@@ -367,7 +375,7 @@ function Sidebar({ view, onSelect }: { view: View; onSelect: (view: View) => voi
         </button>
         {pagesOpen ? (
           <div className="mb-[7px] ml-[31px] flex animate-admin-enter flex-col gap-0.5 border-l border-[#303a58] pl-2.5">
-            {(["home", "about", "careers", "contracts"] as View[]).map((target) => (
+            {(["home", "about", "careers", "contracts", "oasis"] as View[]).map((target) => (
               <button
                 key={target}
                 className={childButton(view === target)}
@@ -382,18 +390,7 @@ function Sidebar({ view, onSelect }: { view: View; onSelect: (view: View) => voi
             >
               Solutions <Icon name="chevron" className={chevron(solutionsOpen)} />
             </button>
-            {solutionsOpen ? (
-              <button
-                className={
-                  view === "solutions"
-                    ? childButton(true, "pl-6")
-                    : "flex w-full cursor-pointer items-center gap-3 rounded-[9px] py-2 pr-2.5 pl-6 text-left text-[13px] text-[#8f9ab5] transition-[background-color,color,translate] duration-200 hover:bg-[#1a2440] hover:text-white"
-                }
-                onClick={() => onSelect("solutions")}
-              >
-                Manage solution pages
-              </button>
-            ) : null}
+            {solutionsOpen ? <SolutionNavigation /> : null}
             <button className={childButton(view === "global")} onClick={() => onSelect("global")}>
               Global details / contact
             </button>
@@ -1535,118 +1532,9 @@ function Empty({ text }: { text: string }) {
   )
 }
 
-function HomeEditor() {
-  const hero = useQuery(api.content.getHomeHero)
-  const images = useQuery(api.content.listHeroImages)
-  const uploadUrl = useMutation(api.content.generateImageUploadUrl)
-  const addImage = useMutation(api.content.addHeroImage)
-  const save = useMutation(api.content.setHomeHero)
-  const [saving, setSaving] = useState(false)
-  const [message, setMessage] = useState("")
-  return (
-    <section className={viewClassName}>
-      <ViewHeading
-        eyebrow="Page editor"
-        title="Home page"
-        description="Choose the hero image shown on the website."
-      />
-      <div className={`${card} p-6`}>
-        <label className="mb-6 block text-sm font-medium">
-          Upload a new hero image
-          <input
-            type="file"
-            accept="image/jpeg,image/png,image/webp,image/avif"
-            disabled={saving}
-            className="mt-3 block w-full cursor-pointer text-sm file:mr-4 file:border-0 file:bg-[#0d132d] file:px-4 file:py-3 file:text-white disabled:opacity-50"
-            onChange={async (event) => {
-              const file = event.target.files?.[0]
-              event.target.value = ""
-              if (!file) return
-              if (
-                !["image/jpeg", "image/png", "image/webp", "image/avif"].includes(file.type) ||
-                file.size > 10 * 1024 * 1024
-              ) {
-                setMessage("Choose a JPG, PNG, WebP, or AVIF image smaller than 10 MB.")
-                return
-              }
-              setSaving(true)
-              setMessage("")
-              try {
-                const url = await uploadUrl()
-                const response = await fetch(url, {
-                  method: "POST",
-                  headers: { "Content-Type": file.type },
-                  body: file,
-                })
-                if (!response.ok) throw new Error("Upload failed")
-                const { storageId } = (await response.json()) as { storageId: Id<"_storage"> }
-                await addImage({ storageId, name: file.name.replace(/\.[^.]+$/, "") })
-                setMessage("Image uploaded. Select it below to use it as the hero.")
-              } catch {
-                setMessage("Could not upload the image. Please try again.")
-              } finally {
-                setSaving(false)
-              }
-            }}
-          />
-          <span className="mt-2 block text-xs text-[#7b8291]">
-            JPG, PNG, WebP or AVIF, up to 10 MB. Uploads are saved as additional options.
-          </span>
-        </label>
-        <fieldset disabled={saving || hero === undefined}>
-          <legend className="mb-5 font-header text-xl">Hero image</legend>
-          <div className="grid gap-5 sm:grid-cols-2">
-            {[
-              ["capitol", "Capitol", "/images/capitol-hero.png"],
-              ["social-work", "Social Work", "/images/Social Work.png"],
-              ...(images ?? []).flatMap((image) =>
-                image.url ? [[image.id, image.name, image.url] as const] : [],
-              ),
-            ].map(([value, label, src]) => (
-              <label
-                key={value}
-                className={`cursor-pointer border-2 p-3 transition-colors ${hero === value ? "border-[#0d132d]" : "border-transparent"}`}
-              >
-                <Image
-                  src={src}
-                  alt={label}
-                  width={640}
-                  height={360}
-                  className="mb-3 aspect-video w-full object-cover"
-                />
-                <span className="flex items-center gap-3">
-                  <input
-                    type="radio"
-                    name="hero"
-                    value={value}
-                    checked={hero === value}
-                    onChange={async () => {
-                      setSaving(true)
-                      setMessage("")
-                      try {
-                        await save({ hero: value })
-                        setMessage("Hero image saved.")
-                      } catch {
-                        setMessage("Could not save the hero image. Please try again.")
-                      } finally {
-                        setSaving(false)
-                      }
-                    }}
-                  />
-                  {label}
-                </span>
-              </label>
-            ))}
-          </div>
-        </fieldset>
-        <output className="mt-4 block text-sm">{saving ? "Saving…" : message}</output>
-      </div>
-    </section>
-  )
-}
-
 function PagePlaceholder({ view }: { view: View }) {
-  if (view === "home") return <HomeEditor />
+  if (view === "home" || view === "about" || view === "careers")
+    return <PageEditor key={view} page={view} />
   if (view === "solutions") return <SolutionEditor />
   return (
     <section className={viewClassName}>
@@ -1691,42 +1579,44 @@ function PageVisibility() {
         </p>
       )}
       <div className="mt-8 divide-y divide-slate-200 rounded-xl border border-slate-200 bg-white px-6">
-        {visibilityPages.map((page) => {
-          const visible = settings?.[page.key] ?? page.visible
-          return (
-            <div key={page.key} className="flex items-center justify-between gap-4 py-5">
-              <div>
-                <p className="font-medium">{page.title}</p>
-                <p className="mt-1 text-sm text-slate-500">
-                  {visible ? "Visible and clickable" : "Plain text only"}
-                </p>
+        {visibilityPages
+          .filter((page) => page.key !== "solutions" && !page.key.startsWith("solution:"))
+          .map((page) => {
+            const visible = settings?.[page.key] ?? page.visible
+            return (
+              <div key={page.key} className="flex items-center justify-between gap-4 py-5">
+                <div>
+                  <p className="font-medium">{page.title}</p>
+                  <p className="mt-1 text-sm text-slate-500">
+                    {visible ? "Visible and clickable" : "Plain text only"}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  role="switch"
+                  aria-checked={visible}
+                  aria-label={`${page.title} visibility`}
+                  disabled={!settings || pending !== null}
+                  className={`relative h-7 w-12 rounded-full transition-colors disabled:opacity-50 ${visible ? "bg-blue-600" : "bg-slate-300"}`}
+                  onClick={async () => {
+                    setPending(page.key)
+                    setError("")
+                    try {
+                      await save({ key: page.key, visible: !visible })
+                    } catch {
+                      setError("Could not save visibility. Please try again.")
+                    } finally {
+                      setPending(null)
+                    }
+                  }}
+                >
+                  <span
+                    className={`absolute top-1 h-5 w-5 rounded-full bg-white transition-all ${visible ? "left-6" : "left-1"}`}
+                  />
+                </button>
               </div>
-              <button
-                type="button"
-                role="switch"
-                aria-checked={visible}
-                aria-label={`${page.title} visibility`}
-                disabled={!settings || pending !== null}
-                className={`relative h-7 w-12 rounded-full transition-colors disabled:opacity-50 ${visible ? "bg-blue-600" : "bg-slate-300"}`}
-                onClick={async () => {
-                  setPending(page.key)
-                  setError("")
-                  try {
-                    await save({ key: page.key, visible: !visible })
-                  } catch {
-                    setError("Could not save visibility. Please try again.")
-                  } finally {
-                    setPending(null)
-                  }
-                }}
-              >
-                <span
-                  className={`absolute top-1 h-5 w-5 rounded-full bg-white transition-all ${visible ? "left-6" : "left-1"}`}
-                />
-              </button>
-            </div>
-          )
-        })}
+            )
+          })}
       </div>
     </section>
   )
@@ -1737,8 +1627,10 @@ function Workspace() {
     router = useRouter()
   const raw = params.get("view") as View | null
   const view: View = raw && raw in pageLabels ? raw : "dashboard"
-  const select = (next: View) =>
-    router.push(next === "dashboard" ? "/admin" : `/admin?view=${next}`)
+  const select = (next: View) => {
+    const url = next === "dashboard" ? "/admin" : `/admin?view=${next}`
+    if (requestEditorNavigation(url)) router.push(url)
+  }
   return (
     <div className="admin-root min-h-dvh bg-[#f5f6f8] font-body text-[#17203b] [&_.action-button]:rounded-lg [&_.action-button::after]:rounded-lg">
       <Sidebar view={view} onSelect={select} />

@@ -1,100 +1,10 @@
-import { LinkedinLogo } from "@phosphor-icons/react/ssr"
+"use client"
+import { LinkedinLogo } from "@phosphor-icons/react"
 import Image from "next/image"
 import BiographyDisclosure from "~/components/biography-disclosure"
-
-type Person = {
-  name: string
-  role: string
-  portrait: string
-  biography?: string
-  linkedin?: string
-}
-
-const executives: Person[] = [
-  {
-    name: "Kevin Harkins, Ph.D.",
-    role: "Chief Executive Officer",
-    linkedin: "https://www.linkedin.com/in/kevin-harkins-b922ba5/",
-    portrait: "kevin",
-    biography:
-      "Dr. Kevin Harkins guides Harkcon’s overall direction and works with the Board of Directors to establish the company’s long-term goals, strategies, and policies. He brings more than 30 years of public- and private-sector leadership and management experience, with expertise in strategic planning, competency management, organizational assessment, workforce analysis, recruiting, training, and performance improvement.",
-  },
-  {
-    name: "Brittany Hammond",
-    role: "Chief Operating Officer",
-    linkedin: "https://www.linkedin.com/in/brittany-hammond-7973a6203/",
-    portrait: "brittany",
-    biography:
-      "Brittany Hammond manages Harkcon’s U.S. Coast Guard portfolio, overseeing training and analysis contracts supporting domestic and overseas operations. A Coast Guard veteran with experience aboard two cutters and as an intelligence analyst, she brings expertise in instructional design, human performance technology, and program management. She holds a bachelor’s degree in Government from the U.S. Coast Guard Academy and a master’s degree in Education from Old Dominion University. Outside work, Brittany enjoys the outdoors with her family and volunteers as a youth basketball coach and preschool Board member.",
-  },
-  {
-    name: "Jim Davis",
-    role: "Chief Human Capital Officer",
-    linkedin: "https://www.linkedin.com/in/jim-davis-letsgo/",
-    portrait: "jim",
-    biography:
-      "Jim Davis leads Harkcon’s human capital strategy, workforce development, and employee engagement, aligning talent initiatives with the company’s mission, culture, and growth. He brings more than 30 years of executive leadership and federal human capital experience across the Departments of Homeland Security and Veterans Affairs, where he led workforce modernization, organizational transformation, employee relations, and leadership development efforts. Jim joined Harkcon in 2026 after serving as a Senior Human Capital Consultant at Serco.",
-  },
-  {
-    name: "Paula Harkins",
-    role: "Chief Growth Officer",
-    linkedin: "https://www.linkedin.com/in/dr-paula-harkins-edd-lssbb-113a0463/",
-    portrait: "paula",
-    biography:
-      "Dr. Paula Harkins drives Harkcon’s sustainable growth and expansion across the federal sector, developing strategies that strengthen workforce effectiveness, improve operations, and support mission-critical goals. Her work combines human capital and organizational performance expertise with innovative problem-solving and collaborative partnerships, guided by Harkcon’s values of mastery, integrity, innovation, and putting people first. A Certified Lean Six Sigma Black Belt and international speaker, she is a member of AERA, SHRM, and ISPI.",
-  },
-  {
-    name: "Kyle Moore",
-    role: "Executive Vice President",
-    portrait: "kyle",
-    biography:
-      "Kyle Moore oversees Harkcon’s day-to-day operations, coordinating and evaluating company activities while working with the CEO to implement its goals. A 20-year Coast Guard veteran, he brings more than 35 years of human resources, planning, and project management experience serving clients from Fortune 500 companies to local nonprofits. His consulting expertise spans leadership development, competency management, staffing, quality management, and strategic planning.",
-  },
-  {
-    name: "Mohammad Khan",
-    role: "Director of Information Technology",
-    linkedin: "https://www.linkedin.com/in/mohammad-khan-95042b1b4/",
-    portrait: "mohammad",
-  },
-]
-
-const programManagers: Person[] = [
-  {
-    name: "Bradley McNally",
-    role: "Project Manager",
-    portrait: "bradley",
-    linkedin: "https://www.linkedin.com/in/brad-mcnally-007582392/",
-    biography:
-      "Bradley McNally brings extensive U.S. Coast Guard leadership experience in aviation, engineering, logistics, acquisitions, and program management to Harkcon. His previous assignments include Director of Aviation Acquisitions, enterprise software program management, aviation fleet operations, and federal budget coordination. A licensed Professional Engineer, military pilot, and certified program management professional, he combines technical expertise and collaborative leadership to strengthen capabilities, make effective use of resources, and deliver mission-focused results.",
-  },
-  { name: "Kersha Poindexter", role: "Compliance & Facility Security Officer", portrait: "kersha" },
-  {
-    name: "Meredith Phillips",
-    role: "Program Manager",
-    linkedin: "https://www.linkedin.com/in/meredith-phillips-6932aaa6/",
-    portrait: "meredith",
-  },
-  {
-    name: "Morgan Litz",
-    role: "Program Manager",
-    linkedin: "https://www.linkedin.com/in/morganlitz/",
-    portrait: "morgan",
-  },
-  {
-    name: "Marty Jenkins",
-    role: "Contract and Program Manager",
-    linkedin: "https://www.linkedin.com/in/melissa-jenkins-cfcm-29ab2b56/",
-    portrait: "marty",
-  },
-  {
-    name: "Keith Curran",
-    role: "International Programs Manager",
-    linkedin: "https://www.linkedin.com/in/keith-curran-5103b21/",
-    portrait: "keith",
-  },
-  { name: "Ashley Walker", role: "Program Manager", portrait: "ashley" },
-]
-
+import type { PersonEntry } from "~/lib/page-content"
+import { defaultPeople } from "~/lib/people"
+import { usePageDraft } from "./page-editing"
 function TeamSection({
   id,
   title,
@@ -104,7 +14,7 @@ function TeamSection({
   id: string
   title: string
   number: string
-  people: Person[]
+  people: PersonEntry[]
 }) {
   return (
     <section
@@ -128,17 +38,14 @@ function TeamSection({
         <div className="grid items-start gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-12 lg:gap-y-8">
           {people.map((person) => (
             <article
-              key={person.portrait}
+              key={person.id}
               className="relative min-w-0 pt-8 before:absolute before:inset-x-[7.5%] before:top-0 before:border-t before:border-[#0d132d]/20"
             >
               <div className="relative mx-auto mb-7 aspect-square w-44 overflow-hidden rounded-full bg-[#e9e8e4] md:w-52">
                 <Image
-                  src={`/images/leadership-${person.portrait}.${person.portrait === "bradley" ? "svg" : "jpg"}`}
-                  alt={
-                    person.portrait === "bradley"
-                      ? "Sample portrait placeholder for Bradley McNally"
-                      : person.name
-                  }
+                  src={person.photo}
+                  alt={person.alt}
+                  unoptimized={person.photo.startsWith("http")}
                   fill
                   sizes="(min-width: 768px) 208px, 176px"
                   className="object-cover grayscale"
@@ -181,20 +88,78 @@ function TeamSection({
 }
 
 export default function LeadershipTeams() {
+  const { draft, editing, editPerson } = usePageDraft()
+  const people = draft.people ?? defaultPeople()
+  if (editing)
+    return (
+      <div className="site-gutter space-y-10 py-16">
+        {(["executive", "program"] as const).map((group) => (
+          <section key={group}>
+            <h2 className="mb-5 font-header text-2xl">
+              {group === "executive" ? "Executive leadership" : "Program management"}
+            </h2>
+            <div className="divide-y rounded-xl border border-slate-200 bg-white">
+              {people
+                .filter((person) => person.group === group)
+                .map((person) => (
+                  <button
+                    type="button"
+                    key={person.id}
+                    className="flex w-full items-center gap-4 p-4 text-left"
+                    onClick={() => editPerson?.(person)}
+                  >
+                    <Image
+                      src={person.photo}
+                      alt={person.alt}
+                      width={48}
+                      height={48}
+                      unoptimized
+                      className="h-12 w-12 rounded-full object-cover"
+                    />
+                    <span>
+                      <strong className="block">{person.name}</strong>
+                      <span className="text-sm text-slate-500">{person.role}</span>
+                    </span>
+                    <span className="ml-auto text-sm text-blue-700">Edit</span>
+                  </button>
+                ))}
+            </div>
+            <button
+              type="button"
+              className="mt-4 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm"
+              onClick={() =>
+                editPerson?.({
+                  id: crypto.randomUUID(),
+                  name: "",
+                  role: "",
+                  photo: "",
+                  alt: "",
+                  linkedin: "",
+                  biography: "",
+                  group,
+                })
+              }
+            >
+              + Add person
+            </button>
+          </section>
+        ))}
+      </div>
+    )
   return (
     <>
       <TeamSection
         id="executive-leadership"
         title="Executive leadership"
         number="01"
-        people={executives}
+        people={people.filter((person) => person.group === "executive")}
       />
       <div className="bg-[#f4f3f0]">
         <TeamSection
           id="program-management"
           title="Program management"
           number="02"
-          people={programManagers}
+          people={people.filter((person) => person.group === "program")}
         />
       </div>
     </>

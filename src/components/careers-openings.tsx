@@ -37,7 +37,7 @@ export default function CareersOpenings() {
   }, [attempt])
 
   return (
-    <div>
+    <div data-synced-jobs>
       <div aria-live="polite" aria-busy={result.status === "loading"}>
         {result.status === "loading" && (
           <div className="border-y border-[#0d132d]/20 py-10">

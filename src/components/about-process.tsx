@@ -1,8 +1,9 @@
 "use client"
-
 import Image from "next/image"
 import { useEffect, useRef, useState } from "react"
 import { keepClosingWords } from "~/lib/typography"
+import { useEditingMode } from "./editing-mode"
+import { PageText, PageImage } from "./page-editing"
 
 const steps = [
   {
@@ -60,10 +61,12 @@ const steps = [
 ]
 
 export default function AboutProcess() {
+  const editing = useEditingMode()
   const [active, setActive] = useState(0)
   const timeline = useRef<HTMLOListElement>(null)
 
   useEffect(() => {
+    if (editing) return
     const items = Array.from(timeline.current?.children ?? [])
     let frame = 0
     const update = () => {
@@ -85,18 +88,22 @@ export default function AboutProcess() {
       window.removeEventListener("scroll", update)
       window.removeEventListener("resize", update)
     }
-  }, [])
+  }, [editing])
 
   return (
     <section className="bg-[#f4f3f0] py-24 md:py-32" aria-labelledby="process-title">
       <div className="site-gutter">
-        <p className="eyebrow mb-8">Our&nbsp;capabilities</p>
-        <h2
-          id="process-title"
-          className="max-w-3xl font-header text-section-title font-medium text-balance"
-        >
-          Performance in&nbsp;practice.
-        </h2>
+        <PageText field="about-process.our-capabilities">
+          <p className="eyebrow mb-8">Our&nbsp;capabilities</p>
+        </PageText>
+        <PageText field="about-process.process-title">
+          <h2
+            id="process-title"
+            className="max-w-3xl font-header text-section-title font-medium text-balance"
+          >
+            Performance in&nbsp;practice.
+          </h2>
+        </PageText>
         <div className="relative mt-16 grid items-start gap-12 lg:grid-cols-2 lg:gap-20">
           <ol ref={timeline} className="ml-3 border-l border-[#0d132d]/20">
             {steps.map((step, index) => (
@@ -116,49 +123,67 @@ export default function AboutProcess() {
                 <p className="mb-5 font-eyebrow text-xs tracking-[0.15em] text-[#5f626b]">
                   STEP 0{index + 1}
                 </p>
-                <h3 className="font-header text-card-title font-medium">
-                  {keepClosingWords(step.title)}
-                </h3>
-                <p className="mt-5 max-w-md text-body-copy text-[#454955]">
-                  {keepClosingWords(step.description)}
-                </p>
+                <PageText field={`process-step-${index}-title`}>
+                  <h3 className="font-header text-card-title font-medium">
+                    {keepClosingWords(step.title)}
+                  </h3>
+                </PageText>
+                <PageText field={`process-step-${index}-description`}>
+                  <p className="mt-5 max-w-md text-body-copy text-[#454955]">
+                    {keepClosingWords(step.description)}
+                  </p>
+                </PageText>
                 <ul className="mt-8 space-y-6">
                   {step.tasks.map(([title, description]) => (
                     <li key={title}>
-                      <h4 className="text-sm font-semibold">{keepClosingWords(title)}</h4>
-                      <p className="mt-2 max-w-md text-sm leading-relaxed text-[#5f626b]">
-                        {keepClosingWords(description)}
-                      </p>
+                      <PageText field={`process-step-${index}-task-${title}-title`}>
+                        <h4 className="text-sm font-semibold">{keepClosingWords(title)}</h4>
+                      </PageText>
+                      <PageText field={`process-step-${index}-task-${title}-description`}>
+                        <p className="mt-2 max-w-md text-sm leading-relaxed text-[#5f626b]">
+                          {keepClosingWords(description)}
+                        </p>
+                      </PageText>
                     </li>
                   ))}
                 </ul>
-                <div className="relative mt-8 aspect-[4/3] overflow-hidden lg:hidden">
-                  <Image
-                    src={step.image}
-                    alt={step.alt}
-                    fill
-                    sizes="90vw"
-                    className="object-cover"
-                  />
+                <div
+                  className={`relative mt-8 aspect-[4/3] overflow-hidden ${editing ? "" : "lg:hidden"}`}
+                >
+                  <PageImage field={`process-step-${index}-image`}>
+                    <Image
+                      src={step.image}
+                      alt={step.alt}
+                      fill
+                      sizes="90vw"
+                      className="object-cover"
+                    />
+                  </PageImage>
                 </div>
               </li>
             ))}
           </ol>
-          <div className="sticky top-28 hidden h-[calc(100svh-9rem)] max-h-[850px] overflow-hidden bg-[#dedfe2] lg:block">
+          <div
+            className={`${editing ? "!hidden" : ""} sticky top-28 hidden h-[calc(100svh-9rem)] max-h-[850px] overflow-hidden bg-[#dedfe2] lg:block`}
+          >
             {steps.map((step, index) => (
-              <Image
-                key={step.image}
-                src={step.image}
-                alt={step.alt}
-                fill
-                sizes="50vw"
-                aria-hidden={active !== index}
-                className={`object-cover transition-opacity duration-700 ease-in-out motion-reduce:transition-none ${active === index ? "opacity-100" : "opacity-0"}`}
-              />
+              <PageImage key={step.image} field={`process-step-${index}-image`}>
+                <Image
+                  key={step.image}
+                  src={step.image}
+                  alt={step.alt}
+                  fill
+                  sizes="50vw"
+                  aria-hidden={active !== index}
+                  className={`object-cover transition-opacity duration-700 ease-in-out motion-reduce:transition-none ${active === index ? "opacity-100" : "opacity-0"}`}
+                />
+              </PageImage>
             ))}
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-8 pt-24 pb-8 text-white">
               <p className="text-xs tracking-[0.15em]">0{active + 1} /&nbsp;04</p>
-              <p className="mt-3 font-header text-2xl">{keepClosingWords(steps[active].title)}</p>
+              <PageText field={`process-step-${active}-title`}>
+                <p className="mt-3 font-header text-2xl">{keepClosingWords(steps[active].title)}</p>
+              </PageText>
             </div>
           </div>
         </div>
