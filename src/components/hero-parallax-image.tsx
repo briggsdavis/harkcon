@@ -21,12 +21,17 @@ export default function HeroParallaxImage({
     if (!media || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
 
     let frame = 0
+    let previousOffset: string | undefined
 
     const update = () => {
       frame = 0
       const heroHeight = media.parentElement?.offsetHeight ?? window.innerHeight
       const progress = Math.min(Math.max(window.scrollY, 0), heroHeight)
-      media.style.setProperty("--page-hero-parallax", `${progress * 0.15}px`)
+      const offset = `${progress * 0.15}px`
+      if (offset !== previousOffset) {
+        media.style.setProperty("--page-hero-parallax", offset)
+        previousOffset = offset
+      }
     }
 
     const onScroll = () => {

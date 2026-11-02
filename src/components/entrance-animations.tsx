@@ -80,11 +80,15 @@ export default function EntranceAnimations() {
 
     prepare(document)
     const mutationObserver = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) =>
-        mutation.addedNodes.forEach((node) => {
-          if (node instanceof Element) prepare(node.parentNode ?? document)
-        }),
-      )
+      // React can insert many siblings in one commit. Scan each parent once,
+      // keeping the same query order and stagger indices as the original scan.
+      const roots = new Set<ParentNode>()
+      for (const mutation of mutations) {
+        for (const node of mutation.addedNodes) {
+          if (node instanceof Element) roots.add(node.parentNode ?? document)
+        }
+      }
+      roots.forEach(prepare)
     })
     mutationObserver.observe(document.body, { childList: true, subtree: true })
 

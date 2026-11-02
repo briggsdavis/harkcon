@@ -26,6 +26,7 @@ export default function SubtleParallaxPhoto({
     if (!photo || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
 
     let frame = 0
+    let previousOffset: string | undefined
 
     const update = () => {
       frame = 0
@@ -34,7 +35,11 @@ export default function SubtleParallaxPhoto({
         1,
         Math.max(0, (window.innerHeight - rect.top) / (window.innerHeight + rect.height)),
       )
-      photo.style.setProperty("--parallax-y", `${(progress - 0.5) * strength}px`)
+      const offset = `${(progress - 0.5) * strength}px`
+      if (offset !== previousOffset) {
+        photo.style.setProperty("--parallax-y", offset)
+        previousOffset = offset
+      }
     }
 
     const onScroll = () => {

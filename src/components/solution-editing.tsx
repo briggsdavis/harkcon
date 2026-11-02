@@ -4,7 +4,7 @@ import {
   cloneElement,
   createContext,
   useContext,
-  useState,
+  useRef,
   type ReactElement,
   type ReactNode,
 } from "react"
@@ -50,7 +50,7 @@ export function SolutionEditingProvider({
 
 export function SolutionText({ field, children }: { field: TextField; children: ReactElement }) {
   const editing = useContext(Context)
-  const [initial, setInitial] = useState("")
+  const initial = useRef("")
   if (!editing) return children
   return cloneElement(children as ReactElement<Record<string, unknown>>, {
     contentEditable: true,
@@ -58,12 +58,12 @@ export function SolutionText({ field, children }: { field: TextField; children: 
     "data-solution-text": field,
     "aria-label": `Edit ${field}`,
     onFocus: (event: React.FocusEvent<HTMLElement>) => {
-      setInitial(event.currentTarget.innerText)
+      (initial.current = event.currentTarget.innerText)
     },
     onInput: () => editing.markDirty(),
     onBlur: (event: React.FocusEvent<HTMLElement>) => {
       const value = event.currentTarget.innerText
-      if (value !== initial) editing.changeText(field, value)
+      if (value !== initial.current) editing.changeText(field, value)
     },
     onPaste: (event: React.ClipboardEvent<HTMLElement>) => {
       event.preventDefault()

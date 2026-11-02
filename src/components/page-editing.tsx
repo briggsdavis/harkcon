@@ -8,7 +8,7 @@ import {
   createContext,
   isValidElement,
   useContext,
-  useState,
+  useRef,
   useMemo,
   type ReactElement,
   type ReactNode,
@@ -94,7 +94,7 @@ function plainText(node: ReactNode): string {
 
 export function PageText({ field, children }: { field: string; children: ReactElement }) {
   const content = usePageDraft()
-  const [initial, setInitial] = useState("")
+  const initial = useRef("")
   const element = children as ReactElement<Record<string, unknown>>
   const text = content.draft.fields[field]?.text
   return cloneElement(element, {
@@ -114,11 +114,11 @@ export function PageText({ field, children }: { field: string; children: ReactEl
           "data-page-text": field,
           "aria-label": `Edit ${field}`,
           onFocus: (event: React.FocusEvent<HTMLElement>) =>
-            setInitial(event.currentTarget.innerText),
+            (initial.current = event.currentTarget.innerText),
           onInput: () => content.markDirty(),
           onBlur: (event: React.FocusEvent<HTMLElement>) => {
             const value = event.currentTarget.innerText
-            if (value !== initial) content.change(field, { text: value })
+            if (value !== initial.current) content.change(field, { text: value })
           },
           onClick: (event: React.MouseEvent) => event.stopPropagation(),
           onPaste: (event: React.ClipboardEvent) => {

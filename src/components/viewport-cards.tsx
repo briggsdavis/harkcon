@@ -34,7 +34,10 @@ export default function ViewportCards({
             distance = delta
           }
         }
-      for (const card of cards) card.dataset.centerActive = String(card === closest)
+      for (const card of cards) {
+        const active = String(card === closest)
+        if (card.dataset.centerActive !== active) card.dataset.centerActive = active
+      }
     }
     const schedule = () => {
       if (!frame) frame = requestAnimationFrame(update)
