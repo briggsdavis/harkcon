@@ -40,7 +40,6 @@ type View =
   | "contracts"
   | "solutions"
   | "oasis"
-  | "global"
 type ArticleDraft = Pick<
   Doc<"articles">,
   | "slug"
@@ -78,7 +77,6 @@ const pageLabels: Record<View, string> = {
   contracts: "Contracts page",
   solutions: "Solution pages",
   oasis: "OASIS+ page",
-  global: "Global details & contact",
 }
 
 const icons = {
@@ -391,9 +389,6 @@ function Sidebar({ view, onSelect }: { view: View; onSelect: (view: View) => voi
               Solutions <Icon name="chevron" className={chevron(solutionsOpen)} />
             </button>
             {solutionsOpen ? <SolutionNavigation /> : null}
-            <button className={childButton(view === "global")} onClick={() => onSelect("global")}>
-              Global details / contact
-            </button>
           </div>
         ) : null}
       </nav>
@@ -1515,39 +1510,13 @@ function Empty({ text }: { text: string }) {
   )
 }
 
-function PagePlaceholder({ view }: { view: View }) {
-  if (
-    view === "home" ||
-    view === "about" ||
-    view === "careers" ||
-    view === "contracts" ||
-    view === "oasis"
-  )
-    return <PageEditor key={view} page={view} />
+function PageEditorView({
+  view,
+}: {
+  view: Exclude<View, "visibility" | "dashboard" | "news" | "contacts">
+}) {
   if (view === "solutions") return <SolutionEditor />
-  return (
-    <section className={viewClassName}>
-      <ViewHeading
-        eyebrow="Page editor"
-        title={pageLabels[view]}
-        description="This page is ready for the future visual editor."
-      />
-      <div
-        className={`${card} flex min-h-[360px] flex-col items-center justify-center p-10 text-center`}
-      >
-        <span className="rounded-full bg-[#eef2ff] px-2.5 py-1.5 text-[11px] font-extrabold text-[#526bbb] uppercase">
-          Editor placeholder
-        </span>
-        <h2 className="mt-[18px] mb-2 font-header text-[25px] font-semibold tracking-[-0.02em]">
-          Nothing to manage here yet.
-        </h2>
-        <p className="max-w-[480px] leading-[1.6] text-[#7b8291]">
-          The page is linked in the admin navigation, but its editor has intentionally not been
-          built.
-        </p>
-      </div>
-    </section>
-  )
+  return <PageEditor key={view} page={view} />
 }
 
 function PageVisibility() {
@@ -1647,7 +1616,7 @@ function Workspace() {
         ) : view === "contacts" ? (
           <Contacts />
         ) : (
-          <PagePlaceholder view={view} />
+          <PageEditorView view={view} />
         )}
       </main>
     </div>
