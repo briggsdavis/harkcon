@@ -1,4 +1,5 @@
-export type PageKey = "home" | "about" | "careers" | "solutions"
+import type { ContractSection } from "./contract-editor"
+export type PageKey = "home" | "about" | "careers" | "solutions" | "contracts" | "oasis"
 export type ContentField = { text?: string; src?: string; alt?: string; href?: string }
 export type PersonEntry = {
   id: string
@@ -13,6 +14,8 @@ export type PersonEntry = {
 export type FaqEntry = { id: string; question: string; answer: string }
 export type PageDraft = {
   fields: Record<string, ContentField>
+  contractSections?: ContractSection[]
+  logos?: { id: string; src: string; name: string }[]
   people?: PersonEntry[]
   faqs?: FaqEntry[]
 }

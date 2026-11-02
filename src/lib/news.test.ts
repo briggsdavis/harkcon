@@ -15,3 +15,12 @@ test("legacy seeded filler stays out of public news while editorial articles rem
   assert.deepEqual(result, [verified, editorial])
   assert.equal(result[1], editorial)
 })
+
+test("explicitly featured articles override the legacy seed filter", () => {
+  const articles = [
+    "building-workforce-readiness",
+    "modern-training-systems",
+    "from-policy-to-practice",
+  ].map((slug) => ({ ...newsArticles[0], slug, featured: true }))
+  assert.deepEqual(publicArticles(articles), articles)
+})

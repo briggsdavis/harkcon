@@ -1,4 +1,5 @@
-import { v } from "convex/values"
+import { ConvexError, v } from "convex/values"
+import { validateContractSections } from "../src/lib/contract-editor"
 import { validDestination } from "../src/lib/page-content"
 import { getSolution, solutions } from "../src/lib/solutions"
 import { query, mutation } from "./_generated/server"
@@ -33,31 +34,45 @@ export const save = mutation({
       .withIndex("by_key", (q) => q.eq("key", key))
       .unique()
     if ((current?.updatedAt ?? 0) !== (expectedUpdatedAt ?? 0))
-      throw new Error("This page changed in another window. Reload before saving.")
+      throw new ConvexError("This page changed in another window. Reload before saving.")
     for (const field of Object.values(draft.fields)) {
       if (field.href !== undefined && !validDestination(field.href))
-        throw new Error("Use a valid destination link")
+        throw new ConvexError("Use a valid destination link")
       if (field.src !== undefined && !/^(\/(?!\/)|https?:\/\/)/i.test(field.src))
-        throw new Error("Use a valid image URL")
+        throw new ConvexError("Use a valid image URL")
+    }
+    if (draft.contractSections !== undefined) {
+      if (key !== "contracts" && key !== "oasis")
+        throw new ConvexError("Contract sections belong to Contracts or OASIS+.")
+      const error = validateContractSections(draft.contractSections)
+      if (error) throw new ConvexError(error)
+    }
+    if (draft.logos) {
+      if (key !== "home") throw new ConvexError("Organization logos belong to the Home page")
+      if (
+        new Set(draft.logos.map((logo) => logo.id)).size !== draft.logos.length ||
+        draft.logos.some((logo) => !/^(\/(?!\/)|https?:\/\/)/i.test(logo.src))
+      )
+        throw new ConvexError("Use valid organization images with unique IDs")
     }
     if (draft.people) {
-      if (key !== "about") throw new Error("People belong to the About page")
+      if (key !== "about") throw new ConvexError("People belong to the About page")
       if (new Set(draft.people.map((p) => p.id)).size !== draft.people.length)
-        throw new Error("Each person needs a unique ID")
+        throw new ConvexError("Each person needs a unique ID")
       for (const person of draft.people) {
         if (!person.name.trim() || !person.role.trim())
-          throw new Error("Each person needs a name and role")
+          throw new ConvexError("Each person needs a name and role")
         if (!/^(\/(?!\/)|https?:\/\/)/i.test(person.photo))
-          throw new Error("Each person needs a photo")
+          throw new ConvexError("Each person needs a photo")
         if (person.linkedin && !/^https:\/\/(www\.)?linkedin\.com\//i.test(person.linkedin))
-          throw new Error("Use a LinkedIn profile URL")
+          throw new ConvexError("Use a LinkedIn profile URL")
       }
     }
     if (
       draft.faqs &&
       (key !== "careers" || draft.faqs.some((faq) => !faq.question.trim() || !faq.answer.trim()))
     )
-      throw new Error("Each career FAQ needs a question and answer")
+      throw new ConvexError("Each career FAQ needs a question and answer")
     const fields = { ...draft.fields }
     const sharedIds = new Set(
       Object.keys(fields)
@@ -68,7 +83,7 @@ export const save = mutation({
       const id = ctx.db.normalizeId("solutionPages", value)
       const solution = id ? await ctx.db.get(id) : null
       if (!solution || !id)
-        throw new Error("A solution on this page no longer exists. Reload before saving.")
+        throw new ConvexError("A solution on this page no longer exists. Reload before saving.")
       const heading = fields[`shared-title:${value}`],
         description = fields[`shared-description:${value}`]
       const title = heading?.text?.trim() ?? solution.title
@@ -76,16 +91,17 @@ export const save = mutation({
       if (heading?.href !== undefined) {
         const match = /^\/solutions\/([a-z0-9]+(?:-[a-z0-9]+)*)$/.exec(heading.href)
         if (!match)
-          throw new Error("A solution card must link to /solutions/ followed by its URL slug")
+          throw new ConvexError("A solution card must link to /solutions/ followed by its URL slug")
         slug = match[1]
         const duplicate = await ctx.db
           .query("solutionPages")
           .withIndex("by_slug", (q) => q.eq("slug", slug))
           .unique()
-        if (duplicate && duplicate._id !== id) throw new Error("That solution URL already exists")
+        if (duplicate && duplicate._id !== id)
+          throw new ConvexError("That solution URL already exists")
       }
-      if (!title || description?.text === "")
-        throw new Error("Add a solution title and description")
+      if (!title || (description?.text !== undefined && !description.text.trim()))
+        throw new ConvexError("Add a solution title and description")
       const { title: _title, slug: _slug, ...base } = getSolution(solution.slug) ?? solutions[0]
       const content = {
         ...base,
@@ -95,7 +111,7 @@ export const save = mutation({
         ctaLabel: "Start a conversation",
         ctaHref: "/contact",
         ...solution.content,
-        ...(description?.text !== undefined ? { description: description.text } : {}),
+        ...(description?.text !== undefined ? { homepageDescription: description.text } : {}),
       }
       await ctx.db.patch(id, {
         title,

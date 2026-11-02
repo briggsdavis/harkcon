@@ -1,4 +1,5 @@
 export type Solution = {
+  homepageDescription?: string
   heroLabel?: string
   expertiseLabel?: string
   proofHeading?: string
@@ -28,6 +29,8 @@ const unsplash = (id: string, premium = false) =>
 export const solutions: Solution[] = [
   {
     slug: "workforce-organizational-analysis",
+    homepageDescription:
+      "We analyze workforce requirements and organizational structure to improve staffing, readiness, and mission performance.",
     number: "01",
     color: "#ff334f",
     title: "Workforce & Organizational Analysis",
@@ -52,6 +55,8 @@ export const solutions: Solution[] = [
   },
   {
     slug: "training-human-systems-integration",
+    homepageDescription:
+      "We design practical training and Human Systems Integration support that aligns people, processes, and tools with mission requirements.",
     number: "02",
     color: "#246bff",
     title: "Training & Human Systems Integration",
@@ -75,6 +80,8 @@ export const solutions: Solution[] = [
   },
   {
     slug: "process-improvement-transformation",
+    homepageDescription:
+      "We improve processes, workflows, and policies to reduce delays, manage risk, and strengthen performance.",
     number: "03",
     color: "#ffc400",
     title: "Process Improvement & Transformation",
@@ -98,6 +105,8 @@ export const solutions: Solution[] = [
   },
   {
     slug: "administrative-compliance-support",
+    homepageDescription:
+      "We provide administrative, records management, privacy, and compliance support that keeps daily operations on track.",
     number: "04",
     color: "#ff7a1a",
     title: "Administrative & Compliance Support",
@@ -120,6 +129,8 @@ export const solutions: Solution[] = [
   },
   {
     slug: "policy-strategy-program-support",
+    homepageDescription:
+      "We help agencies develop policies, set priorities, and manage complex programs through analysis and practical support.",
     number: "05",
     color: "#16c172",
     title: "Policy, Strategy, & Program Support",
@@ -143,6 +154,8 @@ export const solutions: Solution[] = [
   },
   {
     slug: "international-advisory-capacity-building",
+    homepageDescription:
+      "We help international partners build maritime skills and strengthen operations through training, advisory support, and capacity development.",
     number: "06",
     color: "#a23cff",
     title: "International Advisory & Capacity Building",
@@ -167,6 +180,8 @@ export const solutions: Solution[] = [
   },
   {
     slug: "emergency-management-continuity-support",
+    homepageDescription:
+      "We help agencies prepare for disruptions, exercise response plans, and maintain essential operations during emergencies.",
     number: "07",
     color: "#00a8a8",
     title: "Emergency Management & Contingency Support",

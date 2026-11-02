@@ -59,7 +59,7 @@ export default function Solutions() {
           </PageText>
         </section>
 
-        <SolutionsOverview />
+        <SolutionsOverview variant="overview" />
         <section className="bg-[#0d132d] text-white">
           <div className="site-gutter flex flex-col items-start justify-between gap-10 py-20 md:flex-row md:items-end">
             <PageText field="solutions.let-s-put-the-right">

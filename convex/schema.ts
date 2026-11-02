@@ -64,6 +64,7 @@ export default defineSchema({
     createdAt: v.number(),
   }).index("by_createdAt", ["createdAt"]),
   solutionPages: defineTable({
+    featured: v.optional(v.boolean()),
     archived: v.optional(v.boolean()),
     updatedAt: v.optional(v.number()),
     content: v.optional(solutionContent),

@@ -1,7 +1,9 @@
 "use client"
 import { useMutation, useQuery } from "convex/react"
+import { ConvexError } from "convex/values"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useState } from "react"
+import { editorError } from "~/lib/editor-error"
 import { api } from "../../../convex/_generated/api"
 import type { Doc } from "../../../convex/_generated/dataModel"
 import EditorDialog, { editorButton, editorInput, requestEditorNavigation } from "./editor-dialog"
@@ -17,13 +19,13 @@ export default function SolutionNavigation() {
     action: "archive" | "unarchive" | "delete"
   } | null>(null)
   const [adding, setAdding] = useState(false),
-    [title, setTitle] = useState(""),
-    [slug, setSlug] = useState("")
+    [title, setTitle] = useState("")
   const [busy, setBusy] = useState(false),
     [error, setError] = useState("")
   const add = useMutation(api.solutions.add),
     remove = useMutation(api.solutions.remove),
     archive = useMutation(api.solutions.setArchived)
+  const setFeatured = useMutation(api.solutions.setFeatured)
   const navigate = (url: string) => {
     if (requestEditorNavigation(url)) router.push(url)
   }
@@ -46,7 +48,7 @@ export default function SolutionNavigation() {
             type="button"
             aria-label={`Actions for ${name}`}
             aria-expanded={menu === id}
-            className="rounded px-2 py-2 text-slate-300"
+            className="shrink-0 rounded px-2 py-2 text-slate-300"
             onClick={() => setMenu(menu === id ? null : id)}
           >
             ⋯
@@ -69,7 +71,10 @@ export default function SolutionNavigation() {
                     setError("")
                     if (
                       !window.dispatchEvent(
-                        new CustomEvent("harkcon:require-clean", { cancelable: true }),
+                        new CustomEvent("harkcon:require-clean", {
+                          cancelable: true,
+                          detail: { action },
+                        }),
                       )
                     )
                       return
@@ -79,6 +84,38 @@ export default function SolutionNavigation() {
                   {action}
                 </button>
               ))}
+              {page && (
+                <button
+                  type="button"
+                  aria-pressed={page.featured !== false}
+                  disabled={busy}
+                  className="block w-full rounded px-3 py-2 text-left hover:bg-slate-100 disabled:opacity-50"
+                  onClick={async () => {
+                    setMenu(null)
+                    setError("")
+                    if (
+                      !window.dispatchEvent(
+                        new CustomEvent("harkcon:require-clean", { cancelable: true }),
+                      )
+                    )
+                      return
+                    setBusy(true)
+                    try {
+                      await setFeatured({ id: page._id, featured: page.featured === false })
+                    } catch (failure) {
+                      setError(
+                        failure instanceof ConvexError && typeof failure.data === "string"
+                          ? failure.data
+                          : "Could not change featured status. Please try again.",
+                      )
+                    } finally {
+                      setBusy(false)
+                    }
+                  }}
+                >
+                  {page.featured !== false ? "✓ Featured · Unfeature" : "Feature on homepage"}
+                </button>
+              )}
             </div>
           </>
         )}
@@ -89,6 +126,14 @@ export default function SolutionNavigation() {
     <div className="space-y-1">
       {row()}
       {pages?.map((page) => row(page))}
+      {error && !adding && !confirm && (
+        <p
+          role="alert"
+          className="rounded-lg bg-red-950/40 p-3 text-xs leading-relaxed text-red-200"
+        >
+          {error}
+        </p>
+      )}
       {pages === undefined && <p className="pl-5 text-xs text-slate-400">Loading pages…</p>}
       <button
         className="mt-2 flex w-full items-center gap-2 rounded-lg py-2 pl-5 text-xs text-slate-300 hover:bg-[#1a2440]"
@@ -96,7 +141,6 @@ export default function SolutionNavigation() {
           if (!window.dispatchEvent(new CustomEvent("harkcon:require-clean", { cancelable: true })))
             return
           setTitle("")
-          setSlug("")
           setError("")
           setAdding(true)
         }}
@@ -116,11 +160,11 @@ export default function SolutionNavigation() {
               setBusy(true)
               setError("")
               try {
-                const id = await add({ title, slug })
+                const id = await add({ title })
                 setAdding(false)
                 navigate(`/admin?view=solutions&solution=${id}`)
               } catch (e) {
-                setError(e instanceof Error ? e.message : "Could not create page")
+                setError(editorError(e, "Could not create page"))
               } finally {
                 setBusy(false)
               }
@@ -135,28 +179,12 @@ export default function SolutionNavigation() {
                 required
                 className={editorInput}
                 value={title}
-                onChange={(e) => {
-                  setTitle(e.target.value)
-                  setSlug(
-                    e.target.value
-                      .toLowerCase()
-                      .replace(/[^a-z0-9]+/g, "-")
-                      .replace(/^-|-$/g, ""),
-                  )
-                }}
+                onChange={(e) => setTitle(e.target.value)}
               />
             </label>
-            <label className="mt-4 block text-sm">
-              URL slug
-              <input
-                required
-                pattern="[a-z0-9]+(-[a-z0-9]+)*"
-                className={editorInput}
-                value={slug}
-                onChange={(e) => setSlug(e.target.value)}
-              />
-              <span className="mt-1 block text-xs text-slate-500">/solutions/{slug}</span>
-            </label>
+            <p className="mt-3 text-xs text-slate-500">
+              The page URL is generated automatically from the title.
+            </p>
             {error && (
               <p role="alert" className="mt-4 text-sm text-red-700">
                 {error}
@@ -187,7 +215,7 @@ export default function SolutionNavigation() {
         >
           <p className="text-sm leading-relaxed text-slate-600">
             {confirm.action === "delete"
-              ? "This permanently deletes the page and its saved content. This cannot be undone."
+              ? "This permanently deletes the page, its saved content, and any unsaved edits to this page. This cannot be undone."
               : confirm.action === "archive"
                 ? "This removes the page from public navigation and blocks access to its URL. You can keep editing it and unarchive it later."
                 : "The saved version of this page will become publicly accessible."}
@@ -211,7 +239,7 @@ export default function SolutionNavigation() {
                   if (confirm.page) {
                     if (confirm.action === "delete") {
                       await remove({ id: confirm.page._id })
-                      if (current === confirm.page._id) navigate("/admin?view=solutions")
+                      if (current === confirm.page._id) router.push("/admin?view=solutions")
                     } else
                       await archive({
                         id: confirm.page._id,
@@ -220,7 +248,7 @@ export default function SolutionNavigation() {
                   } else await archiveOverview({ archived: confirm.action === "archive" })
                   setConfirm(null)
                 } catch (e) {
-                  setError(e instanceof Error ? e.message : "Could not update page")
+                  setError(editorError(e, "Could not update page"))
                 } finally {
                   setBusy(false)
                 }

@@ -1,6 +1,7 @@
 import { Metadata } from "next"
 import { redirect } from "next/navigation"
 import ContractsPage from "~/components/contracts-page"
+import { PublicPageContent } from "~/components/page-editing"
 
 export const metadata: Metadata = {
   title: "Contract Vehicles",
@@ -14,5 +15,9 @@ export default async function Contracts({
   searchParams: Promise<{ view?: string }>
 }) {
   if ((await searchParams).view === "oasis-plus") redirect("/oasis-plus")
-  return <ContractsPage />
+  return (
+    <PublicPageContent page="contracts">
+      <ContractsPage />
+    </PublicPageContent>
+  )
 }

@@ -8,8 +8,8 @@ import {
   type ReactElement,
   type ReactNode,
 } from "react"
-import { EditingMode } from "./editing-mode"
 import type { Solution } from "~/lib/solutions"
+import { EditingMode } from "./editing-mode"
 
 export type TextField =
   | "shortTitle"
@@ -27,11 +27,13 @@ export type LinkSelection = { kind: "link"; text: string; href: string }
 export type Selection = ImageSelection | LinkSelection
 export type SolutionEditing = {
   changeText: (field: TextField, value: string) => void
+  addCapability: () => void
   markDirty: () => void
   select: (selection: Selection) => void
 }
 const Context = createContext<SolutionEditing | null>(null)
 export const useSolutionEditing = () => useContext(Context) !== null
+export const useSolutionEditor = () => useContext(Context)
 export function SolutionEditingProvider({
   value,
   children,
@@ -39,7 +41,11 @@ export function SolutionEditingProvider({
   value: SolutionEditing
   children: ReactNode
 }) {
-  return <EditingMode><Context.Provider value={value}>{children}</Context.Provider></EditingMode>
+  return (
+    <EditingMode>
+      <Context.Provider value={value}>{children}</Context.Provider>
+    </EditingMode>
+  )
 }
 
 export function SolutionText({ field, children }: { field: TextField; children: ReactElement }) {

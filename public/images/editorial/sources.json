@@ -238,5 +238,21 @@
     "photographer": "Ye Shu",
     "license": "Unsplash License",
     "usage": "Illustrative editorial imagery; does not document Harkcon project execution."
+  },
+  "about-process-deliver": {
+    "src": "/images/editorial/about-process-deliver.jpg",
+    "alt": "Ocean waves washing over rocks along the coast of Cape Town",
+    "source": "https://unsplash.com/photos/a-rocky-beach-with-waves-coming-in-from-the-ocean-_6yrmzK5Y9U",
+    "original": "https://images.unsplash.com/photo-1641485966866-2e093ecb23e4",
+    "photographer": "Rohan Chhipa",
+    "usage": "Illustrative coastal imagery. Free to use under the Unsplash License."
+  },
+  "about-process-develop": {
+    "src": "/images/editorial/about-process-develop.jpg",
+    "alt": "Waves crashing against rocks at Bodega Bay",
+    "source": "https://unsplash.com/photos/a-rocky-beach-with-waves-crashing-against-the-rocks-xN0JdxSbRWk",
+    "original": "https://images.unsplash.com/photo-1676392367402-30cc70803554",
+    "photographer": "Scott Greer",
+    "usage": "Illustrative coastal imagery. Free to use under the Unsplash License."
   }
 }

@@ -7,56 +7,52 @@ import { PageText, PageImage } from "./page-editing"
 
 const steps = [
   {
-    title: "Understand the workforce.",
-    description: "Assess roles, staffing, and organizational requirements with evidence.",
+    id: "listen",
+    title: "WE LISTEN",
+    description:
+      "We listen carefully to what our clients need, understand their pain points, and present solutions designed specifically for their needs.",
     image: "/images/editorial/about-wild-coast.jpg",
     alt: "Rough ocean waves breaking along a rocky shoreline",
-    tasks: [
-      [
-        "Analyze",
-        "Model workforce requirements and assess staffing needs against operational demands.",
-      ],
-      ["Align", "Develop competencies and align roles with the work people need to perform."],
-    ],
   },
   {
-    title: "Develop practical training.",
-    description: "Design training and Human Systems Integration support around the work.",
+    id: "align",
+    title: "WE ALIGN",
+    description:
+      "We continually assess project status to best align our solutions with our clients\u2019 needs.",
     image: "/images/editorial/contracts-uscg-itass.jpg",
     alt: "A rescue crew underway in an orange lifeboat",
-    tasks: [
-      ["Design", "Develop training strategies, curricula, and instructional systems."],
-      [
-        "Support",
-        "Provide Human Systems Integration support through major acquisition lifecycles.",
-      ],
-    ],
   },
   {
-    title: "Improve how work gets done.",
-    description: "Connect process analysis, policy, and program support to organizational needs.",
+    id: "provide",
+    title: "WE PROVIDE",
+    description:
+      "We are a people-centric company comprised of personnel who consistently meet and routinely exceed our clients\u2019 requirements.",
     image: "/images/editorial/about-rough-coast.jpg",
     alt: "Waves breaking against the rocky coast of Western Australia",
-    tasks: [
-      ["Review", "Analyze business processes and identify opportunities to improve performance."],
-      [
-        "Refine",
-        "Reengineer workflows and modernize policies to support operational requirements.",
-      ],
-    ],
   },
   {
-    title: "Strengthen mission readiness.",
-    description: "Help agencies prepare for disruptions and maintain continuity programs.",
+    id: "execute",
+    title: "WE EXECUTE",
+    description:
+      "We execute all projects in accordance with contract specifications, laws, policies, and regulations, and we go above and beyond to meet client expectations.",
     image: "/images/editorial/process-lasting-impact.jpg",
     alt: "Portland Head Light on the coast of Maine",
-    tasks: [
-      [
-        "Prepare",
-        "Develop and maintain continuity, devolution, and emergency preparedness programs.",
-      ],
-      ["Exercise", "Support tabletop, functional, and full-scale exercises under HSEEP guidance."],
-    ],
+  },
+  {
+    id: "deliver",
+    title: "WE DELIVER",
+    description:
+      "As a performance management and technology company, we deliver solutions using a combination of subject matter experts and technology to achieve high-quality results.",
+    image: "/images/editorial/about-process-deliver.jpg",
+    alt: "Ocean waves washing over rocks along the coast of Cape Town",
+  },
+  {
+    id: "develop",
+    title: "WE DEVELOP",
+    description:
+      "As thought leaders in Human and Organizational Performance, we continually evaluate and develop our capability, improving processes and sharing valuable research and insights with our partners and clients to master performance in everything we do.",
+    image: "/images/editorial/about-process-develop.jpg",
+    alt: "Waves crashing against rocks at Bodega Bay",
   },
 ]
 
@@ -123,30 +119,16 @@ export default function AboutProcess() {
                 <p className="mb-5 font-eyebrow text-xs tracking-[0.15em] text-[#5f626b]">
                   STEP 0{index + 1}
                 </p>
-                <PageText field={`process-step-${index}-title`}>
+                <PageText field={`process-${step.id}-title`}>
                   <h3 className="font-header text-card-title font-medium">
                     {keepClosingWords(step.title)}
                   </h3>
                 </PageText>
-                <PageText field={`process-step-${index}-description`}>
+                <PageText field={`process-${step.id}-description`}>
                   <p className="mt-5 max-w-md text-body-copy text-[#454955]">
                     {keepClosingWords(step.description)}
                   </p>
                 </PageText>
-                <ul className="mt-8 space-y-6">
-                  {step.tasks.map(([title, description]) => (
-                    <li key={title}>
-                      <PageText field={`process-step-${index}-task-${title}-title`}>
-                        <h4 className="text-sm font-semibold">{keepClosingWords(title)}</h4>
-                      </PageText>
-                      <PageText field={`process-step-${index}-task-${title}-description`}>
-                        <p className="mt-2 max-w-md text-sm leading-relaxed text-[#5f626b]">
-                          {keepClosingWords(description)}
-                        </p>
-                      </PageText>
-                    </li>
-                  ))}
-                </ul>
                 <div
                   className={`relative mt-8 aspect-[4/3] overflow-hidden ${editing ? "" : "lg:hidden"}`}
                 >
@@ -180,8 +162,10 @@ export default function AboutProcess() {
               </PageImage>
             ))}
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-8 pt-24 pb-8 text-white">
-              <p className="text-xs tracking-[0.15em]">0{active + 1} /&nbsp;04</p>
-              <PageText field={`process-step-${active}-title`}>
+              <p className="text-xs tracking-[0.15em]">
+                0{active + 1} /&nbsp;0{steps.length}
+              </p>
+              <PageText field={`process-${steps[active].id}-title`}>
                 <p className="mt-3 font-header text-2xl">{keepClosingWords(steps[active].title)}</p>
               </PageText>
             </div>

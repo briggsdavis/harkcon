@@ -5,12 +5,19 @@ import { Header, SiteFooter } from "~/components/home-page"
 import SubtleParallaxPhoto from "~/components/subtle-parallax-photo"
 import type { Solution } from "~/lib/solutions"
 import { keepClosingWords } from "~/lib/typography"
-import { SolutionText, SolutionImage, SolutionLink, useSolutionEditing } from "./solution-editing"
+import {
+  SolutionText,
+  SolutionImage,
+  SolutionLink,
+  useSolutionEditing,
+  useSolutionEditor,
+} from "./solution-editing"
 
 const headingClassName = "text-balance max-w-4xl font-header text-section-title font-medium"
 
 export default function SolutionDetailPage({ solution }: { solution: Solution }) {
   const editing = useSolutionEditing()
+  const editor = useSolutionEditor()
   return (
     <div id="top" className="overflow-clip bg-white text-[#0d132d]">
       <div inert={editing}>
@@ -132,7 +139,7 @@ export default function SolutionDetailPage({ solution }: { solution: Solution })
               <ol className="mt-12 border-b border-[#0d132d]/20">
                 {solution.solutions.map((item, index) => (
                   <li
-                    key={keepClosingWords(item)}
+                    key={index}
                     className="group grid grid-cols-[42px_1fr] gap-4 py-7 md:grid-cols-[56px_1fr] md:gap-6 md:py-8"
                     data-reveal-line
                   >
@@ -147,6 +154,19 @@ export default function SolutionDetailPage({ solution }: { solution: Solution })
                   </li>
                 ))}
               </ol>
+              {editor && (
+                <button
+                  type="button"
+                  aria-label="Add capability"
+                  onClick={editor.addCapability}
+                  className="mt-4 inline-flex items-center gap-2 rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-blue-600 hover:text-blue-700"
+                >
+                  <span aria-hidden="true" className="text-lg">
+                    +
+                  </span>{" "}
+                  Add capability
+                </button>
+              )}
             </div>
           </div>
         </section>

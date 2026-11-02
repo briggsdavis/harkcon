@@ -72,6 +72,12 @@ test(
           /another window/,
         )
       }
+      const logos = [{ id: "logo-test", src: "/images/FBI.webp", name: "Test organization" }]
+      save("home", { fields: {}, logos })
+      assert.deepEqual(run("pages:get", { key: "home" }, false).draft.logos, logos)
+      save("home", { fields: {}, logos: [] })
+      assert.deepEqual(run("pages:get", { key: "home" }, false).draft.logos, [])
+      assert.throws(() => save("about", { fields: {}, logos }), /Home page/)
       assert.throws(
         () => run("pages:save", { key: "home", draft: { fields: {} } }, false),
         /Admin access required/,
@@ -129,7 +135,12 @@ test(
       })
       const changed = run("solutions:list").find((page) => page._id === solutionId)
       assert.equal(changed.title, "Updated shared title")
-      assert.equal(changed.content.description, "Updated shared description.")
+      assert.equal(changed.content.homepageDescription, "Updated shared description.")
+      assert.equal(
+        changed.content.description,
+        content.description,
+        "Card summaries do not replace the full page description",
+      )
       assert.deepEqual(
         run("pages:get", { key: "solutions" }, false).draft.fields,
         {},

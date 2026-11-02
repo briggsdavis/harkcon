@@ -22,7 +22,7 @@ import { HARKCON_CAPABILITY_STATEMENT_URL } from "~/lib/documents"
 import { useSolutions } from "~/lib/use-solutions"
 import { api } from "../../convex/_generated/api"
 import { useEditingMode } from "./editing-mode"
-import { PageText, PageImage, PageLink } from "./page-editing"
+import { PageText, PageImage, PageLink, usePageDraft } from "./page-editing"
 
 const statement =
   "Since 2005, Harkcon has helped government agencies and private-sector companies overcome complex challenges, strengthen organizational performance, and achieve mission-critical outcomes."
@@ -653,6 +653,14 @@ export function Header({
 }
 
 function ClientMarquee() {
+  const content = usePageDraft()
+  const logos =
+    content.draft.logos ??
+    clientLogos.map((logo) => ({
+      ...logo,
+      id: logo.name,
+      src: content.draft.fields[`client-logo-${logo.name}`]?.src ?? logo.src,
+    }))
   const editing = useEditingMode()
   const trackRef = useRef<HTMLDivElement>(null)
 
@@ -683,7 +691,7 @@ function ClientMarquee() {
   }, [editing])
 
   const repeatedLogos = ["first", "second"].flatMap((copy) =>
-    clientLogos.map((logo) => [copy, logo] as const),
+    logos.map((logo) => [copy, logo] as const),
   )
 
   return (
@@ -700,22 +708,58 @@ function ClientMarquee() {
         </PageText>
         <span aria-hidden="true" className="h-0.5 w-12 bg-[#0d132d]/25 md:w-20" />
       </div>
-      <div className={editing ? "site-gutter overflow-auto" : "marquee-viewport overflow-hidden"}>
-        <div
-          ref={trackRef}
-          className={
-            editing
-              ? "flex flex-wrap items-center"
-              : "flex w-max items-center will-change-transform"
-          }
-        >
-          {repeatedLogos.map(([copy, logo]) => (
+      {editing ? (
+        <div className="site-gutter grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
+          {logos.map((logo) => (
             <div
-              className={`${editing && copy === "second" ? "hidden" : "flex"} relative mr-3 h-36 w-60 shrink-0 items-center justify-center px-7 py-7 md:h-42 md:w-72`}
-              key={`${copy}-${logo.src}`}
-              aria-hidden={copy === "second"}
+              key={logo.id}
+              className="relative flex h-40 items-center justify-center rounded-lg border border-slate-200 bg-white p-7"
             >
-              <PageImage field={`client-logo-${logo.name}`}>
+              <Image
+                src={logo.src}
+                alt={logo.name}
+                width={270}
+                height={135}
+                unoptimized
+                className="h-full w-full object-contain"
+              />
+              <button
+                type="button"
+                disabled={content.imageUploading}
+                aria-label={`Remove ${logo.name}`}
+                className="absolute top-2 right-2 flex size-7 items-center justify-center rounded-full bg-slate-100 text-lg text-slate-700 hover:bg-red-100 hover:text-red-700"
+                onClick={() => content.changeLogos?.(logos.filter((item) => item.id !== logo.id))}
+              >
+                ×
+              </button>
+            </div>
+          ))}
+          <button
+            type="button"
+            disabled={content.imageUploading}
+            aria-label="Upload organization image"
+            className="flex h-40 items-center justify-center rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 text-4xl text-slate-500 hover:border-blue-600 hover:text-blue-600"
+            onClick={() =>
+              content.uploadLogo?.((src) =>
+                content.changeLogos?.([
+                  ...logos,
+                  { id: crypto.randomUUID(), src, name: "Organization logo" },
+                ]),
+              )
+            }
+          >
+            +
+          </button>
+        </div>
+      ) : (
+        <div className="marquee-viewport overflow-hidden">
+          <div ref={trackRef} className="flex w-max items-center will-change-transform">
+            {repeatedLogos.map(([copy, logo]) => (
+              <div
+                className="relative mr-3 flex h-36 w-60 shrink-0 items-center justify-center px-7 py-7 md:h-42 md:w-72"
+                key={`${copy}-${logo.id}`}
+                aria-hidden={copy === "second"}
+              >
                 <Image
                   src={logo.src}
                   alt={copy === "first" ? logo.name : ""}
@@ -724,11 +768,11 @@ function ClientMarquee() {
                   sizes="(min-width: 768px) 232px, 184px"
                   className="h-full w-full object-contain"
                 />
-              </PageImage>
-            </div>
-          ))}
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </section>
   )
 }
@@ -1080,7 +1124,7 @@ export default function HomePage() {
         <ScrollStatement />
 
         <CompanyStats />
-        <SolutionsOverview />
+        <SolutionsOverview variant="home" />
 
         <section
           className="bg-[#0d132d] py-[3.2rem] text-white md:py-16"

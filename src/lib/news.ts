@@ -65,7 +65,7 @@ export const harkconInTheNews = [
 ]
 
 // Exclude the four invented articles from the original seed, including databases
-// seeded before this audit. Newly authored articles remain available to editors.
+// seeded before this audit. Explicit editorial featuring overrides this legacy filter.
 const unsupportedSlugs = new Set([
   "building-workforce-readiness",
   "modern-training-systems",
@@ -74,5 +74,5 @@ const unsupportedSlugs = new Set([
 ])
 
 export function publicArticles<T extends NewsArticle>(articles: T[]): T[] {
-  return articles.filter((article) => !unsupportedSlugs.has(article.slug))
+  return articles.filter((article) => article.featured || !unsupportedSlugs.has(article.slug))
 }

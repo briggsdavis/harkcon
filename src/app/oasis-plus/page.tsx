@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import ContractsPage from "~/components/contracts-page"
+import { PublicPageContent } from "~/components/page-editing"
 
 export const metadata: Metadata = {
   title: "OASIS+",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 }
 
 export default function OasisPlus() {
-  return <ContractsPage view="oasis" />
+  return (
+    <PublicPageContent page="oasis">
+      <ContractsPage view="oasis" />
+    </PublicPageContent>
+  )
 }

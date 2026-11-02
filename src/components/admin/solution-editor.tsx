@@ -1,9 +1,9 @@
 "use client"
 
 import { useMutation, useQuery } from "convex/react"
-import Image from "next/image"
 import { useRouter, useSearchParams } from "next/navigation"
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
+import { editorError } from "~/lib/editor-error"
 import { getSolution, solutions, type Solution } from "~/lib/solutions"
 import { api } from "../../../convex/_generated/api"
 import type { Doc, Id } from "../../../convex/_generated/dataModel"
@@ -11,6 +11,7 @@ import SolutionDetailPage from "../solution-detail-page"
 import { SolutionEditingProvider, type Selection, type TextField } from "../solution-editing"
 import EditorDialog, { editorButton, editorInput } from "./editor-dialog"
 import PageEditor from "./page-editor"
+import { useImagePicker } from "./use-image-picker"
 
 function initialDraft(page: Doc<"solutionPages">): Solution {
   return {
@@ -27,6 +28,10 @@ function initialDraft(page: Doc<"solutionPages">): Solution {
     ctaLabel: "Start a conversation",
     ctaHref: "/contact",
     ...page.content,
+    homepageDescription:
+      page.content?.homepageDescription ??
+      getSolution(page.slug)?.homepageDescription ??
+      "Describe this solution.",
     title: page.title,
     slug: page.slug,
   }
@@ -66,9 +71,8 @@ function Editor({ page }: { page: Doc<"solutionPages"> }) {
   const resolveImage = useMutation(api.content.resolveImageUpload)
   const [draft, setDraft] = useState(() => initialDraft(page))
   const [baseline, setBaseline] = useState(page.updatedAt)
-  const [dirty, setDirty] = useState(!page.content)
-  const [busy, setBusy] = useState(false),
-    [uploading, setUploading] = useState(false)
+  const [dirty, setDirty] = useState(false)
+  const [busy, setBusy] = useState(false)
   const [selection, setSelection] = useState<Selection | null>(null)
   const [archiveConfirm, setArchiveConfirm] = useState(false)
   const [leave, setLeave] = useState<string | null>(null)
@@ -89,20 +93,29 @@ function Editor({ page }: { page: Doc<"solutionPages"> }) {
     setDirty(true)
     setMessage("")
   }, [])
-  const editing = useMemo(
-    () => ({
-      changeText,
-      markDirty: () => {
-        setDirty(true)
-        setMessage("")
-      },
-      select: (value: Selection) => {
-        setError("")
-        setSelection(value)
-      },
-    }),
-    [changeText],
-  )
+  const { choose, picker, uploading } = useImagePicker(upload, setError)
+  const editing = {
+    changeText,
+    addCapability: () => {
+      setDraft((current) => ({ ...current, solutions: [...current.solutions, "New capability"] }))
+      setDirty(true)
+      setMessage("")
+    },
+    markDirty: () => {
+      setDirty(true)
+      setMessage("")
+    },
+    select: (value: Selection) => {
+      setError("")
+      if (value.kind === "image")
+        choose((src) => {
+          setDraft((current) => ({ ...current, [value.field]: src }))
+          setDirty(true)
+          setMessage("")
+        })
+      else setSelection(value)
+    },
+  }
   useEffect(() => {
     const navigate = (event: Event) => {
       if (dirty || busy || uploading) {
@@ -111,13 +124,14 @@ function Editor({ page }: { page: Doc<"solutionPages"> }) {
       }
     }
     const requireClean = (event: Event) => {
-      if (dirty || busy || uploading) {
+      const deleting = (event as CustomEvent<{ action?: string }>).detail?.action === "delete"
+      if ((!deleting && dirty) || busy || uploading) {
         event.preventDefault()
         setError("Save or discard changes before archiving or deleting a page.")
       }
     }
     const unload = (event: BeforeUnloadEvent) => {
-      if (dirty || uploading) event.preventDefault()
+      if (dirty || busy || uploading) event.preventDefault()
     }
     window.addEventListener("harkcon:navigate", navigate)
     window.addEventListener("harkcon:require-clean", requireClean)
@@ -129,6 +143,10 @@ function Editor({ page }: { page: Doc<"solutionPages"> }) {
     }
   }, [dirty, busy, uploading])
   async function save() {
+    if (!draft.homepageDescription?.trim()) {
+      setError("Add a homepage description above the preview before saving.")
+      return false
+    }
     setBusy(true)
     setError("")
     setMessage("")
@@ -147,9 +165,7 @@ function Editor({ page }: { page: Doc<"solutionPages"> }) {
       )
       return true
     } catch (failure) {
-      setError(
-        failure instanceof Error ? failure.message : "Could not save. Your changes are still here.",
-      )
+      setError(editorError(failure, "Could not save. Your changes are still here."))
       return false
     } finally {
       setBusy(false)
@@ -159,54 +175,26 @@ function Editor({ page }: { page: Doc<"solutionPages"> }) {
     if (
       !["image/jpeg", "image/png", "image/webp", "image/avif"].includes(file.type) ||
       file.size > 10 * 1024 * 1024
-    ) {
-      setError("Choose a JPG, PNG, WebP or AVIF image smaller than 10 MB.")
-      return
-    }
-    setUploading(true)
-    setError("")
-    try {
-      const url = await uploadUrl()
-      const response = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": file.type },
-        body: file,
-      })
-      if (!response.ok) throw new Error("Image upload failed")
-      const body: { storageId: Id<"_storage"> } = await response.json()
-      const src = await resolveImage({ storageId: body.storageId })
-      setSelection((current) => (current?.kind === "image" ? { ...current, src } : current))
-    } catch (failure) {
-      setError(failure instanceof Error ? failure.message : "Could not upload image")
-    } finally {
-      setUploading(false)
-    }
+    )
+      throw new Error("Choose a JPG, PNG, WebP or AVIF image smaller than 10 MB.")
+    const url = await uploadUrl()
+    const response = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": file.type },
+      body: file,
+    })
+    if (!response.ok) throw new Error("Image upload failed")
+    const body: { storageId: Id<"_storage"> } = await response.json()
+    return await resolveImage({ storageId: body.storageId })
   }
   function applySelection() {
     if (!selection) return
-    if (selection.kind === "link") {
-      if (
-        !selection.text.trim() ||
-        !/^(\/(?!\/)|https?:\/\/|mailto:|tel:|#)/i.test(selection.href)
-      ) {
-        setError("Add button text and a valid destination link.")
-        return
-      }
-      setDraft((current) => ({ ...current, ctaLabel: selection.text, ctaHref: selection.href }))
-    } else {
-      if (!/^(\/(?!\/)|https?:\/\/)/i.test(selection.src)) {
-        setError("Choose an image or enter an image URL.")
-        return
-      }
-      const altField = { heroImage: "heroAlt", wideImage: "wideAlt", detailImage: "detailAlt" }[
-        selection.field
-      ]
-      setDraft((current) => ({
-        ...current,
-        [selection.field]: selection.src,
-        [altField]: selection.alt,
-      }))
+    if (selection.kind !== "link") return
+    if (!selection.text.trim() || !/^(\/(?!\/)|https?:\/\/|mailto:|tel:|#)/i.test(selection.href)) {
+      setError("Add button text and a valid destination link.")
+      return
     }
+    setDraft((current) => ({ ...current, ctaLabel: selection.text, ctaHref: selection.href }))
     setDirty(true)
     setMessage("")
     setError("")
@@ -229,7 +217,13 @@ function Editor({ page }: { page: Doc<"solutionPages"> }) {
           </p>
           <h1 className="mt-1 font-header text-lg font-semibold">{draft.title}</h1>
           <output className="mt-1 block text-xs text-slate-500">
-            {busy ? "Saving…" : dirty ? "Unsaved changes" : "All changes saved"}
+            {uploading
+              ? "Uploading…"
+              : busy
+                ? "Saving…"
+                : dirty
+                  ? "Unsaved changes"
+                  : "All changes saved"}
           </output>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -258,7 +252,7 @@ function Editor({ page }: { page: Doc<"solutionPages"> }) {
           )}
           <button
             className={`${editorButton} !border-blue-700 !bg-blue-700 !text-white`}
-            disabled={!dirty || busy || uploading}
+            disabled={(!dirty && !!page.content) || busy || uploading}
             onClick={() => void save()}
           >
             {busy ? "Saving…" : "Save changes"}
@@ -278,8 +272,35 @@ function Editor({ page }: { page: Doc<"solutionPages"> }) {
         </p>
       )}
       <div className="min-h-0 flex-1 overflow-auto p-4">
+        <div className="mb-4 rounded-xl border border-slate-200 bg-white p-5">
+          <label
+            htmlFor="homepage-description"
+            className="block text-sm font-semibold text-slate-800"
+          >
+            Homepage description
+          </label>
+          <p id="homepage-description-help" className="mt-1 text-xs text-slate-500">
+            One or two short sentences shown on the homepage and Solutions overview cards.
+          </p>
+          <textarea
+            disabled={busy}
+            id="homepage-description"
+            aria-describedby="homepage-description-help"
+            rows={3}
+            required
+            className={editorInput}
+            value={draft.homepageDescription ?? ""}
+            onChange={(event) => {
+              setDraft((current) => ({ ...current, homepageDescription: event.target.value }))
+              setDirty(true)
+              setMessage("")
+            }}
+          />
+        </div>
+
         <div
           data-solution-editor
+          inert={busy}
           className="relative isolate overflow-hidden border border-slate-200 bg-white shadow-sm"
           onClickCapture={(event) => {
             const target = event.target as HTMLElement
@@ -294,6 +315,7 @@ function Editor({ page }: { page: Doc<"solutionPages"> }) {
           </SolutionEditingProvider>
         </div>
       </div>
+      {picker}
       {selection && (
         <EditorDialog
           title={selection.kind === "image" ? "Edit image" : "Edit button"}
@@ -331,48 +353,7 @@ function Editor({ page }: { page: Doc<"solutionPages"> }) {
                   />
                 </label>
               </>
-            ) : (
-              <>
-                <Image
-                  src={selection.src}
-                  alt={selection.alt}
-                  width={800}
-                  height={400}
-                  unoptimized
-                  className="mb-4 max-h-56 w-full rounded-lg bg-slate-100 object-contain"
-                />
-                <label className="block text-sm">
-                  Replace image
-                  <input
-                    type="file"
-                    accept="image/jpeg,image/png,image/webp,image/avif"
-                    disabled={uploading}
-                    className="mt-2 block w-full text-sm"
-                    onChange={(event) => {
-                      const file = event.target.files?.[0]
-                      if (file) void upload(file)
-                    }}
-                  />
-                </label>
-                <label className="mt-4 block text-sm">
-                  Image URL
-                  <input
-                    required
-                    className={editorInput}
-                    value={selection.src}
-                    onChange={(event) => setSelection({ ...selection, src: event.target.value })}
-                  />
-                </label>
-                <label className="mt-4 block text-sm">
-                  Alternative text
-                  <input
-                    className={editorInput}
-                    value={selection.alt}
-                    onChange={(event) => setSelection({ ...selection, alt: event.target.value })}
-                  />
-                </label>
-              </>
-            )}
+            ) : null}
             {error && (
               <p role="alert" className="mt-4 text-sm text-red-700">
                 {error}
@@ -433,7 +414,7 @@ function Editor({ page }: { page: Doc<"solutionPages"> }) {
                   setArchiveConfirm(false)
                   setMessage(archived ? "Page unarchived and published." : "Page archived.")
                 } catch (failure) {
-                  setError(failure instanceof Error ? failure.message : "Could not change status")
+                  setError(editorError(failure, "Could not change status"))
                 } finally {
                   setBusy(false)
                 }
@@ -450,6 +431,11 @@ function Editor({ page }: { page: Doc<"solutionPages"> }) {
             Save your changes or discard them before{" "}
             {leave === "discard" ? "resetting this draft" : "leaving this page"}.
           </p>
+          {error && (
+            <p role="alert" className="mt-4 text-sm text-red-700">
+              {error}
+            </p>
+          )}
           <div className="mt-6 flex flex-wrap justify-end gap-3">
             <button className={editorButton} disabled={busy} onClick={() => setLeave(null)}>
               Keep editing

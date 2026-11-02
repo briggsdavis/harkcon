@@ -10,176 +10,63 @@ export function ContentDialog({
   initial,
   apply,
   close,
-  upload,
-  imageChoices,
 }: {
   initial: ContentSelection
   apply: (value: ContentSelection) => void
   close: () => void
-  upload: Upload
-  imageChoices?: { src: string; name: string }[]
 }) {
   const [selection, setSelection] = useState(initial)
-  const [error, setError] = useState(""),
-    [uploading, setUploading] = useState(false)
+  const [error, setError] = useState("")
   return (
-    <EditorDialog
-      title={selection.kind === "image" ? "Edit image" : "Edit button or link"}
-      close={() => {
-        if (!uploading) close()
-      }}
-    >
+    <EditorDialog title="Edit button or link" close={close}>
       <form
         onSubmit={(event) => {
           event.preventDefault()
-          if (
-            selection.kind === "link" &&
-            (!selection.value.text?.trim() || !validDestination(selection.value.href ?? ""))
-          ) {
+          if (!selection.value.text?.trim() || !validDestination(selection.value.href ?? "")) {
             setError("Add text and a valid destination link.")
-            return
-          }
-          if (
-            selection.kind === "image" &&
-            !/^(\/(?!\/)|https?:\/\/)/i.test(selection.value.src ?? "")
-          ) {
-            setError("Choose an image or enter its URL.")
             return
           }
           apply(selection)
         }}
       >
-        {selection.kind === "link" ? (
-          <>
-            <label className="block text-sm">
-              Button text
-              <input
-                required
-                className={editorInput}
-                value={selection.value.text ?? ""}
-                onChange={(event) =>
-                  setSelection({
-                    ...selection,
-                    value: { ...selection.value, text: event.target.value },
-                  })
-                }
-              />
-            </label>
-            <label className="mt-4 block text-sm">
-              Destination link
-              <input
-                required
-                className={editorInput}
-                value={selection.value.href ?? ""}
-                onChange={(event) =>
-                  setSelection({
-                    ...selection,
-                    value: { ...selection.value, href: event.target.value },
-                  })
-                }
-              />
-            </label>
-          </>
-        ) : (
-          <>
-            {selection.value.src && (
-              <Image
-                src={selection.value.src}
-                alt={selection.value.alt ?? ""}
-                width={800}
-                height={400}
-                unoptimized
-                className="mb-4 max-h-56 w-full rounded-lg bg-slate-100 object-contain"
-              />
-            )}
-            <label className="block text-sm">
-              Replace image
-              <input
-                type="file"
-                accept="image/jpeg,image/png,image/webp,image/avif"
-                disabled={uploading}
-                className="mt-2 block w-full text-sm"
-                onChange={async (event) => {
-                  const file = event.target.files?.[0]
-                  if (!file) return
-                  setUploading(true)
-                  setError("")
-                  try {
-                    const src = await upload(file)
-                    if (src)
-                      setSelection((current) => ({ ...current, value: { ...current.value, src } }))
-                  } catch (failure) {
-                    setError(failure instanceof Error ? failure.message : "Upload failed")
-                  } finally {
-                    setUploading(false)
-                  }
-                }}
-              />
-            </label>
-            {imageChoices && (
-              <label className="mt-4 block text-sm">
-                Choose an existing image
-                <select
-                  className={editorInput}
-                  value=""
-                  onChange={(event) => {
-                    if (event.target.value)
-                      setSelection({
-                        ...selection,
-                        value: { ...selection.value, src: event.target.value },
-                      })
-                  }}
-                >
-                  <option value="">Choose image…</option>
-                  {imageChoices.map((image) => (
-                    <option key={image.src} value={image.src}>
-                      {image.name}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            )}
-            <label className="mt-4 block text-sm">
-              Image URL
-              <input
-                required
-                className={editorInput}
-                value={selection.value.src ?? ""}
-                onChange={(event) =>
-                  setSelection({
-                    ...selection,
-                    value: { ...selection.value, src: event.target.value },
-                  })
-                }
-              />
-            </label>
-            <label className="mt-4 block text-sm">
-              Alternative text
-              <input
-                className={editorInput}
-                value={selection.value.alt ?? ""}
-                onChange={(event) =>
-                  setSelection({
-                    ...selection,
-                    value: { ...selection.value, alt: event.target.value },
-                  })
-                }
-              />
-            </label>
-          </>
-        )}
+        <label className="block text-sm">
+          Button text
+          <input
+            required
+            className={editorInput}
+            value={selection.value.text ?? ""}
+            onChange={(event) =>
+              setSelection({
+                ...selection,
+                value: { ...selection.value, text: event.target.value },
+              })
+            }
+          />
+        </label>
+        <label className="mt-4 block text-sm">
+          Destination link
+          <input
+            required
+            className={editorInput}
+            value={selection.value.href ?? ""}
+            onChange={(event) =>
+              setSelection({
+                ...selection,
+                value: { ...selection.value, href: event.target.value },
+              })
+            }
+          />
+        </label>
         {error && (
           <p role="alert" className="mt-4 text-sm text-red-700">
             {error}
           </p>
         )}
         <div className="mt-6 flex justify-end gap-3">
-          <button type="button" className={editorButton} disabled={uploading} onClick={close}>
+          <button type="button" className={editorButton} onClick={close}>
             Cancel
           </button>
-          <button className={`${editorButton} !bg-blue-700 !text-white`} disabled={uploading}>
-            {uploading ? "Uploading…" : "Apply to draft"}
-          </button>
+          <button className={`${editorButton} !bg-blue-700 !text-white`}>Apply to draft</button>
         </div>
       </form>
     </EditorDialog>
@@ -237,7 +124,7 @@ export function PersonDialog({
               setError("Use a LinkedIn profile URL.")
               return
             }
-            apply(person)
+            apply({ ...person, alt: person.name })
           }}
         >
           <div className="space-y-4">
@@ -246,7 +133,6 @@ export function PersonDialog({
                 ["name", "Name"],
                 ["role", "Role / title"],
                 ["linkedin", "LinkedIn URL"],
-                ["alt", "Photo alternative text"],
               ] as const
             ).map(([key, label]) => (
               <label key={key} className="block text-sm">
@@ -284,7 +170,7 @@ export function PersonDialog({
                 type="file"
                 accept="image/jpeg,image/png,image/webp,image/avif"
                 disabled={uploading}
-                className="mt-2 block text-sm"
+                className="mt-2 block w-full text-sm file:mr-4 file:cursor-pointer file:rounded-lg file:border-0 file:bg-blue-700 file:px-4 file:py-3 file:font-semibold file:text-white hover:file:bg-blue-800"
                 onChange={async (event) => {
                   const file = event.target.files?.[0]
                   if (!file) return

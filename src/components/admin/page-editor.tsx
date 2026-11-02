@@ -1,7 +1,9 @@
 "use client"
 import { useMutation, useQuery } from "convex/react"
 import { useRouter } from "next/navigation"
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
+import { defaultContractSections, validateContractSections } from "~/lib/contract-editor"
+import { editorError } from "~/lib/editor-error"
 import type {
   PageKey,
   PageDraft,
@@ -15,21 +17,29 @@ import { api } from "../../../convex/_generated/api"
 import type { Doc, Id } from "../../../convex/_generated/dataModel"
 import AboutPage from "../about-page"
 import CareersPage from "../careers-page"
+import ContractsPage from "../contracts-page"
 import HomePage from "../home-page"
 import { PageEditingProvider } from "../page-editing"
 import SolutionsPage from "../solutions-page"
+import ContractSectionsEditor from "./contract-sections-editor"
 import EditorDialog, { editorButton } from "./editor-dialog"
 import { ContentDialog, PersonDialog, FaqDialog } from "./page-editor-dialogs"
+import { useImagePicker } from "./use-image-picker"
 
 const titles = {
   home: "Home page",
   about: "About page",
   careers: "Careers page",
   solutions: "Solutions overview",
+  contracts: "Contracts page",
+  oasis: "OASIS+ page",
 }
 function initialDraft(page: PageKey, saved: Doc<"editablePages"> | null): PageDraft {
   return {
     ...(saved?.draft ?? { fields: {} }),
+    ...(page === "contracts" || page === "oasis"
+      ? { contractSections: saved?.draft.contractSections ?? defaultContractSections(page) }
+      : {}),
     ...(page === "about" ? { people: saved?.draft.people ?? defaultPeople() } : {}),
   }
 }
@@ -47,17 +57,6 @@ function Editor({ page, saved }: { page: PageKey; saved: Doc<"editablePages"> | 
     setArchived = useMutation(api.pages.setOverviewArchived)
   const uploadUrl = useMutation(api.content.generateImageUploadUrl),
     resolveImage = useMutation(api.content.resolveImageUpload)
-  const heroImages = useQuery(api.content.listHeroImages, page === "home" ? {} : "skip")
-  const imageChoices =
-    page === "home"
-      ? [
-          { src: "/images/capitol-hero.png", name: "Capitol" },
-          { src: "/images/Social Work.png", name: "Social Work" },
-          ...(heroImages ?? []).flatMap((image) =>
-            image.url ? [{ src: image.url, name: image.name }] : [],
-          ),
-        ]
-      : undefined
   const [draft, setDraft] = useState(() => initialDraft(page, saved)),
     [baseline, setBaseline] = useState(saved?.updatedAt)
   const [dirty, setDirty] = useState(false),
@@ -82,33 +81,41 @@ function Editor({ page, saved }: { page: PageKey; saved: Doc<"editablePages"> | 
     setDirty(true)
     setMessage("")
   }, [])
-  const context = useMemo(
-    () => ({
-      draft,
-      editing: true,
-      change,
-      markDirty,
-      select: setSelection,
-      editPerson: setPerson,
-      editFaqs: setFaqs,
-    }),
-    [draft, change, markDirty],
-  )
+  const { choose, picker, uploading } = useImagePicker(upload, setError)
+  const context = {
+    draft,
+    editing: true,
+    change,
+    markDirty,
+    select: (value: ContentSelection) => {
+      if (value.kind === "image") choose((src) => change(value.field, { ...value.value, src }))
+      else setSelection(value)
+    },
+    imageUploading: uploading,
+    changeLogos: (logos: NonNullable<PageDraft["logos"]>) => {
+      setDraft((current) => ({ ...current, logos }))
+      markDirty()
+    },
+    uploadLogo: (apply: (src: string) => void) => choose(apply),
+    editPerson: setPerson,
+    editFaqs: setFaqs,
+  }
   useEffect(() => {
     const navigate = (event: Event) => {
-      if (dirty || busy) {
+      if (dirty || busy || uploading) {
         event.preventDefault()
         setLeave((event as CustomEvent<{ url: string }>).detail.url)
       }
     }
     const clean = (event: Event) => {
-      if (dirty || busy) {
+      const deleting = (event as CustomEvent<{ action?: string }>).detail?.action === "delete"
+      if ((!deleting && dirty) || busy || uploading) {
         event.preventDefault()
         setError("Save or discard changes before changing publication status.")
       }
     }
     const unload = (event: BeforeUnloadEvent) => {
-      if (dirty || busy) event.preventDefault()
+      if (dirty || busy || uploading) event.preventDefault()
     }
     window.addEventListener("harkcon:navigate", navigate)
     window.addEventListener("harkcon:require-clean", clean)
@@ -118,8 +125,15 @@ function Editor({ page, saved }: { page: PageKey; saved: Doc<"editablePages"> | 
       window.removeEventListener("harkcon:require-clean", clean)
       window.removeEventListener("beforeunload", unload)
     }
-  }, [dirty, busy])
+  }, [dirty, busy, uploading])
   async function save() {
+    if (draft.contractSections) {
+      const failure = validateContractSections(draft.contractSections)
+      if (failure) {
+        setError(failure)
+        return false
+      }
+    }
     setBusy(true)
     setError("")
     setMessage("")
@@ -144,9 +158,7 @@ function Editor({ page, saved }: { page: PageKey; saved: Doc<"editablePages"> | 
       )
       return true
     } catch (failure) {
-      setError(
-        failure instanceof Error ? failure.message : "Could not save. Your draft is still here.",
-      )
+      setError(editorError(failure, "Could not save. Your draft is still here."))
       return false
     } finally {
       setBusy(false)
@@ -175,6 +187,8 @@ function Editor({ page, saved }: { page: PageKey; saved: Doc<"editablePages"> | 
       <AboutPage />
     ) : page === "careers" ? (
       <CareersPage />
+    ) : page === "contracts" || page === "oasis" ? (
+      <ContractsPage view={page} />
     ) : (
       <SolutionsPage />
     )
@@ -187,14 +201,20 @@ function Editor({ page, saved }: { page: PageKey; saved: Doc<"editablePages"> | 
           </p>
           <h1 className="mt-1 font-header text-lg font-semibold">{titles[page]}</h1>
           <output className="mt-1 block text-xs text-slate-500">
-            {busy ? "Saving…" : dirty ? "Unsaved changes" : "All changes saved"}
+            {uploading
+              ? "Uploading…"
+              : busy
+                ? "Saving…"
+                : dirty
+                  ? "Unsaved changes"
+                  : "All changes saved"}
           </output>
         </div>
         <div className="flex flex-wrap gap-2">
           {page === "solutions" && (
             <button
               className={`${editorButton} ${archived ? "!border-amber-200 !bg-amber-50 !text-amber-800" : "!border-green-200 !bg-green-50 !text-green-800"}`}
-              disabled={busy}
+              disabled={busy || uploading}
               onClick={() => {
                 if (dirty) {
                   setError("Save or discard changes before archiving or publishing.")
@@ -207,13 +227,17 @@ function Editor({ page, saved }: { page: PageKey; saved: Doc<"editablePages"> | 
             </button>
           )}
           {dirty && (
-            <button className={editorButton} disabled={busy} onClick={() => setLeave("discard")}>
+            <button
+              className={editorButton}
+              disabled={busy || uploading}
+              onClick={() => setLeave("discard")}
+            >
               Discard
             </button>
           )}
           <button
             className={`${editorButton} !border-blue-700 !bg-blue-700 !text-white`}
-            disabled={!dirty || busy}
+            disabled={!dirty || busy || uploading}
             onClick={() => void save()}
           >
             {busy ? "Saving…" : "Save changes"}
@@ -235,6 +259,7 @@ function Editor({ page, saved }: { page: PageKey; saved: Doc<"editablePages"> | 
       <div className="min-h-0 flex-1 overflow-auto p-4">
         <div
           data-page-editor
+          inert={busy}
           className="relative isolate overflow-hidden border border-slate-200 bg-white shadow-sm"
           onClickCapture={(event) => {
             const target = event.target as HTMLElement
@@ -247,13 +272,26 @@ function Editor({ page, saved }: { page: PageKey; saved: Doc<"editablePages"> | 
         >
           <PageEditingProvider value={context}>{view}</PageEditingProvider>
         </div>
+        {(page === "contracts" || page === "oasis") && (
+          <div inert={busy}>
+            <ContractSectionsEditor
+              sections={draft.contractSections ?? []}
+              uploading={uploading}
+              uploadError={error}
+              chooseImage={choose}
+              change={(sections) => {
+                setDraft((current) => ({ ...current, contractSections: sections }))
+                markDirty()
+              }}
+            />
+          </div>
+        )}
       </div>
+      {picker}
       {selection && (
         <ContentDialog
           key={selection.field}
           initial={selection}
-          imageChoices={imageChoices}
-          upload={upload}
           close={() => setSelection(null)}
           apply={(value) => {
             change(value.field, value.value)
@@ -325,14 +363,14 @@ function Editor({ page, saved }: { page: PageKey; saved: Doc<"editablePages"> | 
           <div className="mt-6 flex justify-end gap-3">
             <button
               className={editorButton}
-              disabled={busy}
+              disabled={busy || uploading}
               onClick={() => setArchiveConfirm(false)}
             >
               Cancel
             </button>
             <button
               className={`${editorButton} !bg-blue-700 !text-white`}
-              disabled={busy}
+              disabled={busy || uploading}
               onClick={async () => {
                 setBusy(true)
                 try {
@@ -340,7 +378,7 @@ function Editor({ page, saved }: { page: PageKey; saved: Doc<"editablePages"> | 
                   setArchiveConfirm(false)
                   setMessage(archived ? "Overview published." : "Overview archived.")
                 } catch (failure) {
-                  setError(failure instanceof Error ? failure.message : "Could not change status")
+                  setError(editorError(failure, "Could not change status"))
                 } finally {
                   setBusy(false)
                 }
@@ -357,13 +395,22 @@ function Editor({ page, saved }: { page: PageKey; saved: Doc<"editablePages"> | 
             Save your changes or discard them before{" "}
             {leave === "discard" ? "resetting this draft" : "leaving this page"}.
           </p>
+          {error && (
+            <p role="alert" className="mt-4 text-sm text-red-700">
+              {error}
+            </p>
+          )}
           <div className="mt-6 flex flex-wrap justify-end gap-3">
-            <button className={editorButton} disabled={busy} onClick={() => setLeave(null)}>
+            <button
+              className={editorButton}
+              disabled={busy || uploading}
+              onClick={() => setLeave(null)}
+            >
               Keep editing
             </button>
             <button
               className={`${editorButton} !text-red-700`}
-              disabled={busy}
+              disabled={busy || uploading}
               onClick={() => {
                 if (leave === "discard") {
                   setDraft(initialDraft(page, saved))
@@ -378,7 +425,7 @@ function Editor({ page, saved }: { page: PageKey; saved: Doc<"editablePages"> | 
             </button>
             <button
               className={`${editorButton} !bg-blue-700 !text-white`}
-              disabled={busy}
+              disabled={busy || uploading}
               onClick={async () => {
                 if (await save()) {
                   if (leave !== "discard") router.push(leave)

@@ -151,7 +151,7 @@ function ViewHeading({
 }: {
   eyebrow: string
   title: string
-  description: string
+  description?: string
   children?: ReactNode
 }) {
   return (
@@ -159,7 +159,7 @@ function ViewHeading({
       <div>
         <p className={kicker}>{eyebrow}</p>
         <h1 className={pageTitle}>{title}</h1>
-        <p className="mt-2 text-[15px] text-[#6f7688]">{description}</p>
+        {description && <p className="mt-2 text-[15px] text-[#6f7688]">{description}</p>}
       </div>
       {children}
     </div>
@@ -362,7 +362,7 @@ function Sidebar({ view, onSelect }: { view: View; onSelect: (view: View) => voi
       </div>
       <nav
         aria-label="Admin navigation"
-        className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto"
+        className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto pr-4"
       >
         {item("dashboard", "grid")}
         {item("news", "news")}
@@ -512,11 +512,7 @@ function Dashboard() {
   const stats = useQuery(api.analytics.dashboard, { days, asOf })
   return (
     <section className={viewClassName}>
-      <ViewHeading
-        eyebrow="Overview"
-        title="Good to see you."
-        description="Here’s how the website is performing."
-      >
+      <ViewHeading eyebrow="Overview" title="Good to see you.">
         <select
           className={selectControl}
           value={days}
@@ -538,11 +534,6 @@ function Dashboard() {
               range.
             </output>
           ) : null}
-          <p className="mb-4 text-xs leading-relaxed text-slate-500">
-            First-party recorded activity · UTC calendar days, including today · refreshed every
-            minute. Browsers use a stored anonymous ID; blocked tracking and cleared storage affect
-            counts. Sessions follow a browser tab’s lifetime, not an inactivity timer.
-          </p>
           <div className="mb-[18px] grid grid-cols-4 gap-[15px] max-[1000px]:grid-cols-2 max-[760px]:grid-cols-1">
             <Stat
               label="Tracked browsers"
@@ -930,11 +921,7 @@ function NewsEditor() {
   }
   return (
     <section className={viewClassName}>
-      <ViewHeading
-        eyebrow="Publishing"
-        title="News editor"
-        description="Create and organize updates without the clutter."
-      >
+      <ViewHeading eyebrow="Publishing" title="News editor">
         <button
           className={primaryButton}
           onClick={() =>
@@ -1360,11 +1347,7 @@ function Contacts() {
   }
   return (
     <section className={viewClassName}>
-      <ViewHeading
-        eyebrow="Inbox"
-        title="Contacts"
-        description="Find, review, and organize website inquiries."
-      />
+      <ViewHeading eyebrow="Inbox" title="Contacts" />
       <div className="mb-4 flex gap-2.5 max-[760px]:flex-wrap">
         <div className="flex flex-1 items-center gap-2.5 rounded-[10px] border border-[#dfe2e8] bg-white pl-[13px] max-[760px]:basis-full">
           <Icon name="search" />
@@ -1533,7 +1516,13 @@ function Empty({ text }: { text: string }) {
 }
 
 function PagePlaceholder({ view }: { view: View }) {
-  if (view === "home" || view === "about" || view === "careers")
+  if (
+    view === "home" ||
+    view === "about" ||
+    view === "careers" ||
+    view === "contracts" ||
+    view === "oasis"
+  )
     return <PageEditor key={view} page={view} />
   if (view === "solutions") return <SolutionEditor />
   return (
