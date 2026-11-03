@@ -204,7 +204,11 @@ export default function About() {
                 {" "}
                 <article
                   data-center-card
-                  className="group relative isolate grid gap-10 overflow-hidden border-t border-white/20 py-12 transition-[color,padding] delay-0 duration-700 ease-out before:absolute before:inset-0 before:-z-10 before:origin-left before:scale-x-0 before:bg-white before:transition-transform before:duration-700 hover:px-6 hover:text-[#0d132d] hover:before:scale-x-100 data-[center-active=true]:px-6 data-[center-active=true]:text-[#0d132d] data-[center-active=true]:before:scale-x-100 motion-reduce:transition-none motion-reduce:before:transition-none md:grid-cols-[0.52fr_1.48fr] md:gap-16 md:py-16 lg:gap-24 lg:hover:px-10"
+                  className={
+                    editing
+                      ? "relative grid gap-10 border-t border-white/20 py-12 text-white md:grid-cols-[0.52fr_1.48fr] md:gap-16 md:py-16 lg:gap-24"
+                      : "group relative isolate grid gap-10 overflow-hidden border-t border-white/20 py-12 transition-[color,padding] delay-0 duration-700 ease-out before:absolute before:inset-0 before:-z-10 before:origin-left before:scale-x-0 before:bg-white before:transition-transform before:duration-700 hover:px-6 hover:text-[#0d132d] hover:before:scale-x-100 data-[center-active=true]:px-6 data-[center-active=true]:text-[#0d132d] data-[center-active=true]:before:scale-x-100 motion-reduce:transition-none motion-reduce:before:transition-none md:grid-cols-[0.52fr_1.48fr] md:gap-16 md:py-16 lg:gap-24 lg:hover:px-10"
+                  }
                 >
                   <div className="flex items-start gap-5">
                     <span className="font-eyebrow text-eyebrow-label tracking-[0.15em] text-brand-gold transition-colors duration-700 group-hover:text-[#0d132d]/70 group-data-[center-active=true]:text-[#0d132d]/70">
@@ -229,7 +233,11 @@ export default function About() {
                 </article>
                 <article
                   data-center-card
-                  className="group relative isolate grid gap-10 overflow-hidden border-t border-white/20 py-12 transition-[color,padding] delay-0 duration-700 ease-out before:absolute before:inset-0 before:-z-10 before:origin-left before:scale-x-0 before:bg-white before:transition-transform before:duration-700 hover:px-6 hover:text-[#0d132d] hover:before:scale-x-100 data-[center-active=true]:px-6 data-[center-active=true]:text-[#0d132d] data-[center-active=true]:before:scale-x-100 motion-reduce:transition-none motion-reduce:before:transition-none md:grid-cols-[0.52fr_1.48fr] md:gap-16 md:py-16 lg:gap-24 lg:hover:px-10"
+                  className={
+                    editing
+                      ? "relative grid gap-10 border-t border-white/20 py-12 text-white md:grid-cols-[0.52fr_1.48fr] md:gap-16 md:py-16 lg:gap-24"
+                      : "group relative isolate grid gap-10 overflow-hidden border-t border-white/20 py-12 transition-[color,padding] delay-0 duration-700 ease-out before:absolute before:inset-0 before:-z-10 before:origin-left before:scale-x-0 before:bg-white before:transition-transform before:duration-700 hover:px-6 hover:text-[#0d132d] hover:before:scale-x-100 data-[center-active=true]:px-6 data-[center-active=true]:text-[#0d132d] data-[center-active=true]:before:scale-x-100 motion-reduce:transition-none motion-reduce:before:transition-none md:grid-cols-[0.52fr_1.48fr] md:gap-16 md:py-16 lg:gap-24 lg:hover:px-10"
+                  }
                 >
                   <div className="flex items-start gap-5">
                     <span className="font-eyebrow text-eyebrow-label tracking-[0.15em] text-brand-gold transition-colors duration-700 group-hover:text-[#0d132d]/70 group-data-[center-active=true]:text-[#0d132d]/70">
