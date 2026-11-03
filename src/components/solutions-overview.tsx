@@ -59,7 +59,7 @@ export default function SolutionsOverview({
             </div>
           )}
           {capabilities.map(({ title, slug, homepageDescription: detail }, index) => {
-            const position = solutionGridPosition(index)
+            const position = solutionGridPosition(index, capabilities.length)
             const Card = editing ? "article" : Link
             return (
               <Card
