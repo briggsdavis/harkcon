@@ -91,6 +91,10 @@ function Editor({ page, saved }: { page: PageKey; saved: Doc<"editablePages"> | 
       if (value.kind === "image") choose((src) => change(value.field, { ...value.value, src }))
       else setSelection(value)
     },
+    changeSupportPills: (supportPills: NonNullable<PageDraft["supportPills"]>) => {
+      setDraft((current) => ({ ...current, supportPills }))
+      markDirty()
+    },
     imageUploading: uploading,
     changeLogos: (logos: NonNullable<PageDraft["logos"]>) => {
       setDraft((current) => ({ ...current, logos }))

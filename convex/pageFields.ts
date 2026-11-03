@@ -58,6 +58,9 @@ export const contractSection = v.object({
 })
 export const pageDraft = v.object({
   fields: v.record(v.string(), contentField),
+  supportPills: v.optional(
+    v.object({ financial: v.array(v.string()), volunteer: v.array(v.string()) }),
+  ),
   contractSections: v.optional(v.array(contractSection)),
   logos: v.optional(v.array(v.object({ id: v.string(), src: v.string(), name: v.string() }))),
   people: v.optional(v.array(personEntry)),

@@ -1,7 +1,6 @@
 import { ConvexError, v } from "convex/values"
 import { validateContractSections } from "../src/lib/contract-editor"
 import { validDestination } from "../src/lib/page-content"
-import { getSolution, solutions } from "../src/lib/solutions"
 import { query, mutation } from "./_generated/server"
 import { requireAdmin } from "./admin"
 import { pageKey, pageDraft } from "./pageFields"
@@ -74,54 +73,18 @@ export const save = mutation({
     )
       throw new ConvexError("Each career FAQ needs a question and answer")
     const fields = { ...draft.fields }
-    const sharedIds = new Set(
-      Object.keys(fields)
-        .filter((key) => key.startsWith("shared-title:") || key.startsWith("shared-description:"))
-        .map((key) => key.split(":")[1]),
-    )
-    for (const value of sharedIds) {
-      const id = ctx.db.normalizeId("solutionPages", value)
-      const solution = id ? await ctx.db.get(id) : null
-      if (!solution || !id)
-        throw new ConvexError("A solution on this page no longer exists. Reload before saving.")
-      const heading = fields[`shared-title:${value}`],
-        description = fields[`shared-description:${value}`]
-      const title = heading?.text?.trim() ?? solution.title
-      let slug = solution.slug
-      if (heading?.href !== undefined) {
-        const match = /^\/solutions\/([a-z0-9]+(?:-[a-z0-9]+)*)$/.exec(heading.href)
-        if (!match)
-          throw new ConvexError("A solution card must link to /solutions/ followed by its URL slug")
-        slug = match[1]
-        const duplicate = await ctx.db
-          .query("solutionPages")
-          .withIndex("by_slug", (q) => q.eq("slug", slug))
-          .unique()
-        if (duplicate && duplicate._id !== id)
-          throw new ConvexError("That solution URL already exists")
-      }
-      if (!title || (description?.text !== undefined && !description.text.trim()))
-        throw new ConvexError("Add a solution title and description")
-      const { title: _title, slug: _slug, ...base } = getSolution(solution.slug) ?? solutions[0]
-      const content = {
-        ...base,
-        proofHeading: "Experience measured in outcomes.",
-        capabilitiesHeading: "Solutions built around the mission.",
-        ctaTitle: "Have a complex mission?",
-        ctaLabel: "Start a conversation",
-        ctaHref: "/contact",
-        ...solution.content,
-        ...(description?.text !== undefined ? { homepageDescription: description.text } : {}),
-      }
-      await ctx.db.patch(id, {
-        title,
-        slug,
-        content,
-        updatedAt: Math.max(Date.now(), (solution.updatedAt ?? 0) + 1),
-      })
-      delete fields[`shared-title:${value}`]
-      delete fields[`shared-description:${value}`]
+    for (const field of Object.keys(fields)) {
+      if (field.startsWith("shared-title:") || field.startsWith("shared-description:"))
+        delete fields[field]
     }
+    if (
+      draft.supportPills &&
+      (key !== "about" ||
+        [...draft.supportPills.financial, ...draft.supportPills.volunteer].some(
+          (name) => !name.trim(),
+        ))
+    )
+      throw new ConvexError("Each support pill needs an organization name on the About page")
     const storedDraft = { ...draft, fields }
     const updatedAt = Math.max(Date.now(), (current?.updatedAt ?? 0) + 1)
     if (current) await ctx.db.patch(current._id, { draft: storedDraft, updatedAt })

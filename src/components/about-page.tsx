@@ -10,7 +10,7 @@ import SubtleParallaxPhoto from "~/components/subtle-parallax-photo"
 import ViewportCards from "~/components/viewport-cards"
 import { keepClosingWords } from "~/lib/typography"
 import { useEditingMode } from "./editing-mode"
-import { PageText, PageImage, PageLink } from "./page-editing"
+import { PageText, PageImage, PageLink, usePageDraft } from "./page-editing"
 
 const guidingPrinciples = [
   "We put people first, treating everyone fairly while supporting professional growth and recognizing excellent work.",
@@ -376,19 +376,7 @@ export default function About() {
                   </span>
                 </summary>
                 <div>
-                  <ul className="mt-8 grid gap-2.5 pb-10 sm:grid-cols-2" data-reveal-sequence>
-                    {supportedOrganizations.map((organization, index) => (
-                      <li
-                        key={organization}
-                        className="flex min-h-14 items-center rounded-full border border-[#0d132d]/14 bg-[#f4f3f0] px-5 py-3 text-sm leading-snug text-[#454955]"
-                        data-reveal-item
-                      >
-                        <PageText field={`organization-${index}`}>
-                          <span>{organization}</span>
-                        </PageText>
-                      </li>
-                    ))}
-                  </ul>
+                  <SupportPills kind="financial" />
                 </div>
               </details>
               <details
@@ -413,19 +401,7 @@ export default function About() {
                   </span>
                 </summary>
                 <div>
-                  <ul className="mt-8 grid gap-2.5 pb-10 sm:grid-cols-2" data-reveal-sequence>
-                    {volunteerOrganizations.map((organization, index) => (
-                      <li
-                        key={organization}
-                        className="flex min-h-14 items-center rounded-full border border-[#0d132d]/14 bg-[#f4f3f0] px-5 py-3 text-sm leading-snug text-[#454955]"
-                        data-reveal-item
-                      >
-                        <PageText field={`volunteer-${index}`}>
-                          <span>{organization}</span>
-                        </PageText>
-                      </li>
-                    ))}
-                  </ul>
+                  <SupportPills kind="volunteer" />
                 </div>
               </details>
             </div>
@@ -451,6 +427,63 @@ export default function About() {
 
         <SiteFooter />
       </div>
+    </div>
+  )
+}
+
+function SupportPills({ kind }: { kind: "financial" | "volunteer" }) {
+  const { draft, editing, changeSupportPills } = usePageDraft()
+  const pills = draft.supportPills ?? {
+    financial: supportedOrganizations.map(
+      (name, index) => draft.fields[`organization-${index}`]?.text ?? name,
+    ),
+    volunteer: volunteerOrganizations.map(
+      (name, index) => draft.fields[`volunteer-${index}`]?.text ?? name,
+    ),
+  }
+  const update = (items: string[]) => changeSupportPills?.({ ...pills, [kind]: items })
+  return (
+    <div className="pb-10">
+      <ul className="mt-8 grid gap-2.5 sm:grid-cols-2">
+        {pills[kind].map((name, index) => (
+          <li
+            key={index}
+            className="flex min-h-14 items-center gap-3 rounded-full border border-[#0d132d]/14 bg-[#f4f3f0] px-5 py-3 text-sm leading-snug text-[#454955]"
+          >
+            {editing ? (
+              <>
+                <input
+                  aria-label={`Edit ${kind} organization ${index + 1}`}
+                  className="min-w-0 flex-1 bg-transparent outline-offset-4"
+                  value={name}
+                  onChange={(event) =>
+                    update(pills[kind].map((item, i) => (i === index ? event.target.value : item)))
+                  }
+                />
+                <button
+                  type="button"
+                  className="shrink-0 text-xs text-red-700"
+                  aria-label={`Delete ${name}`}
+                  onClick={() => update(pills[kind].filter((_, i) => i !== index))}
+                >
+                  Delete
+                </button>
+              </>
+            ) : (
+              <span>{name}</span>
+            )}
+          </li>
+        ))}
+      </ul>
+      {editing && (
+        <button
+          type="button"
+          className="mt-4 rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800"
+          onClick={() => update([...pills[kind], "New organization"])}
+        >
+          Add organization
+        </button>
+      )}
     </div>
   )
 }

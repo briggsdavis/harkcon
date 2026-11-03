@@ -134,8 +134,8 @@ test(
         },
       })
       const changed = run("solutions:list").find((page) => page._id === solutionId)
-      assert.equal(changed.title, "Updated shared title")
-      assert.equal(changed.content.homepageDescription, "Updated shared description.")
+      assert.equal(changed.title, record.title)
+      assert.equal(changed.content.homepageDescription, content.homepageDescription)
       assert.equal(
         changed.content.description,
         content.description,
@@ -144,7 +144,7 @@ test(
       assert.deepEqual(
         run("pages:get", { key: "solutions" }, false).draft.fields,
         {},
-        "Shared edits are stored once on the solution",
+        "Page editors discard legacy shared edits without changing the solution",
       )
       run("pages:setOverviewArchived", { archived: true })
       assert.equal(run("pages:get", { key: "solutions" }, false).archived, true)

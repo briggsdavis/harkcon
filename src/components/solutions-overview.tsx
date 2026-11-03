@@ -1,12 +1,12 @@
 "use client"
 import Link from "next/link"
-import type { CSSProperties } from "react"
+import { useState, type CSSProperties } from "react"
 import { Arrow } from "~/components/home-page"
 import SolutionCardWatermark from "~/components/solution-card-watermark"
 import ViewportCards from "~/components/viewport-cards"
 import { featuredSolutions, solutionGridPosition } from "~/lib/solution-grid"
 import { useSolutions } from "~/lib/use-solutions"
-import { PageText, PageLink, usePageDraft } from "./page-editing"
+import { PageText, usePageDraft } from "./page-editing"
 
 export default function SolutionsOverview({
   variant = "standard",
@@ -14,6 +14,7 @@ export default function SolutionsOverview({
   variant?: "standard" | "home" | "overview"
 }) {
   const { editing } = usePageDraft()
+  const [notice, setNotice] = useState("")
   const allSolutions = useSolutions()
   const capabilities = variant === "home" ? featuredSolutions(allSolutions) : allSolutions
   const overview = variant === "overview"
@@ -23,6 +24,14 @@ export default function SolutionsOverview({
       className="bg-white py-20 md:py-24 lg:py-28"
       aria-labelledby="solutions-list-title"
     >
+      {editing && notice && (
+        <output className="sticky top-4 z-30 mx-5 mb-6 flex items-center justify-between gap-4 rounded-lg border border-blue-200 bg-blue-50 p-4 text-sm text-blue-900">
+          {notice}
+          <button type="button" onClick={() => setNotice("")} className="font-semibold">
+            Dismiss
+          </button>
+        </output>
+      )}
       <div className={overview ? "site-gutter" : undefined}>
         {overview && (
           <PageText field="solutions-list-heading">
@@ -49,11 +58,25 @@ export default function SolutionsOverview({
               </PageText>
             </div>
           )}
-          {capabilities.map(({ title, slug, homepageDescription: detail, id }, index) => {
+          {capabilities.map(({ title, slug, homepageDescription: detail }, index) => {
             const position = solutionGridPosition(index)
             const Card = editing ? "article" : Link
             return (
               <Card
+                tabIndex={editing ? 0 : undefined}
+                onClick={
+                  editing ? () => setNotice(`Edit this on the ${title} Solutions page.`) : undefined
+                }
+                onKeyDown={
+                  editing
+                    ? (event) => {
+                        if (event.key === "Enter" || event.key === " ") {
+                          event.preventDefault()
+                          setNotice(`Edit this on the ${title} Solutions page.`)
+                        }
+                      }
+                    : undefined
+                }
                 data-center-card
                 data-solution-card={slug}
                 style={
@@ -74,35 +97,16 @@ export default function SolutionsOverview({
                 />
                 <SolutionCardWatermark />
                 <div className="relative z-10 flex flex-1 flex-col">
-                  <PageText field={`shared-title:${id}`}>
-                    <h3 className="font-header text-card-title font-medium text-balance">
-                      {title}
-                    </h3>
-                  </PageText>
+                  <h3 className="font-header text-card-title font-medium text-balance">{title}</h3>
                   <div className="mt-auto flex items-end gap-5 pt-10">
-                    <PageText field={`shared-description:${id}`}>
-                      <p className="text-sm leading-relaxed text-[#5f626b] transition-colors group-hover:text-white/70 group-focus-visible:text-white/70 group-data-[center-active=true]:text-white/70">
-                        {detail}
-                      </p>
-                    </PageText>
+                    <p className="text-sm leading-relaxed text-[#5f626b] transition-colors group-hover:text-white/70 group-focus-visible:text-white/70 group-data-[center-active=true]:text-white/70">
+                      {detail}
+                    </p>
                     <span className="ml-auto flex size-14 shrink-0 items-center justify-center bg-[#f4f3f0] text-[#0d132d]">
-                      {editing ? (
-                        <PageLink field={`shared-title:${id}`}>
-                          <a
-                            href={`/solutions/${slug}`}
-                            aria-label={`Edit ${title} link`}
-                            className="flex h-full w-full items-center justify-center"
-                          >
-                            <span className="sr-only">{title}</span>
-                            <Arrow diagonal />
-                          </a>
-                        </PageLink>
-                      ) : (
-                        <Arrow
-                          diagonal
-                          className="transition-transform duration-500 group-hover:rotate-45 group-focus-visible:rotate-45 group-data-[center-active=true]:rotate-45"
-                        />
-                      )}
+                      <Arrow
+                        diagonal
+                        className="transition-transform duration-500 group-hover:rotate-45"
+                      />
                     </span>
                   </div>
                 </div>

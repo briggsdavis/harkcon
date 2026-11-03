@@ -96,7 +96,6 @@ const buttonBase =
 const primaryButton = `${buttonBase} bg-[#2346b8] text-white shadow-[0_5px_18px_#2346b826] hover:-translate-y-px hover:shadow-[0_8px_24px_#2346b838] disabled:cursor-wait disabled:opacity-55`
 const secondaryButton = `${buttonBase} border border-[#dfe2e8] bg-white text-[#4e566b]`
 const dangerButton = `${buttonBase} bg-[#b72c3a] text-white`
-const quietButton = `${buttonBase} border border-[#e1e4e9] bg-white text-[#35405c]`
 const dangerLink = "cursor-pointer py-2 text-[13px] text-[#b02d3a]"
 const rowButton =
   "cursor-pointer rounded-[7px] border border-[#e3e5e9] bg-white px-2 py-1.5 text-xs"
@@ -832,8 +831,6 @@ function Modal({
   )
 }
 
-const tabClassName = (active: boolean) =>
-  `cursor-pointer rounded-[9px] border px-[13px] py-[9px] ${active ? "border-[#263d86] bg-[#263d86] text-white" : "border-[#e1e4e9] bg-white text-[#747b8b]"}`
 const rowActionClassName = `${rowButton} text-[#5c6478] disabled:cursor-default disabled:opacity-30`
 
 function NewsEditor() {
@@ -842,23 +839,15 @@ function NewsEditor() {
     removeArticle = useMutation(api.content.removeArticle),
     reorder = useMutation(api.content.reorderArticle),
     setFeatured = useMutation(api.content.setFeatured)
-  const saveMention = useMutation(api.content.saveMention),
-    removeMention = useMutation(api.content.removeMention),
-    addTopic = useMutation(api.content.addTopic)
   const generateImageUploadUrl = useMutation(api.content.generateImageUploadUrl),
     resolveImageUpload = useMutation(api.content.resolveImageUpload)
-  const [tab, setTab] = useState<"articles" | "mentions">("articles")
   const [draft, setDraft] = useState<ArticleDraft | null>(null)
-  const [mention, setMention] = useState<{ id?: Id<"pressMentions">; headline: string } | null>(
-    null,
-  )
   const [confirm, setConfirm] = useState<{
-    kind: "article" | "mention"
-    id: Id<"articles"> | Id<"pressMentions">
+    kind: "article"
+    id: Id<"articles">
     label: string
   } | null>(null)
-  const [topicOpen, setTopicOpen] = useState(false),
-    [error, setError] = useState(""),
+  const [error, setError] = useState(""),
     [uploadingImage, setUploadingImage] = useState(false)
   const uploadImage = async (file: File) => {
     if (!file.type.startsWith("image/")) {
@@ -910,42 +899,26 @@ function NewsEditor() {
   }
   const doDelete = async () => {
     if (!confirm) return
-    if (confirm.kind === "article") await removeArticle({ id: confirm.id as Id<"articles"> })
-    else await removeMention({ id: confirm.id as Id<"pressMentions"> })
+    await removeArticle({ id: confirm.id })
     setConfirm(null)
   }
   return (
     <section className={viewClassName}>
-      <ViewHeading eyebrow="Publishing" title="News editor">
-        <button
-          className={primaryButton}
-          onClick={() =>
-            tab === "articles"
-              ? setDraft({ ...emptyArticle, body: [""] })
-              : setMention({ headline: "" })
-          }
-        >
-          <Icon name="plus" /> Add {tab === "articles" ? "article" : "mention"}
-        </button>
-      </ViewHeading>
-      <div className="mb-4 flex gap-1.5">
-        <button className={tabClassName(tab === "articles")} onClick={() => setTab("articles")}>
-          Articles <span className="ml-1.5 opacity-70">{content?.articles.length ?? 0}</span>
-        </button>
-        <button className={tabClassName(tab === "mentions")} onClick={() => setTab("mentions")}>
-          Harkcon in the News{" "}
-          <span className="ml-1.5 opacity-70">{content?.mentions.length ?? 0}</span>
+      <ViewHeading eyebrow="Publishing" title="News editor" />
+      <div className="mb-4 flex items-center justify-between gap-4">
+        <p className="text-sm font-semibold">
+          Articles <span className="ml-1.5 text-slate-500">{content?.articles.length ?? 0}</span>
+        </p>
+        <button className={primaryButton} onClick={() => setDraft({ ...emptyArticle, body: [""] })}>
+          <Icon name="plus" /> Add article
         </button>
       </div>
-      {tab === "articles" ? (
+      {
         <div className={`${card} overflow-hidden`}>
           <div className="flex items-center justify-between border-b border-[#eceef1] px-[18px] py-[14px]">
             <p className="text-[13px] text-[#7a8190]">
               Feature up to six articles on the home page.
             </p>
-            <button className={quietButton} onClick={() => setTopicOpen(true)}>
-              <Icon name="plus" /> New topic
-            </button>
           </div>
           {content?.articles.length ? (
             content.articles.map((article, index) => (
@@ -960,7 +933,7 @@ function NewsEditor() {
                 </div>
                 <div className="min-w-0">
                   <span className="text-[11px] tracking-[0.06em] text-[#7b8291] uppercase">
-                    {article.category} · {article.displayDate}
+                    {article.displayDate}
                   </span>
                   <h3 className={contentHeading}>{article.title}</h3>
                 </div>
@@ -1033,39 +1006,7 @@ function NewsEditor() {
             <Empty text="No articles yet. Add the first one when you’re ready." />
           )}
         </div>
-      ) : (
-        <div className={`${card} overflow-hidden`}>
-          {content?.mentions.length ? (
-            content.mentions.map((item, index) => (
-              <article
-                className={`grid grid-cols-[42px_1fr_auto] items-center gap-3.5 px-5 py-[19px] ${listRow}`}
-                key={item._id}
-              >
-                <span className="text-xs text-[#9aa0ac]">{String(index + 1).padStart(2, "0")}</span>
-                <h3 className={contentHeading}>{item.headline}</h3>
-                <div className="flex gap-[5px]">
-                  <button
-                    className={`${rowButton} text-[#5c6478]`}
-                    onClick={() => setMention({ id: item._id, headline: item.headline })}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className={`${rowButton} text-[#b02d3a]`}
-                    onClick={() =>
-                      setConfirm({ kind: "mention", id: item._id, label: item.headline })
-                    }
-                  >
-                    Delete
-                  </button>
-                </div>
-              </article>
-            ))
-          ) : (
-            <Empty text="No press mentions yet." />
-          )}
-        </div>
-      )}
+      }
       {error ? (
         <div
           className="fixed right-7 bottom-7 z-120 flex max-w-[420px] items-center gap-[18px] rounded-[10px] bg-[#a92e3b] px-[15px] py-[13px] text-[13px] text-white shadow-[0_12px_35px_#3410183d]"
@@ -1104,17 +1045,6 @@ function NewsEditor() {
                   }
                   required
                 />
-              </Field>
-              <Field label="Topic">
-                <select
-                  className={`${fieldControl} ${selectControl}`}
-                  value={draft.category}
-                  onChange={(e) => setDraft({ ...draft, category: e.target.value })}
-                >
-                  {content?.topics.map((topic) => (
-                    <option key={topic._id}>{topic.name}</option>
-                  ))}
-                </select>
               </Field>
               <Field label="Publication date">
                 <input
@@ -1216,65 +1146,6 @@ function NewsEditor() {
               <button className={primaryButton} disabled={uploadingImage}>
                 {uploadingImage ? "Uploading image…" : "Save article"}
               </button>
-            </div>
-          </form>
-        </Modal>
-      ) : null}
-      {mention ? (
-        <Modal
-          title={mention.id ? "Edit mention" : "Add a press mention"}
-          subtitle="Add the headline exactly as you want it to appear."
-          onClose={() => setMention(null)}
-        >
-          <form
-            className={formClassName}
-            onSubmit={async (e) => {
-              e.preventDefault()
-              await saveMention(mention)
-              setMention(null)
-            }}
-          >
-            <Field label="Headline">
-              <textarea
-                className={textareaControl}
-                rows={4}
-                value={mention.headline}
-                onChange={(e) => setMention({ ...mention, headline: e.target.value })}
-                required
-              />
-            </Field>
-            <div className={modalActions}>
-              <button type="button" className={secondaryButton} onClick={() => setMention(null)}>
-                Cancel
-              </button>
-              <button className={primaryButton}>Save mention</button>
-            </div>
-          </form>
-        </Modal>
-      ) : null}
-      {topicOpen ? (
-        <Modal
-          title="Add a news topic"
-          subtitle="It will appear as a filter and an option when editing articles."
-          onClose={() => setTopicOpen(false)}
-        >
-          <form
-            className={formClassName}
-            onSubmit={async (e) => {
-              e.preventDefault()
-              const data = new FormData(e.currentTarget)
-              await addTopic({ name: String(data.get("name")) })
-              setTopicOpen(false)
-            }}
-          >
-            <Field label="Topic name">
-              <input name="name" required className={fieldControl} />
-            </Field>
-            <div className={modalActions}>
-              <button type="button" className={secondaryButton} onClick={() => setTopicOpen(false)}>
-                Cancel
-              </button>
-              <button className={primaryButton}>Add topic</button>
             </div>
           </form>
         </Modal>

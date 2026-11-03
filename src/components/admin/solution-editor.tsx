@@ -273,6 +273,24 @@ function Editor({ page }: { page: Doc<"solutionPages"> }) {
       )}
       <div className="min-h-0 flex-1 overflow-auto p-4">
         <div className="mb-4 rounded-xl border border-slate-200 bg-white p-5">
+          <label htmlFor="solution-title" className="block text-sm font-semibold text-slate-800">
+            Solution title
+          </label>
+          <input
+            id="solution-title"
+            className={editorInput}
+            disabled={busy}
+            required
+            value={draft.title}
+            onChange={(event) => {
+              setDraft((current) => ({ ...current, title: event.target.value }))
+              setDirty(true)
+              setMessage("")
+            }}
+          />
+          <p className="mt-1 mb-4 text-xs text-slate-500">
+            Shared across navigation, Home, About, and the Solutions overview.
+          </p>
           <label
             htmlFor="homepage-description"
             className="block text-sm font-semibold text-slate-800"
@@ -280,7 +298,7 @@ function Editor({ page }: { page: Doc<"solutionPages"> }) {
             Homepage description
           </label>
           <p id="homepage-description-help" className="mt-1 text-xs text-slate-500">
-            One or two short sentences shown on the homepage and Solutions overview cards.
+            One or two short sentences shown on the Home, About, and Solutions overview cards.
           </p>
           <textarea
             disabled={busy}

@@ -31,6 +31,7 @@ type PageContext = {
   change: (field: string, value: ContentField) => void
   markDirty: () => void
   select: (selection: ContentSelection) => void
+  changeSupportPills?: (pills: NonNullable<PageDraft["supportPills"]>) => void
   imageUploading?: boolean
   changeLogos?: (logos: NonNullable<PageDraft["logos"]>) => void
   uploadLogo?: (apply: (src: string) => void) => void

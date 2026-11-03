@@ -17,6 +17,7 @@ export type PageDraft = {
   contractSections?: ContractSection[]
   logos?: { id: string; src: string; name: string }[]
   people?: PersonEntry[]
+  supportPills?: { financial: string[]; volunteer: string[] }
   faqs?: FaqEntry[]
 }
 export type ContentSelection = { kind: "image" | "link"; field: string; value: ContentField }
