@@ -954,7 +954,11 @@ const footerBadges = [
     src: "/images/virginia-values-veterans-badge.png",
   },
   { name: "CMMC Level 2 self-assessed", src: "/images/cmmc-level-2-badge.png" },
-  { name: "ISO 9001 certified", src: "/images/Social Work (1).png" },
+  {
+    name: "ISO 9001:2015 certified quality management system",
+    src: "/images/ISO 9001_2015 certification banner (1).png",
+    banner: true,
+  },
 ]
 
 const footerNavLinkClassName =
@@ -984,19 +988,25 @@ export function SiteFooter() {
                 className="h-[4.25rem] w-[4.25rem]"
               />
             </Link>
-            <ul aria-label="Certifications" className="mt-10 flex flex-nowrap gap-3">
+            <ul aria-label="Certifications" className="mt-10 grid w-fit grid-cols-3 gap-3">
               {footerBadges.map((badge) => (
                 <li
                   key={badge.src}
-                  className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full bg-white p-1.5 sm:h-20 sm:w-20"
+                  className={
+                    badge.banner
+                      ? "col-span-3 overflow-hidden rounded-lg bg-white"
+                      : "flex h-16 w-16 items-center justify-center overflow-hidden rounded-full bg-white p-1.5 sm:h-20 sm:w-20"
+                  }
                 >
                   <Image
                     src={badge.src}
                     alt={badge.name}
-                    width={176}
-                    height={172}
-                    sizes="68px"
-                    className="h-full w-full object-contain"
+                    width={badge.banner ? 1448 : 176}
+                    height={badge.banner ? 1086 : 172}
+                    sizes={badge.banner ? "(min-width: 640px) 264px, 216px" : "68px"}
+                    className={
+                      badge.banner ? "h-auto w-full object-contain" : "h-full w-full object-contain"
+                    }
                   />
                 </li>
               ))}
