@@ -973,8 +973,8 @@ export function SiteFooter() {
   return (
     <footer id="site-footer" className="relative z-10 bg-[#0d132d] text-white">
       <div className="site-gutter">
-        <div className="grid gap-14 py-20 sm:grid-cols-2 md:py-24 lg:grid-cols-[auto_1.65fr_0.75fr_0.9fr] lg:gap-14 xl:gap-24 xl:py-28">
-          <div>
+        <div className="grid gap-14 py-20 sm:grid-cols-2 md:py-24 lg:grid-cols-[auto_minmax(0,1.65fr)_minmax(0,0.75fr)_minmax(0,0.9fr)] lg:gap-8 xl:gap-12 xl:py-28">
+          <div className="sm:col-span-2 lg:col-span-1">
             <Link
               href="/"
               aria-label="Harkcon home"
@@ -988,14 +988,14 @@ export function SiteFooter() {
                 className="h-[4.25rem] w-[4.25rem]"
               />
             </Link>
-            <ul aria-label="Certifications" className="mt-10 grid w-fit grid-cols-3 gap-3">
+            <ul aria-label="Certifications" className="mt-10 flex items-center gap-2 sm:gap-3">
               {footerBadges.map((badge) => (
                 <li
                   key={badge.src}
                   className={
                     badge.banner
-                      ? "col-span-3 overflow-hidden rounded-lg bg-white"
-                      : "flex h-16 w-16 items-center justify-center overflow-hidden rounded-full bg-white p-1.5 sm:h-20 sm:w-20"
+                      ? "h-12 w-16 shrink-0 overflow-hidden bg-white sm:h-16 sm:w-[calc(4rem*4/3)] xl:h-20 xl:w-[calc(5rem*4/3)]"
+                      : "flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-white p-1.5 sm:h-16 sm:w-16 xl:h-20 xl:w-20"
                   }
                 >
                   <Image
@@ -1003,10 +1003,12 @@ export function SiteFooter() {
                     alt={badge.name}
                     width={badge.banner ? 1448 : 176}
                     height={badge.banner ? 1086 : 172}
-                    sizes={badge.banner ? "(min-width: 640px) 264px, 216px" : "68px"}
-                    className={
-                      badge.banner ? "h-auto w-full object-contain" : "h-full w-full object-contain"
+                    sizes={
+                      badge.banner
+                        ? "(min-width: 1280px) 107px, (min-width: 640px) 86px, 64px"
+                        : "(min-width: 1280px) 68px, (min-width: 640px) 52px, 36px"
                     }
+                    className={"h-full w-full object-contain"}
                   />
                 </li>
               ))}
