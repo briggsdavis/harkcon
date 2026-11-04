@@ -1403,8 +1403,8 @@ function PageVisibility() {
     <section className="mx-auto max-w-4xl p-6 md:p-10">
       <h1 className={pageTitle}>Page visibility</h1>
       <p className="mt-3 text-sm text-slate-600">
-        Turn pages on to make their links clickable. Turn them off to show their names as plain
-        text. Changes save immediately.
+        Turn pages off to hide their navigation links and buttons and block direct visits. Admin
+        previews remain available. Changes save immediately.
       </p>
       {error && (
         <p role="alert" className="mt-4 text-red-700">

@@ -1,7 +1,7 @@
 "use client"
 
 import { useQuery } from "convex/react"
-import Link from "next/link"
+import Link from "~/components/visibility-link"
 import ArticlePage from "~/components/article-page"
 import { publicArticles, newsArticles, type NewsArticle } from "~/lib/news"
 import { api } from "../../convex/_generated/api"

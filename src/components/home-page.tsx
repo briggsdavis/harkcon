@@ -10,7 +10,7 @@ import {
 import { useQueries } from "convex/react"
 import type { FunctionReturnType } from "convex/server"
 import Image from "next/image"
-import NextLink from "next/link"
+import NextLink from "~/components/visibility-link"
 import { FocusEvent, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react"
 import CompanyStats from "~/components/company-stats"
 import FeaturedNews from "~/components/featured-news"

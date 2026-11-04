@@ -21,11 +21,6 @@ export default function VisibilityLink(props: ComponentProps<typeof NextLink>) {
   if (editing) return <NextLink {...props} />
   if (key === "solutions" && overview?.archived) return null
   if (key === "solutions" || key.startsWith("solution:")) return <NextLink {...props} />
-  if (page && !(settings?.[page.key] ?? page.visible))
-    return (
-      <span aria-disabled="true" className={props.className}>
-        {props.children}
-      </span>
-    )
+  if (page && (settings === undefined || !(settings[page.key] ?? page.visible))) return null
   return <NextLink {...props} />
 }

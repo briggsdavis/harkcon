@@ -24,3 +24,7 @@ export function visibilityKeyForHref(href: string): string {
   if (path.startsWith("/solutions/")) return `solution:${path.split("/")[2]}`
   return path.split("/")[1]
 }
+
+export function isPageVisible(key: string, settings: Record<string, boolean>): boolean {
+  return settings[key] ?? visibilityPages.find((page) => page.key === key)?.visible ?? true
+}

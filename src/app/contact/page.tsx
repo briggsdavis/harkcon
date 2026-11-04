@@ -1,6 +1,6 @@
 import { LinkedinLogo, XLogo, YoutubeLogo } from "@phosphor-icons/react/ssr"
 import { Metadata } from "next"
-import Link from "next/link"
+import Link from "~/components/visibility-link"
 import ContactForm from "~/components/contact-form"
 import FaqList from "~/components/faq-list"
 import { Header, SiteFooter } from "~/components/home-page"

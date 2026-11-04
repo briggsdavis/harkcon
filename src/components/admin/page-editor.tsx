@@ -250,7 +250,8 @@ function Editor({ page, saved }: { page: PageKey; saved: Doc<"editablePages"> | 
       </header>
       <p className="border-b border-slate-200 bg-white px-5 py-2 text-xs text-slate-500">
         Click text to edit. Click images and buttons to change them.{" "}
-        {page === "careers" && "Job listings stay synced; application buttons remain active."}
+        {page === "careers" &&
+          "Job listings stay synced; application links are disabled in the editor."}
       </p>
       {(error || message) && (
         <p

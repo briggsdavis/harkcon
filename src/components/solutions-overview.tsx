@@ -1,5 +1,5 @@
 "use client"
-import Link from "next/link"
+import Link from "~/components/visibility-link"
 import { useState, type CSSProperties } from "react"
 import { Arrow } from "~/components/home-page"
 import SolutionCardWatermark from "~/components/solution-card-watermark"

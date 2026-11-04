@@ -1,6 +1,6 @@
 import assert from "node:assert/strict"
 import { test } from "node:test"
-import { visibilityKeyForHref, visibilityPages } from "./page-visibility"
+import { isPageVisible, visibilityKeyForHref, visibilityPages } from "./page-visibility"
 import { solutions } from "./solutions"
 
 test("overview and seven solution pages have independent visibility keys", () => {
@@ -18,4 +18,13 @@ test("existing special navigation destinations retain their visibility controls"
   assert.equal(visibilityKeyForHref("/contracts?view=oasis-plus"), "oasis")
   assert.equal(visibilityKeyForHref("/news-insights/an-article"), "news")
   assert.equal(visibilityKeyForHref("https://kdharkins.com/"), "kevin")
+})
+
+test("saved visibility overrides defaults for public route access", () => {
+  assert.equal(isPageVisible("about", { about: false }), false)
+  assert.equal(isPageVisible("about", { about: true }), true)
+  assert.equal(isPageVisible("news", { news: false }), false)
+  assert.equal(isPageVisible("news", {}), true)
+  assert.equal(isPageVisible("about", {}), false)
+  assert.equal(isPageVisible("uncontrolled", {}), true)
 })

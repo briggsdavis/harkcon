@@ -4,12 +4,15 @@ import { useCallback, useEffect, useState } from "react"
 import { Arrow } from "~/components/home-page"
 import { careersPortalUrl, type CareerOpening } from "~/lib/careers"
 import { keepClosingWords } from "~/lib/typography"
+import { useEditingMode } from "./editing-mode"
 
 type Result =
   | { status: "loading" }
   | { status: "error" }
   | { status: "ready"; openings: CareerOpening[] }
 export default function CareersOpenings() {
+  const editing = useEditingMode()
+  const JobLink = editing ? "div" : "a"
   const [result, setResult] = useState<Result>({ status: "loading" })
   const [attempt, setAttempt] = useState(0)
   const retry = useCallback(() => {
@@ -56,14 +59,14 @@ export default function CareersOpenings() {
               <button type="button" onClick={retry} className="action-button">
                 Try again <Arrow />
               </button>
-              <a
-                href={careersPortalUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+              <JobLink
+                href={editing ? undefined : careersPortalUrl}
+                target={editing ? undefined : "_blank"}
+                rel={editing ? undefined : "noopener noreferrer"}
                 className="animated-underline text-sm"
               >
                 View openings on ADP
-              </a>
+              </JobLink>
             </div>
           </div>
         )}
@@ -72,10 +75,10 @@ export default function CareersOpenings() {
             <ul className="border-t border-[#0d132d]/20">
               {result.openings.map((opening) => (
                 <li key={opening.id} className="border-b border-[#0d132d]/20">
-                  <a
-                    href={opening.applyUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <JobLink
+                    href={editing ? undefined : opening.applyUrl}
+                    target={editing ? undefined : "_blank"}
+                    rel={editing ? undefined : "noopener noreferrer"}
                     className="group flex items-center justify-between gap-6 py-7 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#0d132d] md:py-9"
                   >
                     <div className="transition-transform delay-0 duration-500 ease-out group-hover:translate-x-1 group-focus-visible:translate-x-1 motion-reduce:transition-none">
@@ -87,13 +90,15 @@ export default function CareersOpenings() {
                       </p>
                     </div>
                     <span className="control-fill flex h-12 w-12 shrink-0 items-center justify-center border border-[#0d132d]/20 md:h-16 md:w-16">
-                      <span className="sr-only">Apply on ADP (opens in a new tab)</span>
+                      {!editing && (
+                        <span className="sr-only">Apply on ADP (opens in a new tab)</span>
+                      )}
                       <Arrow
                         diagonal
                         className="transition-transform duration-500 ease-out group-hover:rotate-45 group-focus-visible:rotate-45 motion-reduce:transition-none"
                       />
                     </span>
-                  </a>
+                  </JobLink>
                 </li>
               ))}
             </ul>

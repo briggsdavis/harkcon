@@ -2,7 +2,7 @@
 
 import { useQuery } from "convex/react"
 import Image from "next/image"
-import Link from "next/link"
+import Link from "~/components/visibility-link"
 import { publicArticles } from "~/lib/news"
 import { keepClosingWords } from "~/lib/typography"
 import { api } from "../../convex/_generated/api"

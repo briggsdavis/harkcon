@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import Link from "next/link"
+import Link from "~/components/visibility-link"
 import { MouseEvent, ReactNode, useCallback, useEffect, useRef, useState } from "react"
 import DocumentDownload from "~/components/document-download"
 import HeroParallaxImage from "~/components/hero-parallax-image"

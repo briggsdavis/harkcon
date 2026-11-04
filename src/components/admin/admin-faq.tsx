@@ -41,8 +41,8 @@ const faqs = [
     "Featured controls whether a solution is highlighted on the homepage. Archiving removes a solution from the public solution list and makes its detail page unavailable. Unarchive a solution when it is ready to be published again.",
   ],
   [
-    "Does turning off page visibility unpublish a page?",
-    "No. Page visibility controls whether the site’s navigation links are clickable; disabled links appear as plain text. It is not a privacy control. Use the archive controls where available to remove published content.",
+    "What happens when I turn off page visibility?",
+    "The page disappears from navigation and the footer, links and buttons to it are hidden, and direct visits show a page-not-found screen. You can still edit the page in admin. Turn visibility back on to make it available again. Solution pages use their separate archive controls.",
   ],
   [
     "How do I update News & Insights?",

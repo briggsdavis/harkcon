@@ -1,6 +1,6 @@
 "use client"
 import { CaretDown } from "@phosphor-icons/react"
-import Link from "next/link"
+import Link from "~/components/visibility-link"
 import AboutProcess from "~/components/about-process"
 import HeroParallaxImage from "~/components/hero-parallax-image"
 import { Arrow, Header, SiteFooter } from "~/components/home-page"

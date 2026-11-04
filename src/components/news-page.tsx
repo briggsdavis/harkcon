@@ -2,7 +2,7 @@
 
 import { useQuery } from "convex/react"
 import Image from "next/image"
-import Link from "next/link"
+import Link from "~/components/visibility-link"
 import { Arrow, Header, SiteFooter } from "~/components/home-page"
 import PublicationMeta from "~/components/publication-meta"
 import { publicArticles } from "~/lib/news"

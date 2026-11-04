@@ -1,6 +1,6 @@
 import { ArrowLeft } from "@phosphor-icons/react/ssr"
 import Image from "next/image"
-import Link from "next/link"
+import Link from "~/components/visibility-link"
 import { Arrow, Header, SiteFooter } from "~/components/home-page"
 import PublicationMeta from "~/components/publication-meta"
 import type { NewsArticle } from "~/lib/news"
