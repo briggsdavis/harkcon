@@ -24,12 +24,14 @@ import { authClient } from "~/lib/auth-client"
 import { visibilityPages } from "~/lib/page-visibility"
 import { api } from "../../../convex/_generated/api"
 import type { Doc, Id } from "../../../convex/_generated/dataModel"
+import AdminFaq from "./admin-faq"
 import { requestEditorNavigation } from "./editor-dialog"
 import PageEditor from "./page-editor"
 import SolutionEditor from "./solution-editor"
 import SolutionNavigation from "./solution-navigation"
 
 type View =
+  | "faq"
   | "visibility"
   | "dashboard"
   | "news"
@@ -67,6 +69,7 @@ const emptyArticle: ArticleDraft = {
 }
 
 const pageLabels: Record<View, string> = {
+  faq: "FAQ",
   visibility: "Page visibility",
   dashboard: "Dashboard",
   news: "News editor",
@@ -334,7 +337,7 @@ function AdminError({ children }: { children: ReactNode }) {
 
 function Sidebar({ view, onSelect }: { view: View; onSelect: (view: View) => void }) {
   const [pagesOpen, setPagesOpen] = useState(
-    view !== "dashboard" && view !== "news" && view !== "contacts",
+    view !== "dashboard" && view !== "news" && view !== "contacts" && view !== "faq",
   )
   const [solutionsOpen, setSolutionsOpen] = useState(view === "solutions")
   const item = (target: View, icon: "grid" | "news" | "mail" | "page") => (
@@ -390,6 +393,7 @@ function Sidebar({ view, onSelect }: { view: View; onSelect: (view: View) => voi
             {solutionsOpen ? <SolutionNavigation /> : null}
           </div>
         ) : null}
+        <div className="mt-4 border-t border-[#303a58] pt-4">{item("faq", "page")}</div>
       </nav>
       <button
         className="mt-5 flex w-full cursor-pointer items-center gap-3 border-t border-[#28324d] px-3 pt-[18px] pb-[11px] text-left text-sm text-[#aeb7ce] transition-colors duration-200 hover:bg-[#1a2440] hover:text-white"
@@ -1384,7 +1388,7 @@ function Empty({ text }: { text: string }) {
 function PageEditorView({
   view,
 }: {
-  view: Exclude<View, "visibility" | "dashboard" | "news" | "contacts">
+  view: Exclude<View, "visibility" | "dashboard" | "news" | "contacts" | "faq">
 }) {
   if (view === "solutions") return <SolutionEditor />
   return <PageEditor key={view} page={view} />
@@ -1478,7 +1482,9 @@ function Workspace() {
             ))}
           </select>
         </header>
-        {view === "visibility" ? (
+        {view === "faq" ? (
+          <AdminFaq />
+        ) : view === "visibility" ? (
           <PageVisibility />
         ) : view === "dashboard" ? (
           <Dashboard />

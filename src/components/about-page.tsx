@@ -223,7 +223,7 @@ export default function About() {
                   <PageText field="about.mission-title">
                     <h2
                       id="mission-title"
-                      className="max-w-5xl font-header text-section-title text-balance"
+                      className={`max-w-5xl font-header text-section-title text-balance ${editing ? "text-white" : ""}`}
                     >
                       To provide the highest quality, customized, and innovative organizational and
                       workforce performance solutions at the best value, while strictly adhering to
@@ -250,7 +250,9 @@ export default function About() {
                     </PageText>
                   </div>
                   <PageText field="about.harkcon-and-its-people-are">
-                    <h2 className="max-w-5xl font-header text-section-title text-balance">
+                    <h2
+                      className={`max-w-5xl font-header text-section-title text-balance ${editing ? "text-white" : ""}`}
+                    >
                       Harkcon and its people are regarded as the best and most sought-after human
                       performance experts in the&nbsp;nation.
                     </h2>
