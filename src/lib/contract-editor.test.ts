@@ -20,10 +20,11 @@ test("section and list reordering preserves contents and supports boundaries", (
   assert.deepEqual(moveItem(values, 2, 1), values)
   assert.deepEqual(values, ["a", "b", "c"])
 })
-test("all five details are accepted while duplicate details, empty services and invalid NAICS are rejected", () => {
+test("all six details are accepted while duplicate details, empty services and invalid NAICS are rejected", () => {
   const sections = defaultContractSections("contracts")
   const project = sections[0].projects[0]
   project.details.push({ key: "uei", value: "T3GVAM6E2XD9" })
+  project.details.push({ key: "subcontractor", value: "Example subcontractor" })
   assert.equal(validateContractSections(sections), null)
   project.details.push({ key: "uei", value: "duplicate" })
   assert.match(validateContractSections(sections)!, /each detail only once/)

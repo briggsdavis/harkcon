@@ -9,6 +9,7 @@ import {
 export const detailLabels = {
   vehicle: "Vehicle",
   prime: "Prime contractor",
+  subcontractor: "Subcontractor",
   contract: "Contract number",
   period: "Period of performance",
   uei: "UEI",
@@ -110,7 +111,7 @@ export function validateContractSections(sections: ContractSection[]): string | 
       )
         return "Each project needs a title, description, and image."
       if (
-        project.details.length > 5 ||
+        project.details.length > Object.keys(detailLabels).length ||
         new Set(project.details.map((item) => item.key)).size !== project.details.length ||
         project.details.some((item) => !(item.key in detailLabels) || !item.value.trim())
       )

@@ -34,6 +34,7 @@ export const contractProject = v.object({
       key: v.union(
         v.literal("vehicle"),
         v.literal("prime"),
+        v.literal("subcontractor"),
         v.literal("contract"),
         v.literal("period"),
         v.literal("uei"),

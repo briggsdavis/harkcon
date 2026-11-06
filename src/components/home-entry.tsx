@@ -5,9 +5,9 @@ import { useEffect, useRef, useState } from "react"
 
 const sessionKey = "harkcon-home-entry-seen"
 const quote = "Credit goes to the man in the arena"
-// Begin the curtain lift after a quarter of the original hold following the last letter.
+// Hold the completed visual for an extra second before lifting the curtain.
 const textFinishedAt = (quote.replaceAll(" ", "").length - 1) * 28 + 420
-const revealAt = textFinishedAt + (2825 - textFinishedAt) / 4
+const revealAt = textFinishedAt + (2825 - textFinishedAt) / 4 + 1000
 const finishAt = revealAt + 675
 
 // Runs before the homepage markup is painted, so returning visits skip the curtain; new visits wait for activation.

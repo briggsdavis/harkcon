@@ -63,6 +63,8 @@ export default function ContractSectionsEditor({
   uploadError: string
 }) {
   const [selection, setSelection] = useState<Selection | null>(null)
+  const [moving, setMoving] = useState<{ sectionId: string; projectId: string } | null>(null)
+  const [destination, setDestination] = useState("")
   const [error, setError] = useState("")
   const [switchList, setSwitchList] = useState(false)
   const open = (value: Selection) => {
@@ -196,6 +198,17 @@ export default function ContractSectionsEditor({
                 >
                   Delete project
                 </button>
+                <button
+                  type="button"
+                  className={editorButton}
+                  disabled={sections.length < 2}
+                  onClick={() => {
+                    setMoving({ sectionId: section.id, projectId: project.id })
+                    setDestination("")
+                  }}
+                >
+                  Move section
+                </button>
               </li>
             ))}
           </ul>
@@ -222,6 +235,67 @@ export default function ContractSectionsEditor({
           </button>
         </article>
       ))}
+      {moving && (
+        <EditorDialog title="Move project to another section" close={() => setMoving(null)}>
+          <label className="block text-sm font-semibold">
+            Destination section
+            <select
+              className={`${editorInput} mt-2`}
+              value={destination}
+              onChange={(event) => setDestination(event.target.value)}
+            >
+              <option value="">Select a section</option>
+              {sections
+                .filter((section) => section.id !== moving.sectionId)
+                .map((section) => (
+                  <option key={section.id} value={section.id}>
+                    {section.title}
+                  </option>
+                ))}
+            </select>
+          </label>
+          <p className="mt-3 text-sm text-slate-500">
+            The project will be added to the end of the selected section. Save changes above to
+            publish.
+          </p>
+          <div className="mt-6 flex justify-end gap-3">
+            <button type="button" className={editorButton} onClick={() => setMoving(null)}>
+              Cancel
+            </button>
+            <button
+              type="button"
+              className={editorButton}
+              disabled={!destination}
+              onClick={() => {
+                const project = sections
+                  .find((section) => section.id === moving.sectionId)
+                  ?.projects.find((project) => project.id === moving.projectId)
+                if (
+                  !project ||
+                  !sections.some((section) => section.id === destination) ||
+                  destination === moving.sectionId
+                )
+                  return
+                change(
+                  sections.map((section) =>
+                    section.id === moving.sectionId
+                      ? {
+                          ...section,
+                          projects: section.projects.filter((item) => item.id !== moving.projectId),
+                        }
+                      : section.id === destination
+                        ? { ...section, projects: [...section.projects, project] }
+                        : section,
+                  ),
+                )
+                setMoving(null)
+              }}
+            >
+              Move section
+            </button>
+          </div>
+        </EditorDialog>
+      )}
       {selection && (
         <EditorDialog
           title={
@@ -445,7 +519,7 @@ export default function ContractSectionsEditor({
                         </button>
                       </div>
                     ))}
-                    {selection.project.details.length < 5 && (
+                    {selection.project.details.length < Object.keys(detailLabels).length && (
                       <label className="block text-sm">
                         Add key detail
                         <select

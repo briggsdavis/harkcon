@@ -1,9 +1,9 @@
 import { LinkedinLogo, XLogo, YoutubeLogo } from "@phosphor-icons/react/ssr"
 import { Metadata } from "next"
-import Link from "~/components/visibility-link"
 import ContactForm from "~/components/contact-form"
 import FaqList from "~/components/faq-list"
 import { Header, SiteFooter } from "~/components/home-page"
+import Link from "~/components/visibility-link"
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -79,6 +79,17 @@ export default function Contact() {
                   <div>
                     <dt className={detailLabelClassName}>Call</dt>
                     <dd className="mt-3 font-header text-card-title">+1 (800) 499-6456</dd>
+                  </div>
+                  <div>
+                    <dt className={detailLabelClassName}>Email</dt>
+                    <dd className="mt-3">
+                      <a
+                        href="mailto:pharkins@harkcon.com"
+                        className="text-link animated-underline break-all"
+                      >
+                        pharkins@harkcon.com
+                      </a>
+                    </dd>
                   </div>
                   <div>
                     <dt className={detailLabelClassName}>Headquarters</dt>
