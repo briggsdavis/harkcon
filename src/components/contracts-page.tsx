@@ -643,7 +643,7 @@ export default function ContractsPage({ view = "contracts" }: { view?: ContractV
           </PageImage>
           <div className="page-hero-overlay absolute inset-0 z-[1]" />
           <div
-            className={`site-gutter relative z-30 flex h-full items-end justify-between pb-8 text-white md:pb-10 ${editing ? "pointer-events-none [&_[data-page-text]]:pointer-events-auto" : ""}`}
+            className={`site-gutter relative z-10 flex h-full items-end justify-between pb-8 text-white md:pb-10 ${editing ? "pointer-events-none [&_[data-page-text]]:pointer-events-auto" : ""}`}
           >
             <PageText field="hero-eyebrow">
               <p className="eyebrow text-pretty text-white/75">{content.label}</p>
