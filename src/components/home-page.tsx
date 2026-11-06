@@ -955,6 +955,10 @@ const footerBadges = [
   },
   { name: "CMMC Level 2 self-assessed", src: "/images/cmmc-level-2-badge.png" },
   {
+    name: "U.S. Department of Labor HIRE Vets 2026 Platinum Award",
+    src: "/images/Social Work (4).png",
+  },
+  {
     name: "ISO 9001:2015 certified quality management system",
     src: "/images/ISO 9001_2015 certification banner (1).png",
     banner: true,
@@ -988,13 +992,13 @@ export function SiteFooter() {
                 className="h-[4.25rem] w-[4.25rem]"
               />
             </Link>
-            <ul aria-label="Certifications" className="mt-10 flex items-center gap-2 sm:gap-3">
+            <ul aria-label="Certifications" className="mt-10 grid w-fit grid-cols-4 items-center gap-2 sm:gap-3">
               {footerBadges.map((badge) => (
                 <li
                   key={badge.src}
                   className={
                     badge.banner
-                      ? "h-12 w-16 shrink-0 overflow-hidden bg-white sm:h-16 sm:w-[calc(4rem*4/3)] xl:h-20 xl:w-[calc(5rem*4/3)]"
+                      ? "col-span-4 h-12 w-16 shrink-0 overflow-hidden bg-white sm:h-16 sm:w-[calc(4rem*4/3)] xl:h-20 xl:w-[calc(5rem*4/3)]"
                       : "flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-white p-1.5 sm:h-16 sm:w-16 xl:h-20 xl:w-20"
                   }
                 >
