@@ -10,40 +10,58 @@ const textFinishedAt = (quote.replaceAll(" ", "").length - 1) * 28 + 420
 const revealAt = textFinishedAt + (2825 - textFinishedAt) / 4
 const finishAt = revealAt + 675
 
-// Runs before the homepage markup is painted, so returning visits skip the curtain.
-const bootstrap = `(() => { try { if (!sessionStorage.getItem("${sessionKey}")) document.documentElement.dataset.homeEntry = "playing"; } catch { document.documentElement.dataset.homeEntry = "playing"; } })()`
+// Runs before the homepage markup is painted, so returning visits skip the curtain; new visits wait for activation.
+const bootstrap = `(() => { try { if (!sessionStorage.getItem("${sessionKey}")) document.documentElement.dataset.homeEntry = "waiting"; } catch { document.documentElement.dataset.homeEntry = "waiting"; } })()`
 
 export default function HomeEntry() {
   const [mounted, setMounted] = useState(true)
   const play = useRef<boolean | null>(null)
   useEffect(() => {
     const root = document.documentElement
-    if (play.current === null) play.current = root.dataset.homeEntry === "playing"
+    if (play.current === null)
+      play.current = root.dataset.homeEntry === "waiting" || root.dataset.homeEntry === "playing"
     if (!play.current) {
       setMounted(false)
       return
     }
-    root.dataset.homeEntry = "playing"
-    try {
-      sessionStorage.setItem(sessionKey, "true")
-    } catch {
-      /* The intro also works when storage is unavailable. */
+    let reveal = 0
+    let finish = 0
+    let started = false
+    const start = () => {
+      if (
+        started ||
+        document.visibilityState !== "visible" ||
+        ("prerendering" in document && document.prerendering)
+      )
+        return
+      started = true
+      root.dataset.homeEntry = "playing"
+      try {
+        sessionStorage.setItem(sessionKey, "true")
+      } catch {
+        /* The intro also works when storage is unavailable. */
+      }
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      reveal = window.setTimeout(
+        () => {
+          root.dataset.homeEntry = "revealing"
+        },
+        reduced ? 650 : revealAt,
+      )
+      finish = window.setTimeout(
+        () => {
+          delete root.dataset.homeEntry
+          setMounted(false)
+        },
+        reduced ? 800 : finishAt,
+      )
     }
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    const reveal = window.setTimeout(
-      () => {
-        root.dataset.homeEntry = "revealing"
-      },
-      reduced ? 650 : revealAt,
-    )
-    const finish = window.setTimeout(
-      () => {
-        delete root.dataset.homeEntry
-        setMounted(false)
-      },
-      reduced ? 800 : finishAt,
-    )
+    document.addEventListener("visibilitychange", start)
+    document.addEventListener("prerenderingchange", start)
+    start()
     return () => {
+      document.removeEventListener("visibilitychange", start)
+      document.removeEventListener("prerenderingchange", start)
       window.clearTimeout(reveal)
       window.clearTimeout(finish)
       delete root.dataset.homeEntry

@@ -10,13 +10,13 @@ import {
 import { useQueries } from "convex/react"
 import type { FunctionReturnType } from "convex/server"
 import Image from "next/image"
-import NextLink from "~/components/visibility-link"
 import { FocusEvent, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react"
 import CompanyStats from "~/components/company-stats"
 import FeaturedNews from "~/components/featured-news"
 import HomeEntry from "~/components/home-entry"
 import SectionSearch, { type SearchSection } from "~/components/section-search"
 import SolutionsOverview from "~/components/solutions-overview"
+import NextLink from "~/components/visibility-link"
 import Link from "~/components/visibility-link"
 import { HARKCON_CAPABILITY_STATEMENT_URL } from "~/lib/documents"
 import { useSolutions } from "~/lib/use-solutions"
@@ -1139,13 +1139,15 @@ export default function HomePage() {
         <SolutionsOverview variant="home" />
 
         <section
-          className="bg-[#0d132d] py-[3.2rem] text-white md:py-16"
+          className="bg-[#0d132d] py-[3.2rem] text-white md:py-16 lg:pt-28"
           aria-labelledby="home-contracts-title"
         >
           <div className="site-gutter grid gap-12 lg:grid-cols-3 lg:gap-8">
-            <div className="flex flex-col items-start lg:pr-6">
+            <div className="relative flex flex-col items-start lg:pr-6">
               <PageText field="home.government-contracting">
-                <p className="eyebrow mb-5 text-brand-gold">Government contracting</p>
+                <p className="eyebrow mb-5 text-brand-gold lg:absolute lg:bottom-full lg:left-0">
+                  Government contracting
+                </p>
               </PageText>
               <PageText field="home.home-contracts-title">
                 <h2

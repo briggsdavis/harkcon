@@ -450,11 +450,16 @@
 html[data-home-entry] .home-entry {
   display: grid;
 }
+html[data-home-entry="waiting"],
+html[data-home-entry="waiting"] body,
 html[data-home-entry="playing"],
 html[data-home-entry="playing"] body {
   overflow: hidden;
 }
-html[data-home-entry="playing"] .hero [data-hero-entrance] {
+html[data-home-entry="waiting"] .hero [data-hero-entrance],
+html[data-home-entry="playing"] .hero [data-hero-entrance],
+html[data-home-entry="waiting"] .home-entry-mark,
+html[data-home-entry="waiting"] .home-entry-letter {
   animation-play-state: paused;
 }
 html[data-home-entry="revealing"] .home-entry {

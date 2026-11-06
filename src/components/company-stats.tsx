@@ -1,10 +1,15 @@
 "use client"
 import { useEffect, useRef, useState } from "react"
 import { useEditingMode } from "./editing-mode"
-import { PageText } from "./page-editing"
+import { PageText, usePageDraft } from "./page-editing"
+
+function PublicValue({ children }: { children: React.ReactElement; field: string }) {
+  return children
+}
 
 export default function CompanyStats() {
   const editing = useEditingMode()
+  const { draft } = usePageDraft()
   const root = useRef<HTMLElement>(null)
   const [progress, setProgress] = useState(0)
   useEffect(() => {
@@ -20,8 +25,8 @@ export default function CompanyStats() {
         }
         const start = performance.now()
         const tick = (now: number) => {
-          const t = Math.min((now - start) / 1800, 1)
-          setProgress(1 - Math.pow(1 - t, 3))
+          const t = Math.min((now - start) / 2000, 1)
+          setProgress(t)
           if (t < 1) frame = requestAnimationFrame(tick)
         }
         frame = requestAnimationFrame(tick)
@@ -58,19 +63,40 @@ export default function CompanyStats() {
             "40+",
             "Government agencies worked with",
           ],
-        ].map(([value, final, label], index) => (
-          <div key={label}>
-            <PageText field={`stat-${index}-value`}>
-              <p className="font-header text-[clamp(2.75rem,5vw,5.5rem)] leading-tight font-medium tracking-[-0.04em] text-[#0d132d]">
-                <span aria-hidden="true">{value}</span>
-                <span className="sr-only">{final}</span>
-              </p>
-            </PageText>
-            <PageText field={`stat-${index}-label`}>
-              <p className="mt-4 text-sm text-[#5f626b]">{label}</p>
-            </PageText>
-          </div>
-        ))}
+        ].map(([value, final, label], index) => {
+          const saved = draft.fields[`stat-${index}-value`]?.text
+          const match = saved?.match(/[\d,]+(?:\.\d+)?/)
+          const animated = match
+            ? saved!.replace(
+                match[0],
+                (Number(match[0].replaceAll(",", "")) * (editing ? 1 : progress)).toLocaleString(
+                  "en-US",
+                  {
+                    minimumFractionDigits: match[0].includes(".")
+                      ? match[0].split(".")[1].length
+                      : 0,
+                    maximumFractionDigits: match[0].includes(".")
+                      ? match[0].split(".")[1].length
+                      : 0,
+                  },
+                ),
+              )
+            : value
+          const ValueWrapper = editing ? PageText : PublicValue
+          return (
+            <div key={label}>
+              <ValueWrapper field={`stat-${index}-value`}>
+                <p className="font-header text-[clamp(2.75rem,5vw,5.5rem)] leading-tight font-medium tracking-[-0.04em] text-[#0d132d]">
+                  <span aria-hidden="true">{animated}</span>
+                  <span className="sr-only">{saved ?? final}</span>
+                </p>
+              </ValueWrapper>
+              <PageText field={`stat-${index}-label`}>
+                <p className="mt-4 text-sm text-[#5f626b]">{label}</p>
+              </PageText>
+            </div>
+          )
+        })}
       </div>
     </section>
   )
