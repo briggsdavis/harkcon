@@ -279,6 +279,13 @@ export const addHeroImage = mutation({
 export const getHomeShareImage = query({
   args: {},
   handler: async (ctx) => {
+    // PageImage applies the page editor override before the legacy hero selection.
+    const page = await ctx.db
+      .query("editablePages")
+      .withIndex("by_key", (q) => q.eq("key", "home"))
+      .unique()
+    const override = page?.archived ? undefined : page?.draft.fields["home.image-2"]?.src
+    if (override) return override
     const hero = (await ctx.db.query("homeSettings").first())?.hero ?? "capitol"
     if (hero === "social-work") return "/images/Social Work.png"
     if (hero !== "capitol") {
