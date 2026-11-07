@@ -275,3 +275,19 @@ export const addHeroImage = mutation({
     })
   },
 })
+
+export const getHomeShareImage = query({
+  args: {},
+  handler: async (ctx) => {
+    const hero = (await ctx.db.query("homeSettings").first())?.hero ?? "capitol"
+    if (hero === "social-work") return "/images/Social Work.png"
+    if (hero !== "capitol") {
+      const image = (await ctx.db.query("heroImages").collect()).find((item) => item._id === hero)
+      if (image) {
+        const url = await ctx.storage.getUrl(image.storageId)
+        if (url) return url
+      }
+    }
+    return "/images/capitol-hero.png"
+  },
+})
