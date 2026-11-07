@@ -6,6 +6,7 @@ export type NewsArticle = {
   title: string
   date: string
   displayDate: string
+  categoryColor?: string
   category: NewsCategory
   image: string
   imageAlt: string

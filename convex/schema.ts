@@ -21,6 +21,7 @@ export default defineSchema({
     date: v.string(),
     displayDate: v.string(),
     category: v.string(),
+    categoryColor: v.optional(v.string()),
     image: v.string(),
     imageStorageId: v.optional(v.id("_storage")),
     imageAlt: v.string(),

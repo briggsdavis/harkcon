@@ -1,8 +1,8 @@
 import { ArrowLeft } from "@phosphor-icons/react/ssr"
 import Image from "next/image"
-import Link from "~/components/visibility-link"
 import { Arrow, Header, SiteFooter } from "~/components/home-page"
 import PublicationMeta from "~/components/publication-meta"
+import Link from "~/components/visibility-link"
 import type { NewsArticle } from "~/lib/news"
 import { keepClosingWords } from "~/lib/typography"
 
@@ -40,6 +40,7 @@ export default function ArticlePage({
                 date={article.date}
                 displayDate={article.displayDate}
                 category={article.category}
+                categoryColor={article.categoryColor}
               />
               <h1 className="mt-6 font-header text-display font-medium text-balance">
                 {keepClosingWords(article.title)}

@@ -471,6 +471,13 @@ html[data-home-entry="revealing"] .home-entry {
 .home-entry-letter {
   animation: home-entry-sharpen 420ms ease-out both;
 }
+/* Release per-letter filter layers after the entrance on mobile. */
+@media (width < 64rem) {
+  .home-entry-letter {
+    animation-fill-mode: backwards;
+  }
+}
+
 @keyframes home-entry-mark {
   from {
     clip-path: inset(100% 0 0 0);

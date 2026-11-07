@@ -1,4 +1,5 @@
 import { v } from "convex/values"
+import { isTopicColor } from "../src/lib/news-topics"
 import { visibilityPages } from "../src/lib/page-visibility"
 import { mutation, query } from "./_generated/server"
 import { requireAdmin } from "./admin"
@@ -9,6 +10,7 @@ const articleFields = {
   date: v.string(),
   displayDate: v.string(),
   category: v.string(),
+  categoryColor: v.optional(v.string()),
   image: v.string(),
   imageStorageId: v.optional(v.id("_storage")),
   imageAlt: v.string(),
@@ -89,7 +91,12 @@ export const saveArticle = mutation({
       .withIndex("by_slug", (q) => q.eq("slug", args.slug))
       .unique()
     if (duplicate && duplicate._id !== args.id) throw new Error("That URL slug is already in use")
+    if (args.categoryColor && !isTopicColor(args.categoryColor)) {
+      throw new Error("Choose a valid topic color")
+    }
     const { id, ...fields } = args
+    fields.category = fields.category.trim()
+    fields.categoryColor = fields.category ? fields.categoryColor : undefined
     if (id) {
       const existing = await ctx.db.get(id)
       await ctx.db.patch(id, fields)

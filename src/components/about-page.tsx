@@ -1,6 +1,5 @@
 "use client"
 import { CaretDown } from "@phosphor-icons/react"
-import Link from "~/components/visibility-link"
 import AboutProcess from "~/components/about-process"
 import HeroParallaxImage from "~/components/hero-parallax-image"
 import { Arrow, Header, SiteFooter } from "~/components/home-page"
@@ -8,6 +7,7 @@ import LeadershipTeams from "~/components/leadership-teams"
 import SolutionsOverview from "~/components/solutions-overview"
 import SubtleParallaxPhoto from "~/components/subtle-parallax-photo"
 import ViewportCards from "~/components/viewport-cards"
+import Link from "~/components/visibility-link"
 import { keepClosingWords } from "~/lib/typography"
 import { useEditingMode } from "./editing-mode"
 import { PageText, PageImage, PageLink, usePageDraft } from "./page-editing"
@@ -207,7 +207,7 @@ export default function About() {
                   className={
                     editing
                       ? "relative grid gap-10 border-t border-white/20 py-12 text-white md:grid-cols-[0.52fr_1.48fr] md:gap-16 md:py-16 lg:gap-24"
-                      : "group relative isolate grid gap-10 overflow-hidden border-t border-white/20 py-12 transition-[color,padding] delay-0 duration-700 ease-out before:absolute before:inset-0 before:-z-10 before:origin-left before:scale-x-0 before:bg-white before:transition-transform before:duration-700 hover:px-6 hover:text-[#0d132d] hover:before:scale-x-100 data-[center-active=true]:px-6 data-[center-active=true]:text-[#0d132d] data-[center-active=true]:before:scale-x-100 motion-reduce:transition-none motion-reduce:before:transition-none md:grid-cols-[0.52fr_1.48fr] md:gap-16 md:py-16 lg:gap-24 lg:hover:px-10"
+                      : "group relative isolate grid gap-10 overflow-hidden border-t border-white/20 py-12 transition-[color,padding] delay-0 duration-700 ease-out before:absolute before:inset-0 before:-z-10 before:origin-left before:scale-x-0 before:bg-white before:transition-transform before:duration-700 hover:text-[#0d132d] hover:before:scale-x-100 data-[center-active=true]:text-[#0d132d] data-[center-active=true]:before:scale-x-100 motion-reduce:transition-none motion-reduce:before:transition-none md:grid-cols-[0.52fr_1.48fr] md:gap-16 md:py-16 lg:gap-24 lg:hover:px-10"
                   }
                 >
                   <div className="flex items-start gap-5">
@@ -236,7 +236,7 @@ export default function About() {
                   className={
                     editing
                       ? "relative grid gap-10 border-t border-white/20 py-12 text-white md:grid-cols-[0.52fr_1.48fr] md:gap-16 md:py-16 lg:gap-24"
-                      : "group relative isolate grid gap-10 overflow-hidden border-t border-white/20 py-12 transition-[color,padding] delay-0 duration-700 ease-out before:absolute before:inset-0 before:-z-10 before:origin-left before:scale-x-0 before:bg-white before:transition-transform before:duration-700 hover:px-6 hover:text-[#0d132d] hover:before:scale-x-100 data-[center-active=true]:px-6 data-[center-active=true]:text-[#0d132d] data-[center-active=true]:before:scale-x-100 motion-reduce:transition-none motion-reduce:before:transition-none md:grid-cols-[0.52fr_1.48fr] md:gap-16 md:py-16 lg:gap-24 lg:hover:px-10"
+                      : "group relative isolate grid gap-10 overflow-hidden border-t border-white/20 py-12 transition-[color,padding] delay-0 duration-700 ease-out before:absolute before:inset-0 before:-z-10 before:origin-left before:scale-x-0 before:bg-white before:transition-transform before:duration-700 hover:text-[#0d132d] hover:before:scale-x-100 data-[center-active=true]:text-[#0d132d] data-[center-active=true]:before:scale-x-100 motion-reduce:transition-none motion-reduce:before:transition-none md:grid-cols-[0.52fr_1.48fr] md:gap-16 md:py-16 lg:gap-24 lg:hover:px-10"
                   }
                 >
                   <div className="flex items-start gap-5">

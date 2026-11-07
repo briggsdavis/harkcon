@@ -21,6 +21,7 @@ import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
 import { FormEvent, useCallback, useEffect, useMemo, useState, type ReactNode } from "react"
 import { authClient } from "~/lib/auth-client"
+import { categoryColor } from "~/lib/news-topics"
 import { visibilityPages } from "~/lib/page-visibility"
 import { api } from "../../../convex/_generated/api"
 import type { Doc, Id } from "../../../convex/_generated/dataModel"
@@ -49,6 +50,7 @@ type ArticleDraft = Pick<
   | "date"
   | "displayDate"
   | "category"
+  | "categoryColor"
   | "image"
   | "imageStorageId"
   | "imageAlt"
@@ -61,7 +63,7 @@ const emptyArticle: ArticleDraft = {
   title: "",
   date: new Date().toISOString().slice(0, 10),
   displayDate: "",
-  category: "News",
+  category: "",
   image: "",
   imageAlt: "",
   excerpt: "",
@@ -984,6 +986,7 @@ function NewsEditor() {
                           date: article.date,
                           displayDate: article.displayDate,
                           category: article.category,
+                          categoryColor: article.categoryColor,
                           image: article.image,
                           imageStorageId: article.imageStorageId,
                           imageAlt: article.imageAlt,
@@ -1048,6 +1051,59 @@ function NewsEditor() {
                     })
                   }
                   required
+                />
+              </Field>
+              <Field
+                label="News Topic"
+                hint="Optional. Choose an existing topic or enter a new one."
+              >
+                <input
+                  className={fieldControl}
+                  list="news-topic-options"
+                  value={draft.category}
+                  onChange={(e) => {
+                    const category = e.target.value
+                    const previous = content?.articles.find(
+                      (article) => article.category === category,
+                    )
+                    setDraft({
+                      ...draft,
+                      category,
+                      categoryColor: previous
+                        ? categoryColor(category, previous.categoryColor)
+                        : draft.categoryColor,
+                    })
+                  }}
+                />
+                <datalist id="news-topic-options">
+                  {Array.from(
+                    new Set([
+                      "News",
+                      "Awards",
+                      "Insights",
+                      ...(content?.topics.map((topic) => topic.name) ?? []),
+                      ...(content?.articles.map((article) => article.category) ?? []),
+                    ]),
+                  )
+                    .filter(Boolean)
+                    .map((topic) => (
+                      <option key={topic} value={topic}>
+                        {topic}
+                      </option>
+                    ))}
+                </datalist>
+              </Field>
+              <Field
+                label="Topic dot color"
+                hint="Applies to this article when a topic is entered."
+              >
+                <input
+                  type="color"
+                  aria-label="Topic dot color"
+                  className="h-11 w-20 cursor-pointer rounded border border-slate-300 p-1"
+                  disabled={!draft.category.trim()}
+                  value={categoryColor(draft.category, draft.categoryColor)}
+                  onChange={(e) => setDraft({ ...draft, categoryColor: e.target.value })}
                 />
               </Field>
               <Field label="Publication date">

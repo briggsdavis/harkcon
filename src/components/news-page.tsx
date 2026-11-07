@@ -2,9 +2,9 @@
 
 import { useQuery } from "convex/react"
 import Image from "next/image"
-import Link from "~/components/visibility-link"
 import { Arrow, Header, SiteFooter } from "~/components/home-page"
 import PublicationMeta from "~/components/publication-meta"
+import Link from "~/components/visibility-link"
 import { publicArticles } from "~/lib/news"
 import { keepClosingWords } from "~/lib/typography"
 import { api } from "../../convex/_generated/api"
@@ -66,6 +66,7 @@ export default function NewsPage() {
                       date={article.date}
                       displayDate={article.displayDate}
                       category={article.category}
+                      categoryColor={article.categoryColor}
                     />
                     <h2 className="relative mt-5 max-w-4xl font-header text-card-title font-medium text-balance">
                       {keepClosingWords(article.title)}
