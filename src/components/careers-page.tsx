@@ -1,13 +1,10 @@
 "use client"
-import { useAction } from "convex/react"
-import { useState } from "react"
 import CareersOpenings from "~/components/careers-openings"
 import FaqList from "~/components/faq-list"
 import HeroParallaxImage from "~/components/hero-parallax-image"
 import { Arrow, Header, SiteFooter } from "~/components/home-page"
 import SectionWatermark from "~/components/section-watermark"
 import { talentCommunityUrl, type CareerOpening } from "~/lib/careers"
-import { api } from "../../convex/_generated/api"
 import { useEditingMode } from "./editing-mode"
 import { PageText, PageImage, PageLink } from "./page-editing"
 
@@ -56,30 +53,12 @@ const careerFaqs = [
 
 const headingClassName = "text-balance max-w-4xl font-header text-section-title font-medium"
 
-export default function Careers() {
+export default function Careers({
+  refreshedOpenings = null,
+}: {
+  refreshedOpenings?: CareerOpening[] | null
+}) {
   const editing = useEditingMode()
-  const refreshFromAdp = useAction(api.careers.refreshFromAdp)
-  const [refreshedOpenings, setRefreshedOpenings] = useState<CareerOpening[] | null>(null)
-  const [refreshing, setRefreshing] = useState(false)
-  const [refreshMessage, setRefreshMessage] = useState("")
-
-  async function pullJobs() {
-    setRefreshing(true)
-    setRefreshMessage("Checking ADP for current job openings…")
-    try {
-      const openings = await refreshFromAdp({})
-      if (openings === null) {
-        setRefreshMessage("A refresh was just requested. Try again in a moment.")
-        return
-      }
-      setRefreshedOpenings(openings)
-      setRefreshMessage("Job listings are up to date.")
-    } catch {
-      setRefreshMessage("Couldn’t refresh job listings from ADP. Try again shortly.")
-    } finally {
-      setRefreshing(false)
-    }
-  }
 
   return (
     <div id="top" className="overflow-clip bg-white text-[#0d132d]">
@@ -122,23 +101,6 @@ export default function Careers() {
             </div>
           </div>
         </section>
-
-        {!editing && (
-          <div
-            data-reveal-skip
-            className="site-gutter flex flex-wrap items-center gap-x-5 gap-y-3 pt-8"
-          >
-            <button
-              type="button"
-              className="action-button"
-              onClick={pullJobs}
-              disabled={refreshing}
-            >
-              Pull jobs from ADP
-            </button>
-            <output className="text-sm text-[#454955]">{refreshMessage}</output>
-          </div>
-        )}
 
         <section className="py-24 md:py-32 lg:py-40" aria-labelledby="join-title">
           <div className="site-gutter">

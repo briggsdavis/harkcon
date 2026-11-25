@@ -1,7 +1,8 @@
 "use client"
-import { useMutation, useQuery } from "convex/react"
+import { useAction, useMutation, useQuery } from "convex/react"
 import { useRouter } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
+import type { CareerOpening } from "~/lib/careers"
 import { defaultContractSections, validateContractSections } from "~/lib/contract-editor"
 import { editorError } from "~/lib/editor-error"
 import type {
@@ -68,6 +69,7 @@ function Editor({ page, saved }: { page: PageKey; saved: Doc<"editablePages"> | 
     [faqs, setFaqs] = useState<FaqEntry[] | null>(null)
   const [leave, setLeave] = useState<string | null>(null),
     [archiveConfirm, setArchiveConfirm] = useState(false)
+  const [refreshedOpenings, setRefreshedOpenings] = useState<CareerOpening[] | null>(null)
   const archived = !!saved?.archived
   const markDirty = useCallback(() => {
     setDirty(true)
@@ -190,7 +192,7 @@ function Editor({ page, saved }: { page: PageKey; saved: Doc<"editablePages"> | 
     ) : page === "about" ? (
       <AboutPage />
     ) : page === "careers" ? (
-      <CareersPage />
+      <CareersPage refreshedOpenings={refreshedOpenings} />
     ) : page === "contracts" || page === "oasis" ? (
       <ContractsPage view={page} />
     ) : (
@@ -215,6 +217,7 @@ function Editor({ page, saved }: { page: PageKey; saved: Doc<"editablePages"> | 
           </output>
         </div>
         <div className="flex flex-wrap gap-2">
+          {page === "careers" && <CareersRefreshControl onRefresh={setRefreshedOpenings} />}
           {page === "solutions" && (
             <button
               className={`${editorButton} ${archived ? "!border-amber-200 !bg-amber-50 !text-amber-800" : "!border-green-200 !bg-green-50 !text-green-800"}`}
@@ -444,5 +447,38 @@ function Editor({ page, saved }: { page: PageKey; saved: Doc<"editablePages"> | 
         </EditorDialog>
       )}
     </section>
+  )
+}
+
+function CareersRefreshControl({ onRefresh }: { onRefresh: (openings: CareerOpening[]) => void }) {
+  const refreshFromAdp = useAction(api.careers.refreshFromAdp)
+  const [refreshing, setRefreshing] = useState(false)
+  const [message, setMessage] = useState("")
+
+  async function pullJobs() {
+    setRefreshing(true)
+    setMessage("Checking ADP for current job openings…")
+    try {
+      const openings = await refreshFromAdp({})
+      if (openings === null) {
+        setMessage("A refresh was just requested. Try again in a moment.")
+        return
+      }
+      onRefresh(openings)
+      setMessage("Job listings are up to date.")
+    } catch {
+      setMessage("Couldn’t refresh job listings from ADP. Try again shortly.")
+    } finally {
+      setRefreshing(false)
+    }
+  }
+
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      <output className="text-xs text-slate-600">{message}</output>
+      <button type="button" className={editorButton} onClick={pullJobs} disabled={refreshing}>
+        Pull jobs from ADP
+      </button>
+    </div>
   )
 }

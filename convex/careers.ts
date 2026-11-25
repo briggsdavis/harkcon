@@ -10,6 +10,7 @@ import {
   query,
   type ActionCtx,
 } from "./_generated/server"
+import { requireAdmin } from "./admin"
 import { openingValidator } from "./careerValidators"
 
 const rateLimiter = new RateLimiter(components.rateLimiter, {
@@ -56,6 +57,7 @@ export const refreshFromAdp = action({
   args: {},
   returns: v.union(v.array(openingValidator), v.null()),
   handler: async (ctx): Promise<CareerOpening[] | null> => {
+    await requireAdmin(ctx)
     const limit = await rateLimiter.limit(ctx, "manualCareerRefresh")
     if (!limit.ok) return null
     return await refreshOpenings(ctx)
