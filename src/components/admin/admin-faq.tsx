@@ -58,7 +58,7 @@ const faqs = [
   ],
   [
     "Can I edit the job openings in Careers?",
-    "Job openings are synced from ADP daily rather than edited here. Update job listings in ADP. You can still edit the surrounding Careers page content and FAQs in the page editor.",
+    "Update job listings in ADP. The website syncs every 12 hours, and the Careers page has a Pull jobs from ADP button for an immediate refresh. Use the page editor to update Careers page content and FAQs.",
   ],
   [
     "Where do contact form messages go?",

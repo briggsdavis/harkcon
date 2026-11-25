@@ -13,7 +13,11 @@ export default defineSchema({
   }).index("by_key", ["key"]),
   homeSettings: defineTable({ hero: v.string() }),
   heroImages: defineTable({ storageId: v.id("_storage"), name: v.string() }),
-  careerOpenings: defineTable({ openings: v.array(openingValidator), updatedAt: v.number() }),
+  careerOpenings: defineTable({
+    openings: v.array(openingValidator),
+    updatedAt: v.number(),
+    refreshStartedAt: v.optional(v.number()),
+  }),
   pageVisibility: defineTable({ key: v.string(), visible: v.boolean() }).index("by_key", ["key"]),
   articles: defineTable({
     slug: v.string(),

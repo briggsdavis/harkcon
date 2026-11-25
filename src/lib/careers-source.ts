@@ -47,6 +47,7 @@ export async function fetchCareerOpenings(): Promise<CareerOpening[]> {
   const openings: CareerOpening[] = []
   const ids = new Set<string>()
   const signal = AbortSignal.timeout(15000)
+  let expectedTotal: number | undefined
   for (let page = 0; page < 50; page++) {
     const url = new URL(
       "https://workforcenow.adp.com/mascsr/default/careercenter/public/events/staffing/v1/job-requisitions",
@@ -64,12 +65,15 @@ export async function fetchCareerOpenings(): Promise<CareerOpening[]> {
     // oxlint-disable-next-line no-await-in-loop
     const response = await fetch(url, {
       cache: "no-store",
+      redirect: "error",
       signal,
       headers: { Accept: "application/json" },
     })
     if (!response.ok) throw new Error(`ADP returned ${response.status}`)
     // oxlint-disable-next-line no-await-in-loop
     const result = parseOpeningsPage(await response.json())
+    expectedTotal ??= result.total
+    if (result.total !== expectedTotal) throw new Error("ADP job count changed during refresh")
     for (const opening of result.openings) {
       if (ids.has(opening.id)) throw new Error("ADP returned overlapping pages")
       ids.add(opening.id)

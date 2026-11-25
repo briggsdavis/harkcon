@@ -10,7 +10,11 @@ type Result =
   | { status: "loading" }
   | { status: "error" }
   | { status: "ready"; openings: CareerOpening[] }
-export default function CareersOpenings() {
+export default function CareersOpenings({
+  refreshedOpenings,
+}: {
+  refreshedOpenings: CareerOpening[] | null
+}) {
   const editing = useEditingMode()
   const JobLink = editing ? "div" : "a"
   const [result, setResult] = useState<Result>({ status: "loading" })
@@ -20,6 +24,7 @@ export default function CareersOpenings() {
     setAttempt((value) => value + 1)
   }, [])
   useEffect(() => {
+    if (refreshedOpenings !== null) return
     const controller = new AbortController()
     async function load() {
       try {
@@ -37,12 +42,15 @@ export default function CareersOpenings() {
     }
     void load()
     return () => controller.abort()
-  }, [attempt])
+  }, [attempt, refreshedOpenings])
+
+  const displayed =
+    refreshedOpenings === null ? result : { status: "ready" as const, openings: refreshedOpenings }
 
   return (
     <div data-synced-jobs>
-      <div aria-live="polite" aria-busy={result.status === "loading"}>
-        {result.status === "loading" && (
+      <div aria-live="polite" aria-busy={displayed.status === "loading"}>
+        {displayed.status === "loading" && (
           <div className="border-y border-[#0d132d]/20 py-10">
             <p className="text-sm text-[#5f626b]">Loading current&nbsp;openings…</p>
             <div aria-hidden="true" className="mt-7 space-y-6 motion-safe:animate-pulse">
@@ -52,7 +60,7 @@ export default function CareersOpenings() {
             </div>
           </div>
         )}
-        {result.status === "error" && (
+        {displayed.status === "error" && (
           <div className="border-y border-[#0d132d]/20 py-10">
             <p className="text-body-copy">We couldn’t load the current&nbsp;openings.</p>
             <div className="mt-6 flex flex-wrap items-center gap-6">
@@ -70,10 +78,10 @@ export default function CareersOpenings() {
             </div>
           </div>
         )}
-        {result.status === "ready" &&
-          (result.openings.length ? (
+        {displayed.status === "ready" &&
+          (displayed.openings.length ? (
             <ul className="border-t border-[#0d132d]/20">
-              {result.openings.map((opening) => (
+              {displayed.openings.map((opening) => (
                 <li key={opening.id} className="border-b border-[#0d132d]/20">
                   <JobLink
                     href={editing ? undefined : opening.applyUrl}
